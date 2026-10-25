@@ -1,0 +1,32 @@
+name: Deploy Otomatis ke Hostinger via FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 🚀 Upload ke Hostinger public_html
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Checkout Kode Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 📂 Sinkronisasi File ke Hostinger public_html
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER || secrets.SERVER || secrets.FTP_HOST || secrets.HOST }}
+          username: ${{ secrets.FTP_USERNAME || secrets.USERNAME || secrets.FTP_USER || secrets.USER }}
+          password: ${{ secrets.FTP_PASSWORD || secrets.PASSWORD }}
+          server-dir: public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env*
+            package*.json
+            README.md
+            ARCHITECTURE.md

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Operasional Admin | Traveego</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- LEAFLET OPENSTREETMAP CSS & JS (OPEN SOURCE) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --primary-blue: #0F4C81;
+            --primary-dark: #0A3258;
+            --primary-light: #EBF4FC;
+            --accent-green: #25D366;
+            --bg-body: #F8FAFC;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-bottom: 60px;
+        }
+
+        .navbar {
+            background: #FFF;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+
+        /* METRIC CARDS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: #FFF;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .metric-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        /* RADAR MAP CARD */
+        .radar-map-card {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+        }
+
+        #fleetMap {
+            height: 320px;
+            width: 100%;
+            border-radius: 12px;
+            z-index: 10;
+        }
+
+        /* CARD SECTION */
+        .section-card {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        /* TABLE */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        th {
+            background: #F8FAFC;
+            padding: 12px 14px;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .badge-auction { background: #FEF3C7; color: #D97706; }
+        .badge-active { background: #EBF4FC; color: var(--primary-blue); }
+        .badge-completed { background: #DCFCE7; color: #16A34A; }
+        .badge-pending { background: #FEE2E2; color: #DC2626; }
+
+        .btn-verify {
+            background: #16A34A;
+            color: #FFF;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-verify:hover { background: #15803D; }
+
+        .btn-view-proof {
+            background: #F1F5F9;
+            color: var(--primary-blue);
+            border: 1px solid #CBD5E1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: #FFF;
+            padding: 24px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        .modal-img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border: 1px solid #E2E8F0;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="/admin" class="brand">
+            <span>👑 Traveego Ops Console</span>
+        </a>
+        <div>
+            <a href="/" target="_blank" style="margin-right: 16px; text-decoration: none; font-size: 13px; font-weight: 700; color: var(--primary-blue);">🌐 Web Pelanggan</a>
+            <a href="/driver" target="_blank" style="text-decoration: none; font-size: 13px; font-weight: 700; color: #16A34A;">🚘 Buka PWA Sopir</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- STATS -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">TOTAL PESANAN</div>
+                <div class="metric-value" id="statOrders">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">LELANG TERBUKA (RADAR)</div>
+                <div class="metric-value" style="color: #D97706;" id="statAuctions">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">ORDER SUKSES SELESAI</div>
+                <div class="metric-value" style="color: #16A34A;" id="statCompleted">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">KOMISI ADMIN LUNAS</div>
+                <div class="metric-value" style="color: var(--primary-blue);" id="statCommission">Rp 0</div>
+            </div>
+        </div>
+
+        <!-- RADAR FLEET SEBARAN ARMADA (OPENSTREETMAP LEAFLET) -->
+        <div class="radar-map-card">
+            <div class="section-header" style="margin-bottom: 12px;">
+                <div>
+                    <h2>🗺️ Radar Pantauan Sebaran Armada (OpenStreetMap)</h2>
+                    <div style="font-size: 12.5px; color: var(--text-muted);">Memantau posisi seluruh sopir standby (🟢) dan sopir dalam pelayanan (🔵)</div>
+                </div>
+                <button onclick="loadFleetMap()" style="padding: 6px 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                    🔄 Refresh Peta
+                </button>
+            </div>
+            <div id="fleetMap"></div>
+        </div>
+
+        <!-- 1. SETORAN KOMISI MENUNGGU VERIFIKASI ADMIN (PASCA-BAYAR) -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2>💳 Verifikasi Setoran Transfer Komisi Sopir</h2>
+                <div style="font-size: 13px; color: var(--text-muted);">Sopir sudah terima cash dan transfer ke rekening admin</div>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Kode Order</th>
+                            <th>Nama Sopir</th>
+                            <th>Bank & Pengirim</th>
+                            <th>Nominal Komisi</th>
+                            <th>Bukti Struk</th>
+                            <th>Aksi Verifikasi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="settlementsTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                Belum ada setoran baru yang menunggu verifikasi.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. DAFTAR PESANAN OPERASIONAL -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2>📦 Monitoring Pesanan Realtime</h2>
+                <button onclick="loadAdminData()" style="padding: 6px 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                    🔄 Refresh Data
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Pemesan</th>
+                            <th>Rute Penjemputan &rarr; Tujuan</th>
+                            <th>Tipe Mobil</th>
+                            <th>Tarif Tamu</th>
+                            <th>Status Order</th>
+                            <th>Sopir Pemenang</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                Memuat data pesanan...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL PREVIEW STRUK -->
+    <div class="modal" id="proofModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Bukti Transfer M-Banking</h3>
+            <img src="" id="modalImg" class="modal-img" alt="Bukti Transfer">
+            <br>
+            <button onclick="closeModal()" style="padding: 8px 20px; background: #CBD5E1; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. INISIALISASI PETA RADAR FLEET LEAFLET
+        const fleetMap = L.map('fleetMap').setView([-6.5, 107.1], 9); // View Jawa Barat (Jakarta - Bandung)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 18
+        }).addTo(fleetMap);
+
+        let fleetMarkersGroup = L.layerGroup().addTo(fleetMap);
+
+        async function loadFleetMap() {
+            try {
+                const res = await fetch('/api/admin.php?action=fleet');
+                const data = await res.json();
+                if (data.success) {
+                    fleetMarkersGroup.clearLayers();
+                    data.data.forEach(d => {
+                        if (d.current_lat && d.current_lng) {
+                            const lat = parseFloat(d.current_lat);
+                            const lng = parseFloat(d.current_lng);
+                            const isOnTrip = !!d.trip_status;
+                            const emoji = isOnTrip ? '🔵' : '🟢';
+
+                            const icon = L.divIcon({
+                                html: `<div style="font-size: 22px;">${emoji}🚘</div>`,
+                                className: 'fleet-icon',
+                                iconSize: [28, 28]
+                            });
+
+                            const popup = `
+                                <b>${d.name}</b> (${d.phone})<br>
+                                <b>Unit:</b> ${d.car_model} - ${d.car_plate} (${d.car_color})<br>
+                                <b>Status:</b> ${isOnTrip ? '🔵 Sedang Bawa Tamu (' + d.tracking_code + ')' : '🟢 Standby Siap Narik'}
+                            `;
+
+                            L.marker([lat, lng], { icon }).addTo(fleetMarkersGroup).bindPopup(popup);
+                        }
+                    });
+                }
+            } catch (err) {
+                console.warn('Gagal load fleet map:', err.message);
+            }
+        }
+
+        async function loadAdminData() {
+            try {
+                const res = await fetch('/api/admin.php?action=stats');
+                const data = await res.json();
+                if (data.success) {
+                    renderStats(data.stats);
+                    renderSettlements(data.pendingSettlements);
+                    renderOrders(data.latestOrders);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function renderStats(s) {
+            document.getElementById('statOrders').innerText = s.totalOrders;
+            document.getElementById('statAuctions').innerText = s.activeAuctions;
+            document.getElementById('statCompleted').innerText = s.completedOrders;
+            document.getElementById('statCommission').innerText = 'Rp ' + parseFloat(s.totalCommissionPaid).toLocaleString('id-ID');
+        }
+
+        function renderSettlements(list) {
+            const tbody = document.getElementById('settlementsTableBody');
+            if (!list || list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">Tidak ada setoran yang menunggu verifikasi saat ini.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            list.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${new Date(item.created_at).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</td>
+                    <td><b>${item.tracking_code}</b></td>
+                    <td>${item.driver_name} <br><span style="font-size: 11px; color: var(--text-muted);">${item.driver_phone}</span></td>
+                    <td><b>${item.bank_sender}</b> <br><span style="font-size: 12px;">a/n ${item.sender_name}</span></td>
+                    <td><b style="color: #16A34A;">Rp ${parseFloat(item.amount).toLocaleString('id-ID')}</b></td>
+                    <td>
+                        ${item.proof_image ? `<button class="btn-view-proof" onclick="viewProof('${item.proof_image}')">Lihat Struk</button>` : '<span style="color: #DC2626; font-size: 12px;">Tanpa Foto</span>'}
+                    </td>
+                    <td>
+                        <button class="btn-verify" onclick="verifySettlement(${item.id})">✅ Konfirmasi Lunas</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderOrders(list) {
+            const tbody = document.getElementById('ordersTableBody');
+            if (!list || list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">Belum ada data transaksi.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            list.forEach(o => {
+                let badgeClass = 'badge-active';
+                if (o.status === 'AUCTION') badgeClass = 'badge-auction';
+                else if (o.status === 'COMPLETED') badgeClass = 'badge-completed';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><a href="/trip/${o.tracking_code}" target="_blank" style="color: var(--primary-blue); font-weight: 800; text-decoration: none;">${o.tracking_code}</a></td>
+                    <td>${o.customer_name} <br><span style="font-size: 11px; color: var(--text-muted);">${o.customer_phone}</span></td>
+                    <td style="max-width: 320px;">
+                        <span style="font-size: 12px; color: #16A34A;">🟢 ${o.pickup_address}</span><br>
+                        <span style="font-size: 12px; color: #DC2626;">🔴 ${o.destination_address}</span>
+                    </td>
+                    <td>${o.car_type}</td>
+                    <td><b>Rp ${parseFloat(o.total_fare).toLocaleString('id-ID')}</b></td>
+                    <td><span class="status-badge ${badgeClass}">${o.status}</span></td>
+                    <td>${o.driver_name ? `<b>${o.driver_name}</b>` : '<span style="color: #D97706; font-size: 12px;">(Menunggu Sopir)</span>'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function verifySettlement(id) {
+            if (!confirm('Pastikan uang transfer bagi hasil sudah masuk ke mutasi rekening bank Anda. Konfirmasi lunas sekarang?')) return;
+
+            try {
+                const res = await fetch(`/api/admin.php?action=verify_settlement`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ settlement_id: id, status: 'VERIFIED_PAID' })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ Setoran komisi berhasil diverifikasi LUNAS!');
+                    loadAdminData();
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        function viewProof(url) {
+            document.getElementById('modalImg').src = url;
+            document.getElementById('proofModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('proofModal').style.display = 'none';
+        }
+
+        // Jalankan saat load
+        loadAdminData();
+        loadFleetMap();
+        setInterval(loadAdminData, 15000);
+        setInterval(loadFleetMap, 20000);
+    </script>
+</body>
+</html>
