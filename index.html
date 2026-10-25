@@ -1482,6 +1482,12 @@
            12. RESPONSIVE BREAKPOINTS
            ============================================================== */
         @media (min-width: 992px) {
+            .hero-text-left {
+                order: 1;
+            }
+            .hero-car-stage {
+                order: 2;
+            }
             .hero-big-title {
                 font-size: 52px;
             }
@@ -1495,8 +1501,58 @@
 
         @media (max-width: 991px) {
             .hero-headline-row {
-                grid-template-columns: 1fr;
-                gap: 28px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                padding: 8px 0 14px;
+            }
+            /* OPSI C: Mobil di atas pada layar HP dengan proporsi Micro-Hero */
+            .hero-car-stage {
+                order: 1;
+                width: 100%;
+                max-width: 440px;
+                margin: 0 auto;
+            }
+            .hero-car-img {
+                max-height: 190px;
+            }
+            .car-switcher-bar {
+                margin-top: 6px;
+                gap: 12px;
+            }
+            .btn-arrow-circle {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+            /* Teks di bawah mobil pada layar HP (Rata Kiri) */
+            .hero-text-left {
+                order: 2;
+                width: 100%;
+                max-width: 100%;
+                text-align: left;
+                align-items: flex-start;
+            }
+            .hero-big-title {
+                font-size: 28px;
+                line-height: 1.15;
+                margin-bottom: 10px;
+                text-align: left;
+            }
+            .hero-big-sub {
+                font-size: 13px;
+                line-height: 1.5;
+                margin-bottom: 18px;
+                text-align: left;
+            }
+            .hero-cta-group {
+                width: 100%;
+                justify-content: flex-start;
+                gap: 10px;
+            }
+            .btn-hero-primary, .btn-hero-outline {
+                padding: 11px 18px;
+                font-size: 12.5px;
             }
             .trust-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1519,9 +1575,6 @@
         }
 
         @media (max-width: 768px) {
-            .hero-big-title {
-                font-size: 32px;
-            }
             .trust-grid {
                 grid-template-columns: 1fr;
             }
