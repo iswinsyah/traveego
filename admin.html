@@ -346,9 +346,9 @@
     <script>
         // 1. INISIALISASI PETA RADAR FLEET LEAFLET
         const fleetMap = L.map('fleetMap').setView([-6.5, 107.1], 9); // View Jawa Barat (Jakarta - Bandung)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap contributors',
-            maxZoom: 18
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
         }).addTo(fleetMap);
 
         let fleetMarkersGroup = L.layerGroup().addTo(fleetMap);

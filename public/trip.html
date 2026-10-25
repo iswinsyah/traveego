@@ -441,9 +441,9 @@
 
         // 1. INISIALISASI PETA OPENSTREETMAP LEAFLET
         const map = L.map('liveMap').setView([-6.917464, 107.619122], 12);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap contributors',
-            maxZoom: 18
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
         }).addTo(map);
 
         // Marker mobil sopir (Ikon Mobil Khusus)
