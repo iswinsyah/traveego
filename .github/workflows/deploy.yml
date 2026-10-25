@@ -21,7 +21,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER || secrets.SERVER || secrets.FTP_HOST || secrets.HOST }}
           username: ${{ secrets.FTP_USERNAME || secrets.USERNAME || secrets.FTP_USER || secrets.USER }}
           password: ${{ secrets.FTP_PASSWORD || secrets.PASSWORD }}
-          server-dir: public_html/
+          server-dir: ./
           exclude: |
             **/.git*
             **/.git*/**
@@ -30,3 +30,6 @@ jobs:
             package*.json
             README.md
             ARCHITECTURE.md
+            public/**
+            src/**
+            scripts/**
