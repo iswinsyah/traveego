@@ -4,7 +4,7 @@
 CREATE DATABASE IF NOT EXISTS traveego_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE traveego_db;
 
--- 1. TABEL KOTA OPERASIONAL (UNTUK EXPAND EXPANSION TERKENDALI)
+-- 1. TABEL KOTA OPERASIONAL
 CREATE TABLE IF NOT EXISTS cities (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS routes (
     FOREIGN KEY (destination_city_id) REFERENCES cities(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 3. TABEL MITRA SOPIR MANDIRI (DENGAN MOBIL SENDIRI)
+-- 3. TABEL MITRA SOPIR MANDIRI (DENGAN GPS TRACKING LIVE)
 CREATE TABLE IF NOT EXISTS drivers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -49,6 +49,12 @@ CREATE TABLE IF NOT EXISTS drivers (
     is_trusted BOOLEAN DEFAULT TRUE,           -- True = Pasca-Bayar transfer, False = Wajib Deposit
     rating DECIMAL(2,1) DEFAULT 4.9,
     total_trips INT DEFAULT 0,
+    
+    -- KOORDINAT GPS REAL-TIME (UNTUK PETA LEAFLET OPEN-SOURCE)
+    current_lat DECIMAL(10, 7) DEFAULT -6.917464,
+    current_lng DECIMAL(10, 7) DEFAULT 107.619122,
+    last_location_update DATETIME NULL,
+    
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (city_id) REFERENCES cities(id)
 ) ENGINE=InnoDB;
@@ -59,16 +65,16 @@ CREATE TABLE IF NOT EXISTS orders (
     tracking_code VARCHAR(20) NOT NULL UNIQUE, -- Kode unik link tracking pelanggan (TRX-9821)
     route_id INT NULL,
     customer_name VARCHAR(100) NOT NULL,
-    customer_phone VARCHAR(25) NOT NULL,       -- WA Pelanggan
+    customer_phone VARCHAR(25) NOT NULL,       -- WA Pelanggan (Disimpan untuk Admin)
     pickup_address TEXT NOT NULL,
     destination_address TEXT NOT NULL,
     pickup_datetime DATETIME NOT NULL,
-    car_type VARCHAR(50) NOT NULL DEFAULT 'Avanza/Xpander',
+    car_type VARCHAR(50) NOT NULL DEFAULT 'Toyota Innova Reborn',
     passenger_count INT DEFAULT 2,
     notes TEXT,
     
     total_fare DECIMAL(12,2) NOT NULL,         -- Tarif yang dibayar cash pelanggan ke sopir
-    admin_commission DECIMAL(12,2) NOT NULL,   -- Hak bagi hasil admin (misal 10%)
+    admin_commission DECIMAL(12,2) NOT NULL,   -- Hak bagi hasil admin (10%)
     
     -- STATUS SIKLUS HIDUP PESANAN
     status ENUM('AUCTION', 'ACCEPTED', 'ON_THE_WAY', 'ARRIVED', 'IN_TRIP', 'COMPLETED', 'CANCELLED') DEFAULT 'AUCTION',
@@ -96,14 +102,4 @@ CREATE TABLE IF NOT EXISTS commission_settlements (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (driver_id) REFERENCES drivers(id)
-) ENGINE=InnoDB;
-
--- 6. TABEL DOMPET SALDO (PONDASI SIAP PAKAI JIKA KELAK AKTIFKAN TOP-UP DEPOSIT)
-CREATE TABLE IF NOT EXISTS driver_wallets (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    driver_id INT NOT NULL UNIQUE,
-    balance DECIMAL(12,2) DEFAULT 0.00,
-    min_balance DECIMAL(12,2) DEFAULT 50000.00,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (driver_id) REFERENCES drivers(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;

@@ -2,13 +2,15 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Live Tracking Perjalanan | Traveego Drop-Off</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- LEAFLET.JS OPEN-SOURCE MAP CSS & JS (100% GRATIS TANPA API KEY) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         :root {
             --primary-blue: #0F4C81;
@@ -27,29 +29,30 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
-            padding: 20px 16px 60px;
+            padding: 16px 12px 60px;
         }
 
         .container {
-            max-width: 580px;
+            max-width: 480px;
             margin: 0 auto;
         }
 
         .header-card {
             background: #FFF;
-            padding: 20px;
+            padding: 16px 18px;
             border-radius: var(--radius-lg);
             border: 1px solid #E2E8F0;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
         }
 
         .brand-logo {
@@ -64,7 +67,7 @@
             color: var(--primary-blue);
             font-size: 13px;
             font-weight: 800;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 8px;
             letter-spacing: 0.5px;
         }
@@ -72,23 +75,23 @@
         /* STATUS CARD */
         .status-card {
             background: #FFF;
-            padding: 24px 20px;
+            padding: 20px 16px;
             border-radius: var(--radius-lg);
             border: 1px solid #E2E8F0;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
         }
 
         .status-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .status-icon-pulse {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: #DCFCE7;
             color: #16A34A;
@@ -106,14 +109,15 @@
         }
 
         .status-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 800;
             color: var(--text-main);
         }
         .status-desc {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             margin-top: 2px;
+            line-height: 1.4;
         }
 
         /* STEPPER */
@@ -121,13 +125,13 @@
             display: flex;
             justify-content: space-between;
             position: relative;
-            margin: 20px 0 10px;
+            margin: 16px 0 6px;
         }
 
         .stepper::before {
             content: '';
             position: absolute;
-            top: 14px;
+            top: 13px;
             left: 20px;
             right: 20px;
             height: 3px;
@@ -139,23 +143,23 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             color: var(--text-muted);
             flex: 1;
         }
 
         .step-circle {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: #FFF;
             border: 2px solid #CBD5E1;
-            margin: 0 auto 6px;
+            margin: 0 auto 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
         }
 
@@ -172,111 +176,151 @@
             color: #FFF;
         }
 
-        /* DRIVER CARD */
-        .driver-card {
+        /* MAP CARD (LEAFLET OPENSTREETMAP) */
+        .map-card {
             background: #FFF;
-            padding: 20px;
             border-radius: var(--radius-lg);
             border: 1px solid #E2E8F0;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            padding: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+        }
+
+        #liveMap {
+            height: 220px;
+            width: 100%;
+            border-radius: 12px;
+            z-index: 10;
+        }
+
+        .map-status-pill {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        /* DRIVER CARD (ANTI-BAJAK: CHAT DI DALAM WEB) */
+        .driver-card {
+            background: #FFF;
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
         }
 
         .driver-profile {
             display: flex;
-            gap: 16px;
+            gap: 14px;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .driver-avatar {
-            width: 60px;
-            height: 60px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             background: var(--primary-light);
             border: 2px solid var(--primary-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
+            font-size: 24px;
         }
 
-        .driver-info h3 { font-size: 16px; font-weight: 800; color: var(--text-main); }
-        .driver-car { font-size: 14px; font-weight: 700; color: var(--primary-blue); margin-top: 2px; }
+        .driver-info h3 { font-size: 15px; font-weight: 800; }
+        .driver-car { font-size: 13px; font-weight: 700; color: var(--primary-blue); margin-top: 1px; }
         .driver-plate {
             display: inline-block;
             background: #000;
             color: #FFF;
-            padding: 2px 8px;
+            padding: 2px 7px;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             letter-spacing: 1px;
-            margin-top: 4px;
+            margin-top: 3px;
         }
 
-        .btn-call-wa {
-            background: var(--accent-green);
+        .btn-inapp-chat {
+            background: var(--primary-blue);
             color: #FFF;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px;
+            padding: 11px;
             border-radius: 10px;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 800;
-            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
         }
-        .btn-call-wa:hover { background: var(--accent-green-hover); }
 
         /* ROUTE CARD */
         .route-card {
             background: #FFF;
-            padding: 20px;
+            padding: 16px;
             border-radius: var(--radius-lg);
             border: 1px solid #E2E8F0;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            margin-bottom: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+            margin-bottom: 12px;
         }
 
         .route-point {
             display: flex;
-            gap: 14px;
-            margin-bottom: 14px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
         .route-point:last-child { margin-bottom: 0; }
-        .dot-icon {
-            font-size: 18px;
-            margin-top: 2px;
-        }
-        .route-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-        .route-address { font-size: 14px; font-weight: 600; color: var(--text-main); margin-top: 2px; }
+        .dot-icon { font-size: 16px; margin-top: 1px; }
+        .route-label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
+        .route-address { font-size: 13px; font-weight: 600; color: var(--text-main); margin-top: 2px; }
 
         .fare-total-box {
             background: #F8FAFC;
             border-top: 1px dashed #CBD5E1;
-            margin-top: 16px;
-            padding-top: 14px;
+            margin-top: 14px;
+            padding-top: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .live-map-sim {
-            background: #E2E8F0;
-            border-radius: var(--radius-md);
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 600;
+        /* CHAT IN-APP DRAWER */
+        .chat-inapp-box {
+            display: none;
+            background: #F8FAFC;
             border: 1px solid #CBD5E1;
-            margin-top: 14px;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 12px;
         }
+        .chat-msgs-list {
+            height: 120px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .chat-item {
+            padding: 6px 10px;
+            border-radius: 8px;
+            max-width: 85%;
+        }
+        .chat-from-driver { background: #E2E8F0; align-self: flex-start; }
+        .chat-from-cust { background: var(--primary-blue); color: #FFF; align-self: flex-end; }
+        .chat-input-row { display: flex; gap: 6px; }
+        .chat-input-row input { flex: 1; padding: 7px 10px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 12px; }
+        .chat-input-row button { background: var(--accent-green); color: #FFF; border: none; padding: 0 12px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -309,16 +353,25 @@
                 </div>
                 <div class="step-item" id="step3">
                     <div class="step-circle">3</div>
-                    <span>Di Perjalanan</span>
+                    <span>Di Jalan</span>
                 </div>
                 <div class="step-item" id="step4">
                     <div class="step-circle">4</div>
-                    <span>Tiba</span>
+                    <span>Sampai</span>
                 </div>
             </div>
         </div>
 
-        <!-- KARTU SOPIR (MUNCUL SETELAH DEAL) -->
+        <!-- PETA PELACAKAN OPENSTREETMAP (LEAFLET.JS) -->
+        <div class="map-card">
+            <div id="liveMap"></div>
+            <div class="map-status-pill">
+                <span>🗺️ OpenStreetMap &bull; GPS Real-Time</span>
+                <span id="gpsLiveStatus" style="color: #16A34A;">● Terkoneksi</span>
+            </div>
+        </div>
+
+        <!-- KARTU SOPIR (ANTI-BAJAK: CHAT DI DALAM SISTEM) -->
         <div class="driver-card" id="driverSection" style="display: none;">
             <div class="driver-profile">
                 <div class="driver-avatar">👨‍✈️</div>
@@ -328,9 +381,23 @@
                     <div class="driver-plate" id="driverPlate">D 1422 AC</div>
                 </div>
             </div>
-            <a href="#" id="btnCallDriver" class="btn-call-wa" target="_blank">
-                <span>💬 Hubungi Sopir via WhatsApp</span>
-            </a>
+            
+            <button class="btn-inapp-chat" onclick="toggleInAppChat()">
+                <span>💬 Koordinasi Penjemputan (Chat Sopir)</span>
+            </button>
+
+            <!-- IN-APP CHAT BOX -->
+            <div class="chat-inapp-box" id="inAppChatBox">
+                <div class="chat-msgs-list" id="chatMsgsList">
+                    <div class="chat-item chat-from-driver">
+                        <b>Sopir:</b> Halo Kak, saya sudah meluncur ke lokasi jemput ya.
+                    </div>
+                </div>
+                <div class="chat-input-row">
+                    <input type="text" id="custChatInput" placeholder="Ketik pesan ke sopir...">
+                    <button onclick="sendCustChat()">Kirim</button>
+                </div>
+            </div>
         </div>
 
         <!-- RINCIAN RUTE & TARIF -->
@@ -350,55 +417,67 @@
                 </div>
             </div>
 
-            <div class="live-map-sim">
-                📍 Peta Monitoring Satelit Aktif &bull; GPS Sopir Terkoneksi
-            </div>
-
             <div class="fare-total-box">
                 <div>
-                    <div style="font-size: 12px; color: var(--text-muted);">Metode Pembayaran</div>
-                    <div style="font-size: 14px; font-weight: 700; color: #16A34A;">💵 Cash Langsung ke Sopir</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Metode Bayar</div>
+                    <div style="font-size: 13.5px; font-weight: 700; color: #16A34A;">💵 Cash ke Sopir</div>
                 </div>
                 <div style="text-align: right;">
-                    <div style="font-size: 12px; color: var(--text-muted);">Total Tarif All-In</div>
-                    <div style="font-size: 20px; font-weight: 800; color: var(--primary-blue);" id="totalFare">Rp 0</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Total Tarif All-In</div>
+                    <div style="font-size: 18px; font-weight: 800; color: var(--primary-blue);" id="totalFare">Rp 0</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Ambil tracking code dari URL (path /trip/TRX-XXXX)
-        const pathParts = window.location.pathname.split('/');
-        const trackingCode = pathParts[pathParts.length - 1];
+        // Ambil tracking code dari URL (mendukung /trip/TRX-XXXX dan trip.html?code=TRX-XXXX)
+        let trackingCode = new URLSearchParams(window.location.search).get('code');
+        if (!trackingCode) {
+            const parts = window.location.pathname.split('/');
+            trackingCode = parts[parts.length - 1] || 'TRX-8821';
+        }
         document.getElementById('trackingCodeDisplay').innerText = trackingCode;
 
-        // Inisialisasi Socket.io
-        const socket = io();
-        socket.emit('join_tracking', trackingCode);
+        // 1. INISIALISASI PETA OPENSTREETMAP LEAFLET
+        const map = L.map('liveMap').setView([-6.917464, 107.619122], 12);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 18
+        }).addTo(map);
 
-        // Dengarkan pembaruan live tracking dari server
-        socket.on(`tracking_update_${trackingCode}`, (order) => {
-            console.log('Update diterima secara live:', order);
-            applyOrderData(order);
+        // Marker mobil sopir (Ikon Mobil Khusus)
+        const carIcon = L.divIcon({
+            html: '<div style="font-size: 24px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));">🚘</div>',
+            className: 'car-marker',
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
         });
+        let driverMarker = null;
 
-        async function loadTrackingData() {
+        // Marker Titik Jemput
+        const pickupIcon = L.divIcon({
+            html: '<div style="font-size: 22px;">🟢</div>',
+            iconSize: [24, 24]
+        });
+        let pickupMarker = null;
+
+        async function fetchTrackingData() {
             try {
-                const res = await fetch(`/api/orders/track/${trackingCode}`);
+                const res = await fetch(`/api/orders.php?action=track&code=${encodeURIComponent(trackingCode)}`);
                 const result = await res.json();
                 if (result.success) {
-                    applyOrderData(result.data);
+                    renderTrackingView(result.data);
                 } else {
-                    document.getElementById('statusTitle').innerText = 'Pesanan Tidak Ditemukan';
+                    document.getElementById('statusTitle').innerText = 'Pesanan Belum Ditemukan';
                     document.getElementById('statusDesc').innerText = result.message;
                 }
             } catch (err) {
-                console.error(err);
+                console.warn('Gagal fetch tracking:', err.message);
             }
         }
 
-        function applyOrderData(order) {
+        function renderTrackingView(order) {
             document.getElementById('pickupAddr').innerText = order.pickup_address;
             document.getElementById('destAddr').innerText = order.destination_address;
             document.getElementById('totalFare').innerText = 'Rp ' + parseFloat(order.total_fare).toLocaleString('id-ID');
@@ -408,10 +487,21 @@
             const statusDesc = document.getElementById('statusDesc');
             const driverSection = document.getElementById('driverSection');
 
-            // Reset stepper
-            ['step1', 'step2', 'step3', 'step4'].forEach(id => {
-                document.getElementById(id).className = 'step-item';
-            });
+            ['step1', 'step2', 'step3', 'step4'].forEach(id => document.getElementById(id).className = 'step-item');
+
+            // UPDATE POSISI GPS SOPIR DI PETA LEAFLET
+            if (order.current_lat && order.current_lng) {
+                const lat = parseFloat(order.current_lat);
+                const lng = parseFloat(order.current_lng);
+
+                if (!driverMarker) {
+                    driverMarker = L.marker([lat, lng], { icon: carIcon }).addTo(map)
+                        .bindPopup(`<b>${order.driver_name || 'Mitra Sopir'}</b><br>${order.car_model || ''} (${order.car_plate || ''})`);
+                    map.setView([lat, lng], 14);
+                } else {
+                    driverMarker.setLatLng([lat, lng]);
+                }
+            }
 
             if (order.status === 'AUCTION') {
                 statusIcon.innerText = '📡';
@@ -420,18 +510,14 @@
                 document.getElementById('step1').className = 'step-item step-active';
                 driverSection.style.display = 'none';
             } else {
-                // Sopir sudah mengambil order!
                 driverSection.style.display = 'block';
                 document.getElementById('driverName').innerText = order.driver_name || 'Mitra Sopir Terpilih';
                 document.getElementById('driverCar').innerText = (order.car_model || 'Mobil') + ' (' + (order.car_color || 'Standar') + ')';
                 document.getElementById('driverPlate').innerText = order.car_plate || 'PLAT NOMOR';
-                
-                const cleanPhone = (order.driver_phone || '').replace(/^0/, '62');
-                document.getElementById('btnCallDriver').href = `https://wa.me/${cleanPhone}?text=Halo%20Pak%20${encodeURIComponent(order.driver_name || '')},%20saya%20pemesan%20Traveego%20Drop-Off%20[${trackingCode}]`;
 
                 if (order.status === 'ACCEPTED' || order.status === 'ON_THE_WAY') {
                     statusIcon.innerText = '🚘';
-                    statusTitle.innerText = 'Sopir Menuju Lokasi Anda!';
+                    statusTitle.innerText = 'Sopir Sedang Menuju Lokasi!';
                     statusDesc.innerText = `${order.driver_name} sedang meluncur ke titik jemput dengan kendaraan ${order.car_model} (${order.car_plate}).`;
                     document.getElementById('step1').className = 'step-item step-done';
                     document.getElementById('step2').className = 'step-item step-active';
@@ -453,14 +539,33 @@
                     statusIcon.innerText = '✅';
                     statusTitle.innerText = 'Perjalanan Selesai!';
                     statusDesc.innerText = 'Terima kasih telah menggunakan jasa Traveego Drop-Off. Semoga perjalanan Anda menyenangkan.';
-                    ['step1', 'step2', 'step3', 'step4'].forEach(id => {
-                        document.getElementById(id).className = 'step-item step-done';
-                    });
+                    ['step1', 'step2', 'step3', 'step4'].forEach(id => document.getElementById(id).className = 'step-item step-done');
                 }
             }
         }
 
-        loadTrackingData();
+        function toggleInAppChat() {
+            const b = document.getElementById('inAppChatBox');
+            b.style.display = b.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function sendCustChat() {
+            const inp = document.getElementById('custChatInput');
+            const txt = inp.value.trim();
+            if (!txt) return;
+
+            const list = document.getElementById('chatMsgsList');
+            const div = document.createElement('div');
+            div.className = 'chat-item chat-from-cust';
+            div.innerHTML = `<b>Anda:</b> ${txt}`;
+            list.appendChild(div);
+            inp.value = '';
+            list.scrollTop = list.scrollHeight;
+        }
+
+        // Polling otomatis setiap 8 detik untuk update live tracking
+        fetchTrackingData();
+        setInterval(fetchTrackingData, 8000);
     </script>
 </body>
 </html>

@@ -853,7 +853,7 @@
             };
 
             try {
-                const res = await fetch('/api/orders', {
+                const res = await fetch('/api/orders.php?action=create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -861,7 +861,7 @@
                 const data = await res.json();
                 if (data.success) {
                     alert('🎉 Pesanan Berhasil Diterbitkan!\n\nKode Booking: ' + data.order.tracking_code + '\nOrderan Kakak saat ini langsung dilelang ke mitra sopir di radar PWA.');
-                    window.location.href = '/trip/' + data.order.tracking_code;
+                    window.location.href = '/trip.html?code=' + data.order.tracking_code;
                 } else {
                     alert('Gagal membuat order: ' + data.message);
                 }
@@ -907,7 +907,7 @@
             box.scrollTop = box.scrollHeight;
 
             try {
-                const res = await fetch('/api/ai/chat', {
+                const res = await fetch('/api/chat.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text })

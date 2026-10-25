@@ -1,0 +1,32 @@
+# KONFIGURASI HTACCESS UNTUK HOSTINGER SHARED HOSTING (APACHE / LITESPEED)
+RewriteEngine On
+RewriteBase /
+
+# 1. Rute Live Tracking Pelanggan: /trip/TRX-XXXX
+RewriteCond %{DOCUMENT_ROOT}/public/trip.html -f
+RewriteRule ^trip/([A-Za-z0-9\-]+)/?$ public/trip.html?code=$1 [L,QSA]
+RewriteRule ^trip/([A-Za-z0-9\-]+)/?$ trip.html?code=$1 [L,QSA]
+
+# 2. Rute PWA Sopir: /driver
+RewriteCond %{DOCUMENT_ROOT}/public/driver.html -f
+RewriteRule ^driver/?$ public/driver.html [L]
+RewriteRule ^driver/?$ driver.html [L]
+
+# 3. Rute Dashboard Admin: /admin
+RewriteCond %{DOCUMENT_ROOT}/public/admin.html -f
+RewriteRule ^admin/?$ public/admin.html [L]
+RewriteRule ^admin/?$ admin.html [L]
+
+# 4. Izinkan akses langsung ke folder api, uploads, dan file statis yang ada
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 5. Cek apakah file yang diminta ada di dalam subfolder public/
+RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+RewriteRule ^(.+)$ public/$1 [L]
+
+# 6. Fallback Halaman Depan
+RewriteCond %{DOCUMENT_ROOT}/public/index.html -f
+RewriteRule ^$ public/index.html [L]
+RewriteRule ^$ index.html [L]

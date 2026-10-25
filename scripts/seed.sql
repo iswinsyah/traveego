@@ -17,11 +17,11 @@ INSERT IGNORE INTO routes (id, origin_city_id, destination_city_id, slug, title,
 (4, 2, 3, 'bandung-bandara-soetta', 'Drop Off Bandung ke Bandara Soekarno-Hatta', 175, 3.0, 750000.00, 1050000.00, 1750000.00, 10, 1, 1),
 (5, 4, 5, 'surabaya-malang', 'Drop Off Surabaya ke Malang / Batu', 95, 2.0, 450000.00, 650000.00, 1100000.00, 10, 1, 1);
 
--- 3. DATA MITRA SOPIR MANDIRI (CONTOH MITRA TERPERCAYA)
-INSERT IGNORE INTO drivers (id, name, phone, pin, city_id, car_model, car_plate, car_color, is_online, is_trusted, rating, total_trips) VALUES
-(1, 'Pak Budi Santoso', '081234567891', '1234', 2, 'Toyota Avanza Veloz', 'B 1823 KBC', 'Putih', 1, 1, 4.9, 142),
-(2, 'Kang Asep Supriatna', '081234567892', '1234', 2, 'Toyota Innova Reborn', 'D 1422 AC', 'Hitam', 1, 1, 5.0, 218),
-(3, 'Pak Hendra Gunawan', '081234567893', '1234', 1, 'Mitsubishi Xpander', 'B 2901 ZAA', 'Silver', 1, 1, 4.8, 97);
+-- 3. DATA MITRA SOPIR MANDIRI (DENGAN KOORDINAT GPS REALISTIS)
+INSERT IGNORE INTO drivers (id, name, phone, pin, city_id, car_model, car_plate, car_color, is_online, is_trusted, rating, total_trips, current_lat, current_lng, last_location_update) VALUES
+(1, 'Pak Budi Santoso', '081234567891', '1234', 2, 'Toyota Avanza Veloz', 'B 1823 KBC', 'Putih', 1, 1, 4.9, 142, -6.917464, 107.619122, NOW()),
+(2, 'Kang Asep Supriatna', '081234567892', '1234', 2, 'Toyota Innova Reborn', 'D 1422 AC', 'Hitam', 1, 1, 5.0, 218, -6.903890, 107.618610, NOW()),
+(3, 'Pak Hendra Gunawan', '081234567893', '1234', 1, 'Mitsubishi Xpander', 'B 2901 ZAA', 'Silver', 1, 1, 4.8, 97, -6.125556, 106.655833, NOW());
 
 -- 4. CONTOH PESANAN AKTIF SIAP LELANG (STATUS: AUCTION)
 INSERT IGNORE INTO orders (id, tracking_code, route_id, customer_name, customer_phone, pickup_address, destination_address, pickup_datetime, car_type, passenger_count, notes, total_fare, admin_commission, status) VALUES

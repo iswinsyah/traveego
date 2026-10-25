@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="/socket.io/socket.io.js"></script>
     <style>
         :root {
             --primary-blue: #0F4C81;
@@ -88,46 +87,14 @@
             text-align: center;
         }
 
-        .login-logo {
-            font-size: 40px;
-            margin-bottom: 12px;
-        }
+        .login-logo { font-size: 40px; margin-bottom: 12px; }
+        .login-title { font-size: 20px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px; }
+        .login-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
 
-        .login-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            margin-bottom: 6px;
-        }
-
-        .login-subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        .form-group {
-            text-align: left;
-            margin-bottom: 16px;
-        }
-        .form-group label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-main);
-            display: block;
-            margin-bottom: 6px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #CBD5E1;
-            border-radius: 10px;
-            font-size: 15px;
-            outline: none;
-        }
-        .form-control:focus {
-            border-color: var(--primary-blue);
-        }
+        .form-group { text-align: left; margin-bottom: 16px; }
+        .form-group label { font-size: 12px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 12px 14px; border: 1px solid #CBD5E1; border-radius: 10px; font-size: 15px; outline: none; }
+        .form-control:focus { border-color: var(--primary-blue); }
 
         .btn-primary {
             width: 100%;
@@ -242,19 +209,9 @@
             align-items: center;
         }
 
-        .fare-guest {
-            font-size: 16px;
-            font-weight: 800;
-            color: #16A34A;
-        }
+        .fare-guest { font-size: 16px; font-weight: 800; color: #16A34A; }
+        .fare-commission { font-size: 12px; color: #DC2626; font-weight: 700; }
 
-        .fare-commission {
-            font-size: 12px;
-            color: #DC2626;
-            font-weight: 700;
-        }
-
-        /* ATOMIC LOCK BUTTON (HIJAU WHATSAPP) */
         .btn-take-order {
             width: 100%;
             background: var(--accent-green);
@@ -272,9 +229,7 @@
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
             transition: all 0.2s;
         }
-        .btn-take-order:active {
-            transform: scale(0.98);
-        }
+        .btn-take-order:active { transform: scale(0.98); }
 
         /* ACTIVE TRIP CONTAINER */
         .active-trip-box {
@@ -363,7 +318,7 @@
 
     <div class="container">
 
-        <!-- 1. TAMPILAN LOGIN (JIKA BELUM LOGIN) -->
+        <!-- 1. TAMPILAN LOGIN -->
         <div id="loginScreen" class="login-card">
             <div class="login-logo">👋</div>
             <h2 class="login-title">Login Mitra Sopir</h2>
@@ -384,7 +339,7 @@
             </div>
         </div>
 
-        <!-- 2. TAMPILAN DASHBOARD PWA (SETELAH LOGIN) -->
+        <!-- 2. TAMPILAN DASHBOARD PWA -->
         <div id="mainDashboard" style="display: none;">
             
             <!-- PROFIL SINGKAT -->
@@ -397,7 +352,7 @@
                 <button class="btn-logout" onclick="doDriverLogout()">Keluar</button>
             </div>
 
-            <!-- PESANAN YANG SEDANG DIJALANKAN (JIKA ADA) -->
+            <!-- PESANAN YANG SEDANG DIJALANKAN (ANTI-BAJAK: NOMOR TAMU DISENSOR) -->
             <div id="activeTripSection" style="display: none;">
                 <div class="active-trip-box">
                     <div class="trip-status-badge" id="activeStatusBadge">SEDANG BERJALAN</div>
@@ -430,7 +385,7 @@
                 </div>
             </div>
 
-            <!-- FORM SETORAN KOMISI PASCA-BAYAR (MUNCUL JIKA TRIP SUDAH SELESAI) -->
+            <!-- FORM SETORAN KOMISI PASCA-BAYAR -->
             <div id="settlementSection" style="display: none;">
                 <div class="settlement-card">
                     <h3 style="font-size: 16px; color: var(--primary-dark); margin-bottom: 6px;">💳 Konfirmasi Setoran Komisi</h3>
@@ -500,13 +455,11 @@
     <script>
         let currentDriver = null;
         let activeOrder = null;
-        const socket = io();
+        let lastAuctionCount = 0;
 
         // Register Service Worker PWA
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').then(() => {
-                console.log('✅ Service Worker PWA Driver Aktif!');
-            }).catch(console.error);
+            navigator.serviceWorker.register('/sw.js').catch(console.error);
         }
 
         // Cek LocalStorage untuk login otomatis
@@ -518,17 +471,31 @@
             } catch (e) {}
         }
 
-        // Socket.io Realtime Listener
-        socket.on('new_auction_order', (order) => {
-            console.log('⚡ Order baru masuk radar:', order);
-            playAlertSound();
-            loadAuctionOrders();
-        });
-
-        socket.on('order_taken', (data) => {
-            console.log('Order diambil orang:', data.orderId);
-            loadAuctionOrders();
-        });
+        // 1. UPDATE GPS LOCATION KE SERVER SECARA BERKALA (UNTUK PETA LEAFLET OPENSTREETMAP)
+        function startGpsTracking() {
+            if ('geolocation' in navigator && currentDriver) {
+                navigator.geolocation.watchPosition((pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    
+                    fetch('/api/driver.php?action=location', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            driver_id: currentDriver.id,
+                            lat: lat,
+                            lng: lng
+                        })
+                    }).catch(console.warn);
+                }, (err) => {
+                    console.log('GPS error/permission:', err.message);
+                }, {
+                    enableHighAccuracy: true,
+                    maximumAge: 15000,
+                    timeout: 10000
+                });
+            }
+        }
 
         function playAlertSound() {
             const audio = document.getElementById('audioAlert');
@@ -545,7 +512,7 @@
             }
 
             try {
-                const res = await fetch('/api/driver/login', {
+                const res = await fetch('/api/driver.php?action=login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone, pin })
@@ -582,21 +549,12 @@
             document.getElementById('driverProfilePlate').innerText = currentDriver.car_plate;
             document.getElementById('headerDriverName').innerText = currentDriver.name.split(' ')[0];
 
-            loadConfigBank();
             loadAuctionOrders();
             renderActiveTrip();
-        }
-
-        async function loadConfigBank() {
-            try {
-                const res = await fetch('/api/config');
-                const data = await res.json();
-                if (data.success) {
-                    document.getElementById('bankNameDisplay').innerText = data.adminBank.bank;
-                    document.getElementById('bankAccountDisplay').innerText = data.adminBank.account;
-                    document.getElementById('bankHolderDisplay').innerText = 'a/n ' + data.adminBank.holder;
-                }
-            } catch (e) {}
+            startGpsTracking();
+            
+            // Polling lelang setiap 6 detik
+            setInterval(loadAuctionOrders, 6000);
         }
 
         function copyBankAccount() {
@@ -607,11 +565,17 @@
 
         async function loadAuctionOrders() {
             try {
-                const res = await fetch('/api/orders/auction');
+                const res = await fetch('/api/orders.php?action=auction');
                 const data = await res.json();
                 const list = document.getElementById('auctionOrdersList');
                 
                 if (data.success && data.data.length > 0) {
+                    // Bunyikan notifikasi ting-ting jika ada order bertambah!
+                    if (data.data.length > lastAuctionCount) {
+                        playAlertSound();
+                    }
+                    lastAuctionCount = data.data.length;
+
                     document.getElementById('auctionCount').innerText = `${data.data.length} Order Terbuka`;
                     list.innerHTML = '';
                     
@@ -646,6 +610,7 @@
                         list.appendChild(card);
                     });
                 } else {
+                    lastAuctionCount = 0;
                     document.getElementById('auctionCount').innerText = `0 Order Terbuka`;
                     list.innerHTML = `
                         <div class="empty-radar">
@@ -665,15 +630,18 @@
             if (!confirm('Yakin ingin mengambil orderan ini? Siapa cepat dia dapat!')) return;
 
             try {
-                const res = await fetch(`/api/orders/${orderId}/accept`, {
+                const res = await fetch('/api/orders.php?action=accept', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ driver_id: currentDriver.id })
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        driver_id: currentDriver.id
+                    })
                 });
 
                 const data = await res.json();
                 if (data.success) {
-                    alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini!\nSilakan segera hubungi tamu dan luncur ke titik penjemputan.');
+                    alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini!\nSilakan segera luncur ke titik penjemputan.');
                     activeOrder = data.data;
                     renderActiveTrip();
                     loadAuctionOrders();
@@ -698,7 +666,11 @@
 
             section.style.display = 'block';
             document.getElementById('activeTrackingCode').innerText = activeOrder.tracking_code;
-            document.getElementById('activeCustomerName').innerText = `${activeOrder.customer_name} (${activeOrder.customer_phone})`;
+            
+            // ANTI-BAJAK: Tampilkan nomor tamu yang disensor
+            const maskedPhone = activeOrder.customer_phone_masked || (activeOrder.customer_phone ? activeOrder.customer_phone.substring(0,4) + '-****-' + activeOrder.customer_phone.slice(-4) : '');
+            document.getElementById('activeCustomerName').innerText = `${activeOrder.customer_name} (${maskedPhone})`;
+            
             document.getElementById('activePickup').innerText = activeOrder.pickup_address;
             document.getElementById('activeDest').innerText = activeOrder.destination_address;
             document.getElementById('activeFareGuest').innerText = 'Rp ' + parseFloat(activeOrder.total_fare).toLocaleString('id-ID');
@@ -744,10 +716,11 @@
             else if (activeOrder.status === 'IN_TRIP') nextStatus = 'COMPLETED';
 
             try {
-                const res = await fetch(`/api/orders/${activeOrder.id}/status`, {
+                const res = await fetch('/api/orders.php?action=status', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
+                        order_id: activeOrder.id,
                         status: nextStatus,
                         driver_id: currentDriver.id
                     })
@@ -776,6 +749,7 @@
             }
 
             const formData = new FormData();
+            formData.append('order_id', activeOrder.id);
             formData.append('driver_id', currentDriver.id);
             formData.append('amount', activeOrder.admin_commission);
             formData.append('bank_sender', bank);
@@ -785,7 +759,7 @@
             }
 
             try {
-                const res = await fetch(`/api/orders/${activeOrder.id}/settle-commission`, {
+                const res = await fetch('/api/orders.php?action=settle', {
                     method: 'POST',
                     body: formData
                 });

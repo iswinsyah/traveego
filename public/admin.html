@@ -8,7 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- LEAFLET OPENSTREETMAP CSS & JS (OPEN SOURCE) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         :root {
             --primary-blue: #0F4C81;
@@ -65,7 +67,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .metric-card {
@@ -87,6 +89,23 @@
             font-size: 26px;
             font-weight: 800;
             color: var(--primary-dark);
+        }
+
+        /* RADAR MAP CARD */
+        .radar-map-card {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+        }
+
+        #fleetMap {
+            height: 320px;
+            width: 100%;
+            border-radius: 12px;
+            z-index: 10;
         }
 
         /* CARD SECTION */
@@ -172,7 +191,7 @@
             font-size: 12px;
             font-weight: 700;
             text-decoration: none;
-            display: inline-block;
+            cursor: pointer;
         }
 
         /* MODAL */
@@ -234,6 +253,20 @@
                 <div class="metric-title">KOMISI ADMIN LUNAS</div>
                 <div class="metric-value" style="color: var(--primary-blue);" id="statCommission">Rp 0</div>
             </div>
+        </div>
+
+        <!-- RADAR FLEET SEBARAN ARMADA (OPENSTREETMAP LEAFLET) -->
+        <div class="radar-map-card">
+            <div class="section-header" style="margin-bottom: 12px;">
+                <div>
+                    <h2>🗺️ Radar Pantauan Sebaran Armada (OpenStreetMap)</h2>
+                    <div style="font-size: 12.5px; color: var(--text-muted);">Memantau posisi seluruh sopir standby (🟢) dan sopir dalam pelayanan (🔵)</div>
+                </div>
+                <button onclick="loadFleetMap()" style="padding: 6px 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                    🔄 Refresh Peta
+                </button>
+            </div>
+            <div id="fleetMap"></div>
         </div>
 
         <!-- 1. SETORAN KOMISI MENUNGGU VERIFIKASI ADMIN (PASCA-BAYAR) -->
@@ -311,16 +344,52 @@
     </div>
 
     <script>
-        const socket = io();
+        // 1. INISIALISASI PETA RADAR FLEET LEAFLET
+        const fleetMap = L.map('fleetMap').setView([-6.5, 107.1], 9); // View Jawa Barat (Jakarta - Bandung)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 18
+        }).addTo(fleetMap);
 
-        // Socket real-time update
-        socket.on('new_auction_order', () => loadAdminData());
-        socket.on('order_taken', () => loadAdminData());
-        socket.on('order_status_changed', () => loadAdminData());
+        let fleetMarkersGroup = L.layerGroup().addTo(fleetMap);
+
+        async function loadFleetMap() {
+            try {
+                const res = await fetch('/api/admin.php?action=fleet');
+                const data = await res.json();
+                if (data.success) {
+                    fleetMarkersGroup.clearLayers();
+                    data.data.forEach(d => {
+                        if (d.current_lat && d.current_lng) {
+                            const lat = parseFloat(d.current_lat);
+                            const lng = parseFloat(d.current_lng);
+                            const isOnTrip = !!d.trip_status;
+                            const emoji = isOnTrip ? '🔵' : '🟢';
+
+                            const icon = L.divIcon({
+                                html: `<div style="font-size: 22px;">${emoji}🚘</div>`,
+                                className: 'fleet-icon',
+                                iconSize: [28, 28]
+                            });
+
+                            const popup = `
+                                <b>${d.name}</b> (${d.phone})<br>
+                                <b>Unit:</b> ${d.car_model} - ${d.car_plate} (${d.car_color})<br>
+                                <b>Status:</b> ${isOnTrip ? '🔵 Sedang Bawa Tamu (' + d.tracking_code + ')' : '🟢 Standby Siap Narik'}
+                            `;
+
+                            L.marker([lat, lng], { icon }).addTo(fleetMarkersGroup).bindPopup(popup);
+                        }
+                    });
+                }
+            } catch (err) {
+                console.warn('Gagal load fleet map:', err.message);
+            }
+        }
 
         async function loadAdminData() {
             try {
-                const res = await fetch('/api/admin/stats');
+                const res = await fetch('/api/admin.php?action=stats');
                 const data = await res.json();
                 if (data.success) {
                     renderStats(data.stats);
@@ -400,10 +469,10 @@
             if (!confirm('Pastikan uang transfer bagi hasil sudah masuk ke mutasi rekening bank Anda. Konfirmasi lunas sekarang?')) return;
 
             try {
-                const res = await fetch(`/api/admin/settlements/${id}/verify`, {
+                const res = await fetch(`/api/admin.php?action=verify_settlement`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ status: 'VERIFIED_PAID' })
+                    body: JSON.stringify({ settlement_id: id, status: 'VERIFIED_PAID' })
                 });
                 const data = await res.json();
                 if (data.success) {
@@ -426,7 +495,11 @@
             document.getElementById('proofModal').style.display = 'none';
         }
 
+        // Jalankan saat load
         loadAdminData();
+        loadFleetMap();
+        setInterval(loadAdminData, 15000);
+        setInterval(loadFleetMap, 20000);
     </script>
 </body>
 </html>
