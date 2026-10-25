@@ -194,14 +194,17 @@
         }
 
         .hero-headline-row {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            align-items: start;
+            display: flex;
+            justify-content: center;
+            text-align: center;
         }
 
         .hero-text-left {
-            max-width: 580px;
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .hero-badge-pill {
@@ -243,12 +246,14 @@
             color: rgba(255, 255, 255, 0.85);
             line-height: 1.55;
             margin-bottom: 24px;
+            max-width: 620px;
         }
 
         /* CTA BUTTONS ROW */
         .hero-cta-group {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 14px;
             flex-wrap: wrap;
         }
@@ -297,42 +302,7 @@
             border-color: #FFFFFF;
         }
 
-        /* Right Side SPECS */
-        .hero-specs-right {
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            text-align: right;
-            align-self: flex-start;
-            background: rgba(2, 12, 34, 0.55);
-            padding: 18px 22px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(12px);
-        }
-        .specs-label {
-            font-size: 13px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: #93C5FD;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-        .spec-item {
-            display: flex;
-            justify-content: flex-end;
-            gap: 16px;
-            font-size: 12.5px;
-            color: rgba(255, 255, 255, 0.85);
-        }
-        .spec-name {
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 600;
-        }
-        .spec-val {
-            font-weight: 700;
-            color: #FFFFFF;
-        }
+
 
         /* CAR SHOWCASE STAGE */
         .hero-car-stage {
@@ -1516,14 +1486,8 @@
            12. RESPONSIVE BREAKPOINTS
            ============================================================== */
         @media (min-width: 992px) {
-            .hero-headline-row {
-                grid-template-columns: 1.2fr 0.8fr;
-            }
             .hero-big-title {
                 font-size: 52px;
-            }
-            .hero-specs-right {
-                display: flex;
             }
             .bottom-links-left {
                 display: flex;
@@ -1661,30 +1625,7 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SIDE SPECS -->
-                <div class="hero-specs-right">
-                    <div class="specs-label">*SPESIFIKASI ARMADA</div>
-                    <div class="spec-item">
-                        <span class="spec-name">Armada</span>
-                        <span class="spec-val" id="specModel">Toyota Innova Reborn</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-name">Tarif All-In</span>
-                        <span class="spec-val" id="specPrice" style="color: #60A5FA;">Rp 1.050.000</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-name">Kapasitas</span>
-                        <span class="spec-val" id="specCap">1-5 Penumpang &bull; 4 Koper</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-name">Fasilitas</span>
-                        <span class="spec-val">Mobil + BBM + Tol Penuh MBZ</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-name">Sistem Bayar</span>
-                        <span class="spec-val" style="color: #4ADE80;">0% DP (Bayar Cash di Tujuan)</span>
-                    </div>
-                </div>
+
             </div>
 
             <!-- CAR SHOWCASE STAGE -->
@@ -2396,11 +2337,7 @@
                 }, 180);
             }
 
-            // Update SPECS di hero
-            const specModel = document.getElementById('specModel');
-            const specCap = document.getElementById('specCap');
-            if (specModel) specModel.innerText = car.modelSpec;
-            if (specCap) specCap.innerText = car.capSpec;
+
 
             // Update Pagination Dots
             for (let i = 0; i < 3; i++) {
@@ -2447,9 +2384,7 @@
             const formatted = 'Rp ' + total.toLocaleString('id-ID');
 
             const bottomFare = document.getElementById('bottomFareText');
-            const specPrice = document.getElementById('specPrice');
             if (bottomFare) bottomFare.innerText = formatted;
-            if (specPrice) specPrice.innerText = formatted + ' (All-In)';
 
             return total;
         }
