@@ -122,48 +122,98 @@
             text-transform: uppercase;
         }
 
-        .luxury-nav-menu {
-            display: none;
-            align-items: center;
-            gap: 32px;
-            list-style: none;
-        }
-        .luxury-nav-link {
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.75);
-            font-size: 13.5px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: color 0.2s;
-        }
-        .luxury-nav-link:hover, .luxury-nav-link.active {
-            color: #FFFFFF;
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
-        }
-
-        .luxury-nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .btn-lacak-nav {
+        /* RADAR STATUS PILL DI TOP BAR */
+        .radar-status-pill {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 12.5px;
+            gap: 8px;
+            background: rgba(22, 163, 74, 0.18);
+            border: 1px solid rgba(74, 222, 128, 0.4);
+            color: #86EFAC;
+            font-size: 12px;
             font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.2s;
+            padding: 6px 14px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
         }
-        .btn-lacak-nav:hover {
-            background: #FFFFFF;
-            color: var(--primary-dark);
+        .radar-dot {
+            width: 7px;
+            height: 7px;
+            background: #4ADE80;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.4);
+            animation: pulse-ring 1.8s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(0.9); }
+        }
+
+        /* ==============================================================
+           ANDROID-STYLE FLOATING BOTTOM NAVIGATION DOCK (PC & MOBILE)
+           ============================================================== */
+        .android-bottom-dock {
+            position: fixed;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 110;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(2, 12, 34, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255, 255, 255, 0.16);
+            border-radius: 40px;
+            padding: 6px 10px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 25px rgba(11, 79, 216, 0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dock-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.65);
+            padding: 7px 16px;
+            border-radius: 28px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            min-width: 60px;
+        }
+
+        .dock-item:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dock-item.active {
+            color: #FFFFFF;
+            background: linear-gradient(135deg, rgba(11, 79, 216, 0.6), rgba(30, 64, 175, 0.8));
+            box-shadow: 0 4px 15px rgba(11, 79, 216, 0.35);
+        }
+
+        .dock-icon {
+            font-size: 17px;
+            line-height: 1.2;
+            margin-bottom: 2px;
+            transition: transform 0.2s;
+        }
+
+        .dock-item:hover .dock-icon {
+            transform: translateY(-2px);
+        }
+
+        .dock-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
 
         /* HERO MAIN BODY (DUAL-SIDE TYPOGRAPHY + CENTER CAR STAGE) */
@@ -807,9 +857,6 @@
            4. RESPONSIVE MEDIA QUERIES (DESKTOP & MOBILE)
            ============================================================== */
         @media (min-width: 992px) {
-            .luxury-nav-menu {
-                display: flex;
-            }
             .hero-headline-row {
                 grid-template-columns: 1fr 1fr;
             }
@@ -830,6 +877,29 @@
         @media (max-width: 768px) {
             .hero-big-title {
                 font-size: 32px;
+            }
+            .android-bottom-dock {
+                bottom: 12px;
+                width: calc(100% - 24px);
+                max-width: 440px;
+                justify-content: space-around;
+                padding: 5px 8px;
+            }
+            .dock-item {
+                padding: 5px 8px;
+                min-width: auto;
+            }
+            .dock-icon {
+                font-size: 16px;
+            }
+            .dock-label {
+                font-size: 10px;
+            }
+            .btn-ai-float {
+                bottom: 78px;
+                right: 16px;
+                padding: 9px 14px;
+                font-size: 12px;
             }
             .fleet-selector-grid {
                 grid-template-columns: 1fr;
@@ -857,24 +927,18 @@
     <!-- 1. LUXURY HERO WRAPPER (ROYAL BLUE SATIN STYLE) -->
     <div class="luxury-hero-wrapper">
         
-        <!-- TOP NAVIGATION BAR -->
+        <!-- TOP BRAND BAR (BERSIH & MEWAH, MENU PINDAH KE BOTTOM BAR) -->
         <nav class="luxury-navbar">
             <a href="/" class="luxury-brand">
                 <div class="luxury-logo-symbol">🚗</div>
                 <div class="luxury-brand-name">TRAVEEGO</div>
             </a>
 
-            <ul class="luxury-nav-menu">
-                <li><a href="#hero" class="luxury-nav-link active">Home</a></li>
-                <li><a href="#pesan" class="luxury-nav-link">Pesan Sekarang</a></li>
-                <li><a href="#armada" class="luxury-nav-link">Armada</a></li>
-                <li><a href="#keunggulan" class="luxury-nav-link">Keunggulan</a></li>
-                <li><a href="#faq" class="luxury-nav-link">FAQ</a></li>
-            </ul>
-
             <div class="luxury-nav-actions">
-                <a href="/trip.html" class="btn-lacak-nav">📍 Lacak Booking</a>
-                <a href="/driver.html" class="btn-lacak-nav" style="border-color: rgba(255,255,255,0.4);">Mitra Sopir</a>
+                <div class="radar-status-pill">
+                    <span class="radar-dot"></span>
+                    <span>18 Sopir Siap di Radar</span>
+                </div>
             </div>
         </nav>
 
@@ -1157,7 +1221,35 @@
         </div>
     </footer>
 
-    <!-- 5. FLOATING AI BUTTON -->
+    <!-- 5. FLOATING ANDROID-STYLE BOTTOM NAVIGATION DOCK (PC & MOBILE) -->
+    <nav class="android-bottom-dock" id="androidBottomDock">
+        <a href="#hero" class="dock-item active" data-section="hero">
+            <span class="dock-icon">🏠</span>
+            <span class="dock-label">Home</span>
+        </a>
+        <a href="#pesan" class="dock-item" data-section="pesan">
+            <span class="dock-icon">📋</span>
+            <span class="dock-label">Pesan</span>
+        </a>
+        <a href="#armada" class="dock-item" data-section="armada">
+            <span class="dock-icon">🚘</span>
+            <span class="dock-label">Armada</span>
+        </a>
+        <a href="#keunggulan" class="dock-item" data-section="keunggulan">
+            <span class="dock-icon">⭐</span>
+            <span class="dock-label">Keunggulan</span>
+        </a>
+        <a href="/trip.html" class="dock-item">
+            <span class="dock-icon">📍</span>
+            <span class="dock-label">Lacak</span>
+        </a>
+        <a href="/driver.html" class="dock-item">
+            <span class="dock-icon">🚖</span>
+            <span class="dock-label">Sopir</span>
+        </a>
+    </nav>
+
+    <!-- 6. FLOATING AI BUTTON -->
     <button type="button" class="btn-ai-float" onclick="openChatSheet()">
         <span>🤖</span>
         <span>Tanya Tiara CS</span>
@@ -1382,6 +1474,24 @@
 
         // Run on load
         calculateFare();
+
+        // ScrollSpy untuk Android Bottom Dock
+        const dockSections = ['hero', 'pesan', 'armada', 'keunggulan'];
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY + 220;
+            dockSections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const top = el.offsetTop;
+                    const height = el.offsetHeight;
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        document.querySelectorAll('.dock-item[data-section]').forEach(item => {
+                            item.classList.toggle('active', item.getAttribute('data-section') === id);
+                        });
+                    }
+                }
+            });
+        }, { passive: true });
     </script>
 </body>
 </html>
