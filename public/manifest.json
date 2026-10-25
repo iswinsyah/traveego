@@ -1,0 +1,22 @@
+{
+  "name": "Traveego Driver - Mitra Drop Off",
+  "short_name": "Traveego Mitra",
+  "description": "Aplikasi Lelang & Orderan Khusus Mitra Sopir Mandiri Traveego",
+  "start_url": "/driver",
+  "display": "standalone",
+  "background_color": "#0F4C81",
+  "theme_color": "#0F4C81",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

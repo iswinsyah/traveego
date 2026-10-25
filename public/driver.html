@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Traveego Mitra | PWA Sopir Mandiri</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0F4C81">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        :root {
+            --primary-blue: #0F4C81;
+            --primary-dark: #0A3258;
+            --primary-light: #EBF4FC;
+            --accent-green: #25D366;
+            --accent-green-hover: #1EBE5D;
+            --accent-gold: #F59E0B;
+            --bg-body: #F1F5F9;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .app-header {
+            background: var(--primary-blue);
+            color: #FFF;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .app-title {
+            font-size: 17px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .driver-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        /* LOGIN SCREEN */
+        .login-card {
+            background: #FFF;
+            padding: 30px 24px;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .login-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: block;
+            margin-bottom: 6px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--primary-blue);
+            color: #FFF;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(15, 76, 129, 0.3);
+            margin-top: 8px;
+        }
+
+        /* DRIVER PROFILE CARD */
+        .profile-card {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #E2E8F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile-info h3 { font-size: 15px; font-weight: 800; }
+        .profile-car { font-size: 13px; color: var(--primary-blue); font-weight: 700; margin-top: 2px; }
+        .profile-plate { font-size: 11px; background: #000; color: #FFF; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+
+        .btn-logout {
+            background: #FEE2E2;
+            color: #DC2626;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* SECTION TABS */
+        .radar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0 12px;
+        }
+        .radar-title {
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .radar-pulse {
+            width: 10px;
+            height: 10px;
+            background: #16A34A;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.3);
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(0.9); }
+        }
+
+        /* ORDER AUCTION CARD */
+        .auction-card {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auction-badge-time {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--primary-light);
+            color: var(--primary-blue);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .trip-point {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .trip-point strong { color: var(--text-main); font-weight: 700; }
+
+        .fare-row {
+            background: #F8FAFC;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 14px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fare-guest {
+            font-size: 16px;
+            font-weight: 800;
+            color: #16A34A;
+        }
+
+        .fare-commission {
+            font-size: 12px;
+            color: #DC2626;
+            font-weight: 700;
+        }
+
+        /* ATOMIC LOCK BUTTON (HIJAU WHATSAPP) */
+        .btn-take-order {
+            width: 100%;
+            background: var(--accent-green);
+            color: #FFF;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            transition: all 0.2s;
+        }
+        .btn-take-order:active {
+            transform: scale(0.98);
+        }
+
+        /* ACTIVE TRIP CONTAINER */
+        .active-trip-box {
+            background: #FFF;
+            border: 2px solid var(--primary-blue);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(15, 76, 129, 0.12);
+        }
+
+        .trip-status-badge {
+            background: var(--primary-blue);
+            color: #FFF;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .btn-status-flow {
+            width: 100%;
+            background: var(--primary-blue);
+            color: #FFF;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        /* SETTLEMENT SECTION (PASCA-BAYAR) */
+        .settlement-card {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .admin-bank-box {
+            background: var(--primary-light);
+            border: 1px dashed var(--primary-blue);
+            border-radius: 10px;
+            padding: 14px;
+            margin: 12px 0 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-copy-account {
+            background: var(--primary-blue);
+            color: #FFF;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .empty-radar {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1px dashed #CBD5E1;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="app-title">
+            <span>🚘 Traveego Driver</span>
+            <span class="driver-badge" id="onlineBadge">STANDBY</span>
+        </div>
+        <div style="font-size: 12px; font-weight: 700;" id="headerDriverName">Mitra Mandiri</div>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. TAMPILAN LOGIN (JIKA BELUM LOGIN) -->
+        <div id="loginScreen" class="login-card">
+            <div class="login-logo">👋</div>
+            <h2 class="login-title">Login Mitra Sopir</h2>
+            <p class="login-subtitle">Masukkan No. WhatsApp dan PIN untuk masuk ke radar lelang Traveego.</p>
+
+            <div class="form-group">
+                <label>Nomor WhatsApp Terdaftar</label>
+                <input type="tel" id="loginPhone" class="form-control" placeholder="Cth: 081234567891" value="081234567891">
+            </div>
+            <div class="form-group">
+                <label>PIN Cepat (Default: 1234)</label>
+                <input type="password" id="loginPin" class="form-control" placeholder="4 Digit PIN" value="1234" maxlength="6">
+            </div>
+
+            <button type="button" class="btn-primary" onclick="doDriverLogin()">Masuk ke Radar Lelang</button>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 14px;">
+                *Akun contoh siap pakai: <b>081234567891</b> (PIN: <b>1234</b>)
+            </div>
+        </div>
+
+        <!-- 2. TAMPILAN DASHBOARD PWA (SETELAH LOGIN) -->
+        <div id="mainDashboard" style="display: none;">
+            
+            <!-- PROFIL SINGKAT -->
+            <div class="profile-card">
+                <div class="profile-info">
+                    <h3 id="driverProfileName">Pak Budi Santoso</h3>
+                    <div class="profile-car" id="driverProfileCar">Toyota Avanza Veloz</div>
+                    <div class="profile-plate" id="driverProfilePlate">B 1823 KBC</div>
+                </div>
+                <button class="btn-logout" onclick="doDriverLogout()">Keluar</button>
+            </div>
+
+            <!-- PESANAN YANG SEDANG DIJALANKAN (JIKA ADA) -->
+            <div id="activeTripSection" style="display: none;">
+                <div class="active-trip-box">
+                    <div class="trip-status-badge" id="activeStatusBadge">SEDANG BERJALAN</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Kode Booking: <b id="activeTrackingCode">TRX-....</b></div>
+                    <h3 style="font-size: 16px; margin-bottom: 12px;" id="activeCustomerName">Ibu Maya Lestari</h3>
+
+                    <div class="trip-point">
+                        <span>🟢</span>
+                        <div><b>Jemput:</b> <span id="activePickup">Bandara Soetta</span></div>
+                    </div>
+                    <div class="trip-point">
+                        <span>🔴</span>
+                        <div><b>Tujuan:</b> <span id="activeDest">Dago Bandung</span></div>
+                    </div>
+
+                    <div class="fare-row">
+                        <div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Tagih Cash ke Tamu:</div>
+                            <div class="fare-guest" id="activeFareGuest">Rp 1.050.000</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 11px; color: var(--text-muted);">Setoran Komisi Admin:</div>
+                            <div class="fare-commission" id="activeFareCommission">Rp 105.000</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-status-flow" id="btnNextStatus" onclick="progressTripStatus()">
+                        Saya Sudah Menuju Lokasi Jemput &rarr;
+                    </button>
+                </div>
+            </div>
+
+            <!-- FORM SETORAN KOMISI PASCA-BAYAR (MUNCUL JIKA TRIP SUDAH SELESAI) -->
+            <div id="settlementSection" style="display: none;">
+                <div class="settlement-card">
+                    <h3 style="font-size: 16px; color: var(--primary-dark); margin-bottom: 6px;">💳 Konfirmasi Setoran Komisi</h3>
+                    <p style="font-size: 12px; color: var(--text-muted);">Perjalanan selesai dan Anda telah menerima uang cash dari tamu. Silakan transfer bagi hasil admin ke rekening di bawah ini:</p>
+
+                    <div class="admin-bank-box">
+                        <div>
+                            <div style="font-weight: 800; color: var(--primary-blue);" id="bankNameDisplay">BCA</div>
+                            <div style="font-size: 17px; font-weight: 800; letter-spacing: 1px;" id="bankAccountDisplay">1234567890</div>
+                            <div style="font-size: 12px; color: var(--text-muted);" id="bankHolderDisplay">a/n Traveego Operasional</div>
+                        </div>
+                        <button class="btn-copy-account" onclick="copyBankAccount()">Salin No. Rek</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bank Pengirim Anda</label>
+                        <select id="senderBank" class="form-control">
+                            <option value="BCA">BCA</option>
+                            <option value="Mandiri">Mandiri</option>
+                            <option value="BRI">BRI</option>
+                            <option value="BNI">BNI</option>
+                            <option value="BSI">BSI</option>
+                            <option value="Seabank">SeaBank / Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nama Pemilik Rekening Pengirim</label>
+                        <input type="text" id="senderName" class="form-control" placeholder="Nama Anda di M-Banking">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Foto Bukti Transfer (Screenshot M-Banking)</label>
+                        <input type="file" id="proofImage" class="form-control" accept="image/*">
+                    </div>
+
+                    <button type="button" class="btn-primary" style="background: #16A34A;" onclick="submitSettlementProof()">
+                        Kirim Bukti Transfer ke Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- RADAR LELANG (SIAPA CEPAT DIA DAPAT) -->
+            <div class="radar-header">
+                <div class="radar-title">
+                    <span class="radar-pulse"></span>
+                    <span>Radar Lelang Orderan</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);" id="auctionCount">0 Order Terbuka</div>
+            </div>
+
+            <div id="auctionOrdersList">
+                <div class="empty-radar">
+                    <div style="font-size: 32px; margin-bottom: 8px;">📡</div>
+                    <b>Belum Ada Orderan Baru di Radar</b>
+                    <p style="font-size: 12px; margin-top: 4px;">Tetap standby, orderan dari web Google Rank 1 akan muncul di sini secara otomatis.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- AUDIO NOTIFIKASI TING-TING! -->
+    <audio id="audioAlert" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+    <script>
+        let currentDriver = null;
+        let activeOrder = null;
+        const socket = io();
+
+        // Register Service Worker PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(() => {
+                console.log('✅ Service Worker PWA Driver Aktif!');
+            }).catch(console.error);
+        }
+
+        // Cek LocalStorage untuk login otomatis
+        const savedDriver = localStorage.getItem('traveego_driver');
+        if (savedDriver) {
+            try {
+                currentDriver = JSON.parse(savedDriver);
+                showDashboard();
+            } catch (e) {}
+        }
+
+        // Socket.io Realtime Listener
+        socket.on('new_auction_order', (order) => {
+            console.log('⚡ Order baru masuk radar:', order);
+            playAlertSound();
+            loadAuctionOrders();
+        });
+
+        socket.on('order_taken', (data) => {
+            console.log('Order diambil orang:', data.orderId);
+            loadAuctionOrders();
+        });
+
+        function playAlertSound() {
+            const audio = document.getElementById('audioAlert');
+            if (audio) audio.play().catch(() => {});
+        }
+
+        async function doDriverLogin() {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const pin = document.getElementById('loginPin').value.trim();
+
+            if (!phone || !pin) {
+                alert('Silakan masukkan No. WA dan PIN');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/driver/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, pin })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    currentDriver = data.driver;
+                    activeOrder = data.activeOrder;
+                    localStorage.setItem('traveego_driver', JSON.stringify(currentDriver));
+                    showDashboard();
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert('Gagal login: ' + err.message);
+            }
+        }
+
+        function doDriverLogout() {
+            if (confirm('Yakin ingin keluar?')) {
+                localStorage.removeItem('traveego_driver');
+                currentDriver = null;
+                activeOrder = null;
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('mainDashboard').style.display = 'none';
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainDashboard').style.display = 'block';
+            document.getElementById('driverProfileName').innerText = currentDriver.name;
+            document.getElementById('driverProfileCar').innerText = currentDriver.car_model;
+            document.getElementById('driverProfilePlate').innerText = currentDriver.car_plate;
+            document.getElementById('headerDriverName').innerText = currentDriver.name.split(' ')[0];
+
+            loadConfigBank();
+            loadAuctionOrders();
+            renderActiveTrip();
+        }
+
+        async function loadConfigBank() {
+            try {
+                const res = await fetch('/api/config');
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('bankNameDisplay').innerText = data.adminBank.bank;
+                    document.getElementById('bankAccountDisplay').innerText = data.adminBank.account;
+                    document.getElementById('bankHolderDisplay').innerText = 'a/n ' + data.adminBank.holder;
+                }
+            } catch (e) {}
+        }
+
+        function copyBankAccount() {
+            const acc = document.getElementById('bankAccountDisplay').innerText;
+            navigator.clipboard.writeText(acc);
+            alert('✅ Nomor rekening disalin: ' + acc);
+        }
+
+        async function loadAuctionOrders() {
+            try {
+                const res = await fetch('/api/orders/auction');
+                const data = await res.json();
+                const list = document.getElementById('auctionOrdersList');
+                
+                if (data.success && data.data.length > 0) {
+                    document.getElementById('auctionCount').innerText = `${data.data.length} Order Terbuka`;
+                    list.innerHTML = '';
+                    
+                    data.data.forEach(order => {
+                        const card = document.createElement('div');
+                        card.className = 'auction-card';
+                        card.innerHTML = `
+                            <div class="auction-badge-time">LELANG AKTIF</div>
+                            <div style="font-size: 14px; font-weight: 800; margin-bottom: 8px;">${order.tracking_code} &bull; ${order.car_type}</div>
+                            <div class="trip-point">
+                                <span>🟢</span>
+                                <div><b>Jemput:</b> ${order.pickup_address}</div>
+                            </div>
+                            <div class="trip-point">
+                                <span>🔴</span>
+                                <div><b>Tujuan:</b> ${order.destination_address}</div>
+                            </div>
+                            <div class="fare-row">
+                                <div>
+                                    <div style="font-size: 11px; color: var(--text-muted);">Cash dari Tamu:</div>
+                                    <div class="fare-guest">Rp ${parseFloat(order.total_fare).toLocaleString('id-ID')}</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 11px; color: var(--text-muted);">Setor Komisi:</div>
+                                    <div class="fare-commission">Rp ${parseFloat(order.admin_commission).toLocaleString('id-ID')}</div>
+                                </div>
+                            </div>
+                            <button class="btn-take-order" onclick="takeOrder(${order.id})">
+                                <span>⚡ AMBIL ORDER INI</span>
+                            </button>
+                        `;
+                        list.appendChild(card);
+                    });
+                } else {
+                    document.getElementById('auctionCount').innerText = `0 Order Terbuka`;
+                    list.innerHTML = `
+                        <div class="empty-radar">
+                            <div style="font-size: 32px; margin-bottom: 8px;">📡</div>
+                            <b>Belum Ada Orderan Baru di Radar</b>
+                            <p style="font-size: 12px; margin-top: 4px;">Tetap standby, orderan dari web Google Rank 1 akan muncul di sini secara otomatis.</p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // AMBIL ORDER DENGAN ATOMIC LOCK
+        async function takeOrder(orderId) {
+            if (!confirm('Yakin ingin mengambil orderan ini? Siapa cepat dia dapat!')) return;
+
+            try {
+                const res = await fetch(`/api/orders/${orderId}/accept`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ driver_id: currentDriver.id })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini!\nSilakan segera hubungi tamu dan luncur ke titik penjemputan.');
+                    activeOrder = data.data;
+                    renderActiveTrip();
+                    loadAuctionOrders();
+                } else {
+                    alert('⚠️ ' + data.message);
+                    loadAuctionOrders();
+                }
+            } catch (err) {
+                alert('Gagal mengambil order: ' + err.message);
+            }
+        }
+
+        function renderActiveTrip() {
+            const section = document.getElementById('activeTripSection');
+            const settlementSection = document.getElementById('settlementSection');
+
+            if (!activeOrder || activeOrder.status === 'CANCELLED') {
+                section.style.display = 'none';
+                settlementSection.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            document.getElementById('activeTrackingCode').innerText = activeOrder.tracking_code;
+            document.getElementById('activeCustomerName').innerText = `${activeOrder.customer_name} (${activeOrder.customer_phone})`;
+            document.getElementById('activePickup').innerText = activeOrder.pickup_address;
+            document.getElementById('activeDest').innerText = activeOrder.destination_address;
+            document.getElementById('activeFareGuest').innerText = 'Rp ' + parseFloat(activeOrder.total_fare).toLocaleString('id-ID');
+            document.getElementById('activeFareCommission').innerText = 'Rp ' + parseFloat(activeOrder.admin_commission).toLocaleString('id-ID');
+
+            const badge = document.getElementById('activeStatusBadge');
+            const btnNext = document.getElementById('btnNextStatus');
+
+            if (activeOrder.status === 'ACCEPTED') {
+                badge.innerText = 'STATUS: ORDER DITERIMA';
+                btnNext.innerText = '🚘 Saya Sudah Menuju Lokasi Jemput';
+                btnNext.style.display = 'block';
+                settlementSection.style.display = 'none';
+            } else if (activeOrder.status === 'ON_THE_WAY') {
+                badge.innerText = 'STATUS: MENUJU PENJEMPUTAN';
+                btnNext.innerText = '📍 Saya Sudah Tiba di Titik Jemput';
+                btnNext.style.display = 'block';
+                settlementSection.style.display = 'none';
+            } else if (activeOrder.status === 'ARRIVED') {
+                badge.innerText = 'STATUS: TIBA DI LOKASI JEMPUT';
+                btnNext.innerText = '🛣️ Tamu Sudah Naik - Mulai Perjalanan';
+                btnNext.style.display = 'block';
+                settlementSection.style.display = 'none';
+            } else if (activeOrder.status === 'IN_TRIP') {
+                badge.innerText = 'STATUS: SEDANG ANTAR TAMU';
+                btnNext.innerText = '✅ Selesaikan Perjalanan & Tagih Cash';
+                btnNext.style.display = 'block';
+                settlementSection.style.display = 'none';
+            } else if (activeOrder.status === 'COMPLETED') {
+                badge.innerText = 'STATUS: PERJALANAN SELESAI';
+                btnNext.style.display = 'none';
+                settlementSection.style.display = 'block';
+            }
+        }
+
+        async function progressTripStatus() {
+            if (!activeOrder) return;
+            let nextStatus = '';
+
+            if (activeOrder.status === 'ACCEPTED') nextStatus = 'ON_THE_WAY';
+            else if (activeOrder.status === 'ON_THE_WAY') nextStatus = 'ARRIVED';
+            else if (activeOrder.status === 'ARRIVED') nextStatus = 'IN_TRIP';
+            else if (activeOrder.status === 'IN_TRIP') nextStatus = 'COMPLETED';
+
+            try {
+                const res = await fetch(`/api/orders/${activeOrder.id}/status`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        status: nextStatus,
+                        driver_id: currentDriver.id
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    activeOrder.status = nextStatus;
+                    renderActiveTrip();
+                } else {
+                    alert('Gagal update status: ' + data.message);
+                }
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        async function submitSettlementProof() {
+            if (!activeOrder) return;
+            const bank = document.getElementById('senderBank').value;
+            const senderName = document.getElementById('senderName').value.trim();
+            const fileInput = document.getElementById('proofImage');
+
+            if (!senderName) {
+                alert('Mohon isi nama pemilik rekening pengirim.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('driver_id', currentDriver.id);
+            formData.append('amount', activeOrder.admin_commission);
+            formData.append('bank_sender', bank);
+            formData.append('sender_name', senderName);
+            if (fileInput.files[0]) {
+                formData.append('proof_image', fileInput.files[0]);
+            }
+
+            try {
+                const res = await fetch(`/api/orders/${activeOrder.id}/settle-commission`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('🎉 Terima kasih! Konfirmasi setoran berhasil dikirim. Admin akan segera memverifikasi struk Anda.');
+                    activeOrder = null;
+                    renderActiveTrip();
+                    loadAuctionOrders();
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert('Gagal mengirim setoran: ' + err.message);
+            }
+        }
+    </script>
+</body>
+</html>

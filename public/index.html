@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Traveego Drop-Off | Sewa Mobil Sekali Jalan Jakarta - Bandung All-In</title>
+    <meta name="description" content="Layanan drop-off mobil antarkota sekali jalan Jakarta, Bandung, Bandara Soetta. Armada bersih mandiri, tarif all-in tol & BBM, bayar cash ke sopir.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0F4C81;
+            --primary-dark: #0A2E50;
+            --primary-soft: #EBF4FC;
+            --accent-green: #25D366;
+            --accent-green-hover: #1EBE5D;
+            --accent-amber: #F59E0B;
+            --bg-canvas: #F4F6F9;
+            --bg-card: #FFFFFF;
+            --text-title: #0F172A;
+            --text-body: #475569;
+            --text-muted: #94A3B8;
+            --border-subtle: #E2E8F0;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-card: 0 4px 15px -2px rgba(15, 76, 129, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+            --shadow-float: 0 10px 25px -5px rgba(15, 76, 129, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-title);
+            line-height: 1.5;
+            padding-bottom: 95px; /* Space for sticky bottom action bar */
+        }
+
+        /* CONTAINER DIBIKIN MAKSIMAL LEBAR SMARTPHONE / TABLET AGAR RASA NATIVE APP */
+        .app-shell {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.06);
+        }
+
+        /* TOP APP BAR (ANDROID STYLE) */
+        .top-app-bar {
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .brand-icon {
+            font-size: 22px;
+        }
+        .brand-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: -0.5px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #DCFCE7;
+            color: #15803D;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: #16A34A;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.4);
+            animation: pulse-ring 1.8s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(0.9); }
+        }
+
+        /* HERO CARD BANNER */
+        .hero-banner {
+            padding: 18px 16px 12px;
+            background: linear-gradient(180deg, #EBF4FC 0%, #FFFFFF 100%);
+        }
+
+        .trust-micro-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            background: #FFFFFF;
+            padding: 3px 10px;
+            border-radius: 12px;
+            border: 1px solid #CBD5E1;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+        .hero-subtitle {
+            font-size: 13px;
+            color: var(--text-body);
+        }
+
+        /* SECTION PADDING */
+        .app-body {
+            padding: 0 16px 20px;
+        }
+
+        /* RUTE SELECTOR TABS */
+        .section-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin: 16px 0 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .route-card-select {
+            background: var(--bg-canvas);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            border: 1.5px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .route-card-select:hover, .route-card-select:focus-within {
+            border-color: var(--primary-blue);
+            background: #FFFFFF;
+        }
+
+        .route-main-text {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        select.route-native-select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* INPUT CARD (FORM TITIK JEMPUT & TUJUAN) */
+        .location-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 6px 14px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 14px;
+        }
+
+        .location-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+        }
+        .location-row:first-child {
+            border-bottom: 1px dashed var(--border-subtle);
+        }
+        .loc-icon {
+            font-size: 16px;
+            width: 24px;
+            text-align: center;
+        }
+        .loc-content {
+            flex: 1;
+        }
+        .loc-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .loc-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-title);
+            background: transparent;
+            padding: 2px 0 0;
+        }
+        .loc-input::placeholder {
+            color: #94A3B8;
+            font-weight: 500;
+        }
+
+        /* HORIZONTAL SCROLL CAR SELECTION (TOUCHABLE CHIPS) */
+        .cars-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+            scrollbar-width: none;
+        }
+        .cars-scroll::-webkit-scrollbar { display: none; }
+
+        .car-chip {
+            flex: 0 0 155px;
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .car-chip.active {
+            border-color: var(--primary-blue);
+            background: var(--primary-soft);
+            box-shadow: 0 4px 12px rgba(15, 76, 129, 0.12);
+        }
+
+        .car-badge-best {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--accent-amber);
+            color: #FFF;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .car-emoji {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .car-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-title);
+            margin-bottom: 2px;
+        }
+        .car-spec {
+            font-size: 10.5px;
+            color: var(--text-body);
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .car-price-tag {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        /* DATA PEMESAN CARD */
+        .user-info-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 14px;
+        }
+
+        .input-inline-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .field-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .field-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-body);
+        }
+        .field-input {
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-canvas);
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+            width: 100%;
+        }
+        .field-input:focus {
+            border-color: var(--primary-blue);
+            background: #FFF;
+        }
+
+        /* BENEFIT BULLETS (MOBILE ACCORDION / HIGHLIGHT) */
+        .benefit-banner {
+            background: #F8FAFC;
+            border-radius: var(--radius-md);
+            padding: 12px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 16px;
+        }
+        .benefit-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        .benefit-icon { font-size: 18px; }
+        .benefit-txt { font-size: 11px; font-weight: 700; color: var(--text-body); }
+
+        /* FLOATING AI ASSISTANT PILL */
+        .ai-assistant-pill {
+            background: #FFFFFF;
+            border: 1.5px solid var(--primary-blue);
+            border-radius: 30px;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.2s;
+        }
+        .ai-assistant-pill:active { transform: scale(0.98); }
+        .ai-pill-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        /* STICKY BOTTOM APP ACTION BAR (MOBILE FIRST CTA) */
+        .bottom-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-subtle);
+            padding: 10px 16px;
+            z-index: 100;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .bar-inner {
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .fare-summary {
+            flex: 0 0 auto;
+        }
+        .fare-subtext {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .fare-total-number {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            line-height: 1.2;
+        }
+        .fare-allin-tag {
+            font-size: 9px;
+            background: #16A34A;
+            color: #FFF;
+            padding: 1px 5px;
+            border-radius: 3px;
+            vertical-align: middle;
+        }
+
+        /* TOMBOL HIJAU WHATSAPP (CTA UTAMA) */
+        .btn-cta-green {
+            flex: 1;
+            background: var(--accent-green);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            padding: 13px 14px;
+            font-size: 14.5px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+            transition: all 0.2s;
+        }
+        .btn-cta-green:active {
+            transform: scale(0.97);
+            background: var(--accent-green-hover);
+        }
+
+        /* BOTTOM DRAWER (SHEET) FOR AI CHAT */
+        .chat-bottom-sheet {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .chat-sheet-panel {
+            background: #FFFFFF;
+            width: 100%;
+            max-width: 480px;
+            height: 75vh;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+            animation: slideUp 0.25s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .sheet-header {
+            background: var(--primary-blue);
+            color: #FFF;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sheet-title {
+            font-size: 15px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sheet-close {
+            background: none;
+            border: none;
+            color: #FFF;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .sheet-body {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
+            background: var(--bg-canvas);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            line-height: 1.4;
+        }
+        .chat-ai {
+            background: #FFFFFF;
+            color: var(--text-title);
+            align-self: flex-start;
+            border: 1px solid var(--border-subtle);
+            border-bottom-left-radius: 2px;
+        }
+        .chat-user {
+            background: var(--primary-blue);
+            color: #FFFFFF;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .sheet-footer {
+            padding: 10px 14px;
+            background: #FFFFFF;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            gap: 8px;
+        }
+        .sheet-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            font-size: 13.5px;
+            outline: none;
+        }
+        .sheet-send {
+            background: var(--primary-blue);
+            color: #FFF;
+            border: none;
+            border-radius: 20px;
+            padding: 0 16px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* QUICK FOOTER LINKS (PORTAL MITRA / ADMIN) */
+        .app-footer-nav {
+            text-align: center;
+            padding: 24px 16px 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 20px;
+        }
+        .app-footer-nav a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 700;
+            margin: 0 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-shell">
+
+        <!-- 1. TOP APP BAR (MOBILE HEADER) -->
+        <header class="top-app-bar">
+            <a href="/" class="brand-box">
+                <span class="brand-icon">🌊</span>
+                <span class="brand-name">Traveego</span>
+            </a>
+            <div class="status-pill">
+                <span class="pulse-dot"></span>
+                <span>24 Jam Siap Antar</span>
+            </div>
+        </header>
+
+        <!-- 2. HERO BANNER -->
+        <div class="hero-banner">
+            <div class="trust-micro-badge">
+                ⭐ Terpercaya Sejak 2014 &bull; Tanpa Calo
+            </div>
+            <h1 class="hero-title">Drop-Off Antarkota Sekali Jalan</h1>
+            <p class="hero-subtitle">Jemput di depan pintu &bull; Langsung tol tanpa ngetem &bull; All-In</p>
+        </div>
+
+        <main class="app-body">
+
+            <!-- 3. PILIH RUTE PERJALANAN -->
+            <div class="section-label">
+                <span>1. Pilih Rute Perjalanan</span>
+                <span style="color: var(--primary-blue); font-size: 11px; cursor: pointer;">Jalur Tol Utama</span>
+            </div>
+
+            <div class="route-card-select">
+                <select id="routeSelect" class="route-native-select" onchange="calculateFare()">
+                    <option value="1" data-fare="700000">Jakarta &rarr; Bandung Kota (Rp 700.000)</option>
+                    <option value="2" data-fare="750000" selected>Bandara Soetta &rarr; Bandung (Rp 750.000)</option>
+                    <option value="3" data-fare="700000">Bandung &rarr; Jakarta Kota (Rp 700.000)</option>
+                    <option value="4" data-fare="750000">Bandung &rarr; Bandara Soetta (Rp 750.000)</option>
+                    <option value="5" data-fare="450000">Surabaya &rarr; Malang / Batu (Rp 450.000)</option>
+                </select>
+            </div>
+
+            <!-- 4. TITIK JEMPUT & TUJUAN -->
+            <div class="section-label">
+                <span>2. Detail Lokasi & Waktu</span>
+            </div>
+
+            <div class="location-card">
+                <div class="location-row">
+                    <div class="loc-icon">🟢</div>
+                    <div class="loc-content">
+                        <div class="loc-label">Titik Penjemputan</div>
+                        <input type="text" id="pickupAddress" class="loc-input" placeholder="Cth: Terminal 3 Kedatangan / Rumah / Kantor">
+                    </div>
+                </div>
+                <div class="location-row">
+                    <div class="loc-icon">🔴</div>
+                    <div class="loc-content">
+                        <div class="loc-label">Alamat Tujuan Pengantaran</div>
+                        <input type="text" id="destAddress" class="loc-input" placeholder="Cth: Dago / Pasteur / Hotel di Bandung">
+                    </div>
+                </div>
+                <div class="location-row" style="border-top: 1px dashed var(--border-subtle);">
+                    <div class="loc-icon">📅</div>
+                    <div class="loc-content">
+                        <div class="loc-label">Tanggal & Jam Penjemputan</div>
+                        <input type="datetime-local" id="pickupTime" class="loc-input" style="font-weight: 600; color: var(--primary-blue);">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. PILIH ARMADA MOBIL (TOUCHABLE CARDS) -->
+            <div class="section-label">
+                <span>3. Pilih Kategori Mobil</span>
+                <span style="font-size: 11px; color: var(--text-muted);">Geser &rarr;</span>
+            </div>
+
+            <div class="cars-scroll">
+                <!-- Avanza -->
+                <div class="car-chip" onclick="selectCar('Avanza/Xpander', 1, this)">
+                    <div class="car-emoji">🚗</div>
+                    <div class="car-name">Avanza / Xpander</div>
+                    <div class="car-spec">👥 1-4 Org &bull; 🧳 2 Koper</div>
+                    <div class="car-price-tag" id="priceTagAvanza">Rp 750.000</div>
+                </div>
+
+                <!-- Innova Reborn (Active Default) -->
+                <div class="car-chip active" onclick="selectCar('Toyota Innova Reborn', 1.4, this)">
+                    <div class="car-badge-best">FAVORIT</div>
+                    <div class="car-emoji">🚙</div>
+                    <div class="car-name">Innova Reborn</div>
+                    <div class="car-spec">👥 1-5 Org &bull; 🧳 4 Koper</div>
+                    <div class="car-price-tag" id="priceTagInnova">Rp 1.050.000</div>
+                </div>
+
+                <!-- Hiace -->
+                <div class="car-chip" onclick="selectCar('Toyota Hiace Commuter', 2.3, this)">
+                    <div class="car-emoji">🚐</div>
+                    <div class="car-name">Hiace Commuter</div>
+                    <div class="car-spec">👥 8-12 Org &bull; 🧳 Lega</div>
+                    <div class="car-price-tag" id="priceTagHiace">Rp 1.750.000</div>
+                </div>
+            </div>
+
+            <!-- 6. DATA KONTAK PEMESAN -->
+            <div class="section-label">
+                <span>4. Kontak Pemesan (Untuk Notifikasi WA)</span>
+            </div>
+
+            <div class="user-info-card">
+                <div class="input-inline-grid">
+                    <div class="field-box">
+                        <label class="field-label">Nama Anda</label>
+                        <input type="text" id="custName" class="field-input" placeholder="Cth: Bpk. Dani">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Nomor WhatsApp</label>
+                        <input type="tel" id="custPhone" class="field-input" placeholder="0812xxxxxxxx">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BENEFIT STRIP -->
+            <div class="benefit-banner">
+                <div class="benefit-item">
+                    <span class="benefit-icon">🛡️</span>
+                    <span class="benefit-txt">Tanpa Calo</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🛣️</span>
+                    <span class="benefit-txt">All-In Tol</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">💵</span>
+                    <span class="benefit-txt">Cash ke Sopir</span>
+                </div>
+            </div>
+
+            <!-- FLOATING AI ASSISTANT TRIGGER -->
+            <div class="ai-assistant-pill" onclick="openChatSheet()">
+                <div class="ai-pill-left">
+                    <span>🤖</span>
+                    <span>Butuh Info Khusus? Tanya CS AI Tiara</span>
+                </div>
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Chat &rarr;</span>
+            </div>
+
+            <!-- FOOTER LINKS -->
+            <div class="app-footer-nav">
+                <p>&copy; 2026 Traveego Drop-Off &bull; drop-off.online</p>
+                <div style="margin-top: 6px;">
+                    <a href="/driver">🚘 Portal Sopir</a> &bull;
+                    <a href="/admin">👑 Admin Ops</a>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- STICKY BOTTOM APP BAR (ACTION SHEET BUTTON) -->
+        <div class="bottom-action-bar">
+            <div class="bar-inner">
+                <div class="fare-summary">
+                    <div class="fare-subtext">Total Tarif All-In</div>
+                    <div class="fare-total-number">
+                        <span id="bottomFareText">Rp 1.050.000</span>
+                        <span class="fare-allin-tag">CASH</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-cta-green" onclick="submitBookingOrder()">
+                    <span>💬 Pesan Sekarang</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- BOTTOM SHEET CS AI (ANDROID MODAL BOTTOM DRAWER) -->
+        <div class="chat-bottom-sheet" id="chatSheet" onclick="closeChatSheet(event)">
+            <div class="chat-sheet-panel" onclick="event.stopPropagation()">
+                <div class="sheet-header">
+                    <div class="sheet-title">
+                        <span>🤖 Tiara &ndash; CS AI Traveego</span>
+                    </div>
+                    <button class="sheet-close" onclick="closeChatSheet()">&times;</button>
+                </div>
+                <div class="sheet-body" id="sheetMessages">
+                    <div class="chat-msg chat-ai">
+                        Halo Kak! Saya <b>Tiara</b>, asisten AI Traveego. Mau tanya rute, perkiraan waktu tempuh via Tol Cipularang, atau butuh hitung tarif khusus? Silakan ketik di sini ya Kak! 😊
+                    </div>
+                </div>
+                <div class="sheet-footer">
+                    <input type="text" id="sheetInput" class="sheet-input" placeholder="Tanya tarif / rute..." onkeypress="handleSheetEnter(event)">
+                    <button class="sheet-send" onclick="sendSheetMessage()">Kirim</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Set waktu default: Besok jam 08.00 pagi
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(8, 0, 0, 0);
+        document.getElementById('pickupTime').value = tomorrow.toISOString().slice(0, 16);
+
+        let selectedCarType = 'Toyota Innova Reborn';
+        let selectedMultiplier = 1.4;
+
+        function selectCar(carName, multiplier, el) {
+            selectedCarType = carName;
+            selectedMultiplier = multiplier;
+
+            document.querySelectorAll('.car-chip').forEach(c => c.classList.remove('active'));
+            if (el) el.classList.add('active');
+
+            calculateFare();
+        }
+
+        function calculateFare() {
+            const routeSelect = document.getElementById('routeSelect');
+            const baseFare = parseFloat(routeSelect.options[routeSelect.selectedIndex].getAttribute('data-fare'));
+            
+            // Hitung harga masing-masing mobil untuk preview di cards
+            const avanzaFare = Math.round((baseFare * 1.0) / 50000) * 50000;
+            const innovaFare = Math.round((baseFare * 1.4) / 50000) * 50000;
+            const hiaceFare = Math.round((baseFare * 2.3) / 50000) * 50000;
+
+            document.getElementById('priceTagAvanza').innerText = 'Rp ' + avanzaFare.toLocaleString('id-ID');
+            document.getElementById('priceTagInnova').innerText = 'Rp ' + innovaFare.toLocaleString('id-ID');
+            document.getElementById('priceTagHiace').innerText = 'Rp ' + hiaceFare.toLocaleString('id-ID');
+
+            // Total terpilih saat ini
+            const total = Math.round((baseFare * selectedMultiplier) / 50000) * 50000;
+            document.getElementById('bottomFareText').innerText = 'Rp ' + total.toLocaleString('id-ID');
+            return total;
+        }
+
+        async function submitBookingOrder() {
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const pickup = document.getElementById('pickupAddress').value.trim();
+            const dest = document.getElementById('destAddress').value.trim();
+            const pickupTime = document.getElementById('pickupTime').value;
+            const routeSelect = document.getElementById('routeSelect');
+
+            if (!pickup || !dest) {
+                alert('📍 Mohon isi Alamat Penjemputan dan Alamat Tujuan ya Kak.');
+                return;
+            }
+            if (!name || !phone) {
+                alert('📱 Mohon lengkapi Nama Anda dan Nomor WhatsApp ya Kak.');
+                return;
+            }
+
+            const totalFare = calculateFare();
+            const payload = {
+                customer_name: name,
+                customer_phone: phone,
+                pickup_address: pickup,
+                destination_address: dest,
+                pickup_datetime: pickupTime,
+                car_type: selectedCarType,
+                route_id: routeSelect.value,
+                total_fare: totalFare
+            };
+
+            try {
+                const res = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('🎉 Pesanan Berhasil Diterbitkan!\n\nKode Booking: ' + data.order.tracking_code + '\nOrderan Kakak saat ini langsung dilelang ke mitra sopir di radar PWA.');
+                    window.location.href = '/trip/' + data.order.tracking_code;
+                } else {
+                    alert('Gagal membuat order: ' + data.message);
+                }
+            } catch (err) {
+                alert('Terjadi kesalahan koneksi ke server: ' + err.message);
+            }
+        }
+
+        // CHAT BOTTOM SHEET (ANDROID DRAWER)
+        function openChatSheet() {
+            document.getElementById('chatSheet').style.display = 'flex';
+        }
+        function closeChatSheet(e) {
+            if (!e || e.target.id === 'chatSheet' || e.target.classList.contains('sheet-close')) {
+                document.getElementById('chatSheet').style.display = 'none';
+            }
+        }
+
+        function handleSheetEnter(e) {
+            if (e.key === 'Enter') sendSheetMessage();
+        }
+
+        async function sendSheetMessage() {
+            const input = document.getElementById('sheetInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const box = document.getElementById('sheetMessages');
+            
+            // User msg
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-msg chat-user';
+            userBubble.innerText = text;
+            box.appendChild(userBubble);
+            input.value = '';
+            box.scrollTop = box.scrollHeight;
+
+            // Loading AI
+            const loadingBubble = document.createElement('div');
+            loadingBubble.className = 'chat-msg chat-ai';
+            loadingBubble.innerText = 'Tiara sedang memproses...';
+            box.appendChild(loadingBubble);
+            box.scrollTop = box.scrollHeight;
+
+            try {
+                const res = await fetch('/api/ai/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await res.json();
+                loadingBubble.innerHTML = data.reply.replace(/\n/g, '<br>');
+            } catch (err) {
+                loadingBubble.innerText = 'Maaf Kak, saat ini koneksi AI sedang sibuk. Silakan pesan langsung via form ya Kak.';
+            }
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // Run on start
+        calculateFare();
+    </script>
+</body>
+</html>
