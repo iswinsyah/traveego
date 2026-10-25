@@ -194,45 +194,32 @@
         }
 
         .hero-headline-row {
-            display: flex;
-            justify-content: center;
-            text-align: center;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 36px;
+            align-items: center;
+            width: 100%;
+            padding: 24px 0 10px;
         }
 
         .hero-text-left {
-            max-width: 760px;
-            margin: 0 auto;
+            max-width: 580px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-        }
-
-        .hero-badge-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 11.5px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            color: #93C5FD;
-            text-transform: uppercase;
-            margin-bottom: 14px;
-            backdrop-filter: blur(8px);
+            align-items: flex-start;
+            text-align: left;
         }
 
         .hero-big-title {
-            font-size: 40px;
+            font-size: 44px;
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.12;
             letter-spacing: -1px;
             text-transform: uppercase;
             color: #FFFFFF;
             text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            text-align: left;
         }
         .hero-big-title span {
             background: linear-gradient(135deg, #60A5FA, #93C5FD);
@@ -241,19 +228,20 @@
         }
 
         .hero-big-sub {
-            font-size: 14px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.55;
-            margin-bottom: 24px;
-            max-width: 620px;
+            font-size: 15px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.6;
+            margin-bottom: 26px;
+            max-width: 520px;
+            text-align: left;
         }
 
         /* CTA BUTTONS ROW */
         .hero-cta-group {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 14px;
             flex-wrap: wrap;
         }
@@ -307,10 +295,9 @@
         /* CAR SHOWCASE STAGE */
         .hero-car-stage {
             position: relative;
-            margin: 15px auto 5px;
             width: 100%;
-            max-width: 860px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
@@ -325,6 +312,15 @@
         .hero-car-img.fade-out {
             opacity: 0;
             transform: scale(0.96) translateX(-15px);
+        }
+
+        .car-switcher-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 10px;
+            width: 100%;
         }
 
         /* HERO BOTTOM CONTROLS */
@@ -1498,6 +1494,10 @@
         }
 
         @media (max-width: 991px) {
+            .hero-headline-row {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
             .trust-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1586,28 +1586,14 @@
                 <div class="luxury-logo-symbol">🚗</div>
                 <div class="luxury-brand-name">TRAVEEGO</div>
             </a>
-
-            <div class="luxury-nav-actions">
-                <div class="radar-status-pill">
-                    <span class="radar-dot"></span>
-                    <span>18 Sopir Siap di Radar</span>
-                </div>
-                <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20layanan%20Drop-Off" target="_blank" class="btn-wa-header">
-                    <span>💬 WhatsApp CS</span>
-                </a>
-            </div>
         </nav>
 
         <!-- MAIN HERO CONTENT -->
         <div class="luxury-hero-content">
             
             <div class="hero-headline-row">
-                <!-- LEFT SIDE TYPOGRAPHY & VALUE PROPOSITION -->
+                <!-- LEFT SIDE TYPOGRAPHY & VALUE PROPOSITION (RATA KIRI) -->
                 <div class="hero-text-left">
-                    <div class="hero-badge-pill">
-                        <span>✨</span>
-                        <span>Drop-Off Privat Tanpa DP • Bayar di Tujuan</span>
-                    </div>
                     <h1 class="hero-big-title">
                         SEWA MOBIL<br><span>DROP-OFF PRIVAT</span>
                     </h1>
@@ -1625,35 +1611,33 @@
                     </div>
                 </div>
 
+                <!-- RIGHT SIDE: CAR SHOWCASE STAGE (SEBARIS DENGAN TULISAN) -->
+                <div class="hero-car-stage">
+                    <img id="heroCarImg" src="/assets/innova.jpg" alt="Toyota Innova Reborn Traveego" class="hero-car-img">
+                    
+                    <div class="car-switcher-bar">
+                        <button type="button" class="btn-arrow-circle" onclick="prevCar()" title="Mobil Sebelumnya">&lt;</button>
+                        <div class="carousel-dots">
+                            <div class="c-dot" onclick="switchCar(0)" id="dot-0"></div>
+                            <div class="c-dot active" onclick="switchCar(1)" id="dot-1"></div>
+                            <div class="c-dot" onclick="switchCar(2)" id="dot-2"></div>
+                        </div>
+                        <button type="button" class="btn-arrow-circle" onclick="nextCar()" title="Mobil Berikutnya">&gt;</button>
+                    </div>
+                </div>
 
-            </div>
-
-            <!-- CAR SHOWCASE STAGE -->
-            <div class="hero-car-stage">
-                <img id="heroCarImg" src="/assets/innova.jpg" alt="Toyota Innova Reborn Traveego" class="hero-car-img">
             </div>
 
         </div>
 
-        <!-- HERO BOTTOM CONTROLS & PAGINATION -->
+        <!-- HERO BOTTOM TAGS -->
         <div class="hero-bottom-bar">
-            <div class="bottom-links-left">
+            <div class="bottom-links-left" style="display: flex; margin: 0 auto;">
                 <span>Tol Penuh MBZ Termasuk</span>
                 <span>&bull;</span>
                 <span>BBM All-In</span>
                 <span>&bull;</span>
                 <span>Door-to-Door</span>
-            </div>
-
-            <div class="carousel-dots">
-                <div class="c-dot" onclick="switchCar(0)" id="dot-0"></div>
-                <div class="c-dot active" onclick="switchCar(1)" id="dot-1"></div>
-                <div class="c-dot" onclick="switchCar(2)" id="dot-2"></div>
-            </div>
-
-            <div class="carousel-nav-arrows">
-                <button type="button" class="btn-arrow-circle" onclick="prevCar()">&lt;</button>
-                <button type="button" class="btn-arrow-circle" onclick="nextCar()">&gt;</button>
             </div>
         </div>
 
