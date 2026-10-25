@@ -195,22 +195,19 @@
 
         .hero-headline-row {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 36px;
+            grid-template-columns: 1.15fr 0.85fr;
+            grid-template-areas:
+                "title car"
+                "sub   car"
+                "cta   car";
+            gap: 16px 40px;
             align-items: center;
             width: 100%;
             padding: 24px 0 10px;
         }
 
-        .hero-text-left {
-            max-width: 580px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            text-align: left;
-        }
-
         .hero-big-title {
+            grid-area: title;
             font-size: 44px;
             font-weight: 900;
             line-height: 1.12;
@@ -218,7 +215,7 @@
             text-transform: uppercase;
             color: #FFFFFF;
             text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
-            margin-bottom: 16px;
+            margin: 0;
             text-align: left;
         }
         .hero-big-title span {
@@ -228,17 +225,19 @@
         }
 
         .hero-big-sub {
+            grid-area: sub;
             font-size: 15px;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.88);
             line-height: 1.6;
-            margin-bottom: 26px;
-            max-width: 520px;
+            max-width: 540px;
             text-align: left;
+            margin: 0;
         }
 
         /* CTA BUTTONS ROW */
         .hero-cta-group {
+            grid-area: cta;
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -294,6 +293,7 @@
 
         /* CAR SHOWCASE STAGE */
         .hero-car-stage {
+            grid-area: car;
             position: relative;
             width: 100%;
             display: flex;
@@ -1482,20 +1482,11 @@
            12. RESPONSIVE BREAKPOINTS
            ============================================================== */
         @media (min-width: 992px) {
-            .hero-text-left {
-                order: 1;
-            }
-            .hero-car-stage {
-                order: 2;
-            }
             .hero-big-title {
-                font-size: 52px;
+                font-size: 50px;
             }
             .bottom-links-left {
                 display: flex;
-            }
-            .btn-wa-header {
-                display: inline-flex;
             }
         }
 
@@ -1503,15 +1494,27 @@
             .hero-headline-row {
                 display: flex;
                 flex-direction: column;
-                gap: 16px;
-                padding: 8px 0 14px;
+                align-items: center;
+                text-align: center;
+                gap: 14px;
+                padding: 10px 0 16px;
             }
-            /* OPSI C: Mobil di atas pada layar HP dengan proporsi Micro-Hero */
-            .hero-car-stage {
+            /* 1. Judul di atas gambar (Rata Tengah) */
+            .hero-big-title {
                 order: 1;
+                font-size: 27px;
+                line-height: 1.2;
+                text-align: center;
+                width: 100%;
+                margin: 0;
+            }
+            /* 2. Gambar mobil (Rata Tengah) */
+            .hero-car-stage {
+                order: 2;
                 width: 100%;
                 max-width: 440px;
                 margin: 0 auto;
+                align-items: center;
             }
             .hero-car-img {
                 max-height: 190px;
@@ -1519,40 +1522,36 @@
             .car-switcher-bar {
                 margin-top: 6px;
                 gap: 12px;
+                justify-content: center;
             }
             .btn-arrow-circle {
                 width: 32px;
                 height: 32px;
                 font-size: 13px;
             }
-            /* Teks di bawah mobil pada layar HP (Rata Kiri) */
-            .hero-text-left {
-                order: 2;
-                width: 100%;
-                max-width: 100%;
-                text-align: left;
-                align-items: flex-start;
-            }
-            .hero-big-title {
-                font-size: 28px;
-                line-height: 1.15;
-                margin-bottom: 10px;
-                text-align: left;
-            }
+            /* 3. Caption di bawah gambar (Rata Tengah) */
             .hero-big-sub {
-                font-size: 13px;
-                line-height: 1.5;
-                margin-bottom: 18px;
-                text-align: left;
+                order: 3;
+                font-size: 13.5px;
+                line-height: 1.55;
+                text-align: center;
+                margin: 0 auto;
+                max-width: 460px;
+                color: rgba(255, 255, 255, 0.9);
             }
+            /* 4. Tombol di bawah caption (Rata Tengah) */
             .hero-cta-group {
+                order: 4;
                 width: 100%;
-                justify-content: flex-start;
-                gap: 10px;
+                justify-content: center;
+                margin-top: 4px;
             }
-            .btn-hero-primary, .btn-hero-outline {
-                padding: 11px 18px;
-                font-size: 12.5px;
+            .btn-hero-primary {
+                width: 100%;
+                max-width: 290px;
+                justify-content: center;
+                padding: 12px 22px;
+                font-size: 13.5px;
             }
             .trust-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1645,26 +1644,12 @@
         <div class="luxury-hero-content">
             
             <div class="hero-headline-row">
-                <!-- LEFT SIDE TYPOGRAPHY & VALUE PROPOSITION (RATA KIRI) -->
-                <div class="hero-text-left">
-                    <h1 class="hero-big-title">
-                        SEWA MOBIL<br><span>DROP-OFF PRIVAT</span>
-                    </h1>
-                    <p class="hero-big-sub">
-                        Layanan antar jemput sekali jalan rute Jakarta, Bandung, Bandara Soetta &amp; Surabaya. 100% mobil privat tanpa orang asing, All-In BBM &amp; Tol MBZ.
-                    </p>
-                    <div class="hero-cta-group">
-                        <a href="#pesan" class="btn-hero-primary">
-                            <span>📋 Pesan Sekarang</span>
-                            <span>&rarr;</span>
-                        </a>
-                        <a href="#rute" class="btn-hero-outline">
-                            <span>Lihat Tarif Rute</span>
-                        </a>
-                    </div>
-                </div>
+                <!-- 1. TITLE (DI ATAS GAMBAR PADA HP) -->
+                <h1 class="hero-big-title">
+                    SEWA MOBIL<br><span>DROP-OFF PRIVAT</span>
+                </h1>
 
-                <!-- RIGHT SIDE: CAR SHOWCASE STAGE (SEBARIS DENGAN TULISAN) -->
+                <!-- 2. CAR SHOWCASE STAGE (DI TENGAH PADA HP) -->
                 <div class="hero-car-stage">
                     <img id="heroCarImg" src="/assets/innova.jpg" alt="Toyota Innova Reborn Traveego" class="hero-car-img">
                     
@@ -1679,6 +1664,18 @@
                     </div>
                 </div>
 
+                <!-- 3. CAPTION (DI BAWAH GAMBAR PADA HP) -->
+                <p class="hero-big-sub">
+                    Layanan antar jemput sekali jalan rute Jakarta, Bandung, Bandara Soetta &amp; Surabaya. 100% mobil privat tanpa orang asing, All-In BBM &amp; Tol MBZ.
+                </p>
+
+                <!-- 4. CTA BUTTON (DI BAWAH CAPTION PADA HP) -->
+                <div class="hero-cta-group">
+                    <a href="#pesan" class="btn-hero-primary">
+                        <span>📋 Pesan Sekarang</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
             </div>
 
         </div>
