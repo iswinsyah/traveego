@@ -1,7 +1,5 @@
 <?php
 require_once __DIR__ . '/../config.php';
-
-$pdo = getDB();
 $action = $_GET['action'] ?? $_POST['action'] ?? 'stats';
 
 // 0. AKSI AUTENTIKASI ADMIN
@@ -62,6 +60,7 @@ if ($action !== 'fleet') {
 // 1. STATISTIK OPERASIONAL & DAFTAR TRANSAKSI
 if ($action === 'stats') {
     try {
+        $pdo = getDB();
         $ordersTotal = $pdo->query("SELECT COUNT(*) AS total FROM orders")->fetch()['total'];
         $auctionCount = $pdo->query("SELECT COUNT(*) AS total FROM orders WHERE status = 'AUCTION'")->fetch()['total'];
         $completedCount = $pdo->query("SELECT COUNT(*) AS total FROM orders WHERE status = 'COMPLETED'")->fetch()['total'];
@@ -119,6 +118,7 @@ if ($action === 'verify_settlement') {
     $status = trim($input['status'] ?? 'VERIFIED_PAID');
 
     try {
+        $pdo = getDB();
         $stmt = $pdo->prepare("UPDATE commission_settlements SET status = ?, verified_at = NOW() WHERE id = ?");
         $stmt->execute([$status, $id]);
 
@@ -134,6 +134,7 @@ if ($action === 'verify_settlement') {
 // 3. RADAR FLEET SEBARAN ARMADA (UNTUK PETA LEAFLET ADMIN)
 if ($action === 'fleet') {
     try {
+        $pdo = getDB();
         $stmt = $pdo->query("
             SELECT d.id, d.name, d.phone, d.car_model, d.car_plate, d.car_color, d.rating,
                    d.current_lat, d.current_lng, d.last_location_update, d.is_online,
@@ -197,5 +198,24 @@ if ($action === 'save_site_content') {
     ]);
 }
 
+// 6. SETUP / INISIALISASI DATABASE MYSQL (1-KLIK)
+if ($action === 'init_db') {
+    try {
+        $pdo = getDB();
+        $schemaFile = __DIR__ . '/../scripts/schema.sql';
+        $seedFile = __DIR__ . '/../scripts/seed.sql';
+        if (file_exists($schemaFile)) {
+            $pdo->exec(file_get_contents($schemaFile));
+        }
+        if (file_exists($seedFile)) {
+            $pdo->exec(file_get_contents($seedFile));
+        }
+        sendJson(['success' => true, 'message' => 'Database MySQL berhasil diinisialisasi dan diisi data awal!']);
+    } catch (Exception $e) {
+        sendJson(['success' => false, 'message' => 'Gagal inisialisasi database: ' . $e->getMessage()], 500);
+    }
+}
+
 sendJson(['success' => false, 'message' => 'Action tidak dikenali'], 404);
+
 
