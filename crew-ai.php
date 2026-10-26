@@ -1129,6 +1129,145 @@ $isLoggedIn = isCrewLoggedIn();
             gap: 10px;
         }
 
+        /* Workflow Architecture Showcase Styles */
+        .workflow-tabs {
+            display: inline-flex;
+            background: #F1F5F9;
+            padding: 4px;
+            border-radius: 12px;
+            gap: 4px;
+        }
+
+        .btn-wf-tab {
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-wf-tab.active {
+            background: #FFFFFF;
+            color: var(--royal-blue);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .wf-banner-notice {
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            color: #166534;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .wf-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .wf-step-card {
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .wf-step-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+            border-color: #BFDBFE;
+        }
+
+        .wf-step-num {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--royal-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .wf-step-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .wf-step-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--text-title);
+            margin-bottom: 2px;
+        }
+
+        .wf-step-role {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--royal-blue);
+            margin-bottom: 10px;
+        }
+
+        .wf-step-desc {
+            font-size: 12px;
+            color: var(--text-body);
+            line-height: 1.55;
+            margin-bottom: 14px;
+            flex-grow: 1;
+        }
+
+        .wf-step-output {
+            background: #F8FAFC;
+            border: 1px dashed var(--border-strong);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: var(--text-title);
+            margin-bottom: 12px;
+        }
+
+        .btn-wf-action {
+            width: 100%;
+            background: #EFF6FF;
+            color: var(--royal-blue);
+            border: 1px solid #BFDBFE;
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .btn-wf-action:hover {
+            background: var(--royal-blue);
+            color: #FFFFFF;
+        }
+
         /* Light Data Table */
         .table-responsive {
             overflow-x: auto;
@@ -1660,6 +1799,18 @@ $isLoggedIn = isCrewLoggedIn();
                 color: var(--royal-blue);
                 font-weight: 800;
             }
+
+            /* Workflow Architecture di Layar HP */
+            .wf-steps-grid {
+                grid-template-columns: 1fr !important;
+                gap: 14px !important;
+            }
+
+            .workflow-tabs {
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
         }
     </style>
 </head>
@@ -1778,6 +1929,12 @@ $isLoggedIn = isCrewLoggedIn();
                 <div class="sidebar-menu-item active" id="menuItemOverview" onclick="returnToOverviewHub()">
                     <span class="menu-item-icon">🏠</span>
                     <span>Overview Hub</span>
+                </div>
+            </li>
+            <li>
+                <div class="sidebar-menu-item" onclick="scrollToWorkflows()">
+                    <span class="menu-item-icon">🧭</span>
+                    <span>Peta Alur Kerja (Workflow)</span>
                 </div>
             </li>
             <li>
@@ -2038,6 +2195,176 @@ $isLoggedIn = isCrewLoggedIn();
                     </div>
                 </div>
 
+                <!-- ==============================================================
+                     WORKFLOW ARCHITECTURE SECTION (WORKFLOW 1 & WORKFLOW 2)
+                     ============================================================== -->
+                <div class="content-card" id="workflowArchitectureSection">
+                    <div class="content-card-header">
+                        <div>
+                            <h3 class="card-title">
+                                <span>🧭</span>
+                                <span>Pusat Alur Kerja Terpadu (Workflow 1 &amp; Workflow 2)</span>
+                            </h3>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+                                Dua poros utama kerja tim AI: Pabrik Konten Organik (SEO &amp; EEAT Google) dan Layanan CS 24/7 &amp; Dispatcher Armada.
+                            </p>
+                        </div>
+                        <!-- Workflow Tab Switcher -->
+                        <div class="workflow-tabs">
+                            <button type="button" class="btn-wf-tab active" id="tabBtnWf1" onclick="switchWorkflowTab('wf1')">
+                                <span>🏭</span>
+                                <span>Workflow 1: Pabrik Konten SEO &amp; EEAT</span>
+                            </button>
+                            <button type="button" class="btn-wf-tab" id="tabBtnWf2" onclick="switchWorkflowTab('wf2')">
+                                <span>💬</span>
+                                <span>Workflow 2: CS Tiara &amp; Armada Jaka</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- WORKFLOW 1: CONTENT & SEO EEAT ENGINE -->
+                    <div class="wf-content-tab active" id="wfTab1">
+                        <div class="wf-banner-notice">
+                            <strong>🎯 Siklus Terjadwal:</strong> 🔍 Mas Bayu riset kata kunci sepekan sekali ➔ 📅 Mbak Dinda susun Kalender Konten pekanan ➔ 👔 Pak Hendra update tarif tol, BBM, jasa sopir &amp; harga pasaran ➔ ✍️ Mbak Maya (Artikel Blog) &amp; 🎯 Mas Kevin (Landing Page) produksi konten patuh SEO &amp; prinsip EEAT Google dengan data dinamis.
+                        </div>
+
+                        <div class="wf-steps-grid">
+                            <!-- Step 1: Mas Bayu -->
+                            <div class="wf-step-card">
+                                <div class="wf-step-num">Langkah 1 &bull; 1x Sepekan</div>
+                                <div class="wf-step-avatar icon-theme-cyan">🔍</div>
+                                <h4 class="wf-step-title">Mas Bayu &ndash; Riset Keyword</h4>
+                                <div class="wf-step-role">Keyword &amp; Search Intent Specialist</div>
+                                <p class="wf-step-desc">
+                                    Riset kata kunci <em>long-tail</em> &amp; <em>short-tail</em> turunan dari seed utama <strong>"Drop Off"</strong> di Indonesia (khususnya Jabodetabek &amp; Baraya). Bekerja sepekan sekali menjaring keyword peluang baru yang belum tertulis di database.
+                                </p>
+                                <div class="wf-step-output">
+                                    <span>📑 Hasil Kerja:</span> <strong>Tabel Daftar Keyword "Drop Off"</strong>
+                                </div>
+                                <button type="button" class="btn-wf-action" onclick="openAgentWorkspace('bayuPanel', 'Mas Bayu &ndash; Keyword Research Specialist')">
+                                    Buka Tabel Keyword Mas Bayu ➔
+                                </button>
+                            </div>
+
+                            <!-- Step 2: Mbak Dinda -->
+                            <div class="wf-step-card">
+                                <div class="wf-step-num">Langkah 2 &bull; Editorial Planner</div>
+                                <div class="wf-step-avatar icon-theme-purple">📅</div>
+                                <h4 class="wf-step-title">Mbak Dinda &ndash; Kalender Konten</h4>
+                                <div class="wf-step-role">Content Strategist &amp; Editorial Planner</div>
+                                <p class="wf-step-desc">
+                                    Mengambil data dari Tabel Keyword Mas Bayu untuk menyusun <strong>Kalender Konten Pekanan</strong>. Mengklasifikasikan keyword yang dibuat <strong>Landing Page</strong> (Mas Kevin) dan <strong>Artikel Blog</strong> (Mbak Maya), lengkap dengan jadwal tanggal terbit.
+                                </p>
+                                <div class="wf-step-output">
+                                    <span>🗓️ Hasil Kerja:</span> <strong>Tabel Kalender Konten Pekanan</strong>
+                                </div>
+                                <button type="button" class="btn-wf-action" onclick="openAgentWorkspace('dindaPanel', 'Mbak Dinda &ndash; Weekly Content Calendar Planner')">
+                                    Buka Kalender Konten Dinda ➔
+                                </button>
+                            </div>
+
+                            <!-- Step 3: Pak Hendra -->
+                            <div class="wf-step-card">
+                                <div class="wf-step-num">Langkah 3 &bull; 1x Sepekan</div>
+                                <div class="wf-step-avatar icon-theme-blue">👔</div>
+                                <h4 class="wf-step-title">Pak Hendra &ndash; Riset Tarif</h4>
+                                <div class="wf-step-role">Tariff &amp; Cost Intelligence Agent</div>
+                                <p class="wf-step-desc">
+                                    Riset sepekan sekali memantau tarif tol gerbang-ke-gerbang (Cipularang, MBZ, Sedyatmo), harga BBM Pertamina resmi, jasa sopir, dan harga pasaran drop off kompetitor. Menjamin Traveego selalu untung dan kompetitif.
+                                </p>
+                                <div class="wf-step-output">
+                                    <span>📊 Hasil Kerja:</span> <strong>Tabel Update Tol, BBM &amp; Pasaran</strong>
+                                </div>
+                                <button type="button" class="btn-wf-action" onclick="openAgentWorkspace('hendraPanel', 'Pak Hendra &ndash; Tariff &amp; Intelligence')">
+                                    Buka Matrix Tarif Pak Hendra ➔
+                                </button>
+                            </div>
+
+                            <!-- Step 4: Mbak Maya & Mas Kevin -->
+                            <div class="wf-step-card" style="border-color: #86EFAC; background: linear-gradient(180deg, #FFFFFF, #F0FDF4);">
+                                <div class="wf-step-num">Langkah 4 &bull; Produksi SEO &amp; EEAT</div>
+                                <div style="display:flex; gap:8px; margin-bottom:12px;">
+                                    <div class="wf-step-avatar icon-theme-amber" style="width:40px; height:40px; font-size:20px; margin-bottom:0;">✍️</div>
+                                    <div class="wf-step-avatar icon-theme-green" style="width:40px; height:40px; font-size:20px; margin-bottom:0;">🎯</div>
+                                </div>
+                                <h4 class="wf-step-title">Mbak Maya &amp; Mas Kevin</h4>
+                                <div class="wf-step-role">Blog EEAT Dinamis &amp; Landing Page Crew</div>
+                                <p class="wf-step-desc">
+                                    <strong>Mbak Maya:</strong> Menulis artikel sesuai tanggal Kalender Mbak Dinda, patuh SEO &amp; prinsip EEAT Google (internal/external link), dengan data dinamis harga Pak Hendra.<br>
+                                    <strong>Mas Kevin:</strong> Menulis Landing Page rute konversi tinggi sesuai tanggal &amp; judul kalender, prinsip EEAT, dan penawaran All-In 0% DP.
+                                </p>
+                                <div class="wf-step-output">
+                                    <span>⚡ Standar:</span> <strong>Google EEAT &amp; Dinamis</strong>
+                                </div>
+                                <div style="display:flex; gap:6px;">
+                                    <button type="button" class="btn-wf-action" onclick="openAgentWorkspace('mayaPanel', 'Mbak Maya &ndash; Post Crew SEO Content')">Blog Maya ➔</button>
+                                    <button type="button" class="btn-wf-action" onclick="openAgentWorkspace('kevinPanel', 'Bung Kevin &ndash; Page Crew Copywriter')">Page Kevin ➔</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WORKFLOW 2: CS TIARA & DISPATCH FLEET ENGINE -->
+                    <div class="wf-content-tab" id="wfTab2" style="display: none;">
+                        <div class="wf-banner-notice" style="background: #EFF6FF; border-color: #BFDBFE; color: #1E40AF;">
+                            <strong>💬 Layanan Nyata Pelanggan:</strong> Mbak Tiara (CS AI) menjawab chat &amp; pesan WhatsApp/telpon user menggunakan data tarif update terbaru dari Pak Hendra serta berkomunikasi dengan Bang Jaka untuk kesiapan armada standby terdekat.
+                        </div>
+
+                        <div class="wf-steps-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+                            <!-- W2 Step 1: Mbak Tiara -->
+                            <div class="wf-step-card">
+                                <div class="wf-step-num">Frontliner Pelanggan 24/7</div>
+                                <div class="wf-step-avatar" style="background: linear-gradient(135deg, #FDF2F8, #FCE7F3); border: 2px solid #FBCFE8; color: #DB2777;">👩‍💼</div>
+                                <h4 class="wf-step-title">Mbak Tiara &ndash; CS AI Traveego</h4>
+                                <div class="wf-step-role">AI Frontliner (Homepage, Landing Page &amp; WhatsApp)</div>
+                                <p class="wf-step-desc">
+                                    Menjawab telpon, chat web, dan WhatsApp customer dengan ramah dan akurat. Menjelaskan keunggulan All-In (Tol + BBM + Sopir), penjemputan door-to-door, dan opsi aman bayar di tempat (0% DP).
+                                </p>
+                                <div class="wf-step-output">
+                                    <span>🌐 Channel:</span> <strong>Homepage, Landing Page &amp; WhatsApp</strong>
+                                </div>
+                                <button type="button" class="btn-wf-action" onclick="simulateTiaraChat()">
+                                    Test Simulasi CS Mbak Tiara ➔
+                                </button>
+                            </div>
+
+                            <!-- W2 Step 2: Sinkronisasi Data Pak Hendra -->
+                            <div class="wf-step-card">
+                                <div class="wf-step-num">Sinkronisasi Harga Otomatis</div>
+                                <div class="wf-step-avatar icon-theme-blue">👔</div>
+                                <h4 class="wf-step-title">Sinkron Data Pak Hendra</h4>
+                                <div class="wf-step-role">Real-Time Single Source of Truth</div>
+                                <p class="wf-step-desc">
+                                    Mbak Tiara membaca data <code>data/cost_matrix.json</code> hasil riset mingguan Pak Hendra secara langsung. Jika harga BBM atau tarif tol naik/turun, jawaban tarif Tiara otomatis langsung presisi tanpa rekonfigurasi manual.
+                                </p>
+                                <div class="wf-step-output">
+                                    <span>🔄 Integrasi:</span> <strong>API Real-Time Cost Matrix</strong>
+                                </div>
+                                <button type="button" class="btn-wf-action" onclick="openAgentWorkspace('hendraPanel', 'Pak Hendra &ndash; Tariff &amp; Intelligence')">
+                                    Lihat Matrix Acuan Tiara ➔
+                                </button>
+                            </div>
+
+                            <!-- W2 Step 3: Koordinasi Armada Bang Jaka -->
+                            <div class="wf-step-card">
+                                <div class="wf-step-num">Kesiapan Armada Real-Time</div>
+                                <div class="wf-step-avatar icon-theme-rose">🚐</div>
+                                <h4 class="wf-step-title">Bang Jaka &ndash; Dispatcher Armada</h4>
+                                <div class="wf-step-role">Fleet Readiness &amp; Sopir Standby</div>
+                                <p class="wf-step-desc">
+                                    Mbak Tiara selalu berkomunikasi dengan Bang Jaka untuk update data unit yang sedang standby &amp; ready melayani penjemputan (Avanza, Innova Reborn, HiAce Premio). Sopir dipastikan tiba di lokasi jemput 30 menit sebelum jadwal.
+                                </p>
+                                <div class="wf-step-output">
+                                    <span>🛡️ Jaminan:</span> <strong>Standby 30 Menit &amp; Privasi Terjaga</strong>
+                                </div>
+                                <button type="button" class="btn-wf-action" onclick="openAgentWorkspace('jakaPanel', 'Bang Jaka &ndash; Dispatcher &amp; Fleet AI')">
+                                    Buka Armada Bang Jaka ➔
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Quick Route Tariff Table -->
                 <div class="content-card">
                     <div class="content-card-header">
@@ -2142,13 +2469,14 @@ $isLoggedIn = isCrewLoggedIn();
                                     <th>Jarak Tempuh</th>
                                     <th>Rincian Biaya Tol</th>
                                     <th>Jasa Sopir Bersih</th>
+                                    <th>Harga Pasaran Drop Off</th>
                                     <th>Toyota Avanza</th>
                                     <th>Toyota Innova</th>
                                     <th>Toyota Hiace</th>
                                 </tr>
                             </thead>
                             <tbody id="hendraMatrixBody">
-                                <tr><td colspan="7" style="text-align:center; padding: 20px;">Memuat data Pak Hendra...</td></tr>
+                                <tr><td colspan="8" style="text-align:center; padding: 20px;">Memuat data Pak Hendra...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -2950,6 +3278,14 @@ $isLoggedIn = isCrewLoggedIn();
 
                 // Row for Pak Hendra Matrix
                 if (hendraTbody) {
+                    const marketPrices = {
+                        'jakarta_bandara_soetta': 'Rp 325.000',
+                        'jakarta_bandara_halim': 'Rp 280.000',
+                        'jabodetabek_dalam_kota': 'Rp 350.000',
+                        'jakarta_baraya': 'Rp 650.000'
+                    };
+                    const pasaranText = marketPrices[key] || 'Rp 350.000';
+
                     const trH = document.createElement('tr');
                     trH.innerHTML = `
                         <td>
@@ -2962,6 +3298,10 @@ $isLoggedIn = isCrewLoggedIn();
                             <span style="color: var(--text-muted);">${r.toll_details || '-'}</span>
                         </td>
                         <td style="font-weight: 700;">Rp ${Number(r.base_driver_fee).toLocaleString('id-ID')}</td>
+                        <td>
+                            <span style="color:#DC2626; text-decoration:line-through; font-size:12px;">${pasaranText}</span><br>
+                            <span style="color:#16A34A; font-size:11px; font-weight:700;">Traveego Lebih Hemat</span>
+                        </td>
                         <td><span class="badge-price">${p.avanza ? p.avanza.formatted_price : '-'}</span></td>
                         <td><span class="badge-price" style="background:#EFF6FF; color:#1D4ED8; border-color:#BFDBFE;">${p.innova ? p.innova.formatted_price : '-'}</span></td>
                         <td><span class="badge-price" style="background:#FEF3C7; color:#B45309; border-color:#FCD34D;">${p.hiace ? p.hiace.formatted_price : '-'}</span></td>
@@ -3219,6 +3559,36 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
 
     function showCalendarAlert() {
         alert('📅 Kalender Konten Pekanan aktif! 7 slot konten terdistribusi rapi (4 artikel SEO, 2 landing page rute, 1 FAQ panduan tarif) untuk mendominasi Google.');
+    }
+
+    // Workflow Tab Switcher & Navigation
+    function switchWorkflowTab(tabId) {
+        document.querySelectorAll('.btn-wf-tab').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.wf-content-tab').forEach(t => t.style.display = 'none');
+        
+        if (tabId === 'wf1') {
+            const b = document.getElementById('tabBtnWf1');
+            const t = document.getElementById('wfTab1');
+            if (b) b.classList.add('active');
+            if (t) t.style.display = 'block';
+        } else {
+            const b = document.getElementById('tabBtnWf2');
+            const t = document.getElementById('wfTab2');
+            if (b) b.classList.add('active');
+            if (t) t.style.display = 'block';
+        }
+    }
+
+    function scrollToWorkflows() {
+        returnToOverviewHub();
+        setTimeout(() => {
+            const el = document.getElementById('workflowArchitectureSection');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+    }
+
+    function simulateTiaraChat() {
+        alert('👩‍💼 Mbak Tiara (CS AI):\n"Halo Kak! Tiara terhubung langsung dengan data tarif update Pak Hendra dan armada standby Bang Jaka.\nTarif kami ALL-IN (Tol + BBM + Sopir) tanpa DP sama sekali, bayar di lokasi penjemputan/tujuan!"');
     }
 
     function refreshData() {
