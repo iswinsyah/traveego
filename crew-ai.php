@@ -884,23 +884,25 @@ $isLoggedIn = isCrewLoggedIn();
             margin-top: 3px;
         }
 
-        /* Android Card Grid (Strict 3 x 2 Layout) */
+        /* Visual AI Agent Grid (Clean Box + Caption Name & Short Duty) */
         .android-card-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+            gap: 16px;
         }
 
-        /* Android App Card */
+        /* Card Kontainer AI */
         .android-card {
             background: #FFFFFF;
             border: 1.5px solid var(--border-subtle);
-            border-radius: var(--radius-android);
-            padding: 24px;
+            border-radius: var(--radius-lg);
+            padding: 22px 14px 18px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow-android);
+            align-items: center;
+            text-align: center;
+            justify-content: flex-start;
+            box-shadow: var(--shadow-subtle);
             cursor: pointer;
             transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
@@ -912,7 +914,7 @@ $isLoggedIn = isCrewLoggedIn();
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at top right, rgba(11, 79, 216, 0.04), transparent 60%);
+            background: radial-gradient(circle at top center, rgba(11, 79, 216, 0.05), transparent 70%);
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -929,34 +931,30 @@ $isLoggedIn = isCrewLoggedIn();
         }
 
         .android-card:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
 
-        /* Android Card Top Row */
-        .android-card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 18px;
-        }
-
-        /* Android Squircle App Icon */
+        /* Kotak dengan Icon Saja */
+        .ai-icon-box,
         .android-app-icon {
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: 34px;
             position: relative;
             flex-shrink: 0;
             box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+            margin-bottom: 14px;
         }
 
+        .android-card:hover .ai-icon-box,
         .android-card:hover .android-app-icon {
-            transform: scale(1.08) rotate(2deg);
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 12px 24px -4px rgba(11, 79, 216, 0.2);
         }
 
         /* Theme variants for Android squircle icons */
@@ -1032,73 +1030,39 @@ $isLoggedIn = isCrewLoggedIn();
             border: 1px solid #FCD34D;
         }
 
-        /* Android Card Body */
-        .android-card-body {
-            margin-bottom: 20px;
+        /* Caption di Bawah Card Icon */
+        .ai-card-caption {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .android-agent-name {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 800;
             color: var(--text-title);
-            margin-bottom: 4px;
-            letter-spacing: -0.3px;
-        }
-
-        .android-agent-role {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--royal-blue);
-            margin-bottom: 10px;
-            display: block;
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
+            line-height: 1.25;
         }
 
         .android-agent-duty {
-            font-size: 13px;
-            color: var(--text-body);
-            line-height: 1.5;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin: 0;
         }
 
-        /* Android Card Action Button */
+        /* Backward compatibility for legacy elements if present */
+        .android-card-body {
+            margin-bottom: 0;
+            width: 100%;
+        }
+
         .android-card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 14px;
-            border-top: 1px solid var(--border-subtle);
-        }
-
-        .android-action-link {
-            font-size: 12.5px;
-            font-weight: 800;
-            color: var(--royal-blue);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: gap 0.2s;
-        }
-
-        .android-card:hover .android-action-link {
-            gap: 10px;
-        }
-
-        .android-tap-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #F1F5F9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            color: var(--text-title);
-            transition: all 0.2s;
-        }
-
-        .android-card:hover .android-tap-circle {
-            background: var(--royal-blue);
-            color: #FFFFFF;
-            transform: translateX(3px);
+            display: none;
         }
 
         /* Content Card Generic */
@@ -1644,89 +1608,60 @@ $isLoggedIn = isCrewLoggedIn();
             }
 
             /* Android Card Grid 3 x 2 di Layar HP */
+            /* Visual AI Agent Grid di Layar HP (2 Kolom + Simetris) */
             .android-card-grid {
                 display: grid !important;
-                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-                gap: 10px !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 12px !important;
             }
 
             .android-card {
-                padding: 12px 6px !important;
+                padding: 16px 10px 14px !important;
                 border-radius: 18px !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
                 text-align: center !important;
                 min-width: 0 !important;
-                justify-content: space-between !important;
+                justify-content: flex-start !important;
             }
 
-            .android-card-top {
+            .android-card:last-child:nth-child(odd) {
+                grid-column: span 2 !important;
+                max-width: 240px !important;
+                margin: 0 auto !important;
+                width: 100% !important;
+            }
+
+            .ai-icon-box,
+            .android-app-icon {
+                width: 58px !important;
+                height: 58px !important;
+                border-radius: 16px !important;
+                font-size: 28px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .ai-card-caption {
+                width: 100% !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
-                gap: 6px !important;
-                margin-bottom: 8px !important;
-                width: 100% !important;
-            }
-
-            .android-app-icon {
-                width: 48px !important;
-                height: 48px !important;
-                border-radius: 16px !important;
-                font-size: 24px !important;
-            }
-
-            .android-status-pill {
-                font-size: 8px !important;
-                padding: 2px 5px !important;
-                border-radius: 8px !important;
-                white-space: nowrap !important;
-                line-height: 1 !important;
-            }
-
-            .android-card-body {
-                margin-bottom: 6px !important;
-                width: 100% !important;
             }
 
             .android-agent-name {
-                font-size: 12.5px !important;
+                font-size: 13.5px !important;
                 font-weight: 800 !important;
-                margin-bottom: 2px !important;
-                white-space: nowrap !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-                max-width: 100% !important;
-            }
-
-            .android-agent-role {
-                font-size: 9px !important;
-                font-weight: 700 !important;
-                margin-bottom: 0 !important;
-                white-space: nowrap !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-                max-width: 100% !important;
+                margin-bottom: 4px !important;
+                line-height: 1.25 !important;
+                color: var(--text-title) !important;
             }
 
             .android-agent-duty {
-                display: none !important;
-            }
-
-            .android-card-footer {
-                padding-top: 6px !important;
-                justify-content: center !important;
-                width: 100% !important;
-            }
-
-            .android-action-link {
-                font-size: 10px !important;
-                gap: 3px !important;
-            }
-
-            .android-tap-circle {
-                display: none !important;
+                display: block !important;
+                font-size: 11px !important;
+                line-height: 1.4 !important;
+                color: var(--text-muted) !important;
             }
 
             /* Bottom Bar HP Muncul */
@@ -2047,149 +1982,93 @@ $isLoggedIn = isCrewLoggedIn();
                     </div>
                 </div>
 
-                <!-- ANDROID-STYLE CARD MENU FOR 5 AI AGENTS -->
+                <!-- VISUAL AI AGENTS: KOTAK ICON + CAPTION NAMA & TUGAS SINGKAT -->
                 <div class="android-menu-section" id="androidMenuSection">
                     <div class="android-section-header">
                         <div class="android-title-group">
                             <h3>
-                                <span>📱</span>
-                                <span>Menu Tim AI Agent (Android Cards)</span>
+                                <span>🤖</span>
+                                <span>Tim AI Agent Traveego</span>
                             </h3>
-                            <p>Sentuh salah satu kartu untuk membuka ruang kerja, data, atau simulasi agen.</p>
+                            <p>Sentuh atau klik ikon agen untuk membuka ruang kerja dan data operasionalnya.</p>
                         </div>
                     </div>
 
                     <div class="android-card-grid">
                         <!-- CARD 1: PAK HENDRA -->
                         <div class="android-card" onclick="openAgentWorkspace('hendraPanel', 'Pak Hendra &ndash; Tariff & Intelligence')">
-                            <div class="android-card-top">
-                                <div class="android-app-icon icon-theme-blue">
-                                    <span>👔</span>
-                                </div>
-                                <span class="android-status-pill pill-status-active">🟢 Menghitung</span>
+                            <div class="ai-icon-box icon-theme-blue">
+                                <span>👔</span>
                             </div>
-                            <div class="android-card-body">
+                            <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Pak Hendra</h4>
-                                <span class="android-agent-role">Tariff & Cost Intelligence Agent</span>
-                                <p class="android-agent-duty">Survey harga BBM Pertamina, hitung tarif tol gerbang-ke-gerbang (Cipularang, MBZ, JORR, Sedyatmo), dan kalkulasi margin profit aman.</p>
-                            </div>
-                            <div class="android-card-footer">
-                                <span class="android-action-link">Buka Matrix Biaya & Tarif ➔</span>
-                                <div class="android-tap-circle">➔</div>
+                                <p class="android-agent-duty">Riset harga BBM Pertamina, tarif tol resmi &amp; kalkulasi margin rute travel.</p>
                             </div>
                         </div>
 
                         <!-- CARD 2: BUNG KEVIN -->
                         <div class="android-card" onclick="openAgentWorkspace('kevinPanel', 'Bung Kevin &ndash; Page Crew Copywriter')">
-                            <div class="android-card-top">
-                                <div class="android-app-icon icon-theme-green">
-                                    <span>🎯</span>
-                                </div>
-                                <span class="android-status-pill pill-status-active">🟢 4 Rute Aktif</span>
+                            <div class="ai-icon-box icon-theme-green">
+                                <span>🎯</span>
                             </div>
-                            <div class="android-card-body">
+                            <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Bung Kevin</h4>
-                                <span class="android-agent-role">Page Crew (Landing Page Copywriter)</span>
-                                <p class="android-agent-duty">Meracik copywriting direct response untuk landing page penawaran rute travel sekali jalan: All-In Tol + BBM, 0% DP, dan garansi penjemputan.</p>
-                            </div>
-                            <div class="android-card-footer">
-                                <span class="android-action-link">Buka Pabrik Landing Page ➔</span>
-                                <div class="android-tap-circle">➔</div>
+                                <p class="android-agent-duty">Meracik copywriting landing page rute penawaran All-In konversi tinggi.</p>
                             </div>
                         </div>
 
                         <!-- CARD 3: MBAK MAYA -->
                         <div class="android-card" onclick="openAgentWorkspace('mayaPanel', 'Mbak Maya &ndash; Post Crew SEO Content')">
-                            <div class="android-card-top">
-                                <div class="android-app-icon icon-theme-amber">
-                                    <span>✍️</span>
-                                </div>
-                                <span class="android-status-pill pill-status-active">🟢 4 Artikel Synced</span>
+                            <div class="ai-icon-box icon-theme-amber">
+                                <span>✍️</span>
                             </div>
-                            <div class="android-card-body">
+                            <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Mbak Maya</h4>
-                                <span class="android-agent-role">Post Crew (SEO Content Specialist)</span>
-                                <p class="android-agent-duty">Memproduksi artikel blog SEO edukasi dengan shortcode dinamis <code>[TARIF_AVANZA]</code> yang otomatis update saat harga BBM/tol berubah.</p>
-                            </div>
-                            <div class="android-card-footer">
-                                <span class="android-action-link">Buka Artikel Blog SEO ➔</span>
-                                <div class="android-tap-circle">➔</div>
+                                <p class="android-agent-duty">Memproduksi artikel blog edukasi SEO dinamis berstandar Google EEAT.</p>
                             </div>
                         </div>
 
                         <!-- CARD 4: MAS BAYU (KEYWORD RESEARCH) -->
                         <div class="android-card" onclick="openAgentWorkspace('bayuPanel', 'Mas Bayu &ndash; Keyword Research Specialist')">
-                            <div class="android-card-top">
-                                <div class="android-app-icon icon-theme-cyan">
-                                    <span>🔍</span>
-                                </div>
-                                <span class="android-status-pill pill-status-active">🟢 28+ Keyword 'Drop Off'</span>
+                            <div class="ai-icon-box icon-theme-cyan">
+                                <span>🔍</span>
                             </div>
-                            <div class="android-card-body">
+                            <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Mas Bayu</h4>
-                                <span class="android-agent-role">Keyword & Search Intent Specialist</span>
-                                <p class="android-agent-duty">Riset mendalam kata kunci turunan seed "Drop Off", analisis volume pencarian, commercial intent, dan pemetaan topik untuk Bung Kevin & Mbak Maya.</p>
-                            </div>
-                            <div class="android-card-footer">
-                                <span class="android-action-link">Buka Riset Kata Kunci ➔</span>
-                                <div class="android-tap-circle">➔</div>
+                                <p class="android-agent-duty">Riset kata kunci turunan seed &ldquo;Drop Off&rdquo; dan analisa search intent.</p>
                             </div>
                         </div>
 
                         <!-- CARD 5: MBAK DINDA (WEEKLY CONTENT EDITORIAL CALENDAR) -->
                         <div class="android-card" onclick="openAgentWorkspace('dindaPanel', 'Mbak Dinda &ndash; Weekly Content Calendar Planner')">
-                            <div class="android-card-top">
-                                <div class="android-app-icon icon-theme-purple">
-                                    <span>📅</span>
-                                </div>
-                                <span class="android-status-pill pill-status-active">🟢 Rencana 7 Hari Siap</span>
+                            <div class="ai-icon-box icon-theme-purple">
+                                <span>📅</span>
                             </div>
-                            <div class="android-card-body">
+                            <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Mbak Dinda</h4>
-                                <span class="android-agent-role">Content Strategist & Editorial Planner</span>
-                                <p class="android-agent-duty">Menyusun kalender konten pekanan (Senin&ndash;Minggu) berbasis data riset Mas Bayu, sinkronisasi tema artikel Mbak Maya & landing page Bung Kevin.</p>
-                            </div>
-                            <div class="android-card-footer">
-                                <span class="android-action-link">Buka Kalender Konten ➔</span>
-                                <div class="android-tap-circle">➔</div>
+                                <p class="android-agent-duty">Menyusun kalender konten editorial mingguan untuk blog &amp; landing page.</p>
                             </div>
                         </div>
 
                         <!-- CARD 6: BANG JAKA -->
                         <div class="android-card" onclick="openAgentWorkspace('jakaPanel', 'Bang Jaka &ndash; Dispatcher & Fleet AI')">
-                            <div class="android-card-top">
-                                <div class="android-app-icon icon-theme-rose">
-                                    <span>🚐</span>
-                                </div>
-                                <span class="android-status-pill pill-status-active">🟢 Standby Armada</span>
+                            <div class="ai-icon-box icon-theme-rose">
+                                <span>🚐</span>
                             </div>
-                            <div class="android-card-body">
+                            <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Bang Jaka</h4>
-                                <span class="android-agent-role">Dispatcher & Fleet AI Agent</span>
-                                <p class="android-agent-duty">Mengatur kesiapan armada privat (Avanza, Innova, HiAce), koordinasi penjemputan sopir 30 menit sebelum jadwal, dan monitoring perjalanan.</p>
-                            </div>
-                            <div class="android-card-footer">
-                                <span class="android-action-link">Buka Monitoring Armada ➔</span>
-                                <div class="android-tap-circle">➔</div>
+                                <p class="android-agent-duty">Koordinasi kesiapan armada mobil dan jadwal penjemputan sopir 30 menit.</p>
                             </div>
                         </div>
 
                         <!-- CARD 7: KOMANDAN SISTEM -->
                         <div class="android-card" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator')">
-                            <div class="android-card-top">
-                                <div class="android-app-icon icon-theme-indigo">
-                                    <span>🧠</span>
-                                </div>
-                                <span class="android-status-pill pill-status-active">🟢 P2P Tailscale</span>
+                            <div class="ai-icon-box icon-theme-indigo">
+                                <span>🧠</span>
                             </div>
-                            <div class="android-card-body">
+                            <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Komandan Sistem</h4>
-                                <span class="android-agent-role">System Orchestrator & PC Host</span>
-                                <p class="android-agent-duty">Menegakkan jam kerja server 06:00-23:00 WIB, menjaga jalur Tailscale IP ke endpoint Ollama, dan mengoordinasikan pipeline eksekusi.</p>
-                            </div>
-                            <div class="android-card-footer">
-                                <span class="android-action-link">Buka Konsol & Pipeline ➔</span>
-                                <div class="android-tap-circle">➔</div>
+                                <p class="android-agent-duty">Orkestrasi jam kerja server 06-23 WIB, pipeline AI &amp; host Ollama.</p>
                             </div>
                         </div>
                     </div>
