@@ -70,12 +70,13 @@
         .luxury-hero-wrapper {
             position: relative;
             background: #031233 url('/assets/bg-satin.jpg') center center / cover no-repeat;
-            min-height: 94vh;
+            min-height: auto;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             overflow: hidden;
             box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.7);
+            padding-bottom: 24px;
         }
 
         .luxury-hero-wrapper::before {
@@ -91,7 +92,7 @@
         .luxury-navbar {
             position: relative;
             z-index: 20;
-            padding: 20px 28px;
+            padding: 14px 28px 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -192,11 +193,11 @@
             z-index: 10;
             max-width: var(--container-max);
             margin: 0 auto;
-            padding: 10px 24px;
+            padding: 4px 24px 10px;
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         .hero-headline-row {
@@ -206,10 +207,10 @@
                 "title car"
                 "sub   car"
                 "cta   car";
-            gap: 16px 40px;
+            gap: 10px 40px;
             align-items: center;
             width: 100%;
-            padding: 24px 0 10px;
+            padding: 4px 0 10px;
         }
 
         .hero-big-title {
@@ -329,29 +330,7 @@
             width: 100%;
         }
 
-        /* HERO BOTTOM CONTROLS */
-        .hero-bottom-bar {
-            position: relative;
-            z-index: 20;
-            max-width: var(--container-max);
-            margin: 0 auto;
-            padding: 14px 28px 24px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
 
-        .bottom-links-left {
-            display: none;
-            align-items: center;
-            gap: 16px;
-            font-size: 11.5px;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-            color: rgba(255, 255, 255, 0.7);
-            text-transform: uppercase;
-        }
 
         .carousel-dots {
             display: flex;
@@ -1502,6 +1481,12 @@
         }
 
         @media (max-width: 991px) {
+            .luxury-navbar {
+                padding: 10px 18px 2px;
+            }
+            .luxury-hero-content {
+                padding: 0 16px 8px;
+            }
             /* Sembunyikan Navigasi Menu Web di HP */
             .desktop-nav-menu,
             .desktop-nav-actions {
@@ -1521,8 +1506,8 @@
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
-                gap: 14px;
-                padding: 10px 0 16px;
+                gap: 10px;
+                padding: 4px 0 8px;
             }
             /* 1. Judul di atas gambar (Rata Tengah) */
             .hero-big-title {
@@ -1722,20 +1707,39 @@
 
         </div>
 
-        <!-- HERO BOTTOM TAGS -->
-        <div class="hero-bottom-bar">
-            <div class="bottom-links-left" style="display: flex; margin: 0 auto;">
-                <span>Tol Penuh MBZ Termasuk</span>
-                <span>&bull;</span>
-                <span>BBM All-In</span>
-                <span>&bull;</span>
-                <span>Door-to-Door</span>
-            </div>
-        </div>
-
     </div>
 
-    <!-- 2. TRUST & SOCIAL PROOF STRIP -->
+    <!-- 2. HOW IT WORKS (TANPA RIBET - CARA KERJA PEMESANAN TRAVEEGO) -->
+    <section class="how-section" id="carakerja">
+        <div class="section-header-center">
+            <span class="section-kicker" style="color: var(--royal-blue);">Tanpa Ribet</span>
+            <h2 class="section-headline" style="color: var(--primary-dark);">Cara Kerja Pemesanan Traveego</h2>
+            <p class="section-desc">Nikmati kemudahan sewa mobil sekali jalan tanpa harus download aplikasi atau transfer DP di muka.</p>
+        </div>
+
+        <div class="how-grid">
+            <div class="how-card">
+                <div class="how-step-num">1</div>
+                <div class="how-icon">📋</div>
+                <h3 class="how-title">Pilih Rute &amp; Jadwal</h3>
+                <p class="how-text">Tentukan alamat penjemputan, tujuan, dan jenis mobil yang diinginkan melalui formulir online dalam hitungan detik.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-step-num">2</div>
+                <div class="how-icon">🚖</div>
+                <h3 class="how-title">Sopir Jemput di Pintu</h3>
+                <p class="how-text">Mitra sopir terdekat di radar langsung meluncur. Pantau posisi mobil secara real-time via Magic Link peta Traveego.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-step-num">3</div>
+                <div class="how-icon">💵</div>
+                <h3 class="how-title">Sampai &amp; Bayar di Tujuan</h3>
+                <p class="how-text">Perjalanan tenang dan nyaman lewat jalan tol. Setelah tiba dengan selamat di tujuan, baru Anda bayar tunai ke sopir.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. TRUST & SOCIAL PROOF STRIP -->
     <div class="trust-strip">
         <div class="trust-grid">
             <div class="trust-item">
@@ -1968,36 +1972,6 @@
                 </form>
             </div>
 
-        </div>
-    </section>
-
-    <!-- 5. HOW IT WORKS (3 LANGKAH MUDAH) -->
-    <section class="how-section" id="carakerja">
-        <div class="section-header-center">
-            <span class="section-kicker" style="color: var(--royal-blue);">Tanpa Ribet</span>
-            <h2 class="section-headline" style="color: var(--primary-dark);">Cara Kerja Pemesanan Traveego</h2>
-            <p class="section-desc">Nikmati kemudahan sewa mobil sekali jalan tanpa harus download aplikasi atau transfer DP di muka.</p>
-        </div>
-
-        <div class="how-grid">
-            <div class="how-card">
-                <div class="how-step-num">1</div>
-                <div class="how-icon">📋</div>
-                <h3 class="how-title">Pilih Rute &amp; Jadwal</h3>
-                <p class="how-text">Tentukan alamat penjemputan, tujuan, dan jenis mobil yang diinginkan melalui formulir online dalam hitungan detik.</p>
-            </div>
-            <div class="how-card">
-                <div class="how-step-num">2</div>
-                <div class="how-icon">🚖</div>
-                <h3 class="how-title">Sopir Jemput di Pintu</h3>
-                <p class="how-text">Mitra sopir terdekat di radar langsung meluncur. Pantau posisi mobil secara real-time via Magic Link peta Traveego.</p>
-            </div>
-            <div class="how-card">
-                <div class="how-step-num">3</div>
-                <div class="how-icon">💵</div>
-                <h3 class="how-title">Sampai &amp; Bayar di Tujuan</h3>
-                <p class="how-text">Perjalanan tenang dan nyaman lewat jalan tol. Setelah tiba dengan selamat di tujuan, baru Anda bayar tunai ke sopir.</p>
-            </div>
         </div>
     </section>
 
@@ -2635,7 +2609,7 @@
         setInterval(showNextToast, 24000);
 
         // ScrollSpy untuk Desktop Nav & Mobile Bottom Dock
-        const navSections = ['hero', 'rute', 'pesan', 'katalog', 'carakerja', 'keunggulan', 'faq'];
+        const navSections = ['hero', 'carakerja', 'rute', 'pesan', 'katalog', 'keunggulan', 'faq'];
         window.addEventListener('scroll', () => {
             const scrollPos = window.scrollY + 220;
             navSections.forEach(id => {
