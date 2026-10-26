@@ -12,6 +12,7 @@ $dataDir = $baseDir . '/data';
 $matrixFile = $dataDir . '/cost_matrix.json';
 $pagesDir = $dataDir . '/generated_pages';
 $postsDir = $dataDir . '/generated_posts';
+$aiConfigFile = $dataDir . '/ai_server_config.json';
 
 // Helper: Cek jam operasional server 06:00 - 23:00 WIB
 function getWorkingHoursStatus() {
@@ -29,28 +30,69 @@ function getWorkingHoursStatus() {
     ];
 }
 
-// Helper: Cek koneksi port Ollama 11434
-function checkOllamaPort() {
-    $fp = @fsockopen('127.0.0.1', 11434, $errno, $errstr, 0.2);
+// Helper: Cek koneksi port Ollama via Tailscale / Lokal
+function checkOllamaPort($configFile) {
+    $cfg = [
+        'ollama_host' => 'http://100.85.151.80:11434',
+        'api_endpoint' => 'http://100.85.151.80:11434/v1',
+        'model' => 'qwen2.5-coder:7b',
+        'tailscale_ip' => '100.85.151.80'
+    ];
+
+    if (file_exists($configFile)) {
+        $loaded = json_decode(file_get_contents($configFile), true);
+        if (is_array($loaded)) {
+            $cfg = array_merge($cfg, $loaded);
+        }
+    }
+
+    $parsed = parse_url($cfg['ollama_host']);
+    $host = $parsed['host'] ?? '100.85.151.80';
+    $port = $parsed['port'] ?? 11434;
+
+    // Timeout kilat 0.3s
+    $fp = @fsockopen($host, $port, $errno, $errstr, 0.3);
+    $models = [];
+
     if ($fp) {
         fclose($fp);
+        // Coba ambil daftar model terinstall via /api/tags
+        $tagsUrl = rtrim($cfg['ollama_host'], '/') . '/api/tags';
+        $ctx = stream_context_create(['http' => ['timeout' => 1.5]]);
+        $tagsJson = @file_get_contents($tagsUrl, false, $ctx);
+        if ($tagsJson) {
+            $parsedTags = json_decode($tagsJson, true);
+            if (!empty($parsedTags['models'])) {
+                foreach ($parsedTags['models'] as $m) {
+                    $models[] = $m['name'];
+                }
+            }
+        }
+
         return [
             'connected' => true,
-            'message' => 'Otak AI Lokal TERHUBUNG di http://localhost:11434 (Ollama Aktif)',
-            'endpoint' => 'http://localhost:11434'
+            'message' => 'Otak AI PC Server TERHUBUNG di ' . $cfg['ollama_host'] . ' via Tailscale',
+            'endpoint' => $cfg['ollama_host'],
+            'model' => $cfg['model'],
+            'available_models' => $models,
+            'config' => $cfg
         ];
     }
+
     return [
         'connected' => false,
-        'message' => 'Otak AI Lokal Belum Terdeteksi di port 11434. Nyalakan Ollama (ollama run qwen2.5:7b) saat Anda siap.',
-        'endpoint' => 'http://localhost:11434'
+        'message' => 'Server AI ' . $cfg['ollama_host'] . ' belum terdeteksi. Pastikan Tailscale aktif dan Ollama berjalan di PC Server.',
+        'endpoint' => $cfg['ollama_host'],
+        'model' => $cfg['model'],
+        'available_models' => [],
+        'config' => $cfg
     ];
 }
 
 switch ($action) {
     case 'status':
         $wh = getWorkingHoursStatus();
-        $ollama = checkOllamaPort();
+        $ollama = checkOllamaPort($aiConfigFile);
 
         $pageCount = is_dir($pagesDir) ? count(glob($pagesDir . '/*.json')) : 0;
         $postCount = is_dir($postsDir) ? count(glob($postsDir . '/*.json')) : 0;
@@ -68,6 +110,30 @@ switch ($action) {
                 'posts_count' => $postCount,
                 'last_updated' => $matrix['last_updated'] ?? '-'
             ]
+        ]);
+        break;
+
+    case 'save_ai_config':
+        $raw = file_get_contents('php://input');
+        $payload = json_decode($raw, true) ?: $_POST;
+
+        $host = trim($payload['ollama_host'] ?? 'http://100.85.151.80:11434');
+        $model = trim($payload['model'] ?? 'qwen2.5-coder:7b');
+
+        $cfgData = [
+            'ollama_host' => rtrim($host, '/'),
+            'api_endpoint' => rtrim($host, '/') . '/v1',
+            'model' => $model,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        file_put_contents($aiConfigFile, json_encode($cfgData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $testResult = checkOllamaPort($aiConfigFile);
+
+        sendJson([
+            'success' => true,
+            'message' => 'Konfigurasi Server AI berhasil disimpan.',
+            'ollama' => $testResult
         ]);
         break;
 

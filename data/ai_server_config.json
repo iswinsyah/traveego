@@ -1,0 +1,7 @@
+{
+  "ollama_host": "http://100.85.151.80:11434",
+  "api_endpoint": "http://100.85.151.80:11434/v1",
+  "model": "qwen2.5-coder:7b",
+  "tailscale_ip": "100.85.151.80",
+  "note": "PC Server Ollama via Tailscale network"
+}

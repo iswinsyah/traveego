@@ -765,14 +765,17 @@ $isLoggedIn = isCrewLoggedIn();
             <div class="status-desc" id="serverHoursDesc">PC Server aktif memproses riset & penulisan otomatis.</div>
         </div>
 
-        <!-- 2. Status Otak AI Lokal -->
+        <!-- 2. Status Otak AI PC Server (Tailscale) -->
         <div class="status-card">
             <div class="status-card-header">
-                <span class="status-label">Otak AI Lokal (Ollama)</span>
+                <span class="status-label">Otak AI Server (Tailscale)</span>
                 <span class="status-indicator indicator-amber" id="ollamaIndicator">🟡 CEK KONEKSI</span>
             </div>
-            <div class="status-main-text" id="ollamaMain">Target: Qwen 2.5 7B</div>
-            <div class="status-desc" id="ollamaDesc">Memeriksa http://localhost:11434...</div>
+            <div class="status-main-text" id="ollamaMain">Qwen 2.5 Coder 7B</div>
+            <div class="status-desc" id="ollamaDesc">Memeriksa Tailscale IP (100.85.151.80:11434)...</div>
+            <div style="margin-top: 10px; display: flex; gap: 8px;">
+                <button type="button" onclick="openServerConfigModal()" style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); color: #93C5FD; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer;">⚙️ Atur IP Tailscale / Model</button>
+            </div>
         </div>
 
         <!-- 3. Rute & Konten Dihasilkan -->
@@ -1091,6 +1094,100 @@ $isLoggedIn = isCrewLoggedIn();
         }
     }
 
+    // Modal Pengaturan Server Tailscale
+    let currentServerConfig = {};
+    let availableModels = [];
+
+    function openServerConfigModal() {
+        document.getElementById('serverConfigModal').style.display = 'flex';
+        document.getElementById('cfgOllamaHost').value = currentServerConfig.ollama_host || 'http://100.85.151.80:11434';
+        
+        const select = document.getElementById('cfgModelSelect');
+        select.innerHTML = '';
+        if (availableModels.length > 0) {
+            availableModels.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.innerText = m;
+                if (m === currentServerConfig.model) opt.selected = true;
+                select.appendChild(opt);
+            });
+        } else {
+            const opt = document.createElement('option');
+            opt.value = currentServerConfig.model || 'qwen2.5-coder:7b';
+            opt.innerText = currentServerConfig.model || 'qwen2.5-coder:7b';
+            select.appendChild(opt);
+        }
+    }
+
+    function closeServerConfigModal() {
+        document.getElementById('serverConfigModal').style.display = 'none';
+    }
+
+    async function saveServerConfig() {
+        const host = document.getElementById('cfgOllamaHost').value.trim();
+        const model = document.getElementById('cfgModelSelect').value.trim();
+        const btn = document.getElementById('btnSaveCfg');
+
+        btn.disabled = true;
+        btn.innerText = 'Menyimpan & Mengetes...';
+
+        try {
+            const res = await fetch('/api/crew.php?action=save_ai_config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ollama_host: host, model: model })
+            });
+            const d = await res.json();
+            if (d.success) {
+                alert('Berhasil: ' + d.message);
+                closeServerConfigModal();
+                loadStatus();
+            } else {
+                alert('Gagal: ' + (d.message || 'Terjadi kesalahan'));
+            }
+        } catch(e) {
+            alert('Error: ' + e.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'Simpan & Test Koneksi';
+        }
+    }
+
+    // Updated loadStatus
+    async function loadStatus() {
+        try {
+            const res = await fetch('/api/crew.php?action=status');
+            const d = await res.json();
+            if (!d.success) return;
+
+            // Jam Kerja
+            const wh = d.working_hours;
+            const hoursInd = document.getElementById('serverHoursIndicator');
+            hoursInd.innerText = wh.is_working ? '🟢 AKTIF' : '🟡 ISTIRAHAT';
+            hoursInd.className = 'status-indicator ' + (wh.is_working ? 'indicator-green' : 'indicator-amber');
+            document.getElementById('serverHoursDesc').innerText = wh.status_text;
+
+            // Ollama status via Tailscale
+            const ol = d.ollama;
+            currentServerConfig = ol.config || {};
+            availableModels = ol.available_models || [];
+
+            const olInd = document.getElementById('ollamaIndicator');
+            olInd.innerText = ol.connected ? '🟢 TERHUBUNG' : '🟡 STANDBY';
+            olInd.className = 'status-indicator ' + (ol.connected ? 'indicator-green' : 'indicator-amber');
+            
+            document.getElementById('ollamaMain').innerText = ol.model || 'qwen2.5-coder:7b';
+            document.getElementById('ollamaDesc').innerText = ol.message;
+
+            // Stats
+            document.getElementById('statRoutes').innerText = d.stats.routes_count;
+            document.getElementById('statPosts').innerText = d.stats.posts_count;
+        } catch(e) {
+            console.error('Error fetching status:', e);
+        }
+    }
+
     function refreshData() {
         loadStatus();
         loadMatrix();
@@ -1101,6 +1198,36 @@ $isLoggedIn = isCrewLoggedIn();
     // Init
     refreshData();
 </script>
+
+<!-- MODAL PENGATURAN TAILSCALE SERVER -->
+<div id="serverConfigModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px); z-index:999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#0F172A; border:1px solid rgba(255,255,255,0.15); border-radius:20px; width:100%; max-width:480px; padding:28px; box-shadow:0 20px 50px rgba(0,0,0,0.6);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <div style="font-size:17px; font-weight:800; display:flex; align-items:center; gap:8px;">
+                <span>⚙️</span>
+                <span>Pengaturan Server AI (Tailscale)</span>
+            </div>
+            <button onclick="closeServerConfigModal()" style="background:none; border:none; color:#94A3B8; font-size:24px; cursor:pointer;">&times;</button>
+        </div>
+
+        <div style="margin-bottom:18px;">
+            <label style="display:block; font-size:12.5px; font-weight:700; color:#93C5FD; margin-bottom:6px;">URL / IP Ollama Host (Tailscale)</label>
+            <input type="text" id="cfgOllamaHost" style="width:100%; height:44px; background:#070B14; border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:0 14px; color:#fff; font-family:monospace; font-size:14px;">
+            <small style="color:#64748B; font-size:11px; margin-top:4px; display:block;">Contoh: <code>http://100.85.151.80:11434</code> (PC Server Anda)</small>
+        </div>
+
+        <div style="margin-bottom:22px;">
+            <label style="display:block; font-size:12.5px; font-weight:700; color:#93C5FD; margin-bottom:6px;">Pilihan Model AI</label>
+            <select id="cfgModelSelect" style="width:100%; height:44px; background:#070B14; border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:0 14px; color:#fff; font-size:14px;"></select>
+            <small style="color:#64748B; font-size:11px; margin-top:4px; display:block;">Daftar model diambil otomatis dari endpoint <code>/api/tags</code> server Ollama Anda.</small>
+        </div>
+
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+            <button type="button" onclick="closeServerConfigModal()" style="background:rgba(255,255,255,0.08); border:none; color:#fff; padding:10px 18px; border-radius:10px; font-weight:700; cursor:pointer;">Batal</button>
+            <button type="button" onclick="saveServerConfig()" id="btnSaveCfg" style="background:linear-gradient(135deg, #3B82F6, #1D4ED8); border:none; color:#fff; padding:10px 20px; border-radius:10px; font-weight:700; cursor:pointer;">Simpan & Test Koneksi</button>
+        </div>
+    </div>
+</div>
 <?php endif; ?>
 
 </body>
