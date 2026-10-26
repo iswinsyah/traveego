@@ -60,6 +60,7 @@ $isLoggedIn = isCrewLoggedIn();
             --bg-card: #FFFFFF;
             --bg-muted: #F1F5F9;
             --sidebar-width: 280px;
+            --bottom-nav-height: 66px;
             --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
@@ -295,7 +296,7 @@ $isLoggedIn = isCrewLoggedIn();
         }
 
         /* ==============================================================
-           2. SIDEBAR LAYOUT (CLEAN / READY FOR FUTURE MENUS)
+           2. DESKTOP SIDEBAR LAYOUT
            ============================================================== */
         .dash-layout {
             display: flex;
@@ -314,7 +315,6 @@ $isLoggedIn = isCrewLoggedIn();
             bottom: 0;
             left: 0;
             z-index: 100;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             overflow-y: auto;
         }
 
@@ -562,17 +562,13 @@ $isLoggedIn = isCrewLoggedIn();
         .topbar-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
-        .btn-mobile-menu {
+        .topbar-brand-mobile {
             display: none;
-            background: none;
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 8px;
-            color: var(--text-title);
-            cursor: pointer;
+            align-items: center;
+            gap: 10px;
         }
 
         .topbar-title {
@@ -1351,26 +1347,161 @@ $isLoggedIn = isCrewLoggedIn();
             line-height: 1.6;
         }
 
-        /* Responsive Mobile Drawer */
+        /* ==============================================================
+           5. MOBILE BOTTOM BAR NAVIGATION ALA ANDROID
+           ============================================================== */
+        .mobile-bottom-nav {
+            display: none;
+        }
+
         @media (max-width: 900px) {
+            /* Sembunyikan sidebar di layar HP */
             .dash-sidebar {
-                transform: translateX(-100%);
+                display: none !important;
             }
-            .dash-sidebar.open {
-                transform: translateX(0);
-                box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
-            }
+
+            /* Main wrapper full width */
             .dash-main {
-                margin-left: 0;
+                margin-left: 0 !important;
+                width: 100% !important;
             }
-            .btn-mobile-menu {
+
+            /* Topbar HP */
+            .dash-topbar {
+                padding: 0 18px;
+                height: 64px;
+            }
+
+            .topbar-brand-mobile {
                 display: flex;
             }
-            .content-container {
-                padding: 20px 16px;
+
+            .topbar-title {
+                display: none;
             }
+
+            .topbar-right {
+                gap: 8px;
+            }
+
+            #topbarTailscaleBadge {
+                display: none;
+            }
+
+            #btnQuickRun {
+                padding: 8px 14px;
+                font-size: 12px;
+                border-radius: 8px;
+            }
+
+            /* Container padding dengan extra bottom padding agar konten tidak tertutup bottom bar */
+            .content-container {
+                padding: 18px 14px calc(var(--bottom-nav-height) + 30px);
+            }
+
+            .agent-hero-banner {
+                padding: 20px 18px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .hero-banner-left {
+                flex-direction: row;
+                gap: 14px;
+            }
+
+            .hero-agent-avatar {
+                width: 56px;
+                height: 56px;
+                font-size: 28px;
+                border-radius: 16px;
+            }
+
+            .hero-banner-text h2 {
+                font-size: 18px;
+            }
+
+            .hero-banner-actions {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+
             .android-card-grid {
                 grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            /* Bottom Bar HP Muncul */
+            .mobile-bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: var(--bottom-nav-height);
+                background: rgba(255, 255, 255, 0.96);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid var(--border-subtle);
+                z-index: 1000;
+                box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+                padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+                justify-content: space-around;
+                align-items: center;
+            }
+
+            .bnav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                flex: 1;
+                height: 100%;
+                color: var(--text-muted);
+                text-decoration: none;
+                cursor: pointer;
+                padding: 4px 2px;
+                transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .bnav-item:active {
+                transform: scale(0.92);
+            }
+
+            .bnav-icon-wrap {
+                width: 40px;
+                height: 28px;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 19px;
+                transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .bnav-label {
+                font-size: 11px;
+                font-weight: 700;
+                margin-top: 2px;
+                letter-spacing: -0.2px;
+                transition: color 0.2s;
+            }
+
+            .bnav-item.active {
+                color: var(--royal-blue);
+            }
+
+            .bnav-item.active .bnav-icon-wrap {
+                background: #DBEAFE;
+                color: var(--royal-blue);
+            }
+
+            .bnav-item.active .bnav-label {
+                color: var(--royal-blue);
+                font-weight: 800;
             }
         }
     </style>
@@ -1456,10 +1587,10 @@ $isLoggedIn = isCrewLoggedIn();
 
 <?php else: ?>
 <!-- ==============================================================
-     DASHBOARD CREW AI DENGAN SIDEBAR UMUM & ANDROID CARD MENU DI HUB
+     DASHBOARD CREW AI: SIDEBAR PC / BOTTOM BAR HP
      ============================================================== -->
 <div class="dash-layout">
-    <!-- 1. LEFT SIDEBAR (CLEAN / READY FOR FUTURE MENUS) -->
+    <!-- 1. LEFT SIDEBAR (HANYA AKTIF DI TAMPILAN PC / DESKTOP) -->
     <aside class="dash-sidebar" id="dashSidebar">
         <!-- Brand Header -->
         <a href="/crew-ai" class="sidebar-brand">
@@ -1527,13 +1658,12 @@ $isLoggedIn = isCrewLoggedIn();
         <!-- Topbar -->
         <header class="dash-topbar">
             <div class="topbar-left">
-                <button type="button" class="btn-mobile-menu" onclick="toggleSidebar()" aria-label="Toggle Menu">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
+                <!-- Brand Icon di HP -->
+                <div class="topbar-brand-mobile">
+                    <div class="brand-logo-icon" style="width: 36px; height: 36px; font-size: 18px; border-radius: 10px;">🤖</div>
+                    <span style="font-weight: 800; font-size: 15px; color: var(--text-title);">TRAVEEGO AI</span>
+                </div>
+                <!-- Title di PC -->
                 <div class="topbar-title" id="activeAgentHeaderTitle">Overview Control Hub</div>
             </div>
 
@@ -1604,7 +1734,7 @@ $isLoggedIn = isCrewLoggedIn();
                 </div>
 
                 <!-- ANDROID-STYLE CARD MENU FOR 5 AI AGENTS -->
-                <div class="android-menu-section">
+                <div class="android-menu-section" id="androidMenuSection">
                     <div class="android-section-header">
                         <div class="android-title-group">
                             <h3>
@@ -2054,6 +2184,30 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
 
         </div>
     </main>
+
+    <!-- 3. MOBILE BOTTOM NAVIGATION BAR ALA ANDROID (MUNCUL OTOMATIS DI LAYAR HP) -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+        <div class="bnav-item active" id="bnavOverview" onclick="returnToOverviewHub()">
+            <div class="bnav-icon-wrap">🏠</div>
+            <span class="bnav-label">Overview</span>
+        </div>
+        <div class="bnav-item" id="bnavAgents" onclick="scrollToAndroidAgents()">
+            <div class="bnav-icon-wrap">🤖</div>
+            <span class="bnav-label">AI Agent</span>
+        </div>
+        <div class="bnav-item" id="bnavServer" onclick="openServerConfigModal(); updateBottomNavActive('bnavServer');">
+            <div class="bnav-icon-wrap">⚙️</div>
+            <span class="bnav-label">Server</span>
+        </div>
+        <div class="bnav-item" id="bnavPipeline" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator'); updateBottomNavActive('bnavPipeline');">
+            <div class="bnav-icon-wrap">⚡</div>
+            <span class="bnav-label">Pipeline</span>
+        </div>
+        <a href="/crew-ai?logout=1" class="bnav-item" title="Keluar">
+            <div class="bnav-icon-wrap" style="color: #EF4444;">🚪</div>
+            <span class="bnav-label" style="color: #EF4444;">Keluar</span>
+        </a>
+    </nav>
 </div>
 
 <!-- ==============================================================
@@ -2100,11 +2254,19 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
         const m = document.getElementById('menuItemOverview');
         if (m) m.classList.add('active');
 
-        // Close mobile drawer if open
-        const sb = document.getElementById('dashSidebar');
-        if (sb && sb.classList.contains('open')) sb.classList.remove('open');
+        // Update mobile bottom nav active
+        updateBottomNavActive('bnavOverview');
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToAndroidAgents() {
+        returnToOverviewHub();
+        setTimeout(() => {
+            const el = document.getElementById('androidMenuSection');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+        updateBottomNavActive('bnavAgents');
     }
 
     function openAgentWorkspace(panelId, titleText) {
@@ -2116,16 +2278,19 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
             document.getElementById('activeAgentHeaderTitle').innerHTML = titleText;
         }
 
-        // Close mobile drawer if open
-        const sb = document.getElementById('dashSidebar');
-        if (sb && sb.classList.contains('open')) sb.classList.remove('open');
+        if (panelId === 'komandanPanel') {
+            updateBottomNavActive('bnavPipeline');
+        } else {
+            updateBottomNavActive('bnavAgents');
+        }
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function toggleSidebar() {
-        const sb = document.getElementById('dashSidebar');
-        sb.classList.toggle('open');
+    function updateBottomNavActive(activeId) {
+        document.querySelectorAll('.bnav-item').forEach(el => el.classList.remove('active'));
+        const target = document.getElementById(activeId);
+        if (target) target.classList.add('active');
     }
 
     // Live Clock WIB
@@ -2397,6 +2562,7 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
 
     function closeServerConfigModal() {
         document.getElementById('serverConfigModal').style.display = 'none';
+        updateBottomNavActive('bnavOverview');
     }
 
     async function saveServerConfig() {
