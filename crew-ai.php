@@ -1954,21 +1954,21 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                         </div>
 
-                        <!-- CARD 4: MBAK TIARA -->
-                        <div class="android-card" onclick="openAgentWorkspace('tiaraPanel', 'Mbak Tiara &ndash; CS AI Booking Assistant')">
+                        <!-- CARD 4: MAS BAYU (KEYWORD RESEARCH) -->
+                        <div class="android-card" onclick="openAgentWorkspace('bayuPanel', 'Mas Bayu &ndash; Keyword Research Specialist')">
                             <div class="android-card-top">
                                 <div class="android-app-icon icon-theme-cyan">
-                                    <span>💬</span>
+                                    <span>🔍</span>
                                 </div>
-                                <span class="android-status-pill pill-status-live">🟢 Online 24 Jam</span>
+                                <span class="android-status-pill pill-status-active">🟢 28+ Keyword 'Drop Off'</span>
                             </div>
                             <div class="android-card-body">
-                                <h4 class="android-agent-name">Mbak Tiara</h4>
-                                <span class="android-agent-role">Customer Service AI Booking Specialist</span>
-                                <p class="android-agent-duty">Melayani konsultasi calon penumpang 24 jam di WhatsApp/Web, menghitung tarif All-In seketika, dan rekomendasi armada yang tepat.</p>
+                                <h4 class="android-agent-name">Mas Bayu</h4>
+                                <span class="android-agent-role">Keyword & Search Intent Specialist</span>
+                                <p class="android-agent-duty">Riset mendalam kata kunci turunan seed "Drop Off", analisis volume pencarian, commercial intent, dan pemetaan topik untuk Bung Kevin & Mbak Maya.</p>
                             </div>
                             <div class="android-card-footer">
-                                <span class="android-action-link">Buka Simulator Chat CS ➔</span>
+                                <span class="android-action-link">Buka Riset Kata Kunci ➔</span>
                                 <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
@@ -2211,9 +2211,9 @@ $isLoggedIn = isCrewLoggedIn();
             </section>
 
             <!-- ==============================================================
-                 PANEL 4: MBAK TIARA (CS AI BOOKING ASSISTANT)
+                 PANEL 4: MAS BAYU (KEYWORD RESEARCH & SEARCH INTENT)
                  ============================================================== -->
-            <section class="agent-panel" id="tiaraPanel">
+            <section class="agent-panel" id="bayuPanel">
                 <button type="button" class="btn-back-hub" onclick="returnToOverviewHub()">
                     <span>←</span>
                     <span>Kembali ke Overview Hub</span>
@@ -2222,65 +2222,138 @@ $isLoggedIn = isCrewLoggedIn();
                 <div class="agent-hero-banner">
                     <div class="hero-banner-left">
                         <div class="hero-agent-avatar">
-                            <span>💬</span>
+                            <span>🔍</span>
                             <div class="hero-online-dot"></div>
                         </div>
                         <div class="hero-banner-text">
-                            <h2>Mbak Tiara &ndash; CS AI Booking Assistant</h2>
-                            <p><strong>"Ramah, cepat, dan selalu transparan."</strong> Saya siap melayani pertanyaan calon penumpang 24 jam nonstop seputar drop-off Bandara Soekarno-Hatta, Halim, Jabodetabek, dan Jakarta &ndash; Bandung. Uji coba respon saya secara langsung di bawah ini!</p>
+                            <h2>Mas Bayu &ndash; Keyword Research & Search Intent Agent</h2>
+                            <p><strong>"Kata kunci yang tepat menjamin calon penumpang langsung siap bayar."</strong> Saya meriset seluruh variasi kata kunci turunan dari seed keyword <em>"Drop Off"</em>, memetakan search intent (Transactional, Commercial, Informational), dan mendistribusikan ide topik langsung ke Bung Kevin (Landing Page) serta Mbak Maya (Blog SEO).</p>
                         </div>
                     </div>
                     <div class="hero-banner-actions">
-                        <span class="pill-badge pill-green">🟢 Siap Melayani 24 Jam</span>
+                        <button class="btn-brand-primary" onclick="runPipeline()">⚡ Riset Keyword Baru</button>
                     </div>
                 </div>
 
-                <div class="chat-sim-container">
-                    <div class="chat-window">
-                        <div class="chat-window-header">
-                            <div class="chat-agent-badge">
-                                <div class="agent-avatar" style="width: 36px; height: 36px; font-size: 18px; border-radius: 10px;">💬</div>
-                                <div>
-                                    <div style="font-size: 13.5px; font-weight: 800; color: var(--text-title);">Mbak Tiara (Simulasi CS Live)</div>
-                                    <div style="font-size: 11px; color: #16A34A; font-weight: 700;">🟢 Online &bull; Respon Kilat</div>
-                                </div>
-                            </div>
-                            <button type="button" onclick="clearChatSim()" class="btn-brand-outline" style="padding: 4px 10px; font-size: 11px;">Hapus Percakapan</button>
+                <!-- Search Intent Breakdown Cards -->
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Commercial Intent (Siap Pesan)</span>
+                            <span class="sw-pill pill-active">High Buying Intent</span>
                         </div>
-
-                        <div class="chat-feed" id="chatFeed">
-                            <div class="chat-bubble tiara">
-Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi drop-off Bandara Soetta, Halim, Jabodetabek, atau Jakarta &ndash; Bandung hari ini?
-                            </div>
-                        </div>
-
-                        <form class="chat-input-bar" onsubmit="sendChatSim(event)">
-                            <input type="text" id="chatInputText" class="chat-input" placeholder="Ketik pesan untuk mengetes Mbak Tiara..." required autocomplete="off">
-                            <button type="submit" class="btn-brand-primary" style="padding: 0 20px;">Kirim ➔</button>
-                        </form>
+                        <div class="stat-value">Target: Bung Kevin</div>
+                        <div class="stat-desc">Fokus kata kunci tarif All-In, sewa drop-off tanpa DP, dan rute antar kota.</div>
                     </div>
 
-                    <div class="content-card" style="margin-bottom: 0;">
-                        <h4 style="font-size: 15px; font-weight: 800; color: var(--text-title); margin-bottom: 12px;">Contoh Pertanyaan Pengujian:</h4>
-                        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 16px;">Klik salah satu untuk langsung menanyakan ke Mbak Tiara:</p>
-                        
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <button type="button" onclick="askQuickPrompt('Berapa tarif drop off ke Bandara Soetta dari Jaksel kak?')" class="btn-brand-outline" style="text-align: left; font-size: 12px; padding: 10px 14px;">
-                                ✈️ "Tarif ke Bandara Soetta berapa?"
-                            </button>
-                            <button type="button" onclick="askQuickPrompt('Tarif ke Bandung All-In berapa kak?')" class="btn-brand-outline" style="text-align: left; font-size: 12px; padding: 10px 14px;">
-                                🛣️ "Tarif ke Bandung All-In berapa?"
-                            </button>
-                            <button type="button" onclick="askQuickPrompt('Apakah tarif sudah termasuk tol dan bensin?')" class="btn-brand-outline" style="text-align: left; font-size: 12px; padding: 10px 14px;">
-                                ⛽ "Apakah tarif sudah all in tol dan bbm?"
-                            </button>
-                            <button type="button" onclick="askQuickPrompt('Bisa bayar langsung ke sopir tanpa DP?')" class="btn-brand-outline" style="text-align: left; font-size: 12px; padding: 10px 14px;">
-                                💵 "Apakah ada sistem bayar cash ke sopir?"
-                            </button>
-                            <button type="button" onclick="askQuickPrompt('Layanan drop off dalam kota jabodetabek tarifnya berapa?')" class="btn-brand-outline" style="text-align: left; font-size: 12px; padding: 10px 14px;">
-                                🏙️ "Tarif dalam kota Jabodetabek berapa?"
-                            </button>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Transactional (Direct Booking)</span>
+                            <span class="sw-pill pill-active">Closing Cepat</span>
                         </div>
+                        <div class="stat-value">Target: Landing Page Rute</div>
+                        <div class="stat-desc">Pencarian jadwal penjemputan bandara, armada standby, dan booking instan.</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Informational (Top of Funnel)</span>
+                            <span class="sw-pill pill-active">Organic Traffic</span>
+                        </div>
+                        <div class="stat-value">Target: Mbak Maya</div>
+                        <div class="stat-desc">Artikel edukasi perbedaan drop-off vs carter harian & tips perjalanan bebas macet.</div>
+                    </div>
+                </div>
+
+                <!-- Drop Off Keyword Matrix Table -->
+                <div class="content-card">
+                    <div class="content-card-header">
+                        <h3 class="card-title">
+                            <span>📑</span>
+                            <span>Matrix Cluster Kata Kunci Seed "Drop Off" Terverifikasi</span>
+                        </h3>
+                        <span class="pill-badge pill-blue">Seed: "Drop Off"</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Kata Kunci Turunan</th>
+                                    <th>Search Intent</th>
+                                    <th>Estimasi Volume</th>
+                                    <th>Tingkat Persaingan</th>
+                                    <th>Agen Penerima</th>
+                                    <th>Target Halaman</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>drop off bandara soekarno hatta</strong></td>
+                                    <td><span class="sw-pill pill-active">Transactional</span></td>
+                                    <td><strong>3.600 / bln</strong></td>
+                                    <td><span style="color: #16A34A; font-weight: 700;">Sedang (Peluang #1)</span></td>
+                                    <td>🎯 Bung Kevin</td>
+                                    <td><code>/dropoff-bandara-soetta-all-in</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>drop off jakarta bandung</strong></td>
+                                    <td><span class="sw-pill pill-active">Commercial</span></td>
+                                    <td><strong>5.400 / bln</strong></td>
+                                    <td><span style="color: #F59E0B; font-weight: 700;">Menengah</span></td>
+                                    <td>🎯 Bung Kevin</td>
+                                    <td><code>/jakarta-bandung-dropoff</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>drop off bandara halim perdanakusuma</strong></td>
+                                    <td><span class="sw-pill pill-active">Transactional</span></td>
+                                    <td><strong>1.900 / bln</strong></td>
+                                    <td><span style="color: #16A34A; font-weight: 700;">Rendah (Mudah Top 3)</span></td>
+                                    <td>🎯 Bung Kevin</td>
+                                    <td><code>/dropoff-bandara-halim-perdanakusuma</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>drop off dalam kota jabodetabek</strong></td>
+                                    <td><span class="sw-pill pill-active">Commercial</span></td>
+                                    <td><strong>2.200 / bln</strong></td>
+                                    <td><span style="color: #16A34A; font-weight: 700;">Rendah</span></td>
+                                    <td>🎯 Bung Kevin</td>
+                                    <td><code>/dropoff-dalam-kota-jabodetabek</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>tarif drop off avanza jakarta bandung</strong></td>
+                                    <td><span class="sw-pill pill-active">Transactional</span></td>
+                                    <td><strong>1.300 / bln</strong></td>
+                                    <td><span style="color: #16A34A; font-weight: 700;">Rendah</span></td>
+                                    <td>✍️ Mbak Maya</td>
+                                    <td><code>Blog: /ongkos-drop-off-bandung-terbaru</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>sewa mobil drop off sekali jalan all in</strong></td>
+                                    <td><span class="sw-pill pill-active">Commercial</span></td>
+                                    <td><strong>2.800 / bln</strong></td>
+                                    <td><span style="color: #F59E0B; font-weight: 700;">Menengah</span></td>
+                                    <td>✍️ Mbak Maya</td>
+                                    <td><code>Blog: /keuntungan-drop-off-sekali-jalan</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>perbedaan drop off dan carter mobil travel</strong></td>
+                                    <td><span class="sw-pill pill-sleep">Informational</span></td>
+                                    <td><strong>1.600 / bln</strong></td>
+                                    <td><span style="color: #16A34A; font-weight: 700;">Rendah</span></td>
+                                    <td>✍️ Mbak Maya</td>
+                                    <td><code>Blog: /apa-itu-drop-off-travel</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>drop off tanpa uang muka bayar di tujuan</strong></td>
+                                    <td><span class="sw-pill pill-active">Commercial</span></td>
+                                    <td><strong>980 / bln</strong></td>
+                                    <td><span style="color: #16A34A; font-weight: 700;">Rendah (Konversi Tinggi)</span></td>
+                                    <td>🎯 Bung Kevin</td>
+                                    <td><code>Landing Page (0% DP Guarantee)</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
