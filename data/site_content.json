@@ -13,12 +13,7 @@
       { "label": "Pilihan Armada", "href": "#katalog" },
       { "label": "Keunggulan", "href": "#keunggulan" },
       { "label": "FAQ", "href": "#faq" }
-    ],
-    "action_links": {
-      "wa_button_text": "💬 Pesan WA",
-      "track_button_text": "📍 Lacak Trip",
-      "driver_button_text": "🚖 Mitra Sopir"
-    }
+    ]
   },
   "hero": {
     "title_line_1": "SEWA MOBIL",
