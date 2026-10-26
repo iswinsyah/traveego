@@ -3331,17 +3331,23 @@ $isLoggedIn = isCrewLoggedIn();
 
             d.pages.forEach(p => {
                 const page = p.data;
+                const statusBadge = page.is_live 
+                    ? '<span class="sw-pill pill-active">🟢 LIVE</span>' 
+                    : '<span class="sw-pill pill-sleep">' + (page.status_label || '⏳ Terjadwal') + '</span>';
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 card.innerHTML = `
                     <div>
-                        <div style="font-size: 11px; color: var(--royal-blue); font-weight: 800; margin-bottom: 6px;">BUNG KEVIN / LANDING PAGE</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-size: 11px; color: var(--royal-blue); font-weight: 800;">BUNG KEVIN / LANDING PAGE</span>
+                            ${statusBadge}
+                        </div>
                         <h4 class="item-title">${page.meta_title || p.file}</h4>
                         <p class="item-desc">${page.meta_description || '-'}</p>
                     </div>
-                    <div class="item-meta">
-                        <span>Slug: <code>/${page.slug || p.file}</code></span>
-                        <span class="sw-pill pill-active">All-In 0% DP</span>
+                    <div class="item-meta" style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
+                        <span>URL: <code>${page.public_url || ('/' + (page.slug || p.file))}</code></span>
+                        <a href="${page.public_url || ('/' + page.slug)}" target="_blank" style="font-size: 12px; font-weight: 700; color: var(--royal-blue); text-decoration: none;">Buka Halaman ➔</a>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -3368,20 +3374,23 @@ $isLoggedIn = isCrewLoggedIn();
 
             d.posts.forEach(p => {
                 const post = p.data;
+                const statusBadge = post.is_live 
+                    ? '<span class="sw-pill pill-active">🟢 LIVE</span>' 
+                    : '<span class="sw-pill pill-sleep">' + (post.status_label || '⏳ Terjadwal') + '</span>';
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 card.innerHTML = `
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                             <span class="tag-dynamic">${post.category || 'SEO Artikel'}</span>
-                            <span style="font-size: 11px; color: var(--text-muted);">${post.published_at || ''}</span>
+                            ${statusBadge}
                         </div>
                         <h4 class="item-title">${post.title || p.file}</h4>
                         <p class="item-desc">${post.meta_description || '-'}</p>
                     </div>
-                    <div class="item-meta">
-                        <span>Target: <code>/${post.target_route_slug || ''}</code></span>
-                        <span class="sw-pill pill-active">Shortcode Linked</span>
+                    <div class="item-meta" style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
+                        <span>URL: <code>${post.public_url || ('/blog/' + post.slug)}</code></span>
+                        <a href="${post.public_url || ('/blog/' + post.slug)}" target="_blank" style="font-size: 12px; font-weight: 700; color: var(--royal-blue); text-decoration: none;">Baca Artikel ➔</a>
                     </div>
                 `;
                 grid.appendChild(card);

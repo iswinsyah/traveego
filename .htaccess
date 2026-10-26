@@ -18,6 +18,14 @@ RewriteRule ^admin/?$ admin.php [L,QSA]
 # 3b. Rute Dashboard Crew AI: /crew-ai (Dilindungi Login: winsyah / Khilafet@1924)
 RewriteRule ^crew-ai/?$ crew-ai.php [L,QSA]
 
+# 3c. Rute Artikel Blog SEO: /blog/slug-artikel (Mbak Maya)
+RewriteRule ^blog/([A-Za-z0-9\-]+)/?$ post.php?slug=$1 [L,QSA]
+
+# 3d. Rute Landing Page Rute Drop Off (Bung Kevin)
+RewriteCond %{DOCUMENT_ROOT}/data/generated_pages/$1.json -f [OR]
+RewriteCond %{DOCUMENT_ROOT}/../data/generated_pages/$1.json -f
+RewriteRule ^([A-Za-z0-9\-]+)/?$ page.php?slug=$1 [L,QSA]
+
 # 4. Izinkan akses langsung ke folder api, uploads, dan file statis yang ada
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d

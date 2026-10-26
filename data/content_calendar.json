@@ -1,0 +1,84 @@
+{
+  "updated_at": "2026-10-26 23:59:00",
+  "active_week": "27 Okt - 2 Nov 2026",
+  "mode": "auto_scheduled",
+  "schedule": [
+    {
+      "day": "Senin",
+      "publish_at": "2026-10-26 08:00:00",
+      "type": "page",
+      "executor": "Bung Kevin",
+      "title": "Drop Off Bandara Soekarno-Hatta All-In Tol & BBM",
+      "slug": "drop-off-bandara-soekarno-hatta",
+      "seed_keyword": "drop off bandara soetta",
+      "intent": "Transactional",
+      "target_url": "/drop-off-bandara-soekarno-hatta"
+    },
+    {
+      "day": "Selasa",
+      "publish_at": "2026-10-27 10:00:00",
+      "type": "post",
+      "executor": "Mbak Maya",
+      "title": "Rincian Biaya & Tarif Tol Drop Off Jakarta ke Bandung Terbaru 2026",
+      "slug": "panduan-tarif-drop-off-jakarta-ke-bandung",
+      "seed_keyword": "tarif drop off avanza jakarta bandung",
+      "intent": "Informational",
+      "target_url": "/blog/panduan-tarif-drop-off-jakarta-ke-bandung"
+    },
+    {
+      "day": "Rabu",
+      "publish_at": "2026-10-28 09:00:00",
+      "type": "post",
+      "executor": "Mbak Maya",
+      "title": "Panduan Lengkap Drop Off Jabodetabek ke Baraya (Bandung Raya)",
+      "slug": "panduan-tarif-drop-off-jabodetabek-ke-baraya",
+      "seed_keyword": "sewa mobil drop off sekali jalan all in",
+      "intent": "Commercial",
+      "target_url": "/blog/panduan-tarif-drop-off-jabodetabek-ke-baraya"
+    },
+    {
+      "day": "Kamis",
+      "publish_at": "2026-10-29 13:00:00",
+      "type": "page",
+      "executor": "Bung Kevin",
+      "title": "Layanan Drop Off Dalam Kota Jabodetabek Bebas Ribet",
+      "slug": "drop-off-dalam-kota-jabodetabek",
+      "seed_keyword": "drop off dalam kota jabodetabek",
+      "intent": "Commercial",
+      "target_url": "/drop-off-dalam-kota-jabodetabek"
+    },
+    {
+      "day": "Jumat",
+      "publish_at": "2026-10-30 14:00:00",
+      "type": "post",
+      "executor": "Mbak Maya",
+      "title": "Panduan Tarif Drop Off Jabodetabek ke Bandara Halim Perdanakusuma",
+      "slug": "panduan-tarif-drop-off-jabodetabek-ke-bandara-halim-perdanakusuma",
+      "seed_keyword": "drop off bandara halim",
+      "intent": "Commercial",
+      "target_url": "/blog/panduan-tarif-drop-off-jabodetabek-ke-bandara-halim-perdanakusuma"
+    },
+    {
+      "day": "Sabtu",
+      "publish_at": "2026-10-31 07:30:00",
+      "type": "page",
+      "executor": "Bung Kevin",
+      "title": "Carter Drop Off Jakarta - Bandung Liburan Akhir Pekan All-In",
+      "slug": "drop-off-jakarta-bandung",
+      "seed_keyword": "drop off jakarta bandung",
+      "intent": "Transactional",
+      "target_url": "/drop-off-jakarta-bandung"
+    },
+    {
+      "day": "Minggu",
+      "publish_at": "2026-11-01 16:00:00",
+      "type": "post",
+      "executor": "Mbak Maya",
+      "title": "Panduan Drop Off Bandara Soetta: SOP Bayar di Tempat Tanpa DP",
+      "slug": "panduan-tarif-drop-off-jabodetabek-ke-bandara-internasional-soekarno-hatta",
+      "seed_keyword": "drop off tanpa uang muka bayar di tujuan",
+      "intent": "Commercial (Trust Building)",
+      "target_url": "/blog/panduan-tarif-drop-off-jabodetabek-ke-bandara-internasional-soekarno-hatta"
+    }
+  ]
+}

@@ -147,11 +147,35 @@ switch ($action) {
 
     case 'get_pages':
         $pages = [];
+        $calFile = $dataDir . '/content_calendar.json';
+        $calMap = [];
+        if (file_exists($calFile)) {
+            $calData = json_decode(file_get_contents($calFile), true) ?: [];
+            foreach (($calData['schedule'] ?? []) as $s) {
+                if (($s['type'] ?? '') === 'page') {
+                    $calMap[$s['slug']] = $s;
+                }
+            }
+        }
+
+        date_default_timezone_set('Asia/Jakarta');
+        $now = date('Y-m-d H:i:s');
+
         if (is_dir($pagesDir)) {
             $files = glob($pagesDir . '/*.json');
             foreach ($files as $f) {
                 $content = json_decode(file_get_contents($f), true);
                 if ($content) {
+                    $slug = $content['slug'] ?? basename($f, '.json');
+                    $sched = $calMap[$slug] ?? null;
+                    $publishAt = $sched['publish_at'] ?? ($content['generated_at'] ?? $now);
+                    $isLive = ($now >= $publishAt);
+
+                    $content['publish_at'] = $publishAt;
+                    $content['is_live'] = $isLive;
+                    $content['status_label'] = $isLive ? '🟢 LIVE (Tayang)' : '⏳ TERJADWAL (' . date('d M H:i', strtotime($publishAt)) . ' WIB)';
+                    $content['public_url'] = '/' . $slug;
+
                     $pages[] = [
                         'file' => basename($f),
                         'data' => $content
@@ -164,11 +188,35 @@ switch ($action) {
 
     case 'get_posts':
         $posts = [];
+        $calFile = $dataDir . '/content_calendar.json';
+        $calMap = [];
+        if (file_exists($calFile)) {
+            $calData = json_decode(file_get_contents($calFile), true) ?: [];
+            foreach (($calData['schedule'] ?? []) as $s) {
+                if (($s['type'] ?? '') === 'post') {
+                    $calMap[$s['slug']] = $s;
+                }
+            }
+        }
+
+        date_default_timezone_set('Asia/Jakarta');
+        $now = date('Y-m-d H:i:s');
+
         if (is_dir($postsDir)) {
             $files = glob($postsDir . '/*.json');
             foreach ($files as $f) {
                 $content = json_decode(file_get_contents($f), true);
                 if ($content) {
+                    $slug = $content['slug'] ?? basename($f, '.json');
+                    $sched = $calMap[$slug] ?? null;
+                    $publishAt = $sched['publish_at'] ?? ($content['published_at'] ?? $now);
+                    $isLive = ($now >= $publishAt);
+
+                    $content['publish_at'] = $publishAt;
+                    $content['is_live'] = $isLive;
+                    $content['status_label'] = $isLive ? '🟢 LIVE (Tayang)' : '⏳ TERJADWAL (' . date('d M H:i', strtotime($publishAt)) . ' WIB)';
+                    $content['public_url'] = '/blog/' . $slug;
+
                     $posts[] = [
                         'file' => basename($f),
                         'data' => $content
