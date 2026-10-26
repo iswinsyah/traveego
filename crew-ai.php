@@ -59,14 +59,17 @@ $isLoggedIn = isCrewLoggedIn();
             --bg-page: #F8FAFC;
             --bg-card: #FFFFFF;
             --bg-muted: #F1F5F9;
-            --sidebar-width: 290px;
+            --sidebar-width: 280px;
             --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
             --radius-xl: 24px;
+            --radius-android: 26px;
             --shadow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
             --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 0 1px rgba(15, 23, 42, 0.1);
             --shadow-float: 0 20px 40px -10px rgba(11, 79, 216, 0.18);
+            --shadow-android: 0 8px 24px -4px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+            --shadow-android-hover: 0 16px 36px -6px rgba(11, 79, 216, 0.15), 0 4px 12px -2px rgba(11, 79, 216, 0.08);
             --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
@@ -292,7 +295,7 @@ $isLoggedIn = isCrewLoggedIn();
         }
 
         /* ==============================================================
-           2. SIDEBAR LAYOUT (LIGHT MODE)
+           2. SIDEBAR LAYOUT (CLEAN / READY FOR FUTURE MENUS)
            ============================================================== */
         .dash-layout {
             display: flex;
@@ -300,7 +303,6 @@ $isLoggedIn = isCrewLoggedIn();
             background: var(--bg-page);
         }
 
-        /* SIDEBAR STYLES */
         .dash-sidebar {
             width: var(--sidebar-width);
             background: #FFFFFF;
@@ -316,7 +318,6 @@ $isLoggedIn = isCrewLoggedIn();
             overflow-y: auto;
         }
 
-        /* Brand / Header */
         .sidebar-brand {
             padding: 22px 20px;
             border-bottom: 1px solid var(--border-subtle);
@@ -355,7 +356,7 @@ $isLoggedIn = isCrewLoggedIn();
             letter-spacing: 0.3px;
         }
 
-        /* Working Hours Widget Inside Sidebar */
+        /* Working Hours Widget */
         .sidebar-working-card {
             margin: 16px 18px 8px;
             padding: 14px 16px;
@@ -418,9 +419,8 @@ $isLoggedIn = isCrewLoggedIn();
             color: var(--text-muted);
         }
 
-        /* Menu Section Header */
         .sidebar-heading {
-            padding: 16px 20px 8px;
+            padding: 18px 20px 8px;
             font-size: 11px;
             font-weight: 800;
             color: var(--text-muted);
@@ -428,8 +428,8 @@ $isLoggedIn = isCrewLoggedIn();
             letter-spacing: 0.8px;
         }
 
-        /* Visual AI Agent Nav Menu */
-        .agent-nav-list {
+        /* Clean General Sidebar Navigation */
+        .sidebar-menu-list {
             list-style: none;
             padding: 0 12px;
             display: flex;
@@ -438,118 +438,41 @@ $isLoggedIn = isCrewLoggedIn();
             margin-bottom: 20px;
         }
 
-        .agent-nav-item {
+        .sidebar-menu-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 14px;
+            padding: 12px 14px;
             border-radius: var(--radius-md);
             color: var(--text-body);
             text-decoration: none;
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             border: 1.5px solid transparent;
-            position: relative;
+            font-size: 13.5px;
+            font-weight: 700;
         }
 
-        .agent-nav-item:hover {
+        .sidebar-menu-item:hover {
             background: var(--bg-muted);
             color: var(--text-title);
         }
 
-        .agent-nav-item.active {
+        .sidebar-menu-item.active {
             background: #EFF6FF;
             color: var(--royal-blue);
             border-color: #BFDBFE;
             box-shadow: 0 4px 12px rgba(11, 79, 216, 0.08);
         }
 
-        /* Visual Avatar Circle */
-        .agent-avatar-wrap {
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .agent-avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
+        .menu-item-icon {
+            font-size: 18px;
+            width: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            background: #F1F5F9;
-            border: 1.5px solid #E2E8F0;
-            transition: transform 0.2s;
         }
 
-        .agent-nav-item.active .agent-avatar {
-            border-color: var(--royal-blue);
-            background: #DBEAFE;
-            transform: scale(1.05);
-        }
-
-        .agent-status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #22C55E;
-            border: 2px solid #FFFFFF;
-            position: absolute;
-            bottom: -2px;
-            right: -2px;
-            box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
-        }
-
-        .agent-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .agent-name-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 6px;
-        }
-
-        .agent-name {
-            font-size: 13.5px;
-            font-weight: 800;
-            color: var(--text-title);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .agent-nav-item.active .agent-name {
-            color: var(--royal-blue);
-        }
-
-        .agent-role-pill {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 1px 6px;
-            border-radius: 4px;
-            background: #E2E8F0;
-            color: #475569;
-        }
-
-        .agent-nav-item.active .agent-role-pill {
-            background: #BFDBFE;
-            color: #1E40AF;
-        }
-
-        .agent-sub {
-            font-size: 11px;
-            color: var(--text-muted);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-top: 2px;
-        }
-
-        /* Sidebar Footer */
         .sidebar-footer {
             margin-top: auto;
             padding: 16px 18px;
@@ -622,7 +545,6 @@ $isLoggedIn = isCrewLoggedIn();
             background: var(--bg-page);
         }
 
-        /* Top Bar */
         .dash-topbar {
             height: 72px;
             background: #FFFFFF;
@@ -687,7 +609,6 @@ $isLoggedIn = isCrewLoggedIn();
             border: 1px solid #BBF7D0;
         }
 
-        /* Main Content Container */
         .content-container {
             padding: 32px;
             max-width: 1300px;
@@ -708,6 +629,31 @@ $isLoggedIn = isCrewLoggedIn();
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Back Button on Agent Workspace */
+        .btn-back-hub {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-strong);
+            color: var(--text-title);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-back-hub:hover {
+            border-color: var(--royal-blue);
+            color: var(--royal-blue);
+            background: #F8FAFC;
+            transform: translateX(-3px);
         }
 
         /* Agent Visual Profile Hero Banner */
@@ -911,82 +857,243 @@ $isLoggedIn = isCrewLoggedIn();
             color: var(--text-muted);
         }
 
-        /* 5 Visual Agents Showcase Grid on Hub */
-        .agent-roster-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
+        /* ==============================================================
+           4. VISUAL AI AGENTS CARD MENU ALA ANDROID (MATERIAL 3)
+           ============================================================== */
+        .android-menu-section {
+            margin-bottom: 34px;
         }
 
-        .agent-roster-card {
+        .android-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .android-title-group h3 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-title);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .android-title-group p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        /* Android Card Grid */
+        .android-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 22px;
+        }
+
+        /* Android App Card */
+        .android-card {
             background: #FFFFFF;
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
+            border: 1.5px solid var(--border-subtle);
+            border-radius: var(--radius-android);
             padding: 24px;
-            box-shadow: var(--shadow-subtle);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.25s ease;
+            box-shadow: var(--shadow-android);
+            cursor: pointer;
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            overflow: hidden;
+            user-select: none;
         }
 
-        .agent-roster-card:hover {
+        .android-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(11, 79, 216, 0.04), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .android-card:hover {
+            transform: translateY(-5px);
             border-color: #BFDBFE;
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-float);
+            box-shadow: var(--shadow-android-hover);
         }
 
-        .roster-card-top {
+        .android-card:hover::before {
+            opacity: 1;
+        }
+
+        .android-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Android Card Top Row */
+        .android-card-top {
             display: flex;
             align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 16px;
+            justify-content: space-between;
+            margin-bottom: 18px;
         }
 
-        .roster-avatar {
-            width: 54px;
-            height: 54px;
-            border-radius: 16px;
+        /* Android Squircle App Icon */
+        .android-app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            background: #F0F7FF;
-            border: 1.5px solid #BFDBFE;
+            font-size: 30px;
+            position: relative;
             flex-shrink: 0;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .roster-name {
-            font-size: 16px;
+        .android-card:hover .android-app-icon {
+            transform: scale(1.08) rotate(2deg);
+        }
+
+        /* Theme variants for Android squircle icons */
+        .icon-theme-blue {
+            background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+            border: 2px solid #BFDBFE;
+            color: #1D4ED8;
+        }
+
+        .icon-theme-green {
+            background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+            border: 2px solid #BBF7D0;
+            color: #15803D;
+        }
+
+        .icon-theme-amber {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border: 2px solid #FDE68A;
+            color: #B45309;
+        }
+
+        .icon-theme-cyan {
+            background: linear-gradient(135deg, #ECFEFF, #CFFAFE);
+            border: 2px solid #A5F3FC;
+            color: #0E7490;
+        }
+
+        .icon-theme-indigo {
+            background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+            border: 2px solid #C7D2FE;
+            color: #4338CA;
+        }
+
+        /* Android Status Badge Pill */
+        .android-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 30px;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-status-active {
+            background: #DCFCE7;
+            color: #15803D;
+            border: 1px solid #86EFAC;
+        }
+
+        .pill-status-live {
+            background: #EFF6FF;
+            color: #1D4ED8;
+            border: 1px solid #BFDBFE;
+        }
+
+        .pill-status-amber {
+            background: #FEF3C7;
+            color: #B45309;
+            border: 1px solid #FCD34D;
+        }
+
+        /* Android Card Body */
+        .android-card-body {
+            margin-bottom: 20px;
+        }
+
+        .android-agent-name {
+            font-size: 18px;
             font-weight: 800;
             color: var(--text-title);
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
         }
 
-        .roster-role {
+        .android-agent-role {
             font-size: 12px;
             font-weight: 700;
             color: var(--royal-blue);
+            margin-bottom: 10px;
+            display: block;
         }
 
-        .roster-duty {
+        .android-agent-duty {
             font-size: 13px;
             color: var(--text-body);
             line-height: 1.5;
-            margin-bottom: 16px;
         }
 
-        .roster-meta-row {
+        /* Android Card Action Button */
+        .android-card-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-top: 1px solid var(--border-subtle);
             padding-top: 14px;
+            border-top: 1px solid var(--border-subtle);
         }
 
-        /* Light Cards / Sections */
+        .android-action-link {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--royal-blue);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s;
+        }
+
+        .android-card:hover .android-action-link {
+            gap: 10px;
+        }
+
+        .android-tap-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #F1F5F9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--text-title);
+            transition: all 0.2s;
+        }
+
+        .android-card:hover .android-tap-circle {
+            background: var(--royal-blue);
+            color: #FFFFFF;
+            transform: translateX(3px);
+        }
+
+        /* Content Card Generic */
         .content-card {
             background: #FFFFFF;
             border: 1px solid var(--border-subtle);
@@ -1262,6 +1369,9 @@ $isLoggedIn = isCrewLoggedIn();
             .content-container {
                 padding: 20px 16px;
             }
+            .android-card-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -1321,7 +1431,6 @@ $isLoggedIn = isCrewLoggedIn();
 </div>
 
 <script>
-    // Fitur toggle lihat password (tanda mata)
     const toggleBtn = document.getElementById('togglePasswordBtn');
     const pwdInput = document.getElementById('password');
     const eyeIcon = document.getElementById('eyeIcon');
@@ -1347,10 +1456,10 @@ $isLoggedIn = isCrewLoggedIn();
 
 <?php else: ?>
 <!-- ==============================================================
-     DASHBOARD CREW AI DENGAN SIDEBAR & VISUAL AI AGENT MENU
+     DASHBOARD CREW AI DENGAN SIDEBAR UMUM & ANDROID CARD MENU DI HUB
      ============================================================== -->
 <div class="dash-layout">
-    <!-- 1. LEFT SIDEBAR -->
+    <!-- 1. LEFT SIDEBAR (CLEAN / READY FOR FUTURE MENUS) -->
     <aside class="dash-sidebar" id="dashSidebar">
         <!-- Brand Header -->
         <a href="/crew-ai" class="sidebar-brand">
@@ -1376,108 +1485,23 @@ $isLoggedIn = isCrewLoggedIn();
 
         <!-- Section: Navigation Menu -->
         <div class="sidebar-heading">Menu Utama</div>
-        <ul class="agent-nav-list">
+        <ul class="sidebar-menu-list">
             <li>
-                <div class="agent-nav-item active" onclick="activateAgentPanel('overviewHub', this)">
-                    <div class="agent-avatar-wrap">
-                        <div class="agent-avatar">🏠</div>
-                    </div>
-                    <div class="agent-info">
-                        <div class="agent-name-row">
-                            <span class="agent-name">Overview Hub</span>
-                            <span class="agent-role-pill">Ringkasan</span>
-                        </div>
-                        <div class="agent-sub">Status Seluruh Tim AI</div>
-                    </div>
+                <div class="sidebar-menu-item active" id="menuItemOverview" onclick="returnToOverviewHub()">
+                    <span class="menu-item-icon">🏠</span>
+                    <span>Overview Hub</span>
                 </div>
             </li>
-        </ul>
-
-        <!-- Section: Visual AI Agent Crew (5 Persona) -->
-        <div class="sidebar-heading">TIM AI AGENT (5 PERSONA)</div>
-        <ul class="agent-nav-list">
-            <!-- AGENT 1: PAK HENDRA -->
             <li>
-                <div class="agent-nav-item" onclick="activateAgentPanel('hendraPanel', this)">
-                    <div class="agent-avatar-wrap">
-                        <div class="agent-avatar">👔</div>
-                        <div class="agent-status-dot"></div>
-                    </div>
-                    <div class="agent-info">
-                        <div class="agent-name-row">
-                            <span class="agent-name">Pak Hendra</span>
-                            <span class="agent-role-pill">Intelligence</span>
-                        </div>
-                        <div class="agent-sub">Survey BBM, Tol & Tarif</div>
-                    </div>
+                <div class="sidebar-menu-item" onclick="openServerConfigModal()">
+                    <span class="menu-item-icon">⚙️</span>
+                    <span>Pengaturan PC Server</span>
                 </div>
             </li>
-
-            <!-- AGENT 2: BUNG KEVIN -->
             <li>
-                <div class="agent-nav-item" onclick="activateAgentPanel('kevinPanel', this)">
-                    <div class="agent-avatar-wrap">
-                        <div class="agent-avatar">🎯</div>
-                        <div class="agent-status-dot"></div>
-                    </div>
-                    <div class="agent-info">
-                        <div class="agent-name-row">
-                            <span class="agent-name">Bung Kevin</span>
-                            <span class="agent-role-pill">Page Crew</span>
-                        </div>
-                        <div class="agent-sub">Pabrik Landing Page Rute</div>
-                    </div>
-                </div>
-            </li>
-
-            <!-- AGENT 3: MBAK MAYA -->
-            <li>
-                <div class="agent-nav-item" onclick="activateAgentPanel('mayaPanel', this)">
-                    <div class="agent-avatar-wrap">
-                        <div class="agent-avatar">✍️</div>
-                        <div class="agent-status-dot"></div>
-                    </div>
-                    <div class="agent-info">
-                        <div class="agent-name-row">
-                            <span class="agent-name">Mbak Maya</span>
-                            <span class="agent-role-pill">Post Crew</span>
-                        </div>
-                        <div class="agent-sub">Artikel Blog & Shortcode</div>
-                    </div>
-                </div>
-            </li>
-
-            <!-- AGENT 4: MBAK TIARA -->
-            <li>
-                <div class="agent-nav-item" onclick="activateAgentPanel('tiaraPanel', this)">
-                    <div class="agent-avatar-wrap">
-                        <div class="agent-avatar">💬</div>
-                        <div class="agent-status-dot"></div>
-                    </div>
-                    <div class="agent-info">
-                        <div class="agent-name-row">
-                            <span class="agent-name">Mbak Tiara</span>
-                            <span class="agent-role-pill">CS Assistant</span>
-                        </div>
-                        <div class="agent-sub">Simulasi Chat Booking 24/7</div>
-                    </div>
-                </div>
-            </li>
-
-            <!-- AGENT 5: KOMANDAN SISTEM -->
-            <li>
-                <div class="agent-nav-item" onclick="activateAgentPanel('komandanPanel', this)">
-                    <div class="agent-avatar-wrap">
-                        <div class="agent-avatar">🧠</div>
-                        <div class="agent-status-dot"></div>
-                    </div>
-                    <div class="agent-info">
-                        <div class="agent-name-row">
-                            <span class="agent-name">Komandan Sistem</span>
-                            <span class="agent-role-pill">Orchestrator</span>
-                        </div>
-                        <div class="agent-sub">Ollama Host & Pipeline Log</div>
-                    </div>
+                <div class="sidebar-menu-item" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator')">
+                    <span class="menu-item-icon">⚡</span>
+                    <span>Terminal & Pipeline Log</span>
                 </div>
             </li>
         </ul>
@@ -1528,7 +1552,7 @@ $isLoggedIn = isCrewLoggedIn();
         <div class="content-container">
 
             <!-- ==============================================================
-                 PANEL 0: OVERVIEW HUB (RINGKASAN SEMUA AGENT)
+                 PANEL 0: OVERVIEW HUB (ANDROID CARD MENU SHOWCASE)
                  ============================================================== -->
             <section class="agent-panel active" id="overviewHub">
                 <!-- Welcome Banner -->
@@ -1540,7 +1564,7 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                         <div class="hero-banner-text">
                             <h2>Traveego AI Crew Control Center</h2>
-                            <p>Selamat datang, Mas Winsyah! Seluruh 5 AI Agent siap berkolaborasi secara otomatis. Sistem terhubung ke PC Server lokal via Tailscale untuk memastikan biaya operasional dan artikel selalu terupdate.</p>
+                            <p>Selamat datang, Mas Winsyah! Sentuh atau klik kartu AI Agent di bawah untuk melihat wujud visual dan mengontrol ruang kerja masing-masing agen secara langsung.</p>
                         </div>
                     </div>
                     <div class="hero-banner-actions">
@@ -1579,93 +1603,111 @@ $isLoggedIn = isCrewLoggedIn();
                     </div>
                 </div>
 
-                <!-- 5 VISUAL AGENTS ROSTER -->
-                <div class="content-card">
-                    <div class="content-card-header">
-                        <h3 class="card-title">
-                            <span>👥</span>
-                            <span>Visual Tim AI Agent & Tugas Khusus</span>
-                        </h3>
+                <!-- ANDROID-STYLE CARD MENU FOR 5 AI AGENTS -->
+                <div class="android-menu-section">
+                    <div class="android-section-header">
+                        <div class="android-title-group">
+                            <h3>
+                                <span>📱</span>
+                                <span>Menu Tim AI Agent (Android Cards)</span>
+                            </h3>
+                            <p>Sentuh salah satu kartu untuk membuka ruang kerja, data, atau simulasi agen.</p>
+                        </div>
                     </div>
 
-                    <div class="agent-roster-grid">
-                        <!-- Agent 1: Pak Hendra -->
-                        <div class="agent-roster-card">
-                            <div class="roster-card-top">
-                                <div class="roster-avatar">👔</div>
-                                <div>
-                                    <h4 class="roster-name">Pak Hendra</h4>
-                                    <div class="roster-role">Pricing & Cost Intelligence Agent</div>
+                    <div class="android-card-grid">
+                        <!-- CARD 1: PAK HENDRA -->
+                        <div class="android-card" onclick="openAgentWorkspace('hendraPanel', 'Pak Hendra &ndash; Tariff & Intelligence')">
+                            <div class="android-card-top">
+                                <div class="android-app-icon icon-theme-blue">
+                                    <span>👔</span>
                                 </div>
+                                <span class="android-status-pill pill-status-active">🟢 Menghitung</span>
                             </div>
-                            <p class="roster-duty">Memantau harga BBM terkini, tarif tol per gerbang, dan jasa sopir. Menghasilkan Single Source of Truth agar margin aman dan harga kompetitif.</p>
-                            <div class="roster-meta-row">
-                                <span class="sw-pill pill-active">🟢 4 Rute Terpetakan</span>
-                                <button class="btn-brand-outline" style="padding: 6px 14px; font-size: 12px;" onclick="switchToAgent('hendraPanel')">Buka Matrix ➔</button>
+                            <div class="android-card-body">
+                                <h4 class="android-agent-name">Pak Hendra</h4>
+                                <span class="android-agent-role">Tariff & Cost Intelligence Agent</span>
+                                <p class="android-agent-duty">Survey harga BBM Pertamina, hitung tarif tol gerbang-ke-gerbang (Cipularang, MBZ, JORR, Sedyatmo), dan kalkulasi margin profit aman.</p>
+                            </div>
+                            <div class="android-card-footer">
+                                <span class="android-action-link">Buka Matrix Biaya & Tarif ➔</span>
+                                <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
 
-                        <!-- Agent 2: Bung Kevin -->
-                        <div class="agent-roster-card">
-                            <div class="roster-card-top">
-                                <div class="roster-avatar">🎯</div>
-                                <div>
-                                    <h4 class="roster-name">Bung Kevin</h4>
-                                    <div class="roster-role">Direct Response Copywriter (Page Crew)</div>
+                        <!-- CARD 2: BUNG KEVIN -->
+                        <div class="android-card" onclick="openAgentWorkspace('kevinPanel', 'Bung Kevin &ndash; Page Crew Copywriter')">
+                            <div class="android-card-top">
+                                <div class="android-app-icon icon-theme-green">
+                                    <span>🎯</span>
                                 </div>
+                                <span class="android-status-pill pill-status-active">🟢 4 Rute Aktif</span>
                             </div>
-                            <p class="roster-duty">Meracik landing page rute penawaran sekali jalan. Menekankan All-In Tol + BBM, zero DP (bayar di lokasi), dan garansi jemput tepat waktu.</p>
-                            <div class="roster-meta-row">
-                                <span class="sw-pill pill-active">🟢 4 Halaman Siap</span>
-                                <button class="btn-brand-outline" style="padding: 6px 14px; font-size: 12px;" onclick="switchToAgent('kevinPanel')">Buka Halaman ➔</button>
+                            <div class="android-card-body">
+                                <h4 class="android-agent-name">Bung Kevin</h4>
+                                <span class="android-agent-role">Page Crew (Landing Page Copywriter)</span>
+                                <p class="android-agent-duty">Meracik copywriting direct response untuk landing page penawaran rute travel sekali jalan: All-In Tol + BBM, 0% DP, dan garansi penjemputan.</p>
+                            </div>
+                            <div class="android-card-footer">
+                                <span class="android-action-link">Buka Pabrik Landing Page ➔</span>
+                                <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
 
-                        <!-- Agent 3: Mbak Maya -->
-                        <div class="agent-roster-card">
-                            <div class="roster-card-top">
-                                <div class="roster-avatar">✍️</div>
-                                <div>
-                                    <h4 class="roster-name">Mbak Maya</h4>
-                                    <div class="roster-role">SEO Content Strategist (Post Crew)</div>
+                        <!-- CARD 3: MBAK MAYA -->
+                        <div class="android-card" onclick="openAgentWorkspace('mayaPanel', 'Mbak Maya &ndash; Post Crew SEO Content')">
+                            <div class="android-card-top">
+                                <div class="android-app-icon icon-theme-amber">
+                                    <span>✍️</span>
                                 </div>
+                                <span class="android-status-pill pill-status-active">🟢 4 Artikel Synced</span>
                             </div>
-                            <p class="roster-duty">Memproduksi artikel blog edukasi berbobot dengan variabel shortcode dinamis yang otomatis sinkron dengan database tarif Pak Hendra.</p>
-                            <div class="roster-meta-row">
-                                <span class="sw-pill pill-active">🟢 4 Artikel SEO</span>
-                                <button class="btn-brand-outline" style="padding: 6px 14px; font-size: 12px;" onclick="switchToAgent('mayaPanel')">Buka Artikel ➔</button>
+                            <div class="android-card-body">
+                                <h4 class="android-agent-name">Mbak Maya</h4>
+                                <span class="android-agent-role">Post Crew (SEO Content Specialist)</span>
+                                <p class="android-agent-duty">Memproduksi artikel blog SEO edukasi dengan shortcode dinamis <code>[TARIF_AVANZA]</code> yang otomatis update saat harga BBM/tol berubah.</p>
+                            </div>
+                            <div class="android-card-footer">
+                                <span class="android-action-link">Buka Artikel Blog SEO ➔</span>
+                                <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
 
-                        <!-- Agent 4: Mbak Tiara -->
-                        <div class="agent-roster-card">
-                            <div class="roster-card-top">
-                                <div class="roster-avatar">💬</div>
-                                <div>
-                                    <h4 class="roster-name">Mbak Tiara</h4>
-                                    <div class="roster-role">Customer Service AI Booking Specialist</div>
+                        <!-- CARD 4: MBAK TIARA -->
+                        <div class="android-card" onclick="openAgentWorkspace('tiaraPanel', 'Mbak Tiara &ndash; CS AI Booking Assistant')">
+                            <div class="android-card-top">
+                                <div class="android-app-icon icon-theme-cyan">
+                                    <span>💬</span>
                                 </div>
+                                <span class="android-status-pill pill-status-live">🟢 Online 24 Jam</span>
                             </div>
-                            <p class="roster-duty">Melayani calon penumpang 24 jam di website & WhatsApp. Menghitung tarif All-In instan dan merekomendasikan armada yang tepat sesuai jumlah penumpang.</p>
-                            <div class="roster-meta-row">
-                                <span class="sw-pill pill-active">🟢 Simulator Aktif</span>
-                                <button class="btn-brand-outline" style="padding: 6px 14px; font-size: 12px;" onclick="switchToAgent('tiaraPanel')">Tes Simulasi ➔</button>
+                            <div class="android-card-body">
+                                <h4 class="android-agent-name">Mbak Tiara</h4>
+                                <span class="android-agent-role">Customer Service AI Booking Specialist</span>
+                                <p class="android-agent-duty">Melayani konsultasi calon penumpang 24 jam di WhatsApp/Web, menghitung tarif All-In seketika, dan rekomendasi armada yang tepat.</p>
+                            </div>
+                            <div class="android-card-footer">
+                                <span class="android-action-link">Buka Simulator Chat CS ➔</span>
+                                <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
 
-                        <!-- Agent 5: Komandan Sistem -->
-                        <div class="agent-roster-card">
-                            <div class="roster-card-top">
-                                <div class="roster-avatar">🧠</div>
-                                <div>
-                                    <h4 class="roster-name">Komandan Sistem</h4>
-                                    <div class="roster-role">System Orchestrator & Tailscale Host</div>
+                        <!-- CARD 5: KOMANDAN SISTEM -->
+                        <div class="android-card" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator')">
+                            <div class="android-card-top">
+                                <div class="android-app-icon icon-theme-indigo">
+                                    <span>🧠</span>
                                 </div>
+                                <span class="android-status-pill pill-status-active">🟢 P2P Tailscale</span>
                             </div>
-                            <p class="roster-duty">Mengatur jadwal eksekusi jam kerja 06.00-23.00 WIB, menjaga koneksi Tailscale PC Server Ollama, dan menjalankan otomatisasi pipeline terpadu.</p>
-                            <div class="roster-meta-row">
-                                <span class="sw-pill pill-active">🟢 Orchestrator Siap</span>
-                                <button class="btn-brand-outline" style="padding: 6px 14px; font-size: 12px;" onclick="switchToAgent('komandanPanel')">Buka Konsol ➔</button>
+                            <div class="android-card-body">
+                                <h4 class="android-agent-name">Komandan Sistem</h4>
+                                <span class="android-agent-role">System Orchestrator & PC Host</span>
+                                <p class="android-agent-duty">Menegakkan jam kerja server 06:00-23:00 WIB, menjaga jalur Tailscale IP ke endpoint Ollama, dan mengoordinasikan pipeline eksekusi.</p>
+                            </div>
+                            <div class="android-card-footer">
+                                <span class="android-action-link">Buka Konsol & Pipeline ➔</span>
+                                <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
                     </div>
@@ -1706,6 +1748,11 @@ $isLoggedIn = isCrewLoggedIn();
                  PANEL 1: PAK HENDRA (TARIFF & COST INTELLIGENCE)
                  ============================================================== -->
             <section class="agent-panel" id="hendraPanel">
+                <button type="button" class="btn-back-hub" onclick="returnToOverviewHub()">
+                    <span>←</span>
+                    <span>Kembali ke Overview Hub</span>
+                </button>
+
                 <div class="agent-hero-banner">
                     <div class="hero-banner-left">
                         <div class="hero-agent-avatar">
@@ -1787,6 +1834,11 @@ $isLoggedIn = isCrewLoggedIn();
                  PANEL 2: BUNG KEVIN (PAGE CREW - LANDING PAGE)
                  ============================================================== -->
             <section class="agent-panel" id="kevinPanel">
+                <button type="button" class="btn-back-hub" onclick="returnToOverviewHub()">
+                    <span>←</span>
+                    <span>Kembali ke Overview Hub</span>
+                </button>
+
                 <div class="agent-hero-banner">
                     <div class="hero-banner-left">
                         <div class="hero-agent-avatar">
@@ -1822,6 +1874,11 @@ $isLoggedIn = isCrewLoggedIn();
                  PANEL 3: MBAK MAYA (POST CREW - SEO BLOG)
                  ============================================================== -->
             <section class="agent-panel" id="mayaPanel">
+                <button type="button" class="btn-back-hub" onclick="returnToOverviewHub()">
+                    <span>←</span>
+                    <span>Kembali ke Overview Hub</span>
+                </button>
+
                 <div class="agent-hero-banner">
                     <div class="hero-banner-left">
                         <div class="hero-agent-avatar">
@@ -1857,6 +1914,11 @@ $isLoggedIn = isCrewLoggedIn();
                  PANEL 4: MBAK TIARA (CS AI BOOKING ASSISTANT)
                  ============================================================== -->
             <section class="agent-panel" id="tiaraPanel">
+                <button type="button" class="btn-back-hub" onclick="returnToOverviewHub()">
+                    <span>←</span>
+                    <span>Kembali ke Overview Hub</span>
+                </button>
+
                 <div class="agent-hero-banner">
                     <div class="hero-banner-left">
                         <div class="hero-agent-avatar">
@@ -1874,7 +1936,6 @@ $isLoggedIn = isCrewLoggedIn();
                 </div>
 
                 <div class="chat-sim-container">
-                    <!-- Chat Window Simulator -->
                     <div class="chat-window">
                         <div class="chat-window-header">
                             <div class="chat-agent-badge">
@@ -1899,7 +1960,6 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
                         </form>
                     </div>
 
-                    <!-- Simulator Tips & Quick Questions -->
                     <div class="content-card" style="margin-bottom: 0;">
                         <h4 style="font-size: 15px; font-weight: 800; color: var(--text-title); margin-bottom: 12px;">Contoh Pertanyaan Pengujian:</h4>
                         <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 16px;">Klik salah satu untuk langsung menanyakan ke Mbak Tiara:</p>
@@ -1929,6 +1989,11 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
                  PANEL 5: KOMANDAN SISTEM (ORCHESTRATOR & TAILSCALE)
                  ============================================================== -->
             <section class="agent-panel" id="komandanPanel">
+                <button type="button" class="btn-back-hub" onclick="returnToOverviewHub()">
+                    <span>←</span>
+                    <span>Kembali ke Overview Hub</span>
+                </button>
+
                 <div class="agent-hero-banner">
                     <div class="hero-banner-left">
                         <div class="hero-agent-avatar">
@@ -2024,49 +2089,38 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
 </div>
 
 <script>
-    // Tab & Navigation Switching
-    function activateAgentPanel(panelId, navEl) {
-        // Hide all panels
+    // Navigation Control
+    function returnToOverviewHub() {
         document.querySelectorAll('.agent-panel').forEach(p => p.classList.remove('active'));
-        // Remove active class from nav items
-        document.querySelectorAll('.agent-nav-item').forEach(el => el.classList.remove('active'));
+        document.getElementById('overviewHub').classList.add('active');
+        document.getElementById('activeAgentHeaderTitle').innerText = 'Overview Control Hub';
+        
+        // Update sidebar active menu
+        document.querySelectorAll('.sidebar-menu-item').forEach(el => el.classList.remove('active'));
+        const m = document.getElementById('menuItemOverview');
+        if (m) m.classList.add('active');
 
-        // Show target panel
+        // Close mobile drawer if open
+        const sb = document.getElementById('dashSidebar');
+        if (sb && sb.classList.contains('open')) sb.classList.remove('open');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openAgentWorkspace(panelId, titleText) {
+        document.querySelectorAll('.agent-panel').forEach(p => p.classList.remove('active'));
         const target = document.getElementById(panelId);
         if (target) target.classList.add('active');
 
-        // Highlight nav item
-        if (navEl) navEl.classList.add('active');
-
-        // Update Topbar Title
-        const titleMap = {
-            'overviewHub': 'Overview Control Hub',
-            'hendraPanel': 'Pak Hendra &ndash; Tariff & Intelligence',
-            'kevinPanel': 'Bung Kevin &ndash; Page Crew Copywriter',
-            'mayaPanel': 'Mbak Maya &ndash; Post Crew SEO Content',
-            'tiaraPanel': 'Mbak Tiara &ndash; CS AI Booking Assistant',
-            'komandanPanel': 'Komandan Sistem &ndash; Orchestrator Host'
-        };
-        document.getElementById('activeAgentHeaderTitle').innerHTML = titleMap[panelId] || 'Crew AI Control Center';
-
-        // Close mobile sidebar if open
-        const sb = document.getElementById('dashSidebar');
-        if (sb && sb.classList.contains('open')) {
-            sb.classList.remove('open');
+        if (titleText) {
+            document.getElementById('activeAgentHeaderTitle').innerHTML = titleText;
         }
-    }
 
-    function switchToAgent(panelId) {
-        const itemMap = {
-            'hendraPanel': 1,
-            'kevinPanel': 2,
-            'mayaPanel': 3,
-            'tiaraPanel': 4,
-            'komandanPanel': 5
-        };
-        const allItems = document.querySelectorAll('.agent-nav-item');
-        const idx = itemMap[panelId];
-        activateAgentPanel(panelId, allItems[idx] || null);
+        // Close mobile drawer if open
+        const sb = document.getElementById('dashSidebar');
+        if (sb && sb.classList.contains('open')) sb.classList.remove('open');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function toggleSidebar() {
@@ -2286,7 +2340,7 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
         const btnQ = document.getElementById('btnQuickRun');
         const term = document.getElementById('terminalOutput');
 
-        switchToAgent('komandanPanel');
+        openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator');
 
         if (btn) {
             btn.disabled = true;
@@ -2385,7 +2439,6 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
         appendChatBubble('user', text);
         input.value = '';
 
-        // Add typing indicator
         const typingId = 'typing-' + Date.now();
         const feed = document.getElementById('chatFeed');
         const typingEl = document.createElement('div');
