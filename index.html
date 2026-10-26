@@ -508,18 +508,21 @@
         .fleet-card-img-wrap {
             position: relative;
             background: #020817;
-            padding: 24px;
+            padding: 44px 20px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 200px;
+            min-height: 210px;
+            overflow: hidden;
         }
         .fleet-card-img {
             max-width: 100%;
-            max-height: 160px;
+            max-height: 155px;
             object-fit: contain;
             filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8));
             transition: transform 0.3s;
+            position: relative;
+            z-index: 2;
         }
         .fleet-rich-card:hover .fleet-card-img {
             transform: scale(1.04);
@@ -528,14 +531,17 @@
             position: absolute;
             top: 14px;
             left: 14px;
-            background: rgba(11, 79, 216, 0.85);
+            z-index: 10;
+            background: #0B4FD8;
             color: #FFFFFF;
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 800;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 6px;
             text-transform: uppercase;
-            backdrop-filter: blur(8px);
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
         }
         .fleet-card-badge.gold {
             background: linear-gradient(135deg, #F59E0B, #D97706);
