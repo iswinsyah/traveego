@@ -382,13 +382,8 @@
 
 
         /* ==============================================================
-           3. POPULAR ROUTES CARDS (KARTU RUTE CEPAT)
+           SHARED SECTION HEADER STYLES
            ============================================================== */
-        .routes-section {
-            background: #0B1936;
-            padding: 64px 20px 48px;
-            position: relative;
-        }
         .section-header-center {
             text-align: center;
             max-width: 680px;
@@ -416,406 +411,6 @@
             line-height: 1.6;
         }
 
-        .routes-grid {
-            max-width: var(--container-max);
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-        .route-card {
-            background: rgba(2, 12, 34, 0.7);
-            border: 1.5px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-lg);
-            padding: 24px 20px;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .route-card:hover {
-            border-color: #3B82F6;
-            transform: translateY(-4px);
-            box-shadow: 0 16px 35px rgba(11, 79, 216, 0.3);
-            background: rgba(11, 30, 70, 0.85);
-        }
-        .route-badge {
-            align-self: flex-start;
-            background: rgba(37, 99, 235, 0.25);
-            border: 1px solid rgba(96, 165, 250, 0.4);
-            color: #93C5FD;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 3px 10px;
-            border-radius: 20px;
-            margin-bottom: 14px;
-        }
-        .route-badge.gold {
-            background: rgba(245, 158, 11, 0.2);
-            border-color: rgba(245, 158, 11, 0.5);
-            color: #FCD34D;
-        }
-        .route-name {
-            font-size: 17px;
-            font-weight: 900;
-            color: #FFFFFF;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .route-desc {
-            font-size: 12px;
-            color: #94A3B8;
-            margin-bottom: 20px;
-            line-height: 1.45;
-        }
-        .route-card-bottom {
-            border-top: 1px dashed rgba(255, 255, 255, 0.12);
-            padding-top: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .route-price-label {
-            font-size: 10.5px;
-            color: #94A3B8;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-        .route-price-val {
-            font-size: 17px;
-            font-weight: 900;
-            color: #4ADE80;
-        }
-        .btn-select-route {
-            background: var(--royal-blue);
-            color: #FFFFFF;
-            border: none;
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 11.5px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .route-card:hover .btn-select-route {
-            background: #2563EB;
-            transform: scale(1.05);
-        }
-
-        /* ==============================================================
-           4. FORMULIR PEMESANAN & ESTIMASI HARGA
-           ============================================================== */
-        .booking-section-wrapper {
-            background: #F8FAFC;
-            color: var(--text-title);
-            padding: 72px 20px 60px;
-            position: relative;
-        }
-        .booking-inner-container {
-            max-width: 1040px;
-            margin: 0 auto;
-        }
-
-        .booking-main-card {
-            background: #FFFFFF;
-            border-radius: var(--radius-xl);
-            padding: 38px 34px;
-            box-shadow: 0 25px 60px rgba(15, 76, 129, 0.14);
-            border: 1px solid var(--border-subtle);
-            position: relative;
-            z-index: 30;
-            transition: box-shadow 0.3s;
-        }
-        .booking-main-card.highlight-flash {
-            animation: card-flash 1s ease;
-        }
-        @keyframes card-flash {
-            0%, 100% { box-shadow: 0 25px 60px rgba(15, 76, 129, 0.14); }
-            50% { box-shadow: 0 0 35px rgba(37, 99, 235, 0.5); border-color: #3B82F6; }
-        }
-
-        .card-top-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid var(--border-subtle);
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .card-top-title {
-            font-size: 22px;
-            font-weight: 900;
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .tag-allin-gold {
-            background: #FEF3C7;
-            color: #B45309;
-            font-size: 12px;
-            font-weight: 800;
-            padding: 5px 12px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .step-label {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin: 20px 0 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* SELECT RUTE */
-        .route-picker {
-            background: #F1F5F9;
-            border: 1.5px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            transition: all 0.2s;
-        }
-        .route-picker:focus-within {
-            border-color: var(--primary-blue);
-            background: #FFFFFF;
-            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.1);
-        }
-        .route-picker select {
-            width: 100%;
-            border: none;
-            background: transparent;
-            font-size: 14.5px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            outline: none;
-            cursor: pointer;
-        }
-
-        /* LOKASI JEMPUT & TUJUAN */
-        .locations-box {
-            background: #FFFFFF;
-            border: 1.5px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 4px 16px;
-            margin-bottom: 16px;
-        }
-        .loc-item-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-        }
-        .loc-item-row:first-child {
-            border-bottom: 1px dashed var(--border-subtle);
-        }
-        .loc-pin {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-        .loc-body {
-            flex: 1;
-        }
-        .loc-caption {
-            font-size: 10.5px;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        .loc-input-field {
-            width: 100%;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-title);
-            background: transparent;
-            padding-top: 2px;
-        }
-        .loc-input-field::placeholder {
-            color: #94A3B8;
-            font-weight: 500;
-        }
-
-        /* FLEET CHIPS */
-        .fleet-selector-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            margin-bottom: 18px;
-        }
-        .fleet-chip {
-            background: #FFFFFF;
-            border: 1.5px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .fleet-chip:hover {
-            border-color: #93C5FD;
-            transform: translateY(-2px);
-        }
-        .fleet-chip.active {
-            border-color: var(--primary-blue);
-            background: #EBF4FC;
-            box-shadow: 0 6px 18px rgba(15, 76, 129, 0.14);
-        }
-        .chip-badge-rec {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--accent-amber);
-            color: #FFFFFF;
-            font-size: 9px;
-            font-weight: 900;
-            padding: 2px 7px;
-            border-radius: 4px;
-            letter-spacing: 0.5px;
-        }
-        .chip-name {
-            font-size: 14.5px;
-            font-weight: 900;
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-        .chip-capacity {
-            font-size: 11.5px;
-            color: var(--text-body);
-            margin-bottom: 8px;
-        }
-        .chip-price {
-            font-size: 13.5px;
-            font-weight: 900;
-            color: var(--primary-blue);
-        }
-
-        /* 2-COL CONTACT & TIME */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .input-group label {
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--text-body);
-        }
-        .input-control {
-            border: 1.5px solid var(--border-subtle);
-            background: #F8FAFC;
-            border-radius: 8px;
-            padding: 11px 14px;
-            font-size: 13.5px;
-            font-weight: 600;
-            outline: none;
-            width: 100%;
-            transition: all 0.2s;
-        }
-        .input-control:focus {
-            border-color: var(--primary-blue);
-            background: #FFFFFF;
-            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.08);
-        }
-
-        /* FARE BAR & SUBMIT */
-        .fare-checkout-banner {
-            background: linear-gradient(135deg, var(--deep-navy), var(--primary-blue));
-            color: #FFFFFF;
-            border-radius: var(--radius-md);
-            padding: 22px 26px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 24px;
-            gap: 16px;
-        }
-        .fare-display-col {
-            display: flex;
-            flex-direction: column;
-        }
-        .fare-subtag {
-            font-size: 11px;
-            color: #93C5FD;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .fare-main-val {
-            font-size: 26px;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-order-cta {
-            background: linear-gradient(135deg, #22C55E, #16A34A);
-            color: #FFFFFF;
-            border: none;
-            border-radius: 12px;
-            padding: 15px 30px;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45);
-            transition: all 0.25s;
-        }
-        .btn-order-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 28px rgba(22, 163, 74, 0.55);
-        }
-
-        /* WA FAST TRACK BUTTON */
-        .wa-alternative-row {
-            margin-top: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-body);
-        }
-        .btn-wa-direct {
-            color: #15803D;
-            font-weight: 800;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #DCFCE7;
-            padding: 6px 14px;
-            border-radius: 20px;
-            transition: background 0.2s;
-        }
-        .btn-wa-direct:hover {
-            background: #BBF7D0;
-        }
 
         /* ==============================================================
            5. HOW IT WORKS (3 LANGKAH MUDAH)
@@ -1516,9 +1111,7 @@
                 padding: 12px 22px;
                 font-size: 13.5px;
             }
-            .routes-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+
             .fleet-rich-grid {
                 grid-template-columns: 1fr;
             }
@@ -1565,24 +1158,7 @@
         }
 
         @media (max-width: 768px) {
-            .routes-grid {
-                grid-template-columns: 1fr;
-            }
-            .fleet-selector-grid {
-                grid-template-columns: 1fr;
-            }
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-            .fare-checkout-banner {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
-            .btn-order-cta {
-                width: 100%;
-                justify-content: center;
-            }
+
             .android-bottom-dock {
                 bottom: 12px;
                 width: calc(100% - 24px);
@@ -1630,16 +1206,15 @@
             <!-- DESKTOP WEB NAVIGATION MENU (TAMPIL DI PC, SEMBUNYI DI HP) -->
             <ul class="desktop-nav-menu">
                 <li><a href="#hero" class="desktop-nav-link active">Home</a></li>
-                <li><a href="#rute" class="desktop-nav-link">Rute &amp; Tarif</a></li>
-                <li><a href="#pesan" class="desktop-nav-link">Pesan</a></li>
-                <li><a href="#katalog" class="desktop-nav-link">Armada</a></li>
                 <li><a href="#carakerja" class="desktop-nav-link">Cara Kerja</a></li>
+                <li><a href="#katalog" class="desktop-nav-link">Pilihan Armada</a></li>
                 <li><a href="#keunggulan" class="desktop-nav-link">Keunggulan</a></li>
                 <li><a href="#faq" class="desktop-nav-link">FAQ</a></li>
             </ul>
 
             <!-- DESKTOP ACTION BUTTONS -->
             <div class="desktop-nav-actions">
+                <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20pesan%20sewa%20mobil%20Drop-Off" target="_blank" class="desktop-nav-link" style="color: #4ADE80; font-weight: 700;">💬 Pesan WA</a>
                 <a href="/trip.html" class="desktop-nav-link" style="color: #93C5FD;">📍 Lacak Trip</a>
                 <a href="/driver.html" class="btn-nav-driver">🚖 Mitra Sopir</a>
             </div>
@@ -1676,8 +1251,8 @@
 
                 <!-- 4. CTA BUTTON (DI BAWAH CAPTION PADA HP) -->
                 <div class="hero-cta-group">
-                    <a href="#pesan" class="btn-hero-primary">
-                        <span>📋 Pesan Sekarang</span>
+                    <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20pesan%20sewa%20mobil%20Drop-Off" target="_blank" class="btn-hero-primary">
+                        <span>💬 Pesan via WhatsApp</span>
                         <span>&rarr;</span>
                     </a>
                 </div>
@@ -1718,207 +1293,6 @@
     </section>
 
 
-    <!-- 3. POPULAR ROUTES CARDS (KARTU RUTE CEPAT) -->
-    <section class="routes-section" id="rute">
-        <div class="section-header-center">
-            <span class="section-kicker">Destinasi Terfavorit</span>
-            <h2 class="section-headline">Pilihan Rute Populer &amp; Tarif Pasti</h2>
-            <p class="section-desc">Pilih rute drop-off di bawah ini untuk mengisi formulir secara instan dengan tarif transparan tanpa biaya tambahan tersembunyi.</p>
-        </div>
-
-        <div class="routes-grid">
-            <!-- Rute 1 -->
-            <div class="route-card" onclick="selectRouteCard(1, 1)">
-                <div>
-                    <span class="route-badge gold">🔥 PALING LARIS</span>
-                    <div class="route-name">Jakarta ➔ Bandung</div>
-                    <div class="route-desc">Via Tol Layang MBZ &amp; Cipularang. Jemput semua titik Jakarta, antar sampai pintu rumah di Bandung Kota.</div>
-                </div>
-                <div class="route-card-bottom">
-                    <div>
-                        <div class="route-price-label">Mulai Dari</div>
-                        <div class="route-price-val">Rp 750.000</div>
-                    </div>
-                    <button type="button" class="btn-select-route">Pilih Rute</button>
-                </div>
-            </div>
-
-            <!-- Rute 2 -->
-            <div class="route-card" onclick="selectRouteCard(3, 1)">
-                <div>
-                    <span class="route-badge">✈️ BANDARA CGK</span>
-                    <div class="route-name">Soetta ➔ Bandung</div>
-                    <div class="route-desc">Standby kedatangan Terminal 1, 2, atau 3. Sopir siap menunggu sesuai jadwal landing pesawat Anda.</div>
-                </div>
-                <div class="route-card-bottom">
-                    <div>
-                        <div class="route-price-label">Mulai Dari</div>
-                        <div class="route-price-val">Rp 850.000</div>
-                    </div>
-                    <button type="button" class="btn-select-route">Pilih Rute</button>
-                </div>
-            </div>
-
-            <!-- Rute 3 -->
-            <div class="route-card" onclick="selectRouteCard(4, 1)">
-                <div>
-                    <span class="route-badge">🛫 KEJAR FLIGHT</span>
-                    <div class="route-name">Bandung ➔ Soetta</div>
-                    <div class="route-desc">Jemput dini hari dari Bandung, bebas macet via tol layang MBZ, langsung drop di depan pintu terminal keberangkatan.</div>
-                </div>
-                <div class="route-card-bottom">
-                    <div>
-                        <div class="route-price-label">Mulai Dari</div>
-                        <div class="route-price-val">Rp 850.000</div>
-                    </div>
-                    <button type="button" class="btn-select-route">Pilih Rute</button>
-                </div>
-            </div>
-
-            <!-- Rute 4 -->
-            <div class="route-card" onclick="selectRouteCard(5, 1)">
-                <div>
-                    <span class="route-badge">🏔️ JAWA TIMUR</span>
-                    <div class="route-name">Surabaya ➔ Malang</div>
-                    <div class="route-desc">Drop-off cepat via Tol Pandaan - Singosari. Melayani rute Kota Malang, Batu, hingga Bandara Juanda.</div>
-                </div>
-                <div class="route-card-bottom">
-                    <div>
-                        <div class="route-price-label">Mulai Dari</div>
-                        <div class="route-price-val">Rp 650.000</div>
-                    </div>
-                    <button type="button" class="btn-select-route">Pilih Rute</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 4. FORMULIR PEMESANAN & INSTANT ESTIMATOR -->
-    <section class="booking-section-wrapper" id="pesan">
-        <div class="booking-inner-container">
-
-            <div class="booking-main-card" id="bookingCard">
-                <div class="card-top-header">
-                    <div class="card-top-title">
-                        <span>📋 Formulir Pemesanan Drop-Off</span>
-                    </div>
-                    <span class="tag-allin-gold">✨ All-In Tol &amp; BBM &bull; Bayar Cash di Tujuan</span>
-                </div>
-
-                <form id="bookingForm" onsubmit="event.preventDefault(); submitBookingOrder();">
-                    
-                    <!-- 1. PILIH RUTE PERJALANAN -->
-                    <div class="step-label">
-                        <span>1. Pilih Rute Antarkota</span>
-                        <span style="color: var(--primary-blue);">Tarif Tetap</span>
-                    </div>
-                    <div class="route-picker">
-                        <span style="font-size: 20px;">🛣️</span>
-                        <select id="routeSelect" onchange="calculateFare()">
-                            <option value="1" data-fare="750000" selected>Jakarta &rarr; Bandung Kota (Via Tol Layang MBZ &amp; Cipularang)</option>
-                            <option value="2" data-fare="750000">Bandung Kota &rarr; Jakarta (Semua Area)</option>
-                            <option value="3" data-fare="850000">Bandara Soekarno-Hatta (CGK) &rarr; Bandung (Drop Pintu)</option>
-                            <option value="4" data-fare="850000">Bandung &rarr; Bandara Soekarno-Hatta (CGK)</option>
-                            <option value="5" data-fare="650000">Surabaya &rarr; Kota Malang / Batu (Via Tol Singosari)</option>
-                        </select>
-                    </div>
-
-                    <!-- 2. ALAMAT JEMPUT & TUJUAN -->
-                    <div class="step-label">
-                        <span>2. Lokasi Penjemputan &amp; Pengantaran</span>
-                    </div>
-                    <div class="locations-box">
-                        <div class="loc-item-row">
-                            <span class="loc-pin">🟢</span>
-                            <div class="loc-body">
-                                <div class="loc-caption">Alamat Penjemputan Lengkap</div>
-                                <input type="text" id="pickupAddress" class="loc-input-field" placeholder="Contoh: Jl. Sudirman No. 45 Jakarta / Terminal 3 Kedatangan Soetta Gate 2" required>
-                            </div>
-                        </div>
-                        <div class="loc-item-row">
-                            <span class="loc-pin">🔴</span>
-                            <div class="loc-body">
-                                <div class="loc-caption">Alamat Tujuan Pengantaran</div>
-                                <input type="text" id="destAddress" class="loc-input-field" placeholder="Contoh: Dago Asri No. 18 Bandung / Hotel Gaia Lembang" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3. PILIHAN ARMADA KENDARAAN -->
-                    <div class="step-label" id="armada">
-                        <span>3. Pilihan Armada Kendaraan</span>
-                    </div>
-                    <div class="fleet-selector-grid">
-                        <!-- Avanza -->
-                        <div class="fleet-chip" id="chip-0" onclick="switchCar(0)">
-                            <div class="chip-name">Avanza / Veloz</div>
-                            <div class="chip-capacity">👥 1-4 Orang &bull; 🧳 3 Koper</div>
-                            <div class="chip-price" id="priceTagAvanza">Rp 750.000</div>
-                        </div>
-
-                        <!-- Innova Reborn -->
-                        <div class="fleet-chip active" id="chip-1" onclick="switchCar(1)">
-                            <span class="chip-badge-rec">FAVORIT</span>
-                            <div class="chip-name">Innova Reborn</div>
-                            <div class="chip-capacity">👥 1-5 Orang &bull; 🧳 4 Koper</div>
-                            <div class="chip-price" id="priceTagInnova">Rp 1.050.000</div>
-                        </div>
-
-                        <!-- HiAce Premio -->
-                        <div class="fleet-chip" id="chip-2" onclick="switchCar(2)">
-                            <div class="chip-name">HiAce Premio</div>
-                            <div class="chip-capacity">👥 10-14 Orang &bull; 🧳 8 Koper</div>
-                            <div class="chip-price" id="priceTagHiace">Rp 1.700.000</div>
-                        </div>
-                    </div>
-
-                    <!-- 4. DATA PEMESAN & JADWAL -->
-                    <div class="step-label">
-                        <span>4. Kontak Pemesan &amp; Waktu Jemput</span>
-                    </div>
-                    <div class="contact-grid">
-                        <div class="input-group">
-                            <label>Nama Lengkap Pemesan</label>
-                            <input type="text" id="custName" class="input-control" placeholder="Nama Anda" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Nomor WhatsApp Aktif</label>
-                            <input type="tel" id="custPhone" class="input-control" placeholder="0812-xxxx-xxxx" required>
-                        </div>
-                    </div>
-
-                    <div class="input-group" style="margin-bottom: 8px;">
-                        <label>Waktu Penjemputan</label>
-                        <input type="datetime-local" id="pickupTime" class="input-control" required>
-                    </div>
-
-                    <!-- CHECKOUT BANNER -->
-                    <div class="fare-checkout-banner">
-                        <div class="fare-display-col">
-                            <span class="fare-subtag">Total Tarif All-In (Tol + BBM + Sopir)</span>
-                            <div class="fare-main-val">
-                                <span id="bottomFareText">Rp 1.050.000</span>
-                                <span style="font-size: 11px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">0% DP</span>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn-order-cta">
-                            <span>💬 Pesan Sekarang (Lelang ke Sopir)</span>
-                        </button>
-                    </div>
-
-                    <!-- WA FAST TRACK OPTION -->
-                    <div class="wa-alternative-row">
-                        <span>Atau butuh respon instan?</span>
-                        <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20pesan%20Drop-Off%20cepat" target="_blank" class="btn-wa-direct">
-                            <span>📱 Chat WhatsApp CS Traveego</span>
-                        </a>
-                    </div>
-
-                </form>
-            </div>
-
-        </div>
-    </section>
 
     <!-- 6. RICH FLEET SHOWCASE -->
     <section class="fleet-showcase-section" id="katalog">
@@ -1951,7 +1325,7 @@
                             <div class="fleet-fare-start">Tarif Mulai</div>
                             <div class="fleet-fare-num">Rp 750.000</div>
                         </div>
-                        <button type="button" class="btn-fleet-choose" onclick="selectRouteCard(1, 0)">Pilih Mobil</button>
+                        <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20sewa%20Avanza%20Drop-Off" target="_blank" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">Pesan Mobil</a>
                     </div>
                 </div>
             </div>
@@ -1978,7 +1352,7 @@
                             <div class="fleet-fare-start">Tarif Mulai</div>
                             <div class="fleet-fare-num">Rp 1.050.000</div>
                         </div>
-                        <button type="button" class="btn-fleet-choose" onclick="selectRouteCard(1, 1)">Pilih Mobil</button>
+                        <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20sewa%20Innova%20Reborn%20Drop-Off" target="_blank" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">Pesan Mobil</a>
                     </div>
                 </div>
             </div>
@@ -2005,7 +1379,7 @@
                             <div class="fleet-fare-start">Tarif Mulai</div>
                             <div class="fleet-fare-num">Rp 1.700.000</div>
                         </div>
-                        <button type="button" class="btn-fleet-choose" onclick="selectRouteCard(1, 2)">Pilih Mobil</button>
+                        <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20sewa%20HiAce%20Premio%20Drop-Off" target="_blank" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">Pesan Mobil</a>
                     </div>
                 </div>
             </div>
@@ -2205,10 +1579,10 @@
             <div>
                 <div style="font-weight: 800; color: #FFF; margin-bottom: 12px;">Rute Terpopuler</div>
                 <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
-                    <li><a href="#rute" style="color: #93C5FD; text-decoration: none;">Jakarta ➔ Bandung PP</a></li>
-                    <li><a href="#rute" style="color: #93C5FD; text-decoration: none;">Bandara Soetta ➔ Bandung</a></li>
-                    <li><a href="#rute" style="color: #93C5FD; text-decoration: none;">Bandung ➔ Bandara Soetta</a></li>
-                    <li><a href="#rute" style="color: #93C5FD; text-decoration: none;">Surabaya ➔ Malang / Batu</a></li>
+                    <li><a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20rute%20Jakarta-Bandung" target="_blank" style="color: #93C5FD; text-decoration: none;">Jakarta ➔ Bandung PP</a></li>
+                    <li><a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20rute%20Soetta-Bandung" target="_blank" style="color: #93C5FD; text-decoration: none;">Bandara Soetta ➔ Bandung</a></li>
+                    <li><a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20rute%20Bandung-Soetta" target="_blank" style="color: #93C5FD; text-decoration: none;">Bandung ➔ Bandara Soetta</a></li>
+                    <li><a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20rute%20Surabaya-Malang" target="_blank" style="color: #93C5FD; text-decoration: none;">Surabaya ➔ Malang / Batu</a></li>
                 </ul>
             </div>
             <div>
@@ -2239,17 +1613,17 @@
             <span class="dock-icon">🏠</span>
             <span class="dock-label">Home</span>
         </a>
-        <a href="#rute" class="dock-item" data-section="rute">
-            <span class="dock-icon">🛣️</span>
-            <span class="dock-label">Rute</span>
-        </a>
-        <a href="#pesan" class="dock-item" data-section="pesan">
-            <span class="dock-icon">📋</span>
-            <span class="dock-label">Pesan</span>
+        <a href="#carakerja" class="dock-item" data-section="carakerja">
+            <span class="dock-icon">⚡</span>
+            <span class="dock-label">Cara Kerja</span>
         </a>
         <a href="#katalog" class="dock-item" data-section="katalog">
             <span class="dock-icon">🚘</span>
             <span class="dock-label">Armada</span>
+        </a>
+        <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20pesan%20sewa%20mobil%20Drop-Off" target="_blank" class="dock-item">
+            <span class="dock-icon">💬</span>
+            <span class="dock-label">Pesan WA</span>
         </a>
         <a href="/trip.html" class="dock-item">
             <span class="dock-icon">📍</span>
@@ -2332,18 +1706,11 @@
                 }, 180);
             }
 
-
-
             // Update Pagination Dots
             for (let i = 0; i < 3; i++) {
                 const dot = document.getElementById('dot-' + i);
                 if (dot) dot.classList.toggle('active', i === idx);
-
-                const chip = document.getElementById('chip-' + i);
-                if (chip) chip.classList.toggle('active', i === idx);
             }
-
-            calculateFare();
         }
 
         function nextCar() {
@@ -2356,50 +1723,10 @@
             switchCar(prev);
         }
 
-        function calculateFare() {
-            const routeSelect = document.getElementById('routeSelect');
-            if (!routeSelect) return;
-            const baseFare = parseFloat(routeSelect.options[routeSelect.selectedIndex].getAttribute('data-fare'));
-            const car = CARS[currentCarIdx];
-
-            // Hitung harga masing-masing mobil untuk card previews
-            const avanzaFare = Math.round((baseFare * 1.0) / 50000) * 50000;
-            const innovaFare = Math.round((baseFare * 1.4) / 50000) * 50000;
-            const hiaceFare = Math.round((baseFare * 2.3) / 50000) * 50000;
-
-            const pAvanza = document.getElementById('priceTagAvanza');
-            const pInnova = document.getElementById('priceTagInnova');
-            const pHiace = document.getElementById('priceTagHiace');
-            if (pAvanza) pAvanza.innerText = 'Rp ' + avanzaFare.toLocaleString('id-ID');
-            if (pInnova) pInnova.innerText = 'Rp ' + innovaFare.toLocaleString('id-ID');
-            if (pHiace) pHiace.innerText = 'Rp ' + hiaceFare.toLocaleString('id-ID');
-
-            // Total terpilih saat ini
-            const total = Math.round((baseFare * car.multiplier) / 50000) * 50000;
-            const formatted = 'Rp ' + total.toLocaleString('id-ID');
-
-            const bottomFare = document.getElementById('bottomFareText');
-            if (bottomFare) bottomFare.innerText = formatted;
-
-            return total;
-        }
-
-        // Quick select from Popular Route Cards or Fleet Catalog
-        function selectRouteCard(routeId, carIdx = 1) {
-            const routeSelect = document.getElementById('routeSelect');
-            if (routeSelect) {
-                routeSelect.value = String(routeId);
-            }
+        // Quick select from Fleet Catalog
+        function selectRouteCard(carIdx = 1) {
             switchCar(carIdx);
-
-            const bookingCard = document.getElementById('bookingCard');
-            if (bookingCard) {
-                bookingCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                bookingCard.classList.add('highlight-flash');
-                setTimeout(() => {
-                    bookingCard.classList.remove('highlight-flash');
-                }, 1200);
-            }
+            window.open('https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20sewa%20mobil%20Drop-Off', '_blank');
         }
 
         // Accordion FAQ Toggle
@@ -2437,64 +1764,6 @@
         function closeToast() {
             const toast = document.getElementById('liveBookingToast');
             if (toast) toast.classList.remove('visible');
-        }
-
-        // Set waktu default: Besok jam 08.00 pagi
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(8, 0, 0, 0);
-        const timeInput = document.getElementById('pickupTime');
-        if (timeInput) {
-            timeInput.value = tomorrow.toISOString().slice(0, 16);
-        }
-
-        // Submit Booking ke PHP API
-        async function submitBookingOrder() {
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const pickup = document.getElementById('pickupAddress').value.trim();
-            const dest = document.getElementById('destAddress').value.trim();
-            const pickupTime = document.getElementById('pickupTime').value;
-            const routeSelect = document.getElementById('routeSelect');
-            const car = CARS[currentCarIdx];
-
-            if (!pickup || !dest) {
-                alert('📍 Mohon isi Alamat Penjemputan dan Alamat Tujuan ya Kak.');
-                return;
-            }
-            if (!name || !phone) {
-                alert('📱 Mohon lengkapi Nama Anda dan Nomor WhatsApp ya Kak.');
-                return;
-            }
-
-            const totalFare = calculateFare();
-            const payload = {
-                customer_name: name,
-                customer_phone: phone,
-                pickup_address: pickup,
-                destination_address: dest,
-                pickup_datetime: pickupTime,
-                car_type: car.name,
-                route_id: routeSelect.value,
-                total_fare: totalFare
-            };
-
-            try {
-                const res = await fetch('/api/orders.php?action=create', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                if (data.success) {
-                    alert('🎉 Pesanan Berhasil Diterbitkan!\n\nKode Booking: ' + data.order.tracking_code + '\nOrderan Kakak langsung dilelang ke mitra sopir di radar PWA.');
-                    window.location.href = '/trip.html?code=' + data.order.tracking_code;
-                } else {
-                    alert('Gagal membuat order: ' + data.message);
-                }
-            } catch (err) {
-                alert('Terjadi kesalahan koneksi ke server: ' + err.message);
-            }
         }
 
         // CHAT BOTTOM SHEET (TIARA CS AI)
@@ -2541,20 +1810,17 @@
                 const data = await res.json();
                 loadingBubble.innerHTML = data.reply.replace(/\n/g, '<br>');
             } catch (err) {
-                loadingBubble.innerText = 'Maaf Kak, saat ini koneksi AI sedang sibuk. Silakan pesan langsung via formulir ya Kak.';
+                loadingBubble.innerText = 'Maaf Kak, saat ini koneksi AI sedang sibuk. Silakan pesan langsung via WhatsApp ya Kak.';
             }
             box.scrollTop = box.scrollHeight;
         }
-
-        // Inisialisasi awal
-        calculateFare();
 
         // Mulai simulasi toast live booking setelah 4 detik, dan berulang tiap 24 detik
         setTimeout(showNextToast, 4000);
         setInterval(showNextToast, 24000);
 
         // ScrollSpy untuk Desktop Nav & Mobile Bottom Dock
-        const navSections = ['hero', 'carakerja', 'rute', 'pesan', 'katalog', 'keunggulan', 'faq'];
+        const navSections = ['hero', 'carakerja', 'katalog', 'keunggulan', 'faq'];
         window.addEventListener('scroll', () => {
             const scrollPos = window.scrollY + 220;
             navSections.forEach(id => {
