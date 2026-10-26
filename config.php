@@ -17,6 +17,10 @@ define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
 define('ADMIN_USERNAME', 'admin');
 define('ADMIN_PASSWORD', 'admin@traveego');
 
+// 2b. KREDENSIAL LOGIN CREW AI PANEL (/crew-ai)
+define('CREW_USERNAME', 'winsyah');
+define('CREW_PASSWORD', 'Khilafet@1924');
+
 function startAdminSession() {
     if (session_status() === PHP_SESSION_NONE) {
         // Keamanan cookie session
@@ -34,6 +38,17 @@ function isAdminLoggedIn() {
 function requireAdminAuth() {
     if (!isAdminLoggedIn()) {
         sendJson(['success' => false, 'message' => 'Akses ditolak: Silakan login terlebih dahulu.'], 401);
+    }
+}
+
+function isCrewLoggedIn() {
+    startAdminSession();
+    return !empty($_SESSION['crew_logged_in']) && $_SESSION['crew_logged_in'] === true;
+}
+
+function requireCrewAuth() {
+    if (!isCrewLoggedIn()) {
+        sendJson(['success' => false, 'message' => 'Akses ditolak: Silakan login ke Crew AI.'], 401);
     }
 }
 
