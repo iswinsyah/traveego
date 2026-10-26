@@ -1,0 +1,64 @@
+{
+  "slug": "drop-off-dalam-kota-jabodetabek",
+  "generated_at": "2026-10-26 17:07:42",
+  "route_key": "jabodetabek_dalam_kota",
+  "meta_title": "Sewa Mobil Drop Off Kawasan Jabodetabek (Titik Jemput) - Kawasan Jabodetabek (Tujuan Point-to-Point) All-In 0% DP | Traveego",
+  "meta_description": "Jasa sewa mobil Drop-Off privat Kawasan Jabodetabek (Titik Jemput) ke Kawasan Jabodetabek (Tujuan Point-to-Point). Tarif All-In mulai Rp 225.000 sudah termasuk Tol MBZ, BBM & Sopir. Bayar tunai di tujuan tanpa DP.",
+  "hero": {
+    "headline": "SEWA MOBIL DROP OFF KAWASAN JABODETABEK (TUJUAN POINT-TO-POINT)",
+    "subheadline": "Perjalanan privat satu arah dari Kawasan Jabodetabek (Titik Jemput) ke Kawasan Jabodetabek (Tujuan Point-to-Point) tanpa repot. 100% All-In Tol & BBM, 0% Uang Muka, bayar langsung ke sopir saat tiba.",
+    "cta_button_text": "Pesan Unit Sekarang (0% DP)",
+    "wa_text": "Halo Traveego, saya mau pesan Drop-Off Kawasan Jabodetabek (Titik Jemput) ke Kawasan Jabodetabek (Tujuan Point-to-Point)"
+  },
+  "pricing_cards": [
+    {
+      "vehicle": "Avanza All New",
+      "price": "Rp 225.000",
+      "features": [
+        "4-5 Penumpang",
+        "Tol Penuh MBZ Termasuk",
+        "BBM All-In",
+        "Door-to-Door",
+        "Bayar di Lokasi"
+      ]
+    },
+    {
+      "vehicle": "Innova Reborn",
+      "price": "Rp 300.000",
+      "popular": true,
+      "features": [
+        "6-7 Penumpang",
+        "Suspensi Paling Nyaman",
+        "Tol Penuh MBZ Termasuk",
+        "BBM All-In",
+        "Door-to-Door"
+      ]
+    },
+    {
+      "vehicle": "Hiace Commuter / Premio",
+      "price": "Rp 350.000",
+      "features": [
+        "10-14 Penumpang",
+        "Kabin Lega Rombongan",
+        "Tol Penuh Termasuk",
+        "BBM All-In",
+        "Door-to-Door"
+      ]
+    }
+  ],
+  "schema_markup": {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Car Rental Drop-Off",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Traveego Drop-Off"
+    },
+    "areaServed": "Kawasan Jabodetabek (Tujuan Point-to-Point)",
+    "offers": {
+      "@type": "Offer",
+      "price": "225000",
+      "priceCurrency": "IDR"
+    }
+  }
+}

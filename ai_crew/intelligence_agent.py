@@ -49,50 +49,41 @@ DEFAULT_COST_DATA = {
         }
     },
     "routes": {
-        "jakarta_bandung": {
-            "slug": "drop-off-jakarta-bandung",
-            "origin": "Jakarta (Jabodetabek)",
-            "destination": "Bandung (Kota / Lembang / Cimahi)",
-            "distance_km": 150,
-            "toll_cost": 85000,
-            "toll_details": "Tol MBZ + Cikampek Utama + Cipularang + Pasteur",
-            "base_driver_fee": 200000
-        },
-        "jakarta_cirebon": {
-            "slug": "drop-off-jakarta-cirebon",
-            "origin": "Jakarta (Jabodetabek)",
-            "destination": "Cirebon",
-            "distance_km": 220,
-            "toll_cost": 145000,
-            "toll_details": "Tol MBZ + Cipali (Cikopo - Palimanan)",
-            "base_driver_fee": 250000
-        },
-        "jakarta_semarang": {
-            "slug": "drop-off-jakarta-semarang",
-            "origin": "Jakarta (Jabodetabek)",
-            "destination": "Semarang",
-            "distance_km": 440,
-            "toll_cost": 435000,
-            "toll_details": "Tol Trans Jawa Penuh (MBZ - Cipali - Pejagan - Pemalang - Batang - Krapyak)",
-            "base_driver_fee": 375000
-        },
-        "jakarta_surabaya": {
-            "slug": "drop-off-jakarta-surabaya",
-            "origin": "Jakarta (Jabodetabek)",
-            "destination": "Surabaya",
-            "distance_km": 780,
-            "toll_cost": 845000,
-            "toll_details": "Tol Trans Jawa Penuh (Jakarta s.d. Warugunung Surabaya)",
-            "base_driver_fee": 600000
-        },
         "jakarta_bandara_soetta": {
             "slug": "drop-off-bandara-soekarno-hatta",
-            "origin": "Jakarta / Bekasi / Depok",
+            "origin": "Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi)",
             "destination": "Bandara Internasional Soekarno-Hatta (CGK)",
             "distance_km": 45,
             "toll_cost": 45000,
-            "toll_details": "Tol Lingkar Luar (JORR) + Tol Prof. Dr. Sedyatmo",
+            "toll_details": "Tol Dalam Kota / JORR + Tol Bandara Prof. Sedyatmo",
             "base_driver_fee": 125000
+        },
+        "jakarta_bandara_halim": {
+            "slug": "drop-off-bandara-halim",
+            "origin": "Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi)",
+            "destination": "Bandara Halim Perdanakusuma (HLP)",
+            "distance_km": 35,
+            "toll_cost": 25000,
+            "toll_details": "Tol Dalam Kota / Tol Jagorawi",
+            "base_driver_fee": 110000
+        },
+        "jabodetabek_dalam_kota": {
+            "slug": "drop-off-dalam-kota-jabodetabek",
+            "origin": "Kawasan Jabodetabek (Titik Jemput)",
+            "destination": "Kawasan Jabodetabek (Tujuan Point-to-Point)",
+            "distance_km": 40,
+            "toll_cost": 30000,
+            "toll_details": "Tol Dalam Kota / JORR / Tol Jagorawi",
+            "base_driver_fee": 120000
+        },
+        "jakarta_baraya": {
+            "slug": "drop-off-jakarta-bandung-baraya",
+            "origin": "Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi)",
+            "destination": "Baraya (Bandung Raya: Kota Bandung, Cimahi, Lembang)",
+            "distance_km": 150,
+            "toll_cost": 85000,
+            "toll_details": "Tol Layang MBZ + Tol Cipularang + Pasteur / Buah Batu",
+            "base_driver_fee": 200000
         }
     }
 }

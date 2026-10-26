@@ -23,9 +23,10 @@ class PostCrew:
         self.intel = IntelligenceAgent()
         ensure_directories()
 
-    def generate_post(self, topic: str, target_route_key: str = "jakarta_bandung"):
+    def generate_post(self, topic: str, target_route_key: str = "jakarta_baraya"):
         matrix = self.intel.get_cost_matrix()
-        route_data = matrix["routes"].get(target_route_key, matrix["routes"]["jakarta_bandung"])
+        default_route = next(iter(matrix["routes"].values()))
+        route_data = matrix["routes"].get(target_route_key, default_route)
         
         is_connected, _ = self.llm.check_connection()
 

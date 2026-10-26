@@ -70,18 +70,25 @@ def main():
 
     # B. Jalankan Page Crew
     if args.run_pages or args.run_all:
-        print("\n--- [2/3] Menjalankan Page Crew (Landing Page Rute) ---")
-        routes_to_gen = ["jakarta_bandung", "jakarta_cirebon", "jakarta_semarang", "jakarta_bandara_soetta"]
+        print("\n--- [2/3] Menjalankan Page Crew (Landing Page Rute Aktif) ---")
+        routes_to_gen = [
+            "jakarta_bandara_soetta",
+            "jakarta_bandara_halim",
+            "jabodetabek_dalam_kota",
+            "jakarta_baraya"
+        ]
         for r_key in routes_to_gen:
             filepath, page = page_crew.generate_page_for_route(r_key)
             print(f"  [PAGE CREW] Berhasil membuat halaman: {page['meta_title']} -> {filepath}")
 
     # C. Jalankan Post Crew
     if args.run_posts or args.run_all:
-        print("\n--- [3/3] Menjalankan Post Crew (Artikel Blog SEO) ---")
+        print("\n--- [3/3] Menjalankan Post Crew (Artikel Blog SEO Rute Aktif) ---")
         topics = [
-            ("Rincian Biaya & Tarif Tol Jakarta ke Bandung 2026", "jakarta_bandung"),
-            ("Panduan Drop Off Nyaman Jakarta ke Semarang via Cipali", "jakarta_semarang")
+            ("Panduan Tarif Drop Off Bandara Soekarno-Hatta (CGK) Bebas Antre 24 Jam", "jakarta_bandara_soetta"),
+            ("Rincian Biaya Sewa Drop Off Jakarta ke Baraya (Bandung Raya) via Tol MBZ 2026", "jakarta_baraya"),
+            ("Layanan Antar Jemput Drop Off Bandara Halim Perdanakusuma Door to Door", "jakarta_bandara_halim"),
+            ("Sewa Mobil Drop Off Dalam Kota Jabodetabek Tarif All-In Tanpa DP", "jabodetabek_dalam_kota")
         ]
         for topic, r_key in topics:
             filepath, post = post_crew.generate_post(topic, r_key)
