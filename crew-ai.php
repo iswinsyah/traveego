@@ -884,11 +884,11 @@ $isLoggedIn = isCrewLoggedIn();
             margin-top: 3px;
         }
 
-        /* Android Card Grid */
+        /* Android Card Grid (Strict 3 x 2 Layout) */
         .android-card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 22px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
         }
 
         /* Android App Card */
@@ -988,6 +988,12 @@ $isLoggedIn = isCrewLoggedIn();
             background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
             border: 2px solid #C7D2FE;
             color: #4338CA;
+        }
+
+        .icon-theme-rose {
+            background: linear-gradient(135deg, #FFF1F2, #FFE4E6);
+            border: 2px solid #FECDD3;
+            color: #E11D48;
         }
 
         /* Android Status Badge Pill */
@@ -1492,9 +1498,90 @@ $isLoggedIn = isCrewLoggedIn();
                 max-width: 100% !important;
             }
 
+            /* Android Card Grid 3 x 2 di Layar HP */
             .android-card-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
+                display: grid !important;
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                gap: 10px !important;
+            }
+
+            .android-card {
+                padding: 12px 6px !important;
+                border-radius: 18px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                min-width: 0 !important;
+                justify-content: space-between !important;
+            }
+
+            .android-card-top {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 6px !important;
+                margin-bottom: 8px !important;
+                width: 100% !important;
+            }
+
+            .android-app-icon {
+                width: 48px !important;
+                height: 48px !important;
+                border-radius: 16px !important;
+                font-size: 24px !important;
+            }
+
+            .android-status-pill {
+                font-size: 8px !important;
+                padding: 2px 5px !important;
+                border-radius: 8px !important;
+                white-space: nowrap !important;
+                line-height: 1 !important;
+            }
+
+            .android-card-body {
+                margin-bottom: 6px !important;
+                width: 100% !important;
+            }
+
+            .android-agent-name {
+                font-size: 12.5px !important;
+                font-weight: 800 !important;
+                margin-bottom: 2px !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                max-width: 100% !important;
+            }
+
+            .android-agent-role {
+                font-size: 9px !important;
+                font-weight: 700 !important;
+                margin-bottom: 0 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                max-width: 100% !important;
+            }
+
+            .android-agent-duty {
+                display: none !important;
+            }
+
+            .android-card-footer {
+                padding-top: 6px !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+
+            .android-action-link {
+                font-size: 10px !important;
+                gap: 3px !important;
+            }
+
+            .android-tap-circle {
+                display: none !important;
             }
 
             /* Bottom Bar HP Muncul */
@@ -1904,6 +1991,25 @@ $isLoggedIn = isCrewLoggedIn();
                                 <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
+
+                        <!-- CARD 6: BANG JAKA -->
+                        <div class="android-card" onclick="openAgentWorkspace('jakaPanel', 'Bang Jaka &ndash; Dispatcher & Fleet AI')">
+                            <div class="android-card-top">
+                                <div class="android-app-icon icon-theme-rose">
+                                    <span>🚐</span>
+                                </div>
+                                <span class="android-status-pill pill-status-active">🟢 Standby Armada</span>
+                            </div>
+                            <div class="android-card-body">
+                                <h4 class="android-agent-name">Bang Jaka</h4>
+                                <span class="android-agent-role">Dispatcher & Fleet AI Agent</span>
+                                <p class="android-agent-duty">Mengatur kesiapan armada privat (Avanza, Innova, HiAce), koordinasi penjemputan sopir 30 menit sebelum jadwal, dan monitoring perjalanan.</p>
+                            </div>
+                            <div class="android-card-footer">
+                                <span class="android-action-link">Buka Monitoring Armada ➔</span>
+                                <div class="android-tap-circle">➔</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -2243,6 +2349,79 @@ Halo Mas Winsyah! Saya Tiara 😊 Ada yang bisa saya bantu seputar reservasi dro
                     </p>
 
                     <div class="terminal-box" id="terminalOutput">Tekan tombol 'Jalankan Seluruh AI Agent Sekarang' untuk memicu eksekusi...</div>
+                </div>
+            </section>
+
+            <!-- ==============================================================
+                 PANEL 6: BANG JAKA (DISPATCHER & FLEET AI)
+                 ============================================================== -->
+            <section class="agent-panel" id="jakaPanel">
+                <button type="button" class="btn-back-hub" onclick="returnToOverviewHub()">
+                    <span>←</span>
+                    <span>Kembali ke Overview Hub</span>
+                </button>
+
+                <div class="agent-hero-banner">
+                    <div class="hero-banner-left">
+                        <div class="hero-agent-avatar">
+                            <span>🚐</span>
+                            <div class="hero-online-dot"></div>
+                        </div>
+                        <div class="hero-banner-text">
+                            <h2>Bang Jaka &ndash; Dispatcher & Fleet AI Agent</h2>
+                            <p><strong>"Armada prima, sopir sopan, dan penjemputan anti-telat."</strong> Saya memastikan armada privat Toyota Avanza, Innova Reborn, dan HiAce Premio selalu steril, BBM terisi, dan sopir standby di titik jemput penumpang 30 menit sebelum jadwal penerbangan atau keberangkatan.</p>
+                        </div>
+                    </div>
+                    <div class="hero-banner-actions">
+                        <button class="btn-brand-green" onclick="refreshData()">🔄 Cek Status Armada</button>
+                    </div>
+                </div>
+
+                <!-- Armada Cards -->
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Toyota Avanza / Veloz</span>
+                            <span class="sw-pill pill-active">🟢 Ready</span>
+                        </div>
+                        <div class="stat-value">Kapasitas 3-4 Pax</div>
+                        <div class="stat-desc">Ideal untuk perjalanan keluarga kecil, drop-off bandara, & dalam kota.</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Toyota Innova Reborn</span>
+                            <span class="sw-pill pill-active">🟢 Ready</span>
+                        </div>
+                        <div class="stat-value">Kapasitas 4-5 Pax</div>
+                        <div class="stat-desc">Kenyamanan suspensi premium untuk rute Jakarta &ndash; Bandung & Bandara.</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Toyota HiAce Premio</span>
+                            <span class="sw-pill pill-active">🟢 Ready</span>
+                        </div>
+                        <div class="stat-value">Kapasitas 8-10 Pax</div>
+                        <div class="stat-desc">Armada rombongan besar / keluarga besar dengan bagasi banyak.</div>
+                    </div>
+                </div>
+
+                <!-- SOP Penjemputan -->
+                <div class="content-card">
+                    <div class="content-card-header">
+                        <h3 class="card-title">
+                            <span>🛡️</span>
+                            <span>Standar Operasional Penjemputan (SOP Anti-Disintermediation)</span>
+                        </h3>
+                        <span class="pill-badge pill-green">SOP Disiplin</span>
+                    </div>
+
+                    <div style="font-size: 13.5px; line-height: 1.6; color: var(--text-body);">
+                        <p style="margin-bottom: 12px;">✅ <strong>Standby 30 Menit Awal:</strong> Sopir tiba di lokasi penjemputan 30 menit sebelum jam pendaratan pesawat atau jadwal pemesanan.</p>
+                        <p style="margin-bottom: 12px;">✅ <strong>Proteksi Privasi Penumpang:</strong> Nomor telepon penumpang disensor di aplikasi sopir (<code>0819-****-4321</code>). Komunikasi diarahkan via koordinasi In-App atau Admin.</p>
+                        <p>✅ <strong>Kebersihan & Kenyamanan:</strong> Kabin ber-AC dingin, bersih tanpa aroma rokok, dan siap dengan air mineral.</p>
+                    </div>
                 </div>
             </section>
 
