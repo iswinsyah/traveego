@@ -996,6 +996,12 @@ $isLoggedIn = isCrewLoggedIn();
             color: #E11D48;
         }
 
+        .icon-theme-purple {
+            background: linear-gradient(135deg, #FAF5FF, #F3E8FF);
+            border: 2px solid #E9D5FF;
+            color: #7E22CE;
+        }
+
         /* Android Status Badge Pill */
         .android-status-pill {
             display: inline-flex;
@@ -1973,21 +1979,21 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                         </div>
 
-                        <!-- CARD 5: KOMANDAN SISTEM -->
-                        <div class="android-card" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator')">
+                        <!-- CARD 5: MBAK DINDA (WEEKLY CONTENT EDITORIAL CALENDAR) -->
+                        <div class="android-card" onclick="openAgentWorkspace('dindaPanel', 'Mbak Dinda &ndash; Weekly Content Calendar Planner')">
                             <div class="android-card-top">
-                                <div class="android-app-icon icon-theme-indigo">
-                                    <span>🧠</span>
+                                <div class="android-app-icon icon-theme-purple">
+                                    <span>📅</span>
                                 </div>
-                                <span class="android-status-pill pill-status-active">🟢 P2P Tailscale</span>
+                                <span class="android-status-pill pill-status-active">🟢 Rencana 7 Hari Siap</span>
                             </div>
                             <div class="android-card-body">
-                                <h4 class="android-agent-name">Komandan Sistem</h4>
-                                <span class="android-agent-role">System Orchestrator & PC Host</span>
-                                <p class="android-agent-duty">Menegakkan jam kerja server 06:00-23:00 WIB, menjaga jalur Tailscale IP ke endpoint Ollama, dan mengoordinasikan pipeline eksekusi.</p>
+                                <h4 class="android-agent-name">Mbak Dinda</h4>
+                                <span class="android-agent-role">Content Strategist & Editorial Planner</span>
+                                <p class="android-agent-duty">Menyusun kalender konten pekanan (Senin&ndash;Minggu) berbasis data riset Mas Bayu, sinkronisasi tema artikel Mbak Maya & landing page Bung Kevin.</p>
                             </div>
                             <div class="android-card-footer">
-                                <span class="android-action-link">Buka Konsol & Pipeline ➔</span>
+                                <span class="android-action-link">Buka Kalender Konten ➔</span>
                                 <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
@@ -2007,6 +2013,25 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                             <div class="android-card-footer">
                                 <span class="android-action-link">Buka Monitoring Armada ➔</span>
+                                <div class="android-tap-circle">➔</div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 7: KOMANDAN SISTEM -->
+                        <div class="android-card" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator')">
+                            <div class="android-card-top">
+                                <div class="android-app-icon icon-theme-indigo">
+                                    <span>🧠</span>
+                                </div>
+                                <span class="android-status-pill pill-status-active">🟢 P2P Tailscale</span>
+                            </div>
+                            <div class="android-card-body">
+                                <h4 class="android-agent-name">Komandan Sistem</h4>
+                                <span class="android-agent-role">System Orchestrator & PC Host</span>
+                                <p class="android-agent-duty">Menegakkan jam kerja server 06:00-23:00 WIB, menjaga jalur Tailscale IP ke endpoint Ollama, dan mengoordinasikan pipeline eksekusi.</p>
+                            </div>
+                            <div class="android-card-footer">
+                                <span class="android-action-link">Buka Konsol & Pipeline ➔</span>
                                 <div class="android-tap-circle">➔</div>
                             </div>
                         </div>
@@ -2498,6 +2523,217 @@ $isLoggedIn = isCrewLoggedIn();
                 </div>
             </section>
 
+            <!-- ==============================================================
+                 PANEL 7: MBAK DINDA (CONTENT STRATEGIST & EDITORIAL PLANNER)
+                 ============================================================== -->
+            <section class="agent-panel" id="dindaPanel">
+                <button type="button" class="btn-back-hub" onclick="returnToOverviewHub()">
+                    <span>←</span>
+                    <span>Kembali ke Overview Hub</span>
+                </button>
+
+                <div class="agent-hero-banner">
+                    <div class="hero-banner-left">
+                        <div class="hero-agent-avatar" style="border-color: #E9D5FF; background: linear-gradient(135deg, #FAF5FF, #F3E8FF);">
+                            <span>📅</span>
+                            <div class="hero-online-dot"></div>
+                        </div>
+                        <div class="hero-banner-text">
+                            <h2>Mbak Dinda &ndash; Content Strategist & Weekly Editorial Planner</h2>
+                            <p><strong>"Konsistensi publikasi adalah kunci mendominasi halaman #1 Google."</strong> Saya merancang dan mengunci jadwal kalender konten 7 hari (Senin &ndash; Minggu) untuk Traveego berbasis riset seed <em>"Drop Off"</em> dari Mas Bayu, mendistribusikan penugasan ke Bung Kevin (Landing Page) & Mbak Maya (Artikel SEO), serta memonitor jadwal tayang otomatis.</p>
+                        </div>
+                    </div>
+                    <div class="hero-banner-actions">
+                        <button class="btn-brand-primary" onclick="simulateCalendarSync()">
+                            <span>⚡</span>
+                            <span>Sinkronkan ke PC Server (Tailscale)</span>
+                        </button>
+                        <button class="btn-brand-outline" onclick="generateNewWeeklyPlan()">
+                            <span>🔄</span>
+                            <span>Generate Ulang Jadwal Pekanan</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3 Stat Cards for Content Strategy -->
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Target Produksi Pekanan</span>
+                            <span class="sw-pill pill-active">🟢 7 Konten / Minggu</span>
+                        </div>
+                        <div class="stat-value">Senin &ndash; Minggu (1 Slot / Hari)</div>
+                        <div class="stat-desc">4 Artikel Blog Edukasi SEO + 2 Landing Page Promo Rute + 1 Panduan Tarif FAQ.</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Distribusi Search Intent</span>
+                            <span class="sw-pill pill-active">Tercakup 100%</span>
+                        </div>
+                        <div class="stat-value">Commercial &bull; Transaksi &bull; Edukasi</div>
+                        <div class="stat-desc">Dirancang seimbang antara edukasi organik dan konversi pemesanan langsung 0% DP.</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Alur Kerja Multi-Agent</span>
+                            <span class="sw-pill pill-active">Otomatis Terhubung</span>
+                        </div>
+                        <div class="stat-value">🔍 Mas Bayu ➔ 📅 Dinda ➔ 🎯 / ✍️</div>
+                        <div class="stat-desc">Keyword diumpan dari Mas Bayu, jadwal ditentukan Mbak Dinda, diproduksi Bung Kevin & Mbak Maya.</div>
+                    </div>
+                </div>
+
+                <!-- Weekly Editorial Calendar Table -->
+                <div class="content-card">
+                    <div class="content-card-header">
+                        <h3 class="card-title">
+                            <span>🗓️</span>
+                            <span>Kalender Konten Pekanan (Senin &ndash; Minggu) &bull; Traveego Drop Off</span>
+                        </h3>
+                        <span class="pill-badge pill-blue" id="dindaActiveWeekBadge">Pekan Berjalan: 27 Okt &ndash; 2 Nov 2026</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 100px;">Hari & Jam</th>
+                                    <th>Format Konten</th>
+                                    <th>Topik / Kata Kunci Fokus ("Drop Off")</th>
+                                    <th>Search Intent</th>
+                                    <th>Eksekutor</th>
+                                    <th>Target Slug / URL</th>
+                                    <th>Status Produksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="weeklyCalendarBody">
+                                <tr>
+                                    <td>
+                                        <strong style="color: var(--royal-blue);">SENIN</strong><br>
+                                        <span style="font-size: 11px; color: var(--text-muted);">08:00 WIB</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Landing Page</span></td>
+                                    <td>
+                                        <strong>Drop Off Bandara Soekarno-Hatta All-In Tol & BBM</strong><br>
+                                        <span style="font-size: 11.5px; color: var(--text-muted);">Seed: drop off bandara soetta</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Transactional</span></td>
+                                    <td>🎯 Bung Kevin</td>
+                                    <td><code>/dropoff-bandara-soetta-all-in</code></td>
+                                    <td><span class="sw-pill pill-active">🟢 Siap Terbit</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong style="color: var(--royal-blue);">SELASA</strong><br>
+                                        <span style="font-size: 11px; color: var(--text-muted);">10:00 WIB</span>
+                                    </td>
+                                    <td><span class="tag-dynamic">Artikel Blog SEO</span></td>
+                                    <td>
+                                        <strong>Perbedaan Layanan Drop Off vs Carter Mobil Travel Harian</strong><br>
+                                        <span style="font-size: 11.5px; color: var(--text-muted);">Seed: apa itu drop off travel</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-sleep">Informational</span></td>
+                                    <td>✍️ Mbak Maya</td>
+                                    <td><code>Blog: /apa-itu-drop-off-travel</code></td>
+                                    <td><span class="sw-pill pill-active">🟢 Siap Terbit</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong style="color: var(--royal-blue);">RABU</strong><br>
+                                        <span style="font-size: 11px; color: var(--text-muted);">09:00 WIB</span>
+                                    </td>
+                                    <td><span class="tag-dynamic">Panduan Tarif</span></td>
+                                    <td>
+                                        <strong>Rincian Tarif Drop Off Jakarta &ndash; Bandung All-In Avanza & Innova</strong><br>
+                                        <span style="font-size: 11.5px; color: var(--text-muted);">Shortcode dinamis tarif BBM & Tol Cipularang</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Commercial</span></td>
+                                    <td>👔 Hendra x ✍️ Maya</td>
+                                    <td><code>Blog: /ongkos-drop-off-bandung-terbaru</code></td>
+                                    <td><span class="sw-pill pill-active">🟢 Terjadwal</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong style="color: var(--royal-blue);">KAMIS</strong><br>
+                                        <span style="font-size: 11px; color: var(--text-muted);">13:00 WIB</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Landing Page</span></td>
+                                    <td>
+                                        <strong>Layanan Drop Off Dalam Kota Jabodetabek Bebas Ribet</strong><br>
+                                        <span style="font-size: 11.5px; color: var(--text-muted);">Seed: drop off dalam kota jabodetabek</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Commercial</span></td>
+                                    <td>🎯 Bung Kevin</td>
+                                    <td><code>/dropoff-dalam-kota-jabodetabek</code></td>
+                                    <td><span class="sw-pill pill-active">🟢 Terjadwal</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong style="color: var(--royal-blue);">JUMAT</strong><br>
+                                        <span style="font-size: 11px; color: var(--text-muted);">14:00 WIB</span>
+                                    </td>
+                                    <td><span class="tag-dynamic">Artikel Tips SEO</span></td>
+                                    <td>
+                                        <strong>5 Keuntungan Drop Off Sekali Jalan Dibanding Naik Angkutan Umum</strong><br>
+                                        <span style="font-size: 11.5px; color: var(--text-muted);">Seed: sewa mobil drop off sekali jalan</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Commercial</span></td>
+                                    <td>✍️ Mbak Maya</td>
+                                    <td><code>Blog: /keuntungan-drop-off-sekali-jalan</code></td>
+                                    <td><span class="sw-pill pill-sleep">🟡 Review Draft</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong style="color: var(--royal-blue);">SABTU</strong><br>
+                                        <span style="font-size: 11px; color: var(--text-muted);">07:30 WIB</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Landing Page</span></td>
+                                    <td>
+                                        <strong>Carter Drop Off Jakarta &ndash; Bandung Liburan Akhir Pekan</strong><br>
+                                        <span style="font-size: 11.5px; color: var(--text-muted);">Promo keluarga tanpa DP & jemput di pintu</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Transactional</span></td>
+                                    <td>🎯 Bung Kevin</td>
+                                    <td><code>/jakarta-bandung-dropoff</code></td>
+                                    <td><span class="sw-pill pill-sleep">🟡 Antrean Final</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong style="color: var(--royal-blue);">MINGGU</strong><br>
+                                        <span style="font-size: 11px; color: var(--text-muted);">16:00 WIB</span>
+                                    </td>
+                                    <td><span class="tag-dynamic">Trust & Security</span></td>
+                                    <td>
+                                        <strong>SOP Keamanan Drop Off Traveego: Bayar Sopir di Tempat Tanpa DP</strong><br>
+                                        <span style="font-size: 11.5px; color: var(--text-muted);">Seed: drop off bayar tujuan aman</span>
+                                    </td>
+                                    <td><span class="sw-pill pill-active">Commercial</span></td>
+                                    <td>🚐 Jaka x ✍️ Maya</td>
+                                    <td><code>Blog: /garansi-0-persen-dp-traveego</code></td>
+                                    <td><span class="sw-pill pill-active">🟢 Terjadwal</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Action: Calendar Sync Notice -->
+                <div class="content-card" style="background: #FAF5FF; border-color: #E9D5FF;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+                        <div>
+                            <h4 style="font-size: 15px; font-weight: 800; color: #6B21A8; margin-bottom: 4px;">📡 Status Penjadwalan Otomatis ke PC Server AI</h4>
+                            <p style="font-size: 12.5px; color: #7E22CE; margin: 0;">Kalender ini terhubung langsung ke PC Server Ollama via Tailscale. Pipeline akan memproduksi draft konten secara berkala sesuai slot jadwal di atas.</p>
+                        </div>
+                        <button class="btn-brand-primary" style="background: linear-gradient(135deg, #7E22CE, #6B21A8);" onclick="showCalendarAlert()">
+                            <span>🗓️</span>
+                            <span>Konfirmasi Kalender Aktif</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </main>
 
@@ -2968,6 +3204,21 @@ $isLoggedIn = isCrewLoggedIn();
 Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Bandara, Jabodetabek, atau Bandung! 😊
             </div>
         `;
+    }
+
+    // Mbak Dinda Weekly Calendar Controls
+    function simulateCalendarSync() {
+        alert('✅ Kalender Konten Pekanan berhasil disinkronkan dengan PC Server AI (Tailscale)!\nSlot jadwal artikel dan landing page telah dijadwalkan otomatis pada jam operasional server 06:00 - 23:00 WIB.');
+    }
+
+    function generateNewWeeklyPlan() {
+        const badge = document.getElementById('dindaActiveWeekBadge');
+        if (badge) badge.innerText = 'Pekan Diperbarui: Siap Eksekusi (Sync Otomatis)';
+        alert('🔄 Mbak Dinda berhasil merotasi topik pekanan berdasarkan kluster riset kata kunci "Drop Off" terbaru dari Mas Bayu!');
+    }
+
+    function showCalendarAlert() {
+        alert('📅 Kalender Konten Pekanan aktif! 7 slot konten terdistribusi rapi (4 artikel SEO, 2 landing page rute, 1 FAQ panduan tarif) untuk mendominasi Google.');
     }
 
     function refreshData() {
