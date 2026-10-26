@@ -810,6 +810,10 @@
         async function loadSiteContent() {
             try {
                 const res = await fetch('/api/admin.php?action=get_site_content');
+                if (res.status === 401) {
+                    window.top.location.href = '/admin';
+                    return;
+                }
                 const json = await res.json();
                 if (json.success && json.data) {
                     siteData = json.data;

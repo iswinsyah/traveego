@@ -13,12 +13,36 @@ define('DB_NAME', getenv('DB_NAME') ?: 'traveego_db');
 define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
 
-// 2. REKENING ADMIN UNTUK SETORAN KOMISI SOPIR (PASCA-BAYAR)
+// 2. KREDENSIAL LOGIN ADMIN PANEL (/admin)
+define('ADMIN_USERNAME', 'admin');
+define('ADMIN_PASSWORD', 'admin@traveego');
+
+function startAdminSession() {
+    if (session_status() === PHP_SESSION_NONE) {
+        // Keamanan cookie session
+        ini_set('session.cookie_httponly', 1);
+        ini_set('session.use_only_cookies', 1);
+        session_start();
+    }
+}
+
+function isAdminLoggedIn() {
+    startAdminSession();
+    return !empty($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
+}
+
+function requireAdminAuth() {
+    if (!isAdminLoggedIn()) {
+        sendJson(['success' => false, 'message' => 'Akses ditolak: Silakan login terlebih dahulu.'], 401);
+    }
+}
+
+// 3. REKENING ADMIN UNTUK SETORAN KOMISI SOPIR (PASCA-BAYAR)
 define('ADMIN_BANK_NAME', 'BCA');
 define('ADMIN_BANK_ACCOUNT', '1234567890');
 define('ADMIN_BANK_HOLDER', 'Traveego Operasional');
 
-// 3. KONEKSI PDO DENGAN ERROR HANDLING
+// 4. KONEKSI PDO DENGAN ERROR HANDLING
 function getDB() {
     static $pdo = null;
     if ($pdo === null) {

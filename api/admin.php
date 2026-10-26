@@ -4,6 +4,61 @@ require_once __DIR__ . '/../config.php';
 $pdo = getDB();
 $action = $_GET['action'] ?? $_POST['action'] ?? 'stats';
 
+// 0. AKSI AUTENTIKASI ADMIN
+if ($action === 'login') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $username = trim($input['username'] ?? '');
+    $password = trim($input['password'] ?? '');
+
+    if ($username === ADMIN_USERNAME && $password === ADMIN_PASSWORD) {
+        startAdminSession();
+        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['admin_user'] = ADMIN_USERNAME;
+        $_SESSION['admin_login_time'] = time();
+
+        sendJson([
+            'success' => true,
+            'message' => 'Login berhasil! Mengalihkan...',
+            'user' => ADMIN_USERNAME
+        ]);
+    } else {
+        sendJson([
+            'success' => false,
+            'message' => 'Username atau password yang Anda masukkan salah!'
+        ], 401);
+    }
+}
+
+if ($action === 'logout') {
+    startAdminSession();
+    $_SESSION = [];
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    session_destroy();
+    sendJson([
+        'success' => true,
+        'message' => 'Berhasil keluar (logout)'
+    ]);
+}
+
+if ($action === 'check_auth') {
+    sendJson([
+        'success' => true,
+        'logged_in' => isAdminLoggedIn(),
+        'user' => $_SESSION['admin_user'] ?? null
+    ]);
+}
+
+// PROTEKSI WAJIB LOGIN UNTUK SEMUA AKSI DI BAWAH INI
+if ($action !== 'fleet') {
+    requireAdminAuth();
+}
+
 // 1. STATISTIK OPERASIONAL & DAFTAR TRANSAKSI
 if ($action === 'stats') {
     try {

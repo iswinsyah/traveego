@@ -393,6 +393,10 @@
         async function loadAdminData() {
             try {
                 const res = await fetch('/api/admin.php?action=stats');
+                if (res.status === 401) {
+                    window.top.location.href = '/admin';
+                    return;
+                }
                 const data = await res.json();
                 if (data.success) {
                     renderStats(data.stats);

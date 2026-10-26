@@ -12,10 +12,8 @@ RewriteCond %{DOCUMENT_ROOT}/public/driver.html -f
 RewriteRule ^driver/?$ public/driver.html [L]
 RewriteRule ^driver/?$ driver.html [L]
 
-# 3. Rute Dashboard Admin: /admin
-RewriteCond %{DOCUMENT_ROOT}/public/admin.html -f
-RewriteRule ^admin/?$ public/admin.html [L]
-RewriteRule ^admin/?$ admin.html [L]
+# 3. Rute Dashboard Admin: /admin (Dilindungi Login WordPress: admin / admin@traveego)
+RewriteRule ^admin/?$ admin.php [L,QSA]
 
 # 4. Izinkan akses langsung ke folder api, uploads, dan file statis yang ada
 RewriteCond %{REQUEST_FILENAME} -f [OR]
