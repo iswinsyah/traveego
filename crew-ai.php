@@ -1428,6 +1428,70 @@ $isLoggedIn = isCrewLoggedIn();
                 flex-wrap: wrap;
             }
 
+            /* 3 Kotak Status Overview jadi 1 Baris di HP */
+            .stat-grid-overview {
+                display: grid !important;
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                gap: 8px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .stat-grid-overview .stat-card {
+                padding: 10px 8px !important;
+                border-radius: 14px !important;
+                min-width: 0 !important;
+                box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+            }
+
+            .stat-grid-overview .stat-card-header {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 4px !important;
+                margin-bottom: 6px !important;
+            }
+
+            .stat-grid-overview .stat-label {
+                font-size: 9.5px !important;
+                font-weight: 800 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                max-width: 100% !important;
+                color: var(--text-muted) !important;
+            }
+
+            .stat-grid-overview .sw-pill {
+                font-size: 8.5px !important;
+                padding: 2px 6px !important;
+                border-radius: 10px !important;
+                line-height: 1 !important;
+            }
+
+            .stat-grid-overview .stat-value {
+                font-size: 12.5px !important;
+                font-weight: 800 !important;
+                color: var(--text-title) !important;
+                margin-bottom: 2px !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                letter-spacing: -0.3px !important;
+            }
+
+            .stat-grid-overview .stat-desc {
+                font-size: 9px !important;
+                line-height: 1.25 !important;
+                color: var(--text-muted) !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                max-width: 100% !important;
+            }
+
             .android-card-grid {
                 grid-template-columns: 1fr;
                 gap: 16px;
@@ -1704,7 +1768,7 @@ $isLoggedIn = isCrewLoggedIn();
                 </div>
 
                 <!-- Status Stats Grid -->
-                <div class="stat-grid">
+                <div class="stat-grid stat-grid-overview">
                     <div class="stat-card">
                         <div class="stat-card-header">
                             <span class="stat-label">Jadwal Operasional PC Server</span>
