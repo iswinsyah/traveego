@@ -1,0 +1,229 @@
+{
+  "head": {
+    "title": "Traveego Drop-Off Privat | Sewa Mobil Sekali Jalan Jakarta Bandung & Surabaya",
+    "meta_description": "Layanan sewa mobil privat sekali jalan tanpa DP. Tarif All-In Tol MBZ, BBM & Sopir rute Jakarta, Bandung, Bandara Soekarno-Hatta & Surabaya.",
+    "brand_name": "TRAVEEGO",
+    "logo_icon": "🚗",
+    "hotline_wa": "6281234567891"
+  },
+  "navbar": {
+    "nav_links": [
+      { "label": "Home", "href": "#hero" },
+      { "label": "Cara Kerja", "href": "#carakerja" },
+      { "label": "Pilihan Armada", "href": "#katalog" },
+      { "label": "Keunggulan", "href": "#keunggulan" },
+      { "label": "FAQ", "href": "#faq" }
+    ],
+    "action_links": {
+      "wa_button_text": "💬 Pesan WA",
+      "track_button_text": "📍 Lacak Trip",
+      "driver_button_text": "🚖 Mitra Sopir"
+    }
+  },
+  "hero": {
+    "title_line_1": "SEWA MOBIL",
+    "title_line_2": "DROP-OFF PRIVAT",
+    "subtitle": "Layanan antar jemput sekali jalan rute Jakarta, Bandung, Bandara Soetta & Surabaya. 100% mobil privat tanpa orang asing, All-In BBM & Tol MBZ.",
+    "cta_text": "💬 Pesan via WhatsApp",
+    "wa_number": "6281234567891",
+    "wa_message": "Halo Traveego, saya mau pesan sewa mobil Drop-Off",
+    "cars": [
+      {
+        "name": "Toyota Avanza / Veloz",
+        "img": "/assets/veloz.jpg"
+      },
+      {
+        "name": "Toyota Innova Reborn",
+        "img": "/assets/innova.jpg"
+      },
+      {
+        "name": "Toyota HiAce Premio",
+        "img": "/assets/hiace.jpg"
+      }
+    ]
+  },
+  "how_it_works": {
+    "kicker": "Tanpa Ribet",
+    "headline": "Cara Kerja Pemesanan Traveego",
+    "description": "Nikmati kemudahan sewa mobil sekali jalan tanpa harus download aplikasi atau transfer DP di muka.",
+    "steps": [
+      {
+        "num": "1",
+        "icon": "📋",
+        "title": "Pilih Rute & Jadwal",
+        "text": "Tentukan alamat penjemputan, tujuan, dan jenis mobil yang diinginkan melalui chat WhatsApp dalam hitungan detik."
+      },
+      {
+        "num": "2",
+        "icon": "🚖",
+        "title": "Sopir Jemput di Pintu",
+        "text": "Mitra sopir terdekat di radar langsung meluncur. Pantau posisi mobil secara real-time via Magic Link peta Traveego."
+      },
+      {
+        "num": "3",
+        "icon": "💵",
+        "title": "Sampai & Bayar di Tujuan",
+        "text": "Perjalanan tenang dan nyaman lewat jalan tol. Setelah tiba dengan selamat di tujuan, baru Anda bayar tunai ke sopir."
+      }
+    ]
+  },
+  "fleet": {
+    "kicker": "Standar Kenyamanan Tinggi",
+    "headline": "Pilihan Armada Traveego",
+    "description": "Seluruh armada dirawat rutin, bersih, wangi, dan dikemudikan oleh sopir profesional berstandar etika tinggi.",
+    "cars": [
+      {
+        "id": "avanza",
+        "name": "Avanza / Veloz Modern",
+        "badge": "HEMAT & GESIT",
+        "img": "/assets/veloz.jpg",
+        "subtitle": "Pilihan pas untuk keluarga kecil & perjalanan dinas ringkas",
+        "features": [
+          "👥 Kapasitas 1-4 Penumpang",
+          "🧳 Muat hingga 3 Koper Sedang",
+          "❄️ AC Dingin & Kabin Bersih Harum",
+          "🔌 Charger HP & Audio Bluetooth"
+        ],
+        "fare_label": "Tarif Mulai",
+        "fare_num": "Rp 750.000",
+        "btn_text": "Pesan Mobil",
+        "wa_message": "Halo Traveego, saya mau sewa Avanza Drop-Off"
+      },
+      {
+        "id": "innova",
+        "name": "Toyota Innova Reborn",
+        "badge": "⭐ FAVORIT EKSEKUTIF",
+        "img": "/assets/innova.jpg",
+        "subtitle": "Standar emas kenyamanan antarkota, suspensi empuk & kedap suara",
+        "features": [
+          "👥 Kapasitas 1-5 Penumpang",
+          "🧳 Muat hingga 4 Koper Besar",
+          "💺 Reclining Seat + Ruang Kaki Luas",
+          "💧 Gratis Air Mineral Botol"
+        ],
+        "fare_label": "Tarif Mulai",
+        "fare_num": "Rp 1.050.000",
+        "btn_text": "Pesan Mobil",
+        "wa_message": "Halo Traveego, saya mau sewa Innova Reborn Drop-Off"
+      },
+      {
+        "id": "hiace",
+        "name": "Toyota HiAce Premio",
+        "badge": "ROMBONGAN & VIP",
+        "img": "/assets/hiace.jpg",
+        "subtitle": "Kabin ekstra lega dan tinggi untuk liburan keluarga besar / corporate",
+        "features": [
+          "👥 Kapasitas 10-14 Penumpang",
+          "🧳 Muat hingga 8-10 Koper Besar",
+          "🚪 Pintu Geser Elektrik Nyaman",
+          "❄️ AC Double Blower Setiap Baris"
+        ],
+        "fare_label": "Tarif Mulai",
+        "fare_num": "Rp 1.700.000",
+        "btn_text": "Pesan Mobil",
+        "wa_message": "Halo Traveego, saya mau sewa HiAce Premio Drop-Off"
+      }
+    ]
+  },
+  "testimonials": {
+    "kicker": "Ulasan Pengguna",
+    "headline": "Dipercaya 1.850+ Pelanggan Setia",
+    "description": "Rating kepuasan 4.9/5 dari pelanggan perjalanan dinas, keluarga, dan penjemputan bandara.",
+    "items": [
+      {
+        "author": "Bramantyo Wicaksono",
+        "role": "Perjalanan Bisnis • Jakarta Pusat",
+        "stars": "⭐⭐⭐⭐⭐",
+        "text": "Sangat membantu saat ada meeting dadakan di Bandung. Mobil Innova Reborn bersih wangi, sopir Pak Hendra sopan dan bawa mobil halus sekali via Tol MBZ. Bayar cash pas sampai tujuan tanpa ribet transfer DP!"
+      },
+      {
+        "author": "Dr. Sarah Anggraini",
+        "role": "Liburan Keluarga • Dago Bandung",
+        "stars": "⭐⭐⭐⭐⭐",
+        "text": "Pesan HiAce Premio untuk rombongan keluarga 10 orang dari Soetta ke Bandung. Sopir standby sebelum kami landing. Anak-anak nyaman tidur di jalan. Recommended banget untuk yang butuh privasi!"
+      },
+      {
+        "author": "Hendri Setiawan",
+        "role": "Kejar Flight • Bandara Soetta",
+        "stars": "⭐⭐⭐⭐⭐",
+        "text": "Jemput jam 03.30 pagi dari Bandung ke Terminal 3 Soetta, sopir datang 15 menit lebih awal. Tidak ada drama mogok atau ngetem jemput orang lain. Pasti jadi langganan tetap saya."
+      }
+    ]
+  },
+  "comparison": {
+    "kicker": "Transparansi Layanan",
+    "headline": "Bandingkan Efisiensi Traveego",
+    "description": "Mengapa sewa mobil drop-off sekali jalan jauh lebih menguntungkan dibanding travel umum atau sewa lepas kunci.",
+    "rows": [
+      {
+        "parameter": "Titik Penjemputan",
+        "traveego": "Depan pintu rumah / terminal bandara",
+        "shuttle": "Harus ke pool / ngetem keliling jemput orang lain",
+        "rental": "Ambil mobil sendiri di garasi rental"
+      },
+      {
+        "parameter": "Privasi Mobil",
+        "traveego": "100% Privat untuk keluarga / rombongan Anda",
+        "shuttle": "Bercampur penumpang asing",
+        "rental": "Privat tapi Anda lelah menyetir sendiri"
+      },
+      {
+        "parameter": "BBM & Tol MBZ / Cipularang",
+        "traveego": "ALL-IN TERMASUK",
+        "shuttle": "Harga per kursi",
+        "rental": "Bensin & e-toll isi sendiri"
+      },
+      {
+        "parameter": "Sistem Pembayaran",
+        "traveego": "0% DP, bayar cash ke sopir di tujuan",
+        "shuttle": "Wajib lunas transfer di muka",
+        "rental": "Deposit jutaan rupiah + survei rumah"
+      },
+      {
+        "parameter": "Waktu Keberangkatan",
+        "traveego": "Fleksibel 24 Jam bebas tentukan sendiri",
+        "shuttle": "Terikat jadwal jam pool tetap",
+        "rental": "Terikat durasi hitungan 24 jam"
+      }
+    ]
+  },
+  "faq": {
+    "kicker": "Tanya Jawab",
+    "headline": "Pertanyaan yang Sering Diajukan",
+    "description": "Jawaban transparan untuk memastikan pengalaman perjalanan Anda tenang dan memuaskan.",
+    "items": [
+      {
+        "q": "Apakah harga yang tercantum sudah termasuk Tol dan BBM?",
+        "a": "Ya, 100% All-In murni! Tarif yang tertera sudah mencakup unit mobil, jasa sopir profesional, BBM selama perjalanan, serta biaya tol layang MBZ dan tol Cipularang. Tidak ada biaya tambahan di luar kesepakatan."
+      },
+      {
+        "q": "Apakah saya harus membayar uang muka (DP) saat booking?",
+        "a": "Tidak perlu sama sekali (0% DP). Kami menerapkan sistem bayar di tempat (cash on arrival). Anda cukup membayar ongkos perjalanan langsung ke sopir setelah Anda dan rombongan tiba dengan selamat di lokasi tujuan."
+      },
+      {
+        "q": "Bagaimana jika penerbangan saya di Bandara Soetta mengalami delay?",
+        "a": "Tenang, sopir kami akan memantau nomor penerbangan Anda. Sopir akan menyesuaikan waktu penjemputan di terminal kedatangan (Terminal 1, 2, atau 3) tanpa biaya hangus atau pembatalan sepihak."
+      },
+      {
+        "q": "Apakah saya bisa meminta sopir berhenti istirahat di Rest Area?",
+        "a": "Tentu saja bisa! Karena layanan Traveego adalah 100% sewa mobil privat, Anda bebas meminta sopir mampir ke Rest Area untuk sholat, ke toilet, ataupun makan tanpa terburu-buru."
+      },
+      {
+        "q": "Bagaimana cara mengetahui lokasi sopir setelah memesan?",
+        "a": "Setelah pesanan Anda diambil oleh mitra sopir di radar, Anda akan mendapatkan tautan halaman pelacakan langsung (Magic Link). Anda dapat melihat pergerakan mobil di peta dan melakukan chat interaktif langsung dengan sopir."
+      }
+    ]
+  },
+  "footer": {
+    "brand_name": "TRAVEEGO DROP-OFF",
+    "about_text": "Platform sewa mobil privat sekali jalan antarkota berbasis radar lelang tercepat di Indonesia. Melayani rute Jabodetabek, Bandung, Bandara Soekarno-Hatta, dan Surabaya dengan tarif All-In transparan.",
+    "copyright": "© 2026 Traveego Mobilitas Indonesia. Hak cipta dilindungi.",
+    "popular_routes": [
+      { "label": "Jakarta ➔ Bandung PP", "wa_text": "Halo Traveego, saya mau tanya rute Jakarta-Bandung" },
+      { "label": "Bandara Soetta ➔ Bandung", "wa_text": "Halo Traveego, saya mau tanya rute Soetta-Bandung" },
+      { "label": "Bandung ➔ Bandara Soetta", "wa_text": "Halo Traveego, saya mau tanya rute Bandung-Soetta" },
+      { "label": "Surabaya ➔ Malang / Batu", "wa_text": "Halo Traveego, saya mau tanya rute Surabaya-Malang" }
+    ],
+    "contact_wa": "6281234567891"
+  }
+}

@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penyesuai Tampilan Front-End (Customizer ala WordPress) | Traveego</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wp-dark: #1d2327;
+            --wp-darker: #101517;
+            --wp-blue: #2271b1;
+            --wp-blue-hover: #135e96;
+            --wp-gray-bg: #f0f0f1;
+            --wp-border: #dcdcde;
+            --wp-text: #2c3338;
+            --wp-text-muted: #646970;
+            --accent-green: #008a20;
+            --accent-gold: #dba617;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--wp-gray-bg);
+            color: var(--wp-text);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 1. TOP WORDPRESS ADMIN BAR */
+        .wp-admin-bar {
+            background: var(--wp-dark);
+            color: #c3c4c7;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 13px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+            flex-shrink: 0;
+        }
+
+        .wp-bar-left, .wp-bar-center, .wp-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wp-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+        .wp-brand:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .wp-icon-badge {
+            background: var(--wp-blue);
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        .wp-link {
+            color: #c3c4c7;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            transition: all 0.15s;
+        }
+        .wp-link:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .device-toggle-bar {
+            display: flex;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            padding: 2px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-device {
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        .btn-device:hover {
+            color: #fff;
+        }
+        .btn-device.active {
+            background: var(--wp-blue);
+            color: #fff;
+        }
+
+        .btn-publish {
+            background: var(--wp-blue);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 7px 16px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .btn-publish:hover {
+            background: var(--wp-blue-hover);
+        }
+        .btn-publish:active {
+            transform: scale(0.98);
+        }
+
+        .btn-reset {
+            background: rgba(255,255,255,0.1);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            border-radius: 5px;
+            padding: 6px 12px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-reset:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fff;
+        }
+
+        /* 2. MAIN WORKSPACE (SIDEBAR + PREVIEW) */
+        .wp-workspace {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 48px);
+            overflow: hidden;
+        }
+
+        /* LEFT SIDEBAR / CUSTOMIZER ACCORDION */
+        .wp-sidebar {
+            width: 460px;
+            background: #fff;
+            border-right: 1px solid var(--wp-border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            height: 100%;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.03);
+            z-index: 50;
+        }
+
+        .sidebar-header {
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--wp-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--wp-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-sub {
+            font-size: 12px;
+            color: var(--wp-text-muted);
+            margin-top: 2px;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 16px 60px;
+        }
+
+        /* ACCORDION PANELS */
+        .cms-section {
+            background: #fff;
+            border: 1px solid var(--wp-border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .cms-section:hover {
+            border-color: #cbd5e1;
+        }
+        .cms-section.active {
+            border-color: var(--wp-blue);
+            box-shadow: 0 3px 12px rgba(34, 113, 177, 0.08);
+        }
+
+        .cms-section-header {
+            padding: 14px 16px;
+            background: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            font-weight: 700;
+            font-size: 13.5px;
+            color: var(--wp-dark);
+            transition: background 0.15s;
+        }
+        .cms-section-header:hover {
+            background: #f8fafc;
+        }
+        .cms-section.active .cms-section-header {
+            background: #f0f7ff;
+            color: var(--wp-blue);
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .cms-sec-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cms-sec-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .chevron-arrow {
+            transition: transform 0.2s;
+            font-size: 12px;
+            color: var(--wp-text-muted);
+        }
+        .cms-section.active .chevron-arrow {
+            transform: rotate(180deg);
+            color: var(--wp-blue);
+        }
+
+        .cms-section-body {
+            display: none;
+            padding: 18px 16px;
+            background: #fff;
+        }
+        .cms-section.active .cms-section-body {
+            display: block;
+        }
+
+        /* FORM CONTROLS */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--wp-dark);
+            margin-bottom: 6px;
+        }
+        .form-help {
+            font-size: 11px;
+            color: var(--wp-text-muted);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--wp-border);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--wp-text);
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--wp-blue);
+            box-shadow: 0 0 0 2px rgba(34, 113, 177, 0.2);
+        }
+        .form-textarea {
+            resize: vertical;
+            min-height: 70px;
+            line-height: 1.5;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* REPEATER / LIST CARDS */
+        .repeater-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .repeater-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+        .repeater-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--wp-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-del-item {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .btn-del-item:hover {
+            background: #fee2e2;
+        }
+
+        .btn-add-item {
+            width: 100%;
+            background: #f1f5f9;
+            color: var(--wp-blue);
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+        .btn-add-item:hover {
+            background: #e2e8f0;
+            border-color: var(--wp-blue);
+        }
+
+        /* RIGHT PANEL: LIVE PREVIEW */
+        .wp-preview-wrap {
+            flex: 1;
+            background: #334155;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-frame-container {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .preview-frame-container.tablet {
+            width: 768px;
+            border-radius: 18px;
+            border: 8px solid #1e293b;
+        }
+        .preview-frame-container.mobile {
+            width: 375px;
+            border-radius: 26px;
+            border: 10px solid #0f172a;
+        }
+
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+        }
+
+        /* TOAST ALERT */
+        .wp-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #0f172a;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+        .wp-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .wp-toast.success {
+            border-left: 4px solid #22c55e;
+        }
+        .wp-toast.error {
+            border-left: 4px solid #ef4444;
+        }
+
+        /* LOADING OVERLAY */
+        .cms-loading {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            font-weight: 700;
+            color: var(--wp-blue);
+            backdrop-filter: blur(2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. TOP WORDPRESS ADMIN BAR -->
+    <header class="wp-admin-bar">
+        <div class="wp-bar-left">
+            <a href="/" target="_blank" class="wp-brand" title="Buka Halaman Utama Traveego">
+                <div class="wp-icon-badge">W</div>
+                <span>Traveego CMS</span>
+            </a>
+            <a href="/" target="_blank" class="wp-link">
+                <span>🌐 Kunjungi Situs ↗</span>
+            </a>
+            <a href="/admin.html" class="wp-link">
+                <span>⚙️ Konsol Operasional</span>
+            </a>
+        </div>
+
+        <div class="wp-bar-center">
+            <div class="device-toggle-bar">
+                <button type="button" class="btn-device active" onclick="setDevice('desktop', this)">💻 Desktop</button>
+                <button type="button" class="btn-device" onclick="setDevice('tablet', this)">📱 Tablet</button>
+                <button type="button" class="btn-device" onclick="setDevice('mobile', this)">📲 HP Mobile</button>
+            </div>
+            <button type="button" class="wp-link" onclick="reloadPreview()" title="Refresh tampilan preview">
+                <span>🔄 Reload Preview</span>
+            </button>
+        </div>
+
+        <div class="wp-bar-right">
+            <button type="button" class="btn-reset" onclick="confirmResetDefault()">
+                <span>Kembalikan Default</span>
+            </button>
+            <button type="button" class="btn-publish" onclick="saveSiteContent()">
+                <span>💾 Simpan &amp; Publikasikan</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 2. WORKSPACE -->
+    <main class="wp-workspace">
+        
+        <!-- LEFT SIDEBAR: CUSTOMIZER ACCORDION -->
+        <aside class="wp-sidebar">
+            <div class="sidebar-header">
+                <div>
+                    <div class="sidebar-title">
+                        <span>🎨 Penyesuai Tampilan (Customizer)</span>
+                    </div>
+                    <div class="sidebar-sub">Kelola teks, foto armada, FAQ, hingga footer</div>
+                </div>
+            </div>
+
+            <div class="sidebar-content" id="sidebarContent">
+                
+                <!-- 1. IDENTITAS SITUS & HEAD -->
+                <div class="cms-section active" id="sec-head">
+                    <div class="cms-section-header" onclick="toggleSection('sec-head')">
+                        <div class="cms-sec-left">
+                            <span class="cms-sec-icon">🏷️</span>
+                            <span>1. Head &amp; Identitas Situs</span>
+                        </div>
+                        <span class="chevron-arrow">&#9660;</span>
+                    </div>
+                    <div class="cms-section-body">
+                        <div class="form-group">
+                            <label class="form-label">Judul Tab Browser (Meta Title)</label>
+                            <input type="text" class="form-input" id="c_head_title">
+                            <div class="form-help">Judul yang muncul di tab browser dan hasil pencarian Google.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi Meta SEO</label>
+                            <textarea class="form-textarea" id="c_head_desc"></textarea>
+                        </div>
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label class="form-label">Nama Brand Logo</label>
+                                <input type="text" class="form-input" id="c_head_brand">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Ikon Emoji Brand</label>
+                                <input type="text" class="form-input" id="c_head_icon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nomor WhatsApp Hotline</label>
+                            <input type="text" class="form-input" id="c_head_wa" placeholder="6281234567891">
+                            <div class="form-help">Gunakan format internasional tanpa tanda + (contoh: 6281234567891).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. HERO SECTION -->
+                <div class="cms-section" id="sec-hero">
+                    <div class="cms-section-header" onclick="toggleSection('sec-hero')">
+                        <div class="cms-sec-left">
+                            <span class="cms-sec-icon">⚡</span>
+                            <span>2. Panggung Utama (Hero)</span>
+                        </div>
+                        <span class="chevron-arrow">&#9660;</span>
+                    </div>
+                    <div class="cms-section-body">
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label class="form-label">Judul Utama Baris 1</label>
+                                <input type="text" class="form-input" id="c_hero_title1">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Judul Utama Baris 2</label>
+                                <input type="text" class="form-input" id="c_hero_title2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Keterangan / Subjudul Hero</label>
+                            <textarea class="form-textarea" id="c_hero_sub"></textarea>
+                        </div>
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label class="form-label">Teks Tombol CTA</label>
+                                <input type="text" class="form-input" id="c_hero_cta">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nomor WA Order</label>
+                                <input type="text" class="form-input" id="c_hero_wa">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pesan WhatsApp Default</label>
+                            <input type="text" class="form-input" id="c_hero_wamsg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. CARA KERJA -->
+                <div class="cms-section" id="sec-how">
+                    <div class="cms-section-header" onclick="toggleSection('sec-how')">
+                        <div class="cms-sec-left">
+                            <span class="cms-sec-icon">🛠️</span>
+                            <span>3. Cara Kerja Pemesanan</span>
+                        </div>
+                        <span class="chevron-arrow">&#9660;</span>
+                    </div>
+                    <div class="cms-section-body">
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label class="form-label">Label Kicker</label>
+                                <input type="text" class="form-input" id="c_how_kicker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Judul Bagian</label>
+                                <input type="text" class="form-input" id="c_how_headline">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi Singkat</label>
+                            <input type="text" class="form-input" id="c_how_desc">
+                        </div>
+
+                        <div style="font-weight: 800; font-size: 12px; margin: 12px 0 8px; color: var(--wp-dark);">Langkah-Langkah (3 Kotak):</div>
+                        <div id="howStepsContainer"></div>
+                    </div>
+                </div>
+
+                <!-- 4. PILIHAN ARMADA -->
+                <div class="cms-section" id="sec-fleet">
+                    <div class="cms-section-header" onclick="toggleSection('sec-fleet')">
+                        <div class="cms-sec-left">
+                            <span class="cms-sec-icon">🚗</span>
+                            <span>4. Katalog Pilihan Armada</span>
+                        </div>
+                        <span class="chevron-arrow">&#9660;</span>
+                    </div>
+                    <div class="cms-section-body">
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label class="form-label">Label Kicker</label>
+                                <input type="text" class="form-input" id="c_fleet_kicker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Judul Bagian</label>
+                                <input type="text" class="form-input" id="c_fleet_headline">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi Singkat</label>
+                            <input type="text" class="form-input" id="c_fleet_desc">
+                        </div>
+
+                        <div style="font-weight: 800; font-size: 12px; margin: 12px 0 8px; color: var(--wp-dark);">Daftar Mobil:</div>
+                        <div id="fleetContainer"></div>
+                    </div>
+                </div>
+
+                <!-- 5. TESTIMONI -->
+                <div class="cms-section" id="sec-testi">
+                    <div class="cms-section-header" onclick="toggleSection('sec-testi')">
+                        <div class="cms-sec-left">
+                            <span class="cms-sec-icon">💬</span>
+                            <span>5. Testimoni &amp; Ulasan</span>
+                        </div>
+                        <span class="chevron-arrow">&#9660;</span>
+                    </div>
+                    <div class="cms-section-body">
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label class="form-label">Label Kicker</label>
+                                <input type="text" class="form-input" id="c_testi_kicker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Judul Bagian</label>
+                                <input type="text" class="form-input" id="c_testi_headline">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi Singkat</label>
+                            <input type="text" class="form-input" id="c_testi_desc">
+                        </div>
+
+                        <div style="font-weight: 800; font-size: 12px; margin: 12px 0 8px; color: var(--wp-dark);">Daftar Ulasan Pelanggan:</div>
+                        <div id="testiContainer"></div>
+                        <button type="button" class="btn-add-item" onclick="addTestiItem()">+ Tambah Ulasan Baru</button>
+                    </div>
+                </div>
+
+                <!-- 6. FAQ (TANYA JAWAB) -->
+                <div class="cms-section" id="sec-faq">
+                    <div class="cms-section-header" onclick="toggleSection('sec-faq')">
+                        <div class="cms-sec-left">
+                            <span class="cms-sec-icon">❓</span>
+                            <span>6. Tanya Jawab (FAQ)</span>
+                        </div>
+                        <span class="chevron-arrow">&#9660;</span>
+                    </div>
+                    <div class="cms-section-body">
+                        <div class="grid-2col">
+                            <div class="form-group">
+                                <label class="form-label">Label Kicker</label>
+                                <input type="text" class="form-input" id="c_faq_kicker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Judul Bagian</label>
+                                <input type="text" class="form-input" id="c_faq_headline">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi Singkat</label>
+                            <input type="text" class="form-input" id="c_faq_desc">
+                        </div>
+
+                        <div style="font-weight: 800; font-size: 12px; margin: 12px 0 8px; color: var(--wp-dark);">Daftar Pertanyaan &amp; Jawaban:</div>
+                        <div id="faqContainer"></div>
+                        <button type="button" class="btn-add-item" onclick="addFaqItem()">+ Tambah Pertanyaan FAQ</button>
+                    </div>
+                </div>
+
+                <!-- 7. FOOTER -->
+                <div class="cms-section" id="sec-footer">
+                    <div class="cms-section-header" onclick="toggleSection('sec-footer')">
+                        <div class="cms-sec-left">
+                            <span class="cms-sec-icon">🦶</span>
+                            <span>7. Footer &amp; Hak Cipta</span>
+                        </div>
+                        <span class="chevron-arrow">&#9660;</span>
+                    </div>
+                    <div class="cms-section-body">
+                        <div class="form-group">
+                            <label class="form-label">Judul Brand Footer</label>
+                            <input type="text" class="form-input" id="c_footer_brand">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi Perusahaan</label>
+                            <textarea class="form-textarea" id="c_footer_about"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Teks Hak Cipta (Copyright)</label>
+                            <input type="text" class="form-input" id="c_footer_copy">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL: LIVE IFRAME PREVIEW -->
+        <section class="wp-preview-wrap">
+            <div class="preview-frame-container desktop" id="previewContainer">
+                <iframe src="/index.html" class="preview-iframe" id="previewFrame"></iframe>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="wp-toast" id="cmsToast">
+        <span id="toastIcon">✅</span>
+        <span id="toastMsg">Pengaturan berhasil disimpan!</span>
+    </div>
+
+    <!-- JAVASCRIPT CMS LOGIC -->
+    <script>
+        let siteData = null;
+
+        // Toggle Accordion
+        function toggleSection(secId) {
+            const sec = document.getElementById(secId);
+            const isActive = sec.classList.contains('active');
+            
+            // Tutup semua yang lain agar rapi
+            document.querySelectorAll('.cms-section').forEach(s => s.classList.remove('active'));
+            
+            if (!isActive) {
+                sec.classList.add('active');
+            }
+        }
+
+        // Device Switcher
+        function setDevice(device, btn) {
+            document.querySelectorAll('.btn-device').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const container = document.getElementById('previewContainer');
+            container.className = 'preview-frame-container ' + device;
+        }
+
+        function reloadPreview() {
+            const frame = document.getElementById('previewFrame');
+            frame.src = '/index.html?t=' + Date.now();
+            showToast('Preview dimuat ulang 🔄', 'success');
+        }
+
+        // Fetch Data dari API
+        async function loadSiteContent() {
+            try {
+                const res = await fetch('/api/admin.php?action=get_site_content');
+                const json = await res.json();
+                if (json.success && json.data) {
+                    siteData = json.data;
+                    renderFormValues();
+                } else {
+                    showToast('Gagal memuat data: ' + json.message, 'error');
+                }
+            } catch (err) {
+                showToast('Error koneksi API: ' + err.message, 'error');
+            }
+        }
+
+        // Masukkan data ke Form
+        function renderFormValues() {
+            if (!siteData) return;
+
+            // 1. Head
+            document.getElementById('c_head_title').value = siteData.head?.title || '';
+            document.getElementById('c_head_desc').value = siteData.head?.meta_description || '';
+            document.getElementById('c_head_brand').value = siteData.head?.brand_name || '';
+            document.getElementById('c_head_icon').value = siteData.head?.logo_icon || '';
+            document.getElementById('c_head_wa').value = siteData.head?.hotline_wa || '';
+
+            // 2. Hero
+            document.getElementById('c_hero_title1').value = siteData.hero?.title_line_1 || '';
+            document.getElementById('c_hero_title2').value = siteData.hero?.title_line_2 || '';
+            document.getElementById('c_hero_sub').value = siteData.hero?.subtitle || '';
+            document.getElementById('c_hero_cta').value = siteData.hero?.cta_text || '';
+            document.getElementById('c_hero_wa').value = siteData.hero?.wa_number || '';
+            document.getElementById('c_hero_wamsg').value = siteData.hero?.wa_message || '';
+
+            // 3. Cara Kerja
+            document.getElementById('c_how_kicker').value = siteData.how_it_works?.kicker || '';
+            document.getElementById('c_how_headline').value = siteData.how_it_works?.headline || '';
+            document.getElementById('c_how_desc').value = siteData.how_it_works?.description || '';
+            renderHowSteps();
+
+            // 4. Armada
+            document.getElementById('c_fleet_kicker').value = siteData.fleet?.kicker || '';
+            document.getElementById('c_fleet_headline').value = siteData.fleet?.headline || '';
+            document.getElementById('c_fleet_desc').value = siteData.fleet?.description || '';
+            renderFleetCards();
+
+            // 5. Testimoni
+            document.getElementById('c_testi_kicker').value = siteData.testimonials?.kicker || '';
+            document.getElementById('c_testi_headline').value = siteData.testimonials?.headline || '';
+            document.getElementById('c_testi_desc').value = siteData.testimonials?.description || '';
+            renderTestiCards();
+
+            // 6. FAQ
+            document.getElementById('c_faq_kicker').value = siteData.faq?.kicker || '';
+            document.getElementById('c_faq_headline').value = siteData.faq?.headline || '';
+            document.getElementById('c_faq_desc').value = siteData.faq?.description || '';
+            renderFaqCards();
+
+            // 7. Footer
+            document.getElementById('c_footer_brand').value = siteData.footer?.brand_name || '';
+            document.getElementById('c_footer_about').value = siteData.footer?.about_text || '';
+            document.getElementById('c_footer_copy').value = siteData.footer?.copyright || '';
+        }
+
+        // Render Langkah Cara Kerja
+        function renderHowSteps() {
+            const container = document.getElementById('howStepsContainer');
+            const steps = siteData.how_it_works?.steps || [];
+            container.innerHTML = '';
+
+            steps.forEach((step, idx) => {
+                const el = document.createElement('div');
+                el.className = 'repeater-card';
+                el.innerHTML = `
+                    <div class="repeater-header">
+                        <div class="repeater-title">Langkah ${step.num || (idx + 1)}</div>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="form-group">
+                            <label class="form-label">Ikon Emoji</label>
+                            <input type="text" class="form-input" value="${escapeHtml(step.icon || '')}" onchange="updateStep(${idx}, 'icon', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Judul Langkah</label>
+                            <input type="text" class="form-input" value="${escapeHtml(step.title || '')}" onchange="updateStep(${idx}, 'title', this.value)">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Keterangan Langkah</label>
+                        <textarea class="form-textarea" style="min-height:55px;" onchange="updateStep(${idx}, 'text', this.value)">${escapeHtml(step.text || '')}</textarea>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+        function updateStep(idx, field, val) {
+            if (siteData.how_it_works.steps[idx]) {
+                siteData.how_it_works.steps[idx][field] = val;
+            }
+        }
+
+        // Render Armada
+        function renderFleetCards() {
+            const container = document.getElementById('fleetContainer');
+            const cars = siteData.fleet?.cars || [];
+            container.innerHTML = '';
+
+            cars.forEach((car, idx) => {
+                const el = document.createElement('div');
+                el.className = 'repeater-card';
+                el.innerHTML = `
+                    <div class="repeater-header">
+                        <div class="repeater-title">Mobil ${idx + 1}: ${escapeHtml(car.name || '')}</div>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="form-group">
+                            <label class="form-label">Nama Mobil</label>
+                            <input type="text" class="form-input" value="${escapeHtml(car.name || '')}" onchange="updateCar(${idx}, 'name', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Badge Label</label>
+                            <input type="text" class="form-input" value="${escapeHtml(car.badge || '')}" onchange="updateCar(${idx}, 'badge', this.value)">
+                        </div>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="form-group">
+                            <label class="form-label">Foto URL</label>
+                            <input type="text" class="form-input" value="${escapeHtml(car.img || '')}" onchange="updateCar(${idx}, 'img', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tarif Mulai</label>
+                            <input type="text" class="form-input" value="${escapeHtml(car.fare_num || '')}" onchange="updateCar(${idx}, 'fare_num', this.value)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Keterangan Singkat</label>
+                        <input type="text" class="form-input" value="${escapeHtml(car.subtitle || '')}" onchange="updateCar(${idx}, 'subtitle', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fitur-fitur (1 baris per fitur)</label>
+                        <textarea class="form-textarea" onchange="updateCarFeatures(${idx}, this.value)">${escapeHtml((car.features || []).join('\n'))}</textarea>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Pesan WhatsApp Saat Klik Pesan</label>
+                        <input type="text" class="form-input" value="${escapeHtml(car.wa_message || '')}" onchange="updateCar(${idx}, 'wa_message', this.value)">
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+        function updateCar(idx, field, val) {
+            if (siteData.fleet.cars[idx]) {
+                siteData.fleet.cars[idx][field] = val;
+            }
+        }
+        function updateCarFeatures(idx, text) {
+            if (siteData.fleet.cars[idx]) {
+                siteData.fleet.cars[idx].features = text.split('\n').map(s => s.trim()).filter(Boolean);
+            }
+        }
+
+        // Render Testimoni
+        function renderTestiCards() {
+            const container = document.getElementById('testiContainer');
+            const items = siteData.testimonials?.items || [];
+            container.innerHTML = '';
+
+            items.forEach((item, idx) => {
+                const el = document.createElement('div');
+                el.className = 'repeater-card';
+                el.innerHTML = `
+                    <div class="repeater-header">
+                        <div class="repeater-title">Ulasan #${idx + 1}</div>
+                        <button type="button" class="btn-del-item" onclick="delTestiItem(${idx})">🗑️ Hapus</button>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="form-group">
+                            <label class="form-label">Nama Pelanggan</label>
+                            <input type="text" class="form-input" value="${escapeHtml(item.author || '')}" onchange="updateTesti(${idx}, 'author', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Role / Rute</label>
+                            <input type="text" class="form-input" value="${escapeHtml(item.role || '')}" onchange="updateTesti(${idx}, 'role', this.value)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bintang</label>
+                        <input type="text" class="form-input" value="${escapeHtml(item.stars || '⭐⭐⭐⭐⭐')}" onchange="updateTesti(${idx}, 'stars', this.value)">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Isi Ulasan</label>
+                        <textarea class="form-textarea" onchange="updateTesti(${idx}, 'text', this.value)">${escapeHtml(item.text || '')}</textarea>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+        function updateTesti(idx, field, val) {
+            if (siteData.testimonials.items[idx]) {
+                siteData.testimonials.items[idx][field] = val;
+            }
+        }
+        function addTestiItem() {
+            if (!siteData.testimonials) siteData.testimonials = { items: [] };
+            if (!siteData.testimonials.items) siteData.testimonials.items = [];
+            siteData.testimonials.items.push({
+                author: 'Nama Pelanggan',
+                role: 'Rute Drop-Off',
+                stars: '⭐⭐⭐⭐⭐',
+                text: 'Pelayanan sangat ramah, sopir tepat waktu dan armada bersih nyaman.'
+            });
+            renderTestiCards();
+        }
+        function delTestiItem(idx) {
+            siteData.testimonials.items.splice(idx, 1);
+            renderTestiCards();
+        }
+
+        // Render FAQ
+        function renderFaqCards() {
+            const container = document.getElementById('faqContainer');
+            const items = siteData.faq?.items || [];
+            container.innerHTML = '';
+
+            items.forEach((item, idx) => {
+                const el = document.createElement('div');
+                el.className = 'repeater-card';
+                el.innerHTML = `
+                    <div class="repeater-header">
+                        <div class="repeater-title">FAQ #${idx + 1}</div>
+                        <button type="button" class="btn-del-item" onclick="delFaqItem(${idx})">🗑️ Hapus</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pertanyaan</label>
+                        <input type="text" class="form-input" value="${escapeHtml(item.q || '')}" onchange="updateFaq(${idx}, 'q', this.value)">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Jawaban</label>
+                        <textarea class="form-textarea" onchange="updateFaq(${idx}, 'a', this.value)">${escapeHtml(item.a || '')}</textarea>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+        function updateFaq(idx, field, val) {
+            if (siteData.faq.items[idx]) {
+                siteData.faq.items[idx][field] = val;
+            }
+        }
+        function addFaqItem() {
+            if (!siteData.faq) siteData.faq = { items: [] };
+            if (!siteData.faq.items) siteData.faq.items = [];
+            siteData.faq.items.push({
+                q: 'Pertanyaan baru mengenai sewa drop-off?',
+                a: 'Tuliskan jawaban yang jelas dan transparan di sini.'
+            });
+            renderFaqCards();
+        }
+        function delFaqItem(idx) {
+            siteData.faq.items.splice(idx, 1);
+            renderFaqCards();
+        }
+
+        // Kumpulkan Nilai Form Sebelum Simpan
+        function gatherFormData() {
+            if (!siteData) return null;
+
+            // 1. Head
+            siteData.head = siteData.head || {};
+            siteData.head.title = document.getElementById('c_head_title').value;
+            siteData.head.meta_description = document.getElementById('c_head_desc').value;
+            siteData.head.brand_name = document.getElementById('c_head_brand').value;
+            siteData.head.logo_icon = document.getElementById('c_head_icon').value;
+            siteData.head.hotline_wa = document.getElementById('c_head_wa').value;
+
+            // 2. Hero
+            siteData.hero = siteData.hero || {};
+            siteData.hero.title_line_1 = document.getElementById('c_hero_title1').value;
+            siteData.hero.title_line_2 = document.getElementById('c_hero_title2').value;
+            siteData.hero.subtitle = document.getElementById('c_hero_sub').value;
+            siteData.hero.cta_text = document.getElementById('c_hero_cta').value;
+            siteData.hero.wa_number = document.getElementById('c_hero_wa').value;
+            siteData.hero.wa_message = document.getElementById('c_hero_wamsg').value;
+
+            // 3. Cara Kerja
+            siteData.how_it_works = siteData.how_it_works || {};
+            siteData.how_it_works.kicker = document.getElementById('c_how_kicker').value;
+            siteData.how_it_works.headline = document.getElementById('c_how_headline').value;
+            siteData.how_it_works.description = document.getElementById('c_how_desc').value;
+
+            // 4. Armada
+            siteData.fleet = siteData.fleet || {};
+            siteData.fleet.kicker = document.getElementById('c_fleet_kicker').value;
+            siteData.fleet.headline = document.getElementById('c_fleet_headline').value;
+            siteData.fleet.description = document.getElementById('c_fleet_desc').value;
+
+            // 5. Testimoni
+            siteData.testimonials = siteData.testimonials || {};
+            siteData.testimonials.kicker = document.getElementById('c_testi_kicker').value;
+            siteData.testimonials.headline = document.getElementById('c_testi_headline').value;
+            siteData.testimonials.description = document.getElementById('c_testi_desc').value;
+
+            // 6. FAQ
+            siteData.faq = siteData.faq || {};
+            siteData.faq.kicker = document.getElementById('c_faq_kicker').value;
+            siteData.faq.headline = document.getElementById('c_faq_headline').value;
+            siteData.faq.description = document.getElementById('c_faq_desc').value;
+
+            // 7. Footer
+            siteData.footer = siteData.footer || {};
+            siteData.footer.brand_name = document.getElementById('c_footer_brand').value;
+            siteData.footer.about_text = document.getElementById('c_footer_about').value;
+            siteData.footer.copyright = document.getElementById('c_footer_copy').value;
+
+            return siteData;
+        }
+
+        // Simpan Data ke Server
+        async function saveSiteContent() {
+            const dataToSave = gatherFormData();
+            if (!dataToSave) return;
+
+            showToast('Menyimpan perubahan...', 'info');
+
+            try {
+                const res = await fetch('/api/admin.php?action=save_site_content', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataToSave)
+                });
+                const json = await res.json();
+                if (json.success) {
+                    showToast('🎉 Pengaturan berhasil disimpan & dipublikasikan!', 'success');
+                    reloadPreview();
+                } else {
+                    showToast('Gagal menyimpan: ' + json.message, 'error');
+                }
+            } catch (err) {
+                showToast('Kesalahan koneksi saat menyimpan: ' + err.message, 'error');
+            }
+        }
+
+        function confirmResetDefault() {
+            if (confirm('Apakah Anda yakin ingin memuat ulang pengaturan dari data/site_content.json?')) {
+                loadSiteContent();
+                showToast('Pengaturan dimuat ulang dari file.', 'info');
+            }
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('cmsToast');
+            const icon = document.getElementById('toastIcon');
+            const text = document.getElementById('toastMsg');
+
+            text.innerText = msg;
+            toast.className = 'wp-toast show ' + type;
+            icon.innerText = type === 'success' ? '✅' : (type === 'error' ? '❌' : 'ℹ️');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        // Inisialisasi awal
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSiteContent();
+        });
+    </script>
+</body>
+</html>

@@ -1839,6 +1839,164 @@
                 }
             });
         }, { passive: true });
+
+        // DYNAMIC CONTENT LOADER DARI CMS WORDPRESS CUSTOMIZER
+        async function loadDynamicContent() {
+            try {
+                const res = await fetch('/api/content.php');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data) return;
+
+                function escapeText(str) {
+                    return String(str || '')
+                        .replace(/&/g, '&amp;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                }
+
+                // 1. Head
+                if (data.head?.title) document.title = data.head.title;
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc && data.head?.meta_description) metaDesc.content = data.head.meta_description;
+
+                // 2. Navbar Brand
+                const logoSym = document.querySelector('.luxury-logo-symbol');
+                if (logoSym && data.head?.logo_icon) logoSym.innerText = data.head.logo_icon;
+                const brandName = document.querySelector('.luxury-brand-name');
+                if (brandName && data.head?.brand_name) brandName.innerText = data.head.brand_name;
+
+                // 3. Hero
+                const heroTitle = document.querySelector('.hero-big-title');
+                if (heroTitle && data.hero?.title_line_1 && data.hero?.title_line_2) {
+                    heroTitle.innerHTML = `${escapeText(data.hero.title_line_1)}<br><span>${escapeText(data.hero.title_line_2)}</span>`;
+                }
+                const heroSub = document.querySelector('.hero-big-sub');
+                if (heroSub && data.hero?.subtitle) heroSub.innerText = data.hero.subtitle;
+                const heroCta = document.querySelector('.btn-hero-primary');
+                if (heroCta && data.hero?.cta_text) {
+                    const spanText = heroCta.querySelector('span:first-child');
+                    if (spanText) spanText.innerText = data.hero.cta_text;
+                    const waNum = data.hero.wa_number || '6281234567891';
+                    const waMsg = encodeURIComponent(data.hero.wa_message || 'Halo Traveego, saya mau pesan Drop-Off');
+                    heroCta.href = `https://wa.me/${waNum}?text=${waMsg}`;
+                }
+
+                // 4. Cara Kerja (#carakerja)
+                const howSec = document.getElementById('carakerja');
+                if (howSec && data.how_it_works) {
+                    const kicker = howSec.querySelector('.section-kicker');
+                    if (kicker && data.how_it_works.kicker) kicker.innerText = data.how_it_works.kicker;
+                    const hl = howSec.querySelector('.section-headline');
+                    if (hl && data.how_it_works.headline) hl.innerText = data.how_it_works.headline;
+                    const desc = howSec.querySelector('.section-desc');
+                    if (desc && data.how_it_works.description) desc.innerText = data.how_it_works.description;
+
+                    const cards = howSec.querySelectorAll('.how-card');
+                    if (Array.isArray(data.how_it_works.steps)) {
+                        data.how_it_works.steps.forEach((st, i) => {
+                            if (cards[i]) {
+                                const icon = cards[i].querySelector('.how-icon');
+                                if (icon && st.icon) icon.innerText = st.icon;
+                                const title = cards[i].querySelector('.how-title');
+                                if (title && st.title) title.innerText = st.title;
+                                const txt = cards[i].querySelector('.how-text');
+                                if (txt && st.text) txt.innerText = st.text;
+                            }
+                        });
+                    }
+                }
+
+                // 5. Armada (#katalog)
+                const fleetSec = document.getElementById('katalog');
+                if (fleetSec && data.fleet) {
+                    const kicker = fleetSec.querySelector('.section-kicker');
+                    if (kicker && data.fleet.kicker) kicker.innerText = data.fleet.kicker;
+                    const hl = fleetSec.querySelector('.section-headline');
+                    if (hl && data.fleet.headline) hl.innerText = data.fleet.headline;
+                    const desc = fleetSec.querySelector('.section-desc');
+                    if (desc && data.fleet.description) desc.innerText = data.fleet.description;
+
+                    const carCards = fleetSec.querySelectorAll('.fleet-rich-card');
+                    if (Array.isArray(data.fleet.cars)) {
+                        data.fleet.cars.forEach((car, i) => {
+                            if (carCards[i]) {
+                                const badge = carCards[i].querySelector('.fleet-card-badge');
+                                if (badge && car.badge) badge.innerText = car.badge;
+                                const img = carCards[i].querySelector('.fleet-card-img');
+                                if (img && car.img) img.src = car.img;
+                                const title = carCards[i].querySelector('.fleet-car-title');
+                                if (title && car.name) title.innerText = car.name;
+                                const sub = carCards[i].querySelector('.fleet-car-sub');
+                                if (sub && car.subtitle) sub.innerText = car.subtitle;
+                                const fare = carCards[i].querySelector('.fleet-fare-num');
+                                if (fare && car.fare_num) fare.innerText = car.fare_num;
+                                const btn = carCards[i].querySelector('.btn-fleet-choose');
+                                if (btn) {
+                                    if (car.btn_text) btn.innerText = car.btn_text;
+                                    const waNum = data.hero?.wa_number || '6281234567891';
+                                    const waMsg = encodeURIComponent(car.wa_message || `Halo Traveego, saya mau sewa ${car.name}`);
+                                    btn.href = `https://wa.me/${waNum}?text=${waMsg}`;
+                                }
+                            }
+                        });
+                    }
+                }
+
+                // 6. Testimoni (#testimoni)
+                const testiSec = document.getElementById('testimoni');
+                if (testiSec && data.testimonials) {
+                    const kicker = testiSec.querySelector('.section-kicker');
+                    if (kicker && data.testimonials.kicker) kicker.innerText = data.testimonials.kicker;
+                    const hl = testiSec.querySelector('.section-headline');
+                    if (hl && data.testimonials.headline) hl.innerText = data.testimonials.headline;
+                    const desc = testiSec.querySelector('.section-desc');
+                    if (desc && data.testimonials.description) desc.innerText = data.testimonials.description;
+                }
+
+                // 7. FAQ (#faq)
+                const faqSec = document.getElementById('faq');
+                if (faqSec && data.faq) {
+                    const kicker = faqSec.querySelector('.section-kicker');
+                    if (kicker && data.faq.kicker) kicker.innerText = data.faq.kicker;
+                    const hl = faqSec.querySelector('.section-headline');
+                    if (hl && data.faq.headline) hl.innerText = data.faq.headline;
+                    const desc = faqSec.querySelector('.section-desc');
+                    if (desc && data.faq.description) desc.innerText = data.faq.description;
+
+                    const accordion = faqSec.querySelector('.faq-accordion');
+                    if (accordion && Array.isArray(data.faq.items) && data.faq.items.length > 0) {
+                        accordion.innerHTML = data.faq.items.map((item, idx) => `
+                            <div class="faq-item ${idx === 0 ? 'active' : ''}" onclick="toggleFaq(this)">
+                                <div class="faq-question">
+                                    <span>${escapeText(item.q || '')}</span>
+                                    <span class="faq-icon-arrow">&#9660;</span>
+                                </div>
+                                <div class="faq-answer">
+                                    ${escapeText(item.a || '')}
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+
+                // 8. Footer
+                const footer = document.querySelector('.luxury-footer');
+                if (footer && data.footer) {
+                    const brand = footer.querySelector('div[style*="font-size: 20px"]');
+                    if (brand && data.footer.brand_name) brand.innerText = data.footer.brand_name;
+                    const about = footer.querySelector('p[style*="line-height: 1.6"]');
+                    if (about && data.footer.about_text) about.innerText = data.footer.about_text;
+                }
+            } catch (e) {
+                // Senyap jika gagal, fallback ke HTML statis default
+            }
+        }
+
+        // Jalankan sinkronisasi dinamis
+        window.addEventListener('DOMContentLoaded', loadDynamicContent);
     </script>
 </body>
 </html>

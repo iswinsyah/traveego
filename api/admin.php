@@ -95,4 +95,52 @@ if ($action === 'fleet') {
     }
 }
 
+// 4. CMS FRONT-END: AMBIL KONTEN SITUS
+if ($action === 'get_site_content') {
+    $dataFile = __DIR__ . '/../data/site_content.json';
+    if (!file_exists($dataFile)) {
+        sendJson(['success' => false, 'message' => 'File konfigurasi belum ada'], 404);
+    }
+    $raw = file_get_contents($dataFile);
+    $data = json_decode($raw, true);
+    if ($data === null) {
+        sendJson(['success' => false, 'message' => 'Format JSON tidak valid'], 500);
+    }
+    sendJson([
+        'success' => true,
+        'data' => $data
+    ]);
+}
+
+// 5. CMS FRONT-END: SIMPAN KONTEN SITUS
+if ($action === 'save_site_content') {
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (!is_array($input) || empty($input)) {
+        sendJson(['success' => false, 'message' => 'Data konten tidak boleh kosong'], 400);
+    }
+
+    $dataFile = __DIR__ . '/../data/site_content.json';
+    $dataDir = dirname($dataFile);
+    if (!is_dir($dataDir)) {
+        mkdir($dataDir, 0755, true);
+    }
+
+    $jsonString = json_encode($input, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if ($jsonString === false) {
+        sendJson(['success' => false, 'message' => 'Gagal mengonversi data ke format JSON'], 500);
+    }
+
+    $saved = file_put_contents($dataFile, $jsonString, LOCK_EX);
+    if ($saved === false) {
+        sendJson(['success' => false, 'message' => 'Gagal menyimpan ke data/site_content.json. Periksa izin folder.'], 500);
+    }
+
+    sendJson([
+        'success' => true,
+        'message' => '🎉 Pengaturan front-end berhasil disimpan dan dipublikasikan!',
+        'saved_at' => date('Y-m-d H:i:s')
+    ]);
+}
+
 sendJson(['success' => false, 'message' => 'Action tidak dikenali'], 404);
+
