@@ -1,0 +1,200 @@
+{
+  "last_updated": "2026-10-26 13:53:36",
+  "fuel_prices_per_liter": {
+    "pertalite": 10000,
+    "pertamax": 12100,
+    "dexlite": 13700
+  },
+  "routes": {
+    "jakarta_bandung": {
+      "slug": "drop-off-jakarta-bandung",
+      "origin": "Jakarta (Jabodetabek)",
+      "destination": "Bandung (Kota / Lembang / Cimahi)",
+      "distance_km": 150,
+      "toll_cost": 85000,
+      "toll_details": "Tol MBZ + Cikampek Utama + Cipularang + Pasteur",
+      "base_driver_fee": 200000,
+      "pricing": {
+        "avanza": {
+          "vehicle_name": "Toyota All New Avanza",
+          "fuel_cost": 125000,
+          "toll_cost": 85000,
+          "driver_fee": 200000,
+          "margin": 102500,
+          "all_in_total": 500000,
+          "formatted_price": "Rp 500.000"
+        },
+        "innova": {
+          "vehicle_name": "Toyota Innova Reborn",
+          "fuel_cost": 205500,
+          "toll_cost": 85000,
+          "driver_fee": 250000,
+          "margin": 151340,
+          "all_in_total": 700000,
+          "formatted_price": "Rp 700.000"
+        },
+        "hiace": {
+          "vehicle_name": "Toyota Hiace Commuter/Premio",
+          "fuel_cost": 256875,
+          "toll_cost": 85000,
+          "driver_fee": 300000,
+          "margin": 192562,
+          "all_in_total": 825000,
+          "formatted_price": "Rp 825.000"
+        }
+      }
+    },
+    "jakarta_cirebon": {
+      "slug": "drop-off-jakarta-cirebon",
+      "origin": "Jakarta (Jabodetabek)",
+      "destination": "Cirebon",
+      "distance_km": 220,
+      "toll_cost": 145000,
+      "toll_details": "Tol MBZ + Cipali (Cikopo - Palimanan)",
+      "base_driver_fee": 250000,
+      "pricing": {
+        "avanza": {
+          "vehicle_name": "Toyota All New Avanza",
+          "fuel_cost": 183333,
+          "toll_cost": 145000,
+          "driver_fee": 250000,
+          "margin": 144583,
+          "all_in_total": 725000,
+          "formatted_price": "Rp 725.000"
+        },
+        "innova": {
+          "vehicle_name": "Toyota Innova Reborn",
+          "fuel_cost": 301400,
+          "toll_cost": 145000,
+          "driver_fee": 312500,
+          "margin": 212492,
+          "all_in_total": 975000,
+          "formatted_price": "Rp 975.000"
+        },
+        "hiace": {
+          "vehicle_name": "Toyota Hiace Commuter/Premio",
+          "fuel_cost": 376750,
+          "toll_cost": 145000,
+          "driver_fee": 375000,
+          "margin": 269025,
+          "all_in_total": 1175000,
+          "formatted_price": "Rp 1.175.000"
+        }
+      }
+    },
+    "jakarta_semarang": {
+      "slug": "drop-off-jakarta-semarang",
+      "origin": "Jakarta (Jabodetabek)",
+      "destination": "Semarang",
+      "distance_km": 440,
+      "toll_cost": 435000,
+      "toll_details": "Tol Trans Jawa Penuh (MBZ - Cipali - Pejagan - Pemalang - Batang - Krapyak)",
+      "base_driver_fee": 375000,
+      "pricing": {
+        "avanza": {
+          "vehicle_name": "Toyota All New Avanza",
+          "fuel_cost": 366667,
+          "toll_cost": 435000,
+          "driver_fee": 375000,
+          "margin": 294167,
+          "all_in_total": 1475000,
+          "formatted_price": "Rp 1.475.000"
+        },
+        "innova": {
+          "vehicle_name": "Toyota Innova Reborn",
+          "fuel_cost": 602800,
+          "toll_cost": 435000,
+          "driver_fee": 468750,
+          "margin": 421834,
+          "all_in_total": 1925000,
+          "formatted_price": "Rp 1.925.000"
+        },
+        "hiace": {
+          "vehicle_name": "Toyota Hiace Commuter/Premio",
+          "fuel_cost": 753500,
+          "toll_cost": 435000,
+          "driver_fee": 562500,
+          "margin": 525300,
+          "all_in_total": 2275000,
+          "formatted_price": "Rp 2.275.000"
+        }
+      }
+    },
+    "jakarta_surabaya": {
+      "slug": "drop-off-jakarta-surabaya",
+      "origin": "Jakarta (Jabodetabek)",
+      "destination": "Surabaya",
+      "distance_km": 780,
+      "toll_cost": 845000,
+      "toll_details": "Tol Trans Jawa Penuh (Jakarta s.d. Warugunung Surabaya)",
+      "base_driver_fee": 600000,
+      "pricing": {
+        "avanza": {
+          "vehicle_name": "Toyota All New Avanza",
+          "fuel_cost": 650000,
+          "toll_cost": 845000,
+          "driver_fee": 600000,
+          "margin": 523750,
+          "all_in_total": 2625000,
+          "formatted_price": "Rp 2.625.000"
+        },
+        "innova": {
+          "vehicle_name": "Toyota Innova Reborn",
+          "fuel_cost": 1068600,
+          "toll_cost": 845000,
+          "driver_fee": 750000,
+          "margin": 745808,
+          "all_in_total": 3400000,
+          "formatted_price": "Rp 3.400.000"
+        },
+        "hiace": {
+          "vehicle_name": "Toyota Hiace Commuter/Premio",
+          "fuel_cost": 1335750,
+          "toll_cost": 845000,
+          "driver_fee": 900000,
+          "margin": 924225,
+          "all_in_total": 4000000,
+          "formatted_price": "Rp 4.000.000"
+        }
+      }
+    },
+    "jakarta_bandara_soetta": {
+      "slug": "drop-off-bandara-soekarno-hatta",
+      "origin": "Jakarta / Bekasi / Depok",
+      "destination": "Bandara Internasional Soekarno-Hatta (CGK)",
+      "distance_km": 45,
+      "toll_cost": 45000,
+      "toll_details": "Tol Lingkar Luar (JORR) + Tol Prof. Dr. Sedyatmo",
+      "base_driver_fee": 125000,
+      "pricing": {
+        "avanza": {
+          "vehicle_name": "Toyota All New Avanza",
+          "fuel_cost": 37500,
+          "toll_cost": 45000,
+          "driver_fee": 125000,
+          "margin": 51875,
+          "all_in_total": 250000,
+          "formatted_price": "Rp 250.000"
+        },
+        "innova": {
+          "vehicle_name": "Toyota Innova Reborn",
+          "fuel_cost": 61650,
+          "toll_cost": 45000,
+          "driver_fee": 156250,
+          "margin": 73612,
+          "all_in_total": 325000,
+          "formatted_price": "Rp 325.000"
+        },
+        "hiace": {
+          "vehicle_name": "Toyota Hiace Commuter/Premio",
+          "fuel_cost": 77062,
+          "toll_cost": 45000,
+          "driver_fee": 187500,
+          "margin": 92869,
+          "all_in_total": 400000,
+          "formatted_price": "Rp 400.000"
+        }
+      }
+    }
+  }
+}

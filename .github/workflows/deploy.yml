@@ -33,3 +33,4 @@ jobs:
             public/**
             src/**
             scripts/**
+            ai_crew/**
