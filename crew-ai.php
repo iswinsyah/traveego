@@ -1049,9 +1049,10 @@ $isLoggedIn = isCrewLoggedIn();
         }
 
         .android-agent-duty {
-            font-size: 12px;
+            font-size: 12.5px;
+            font-weight: 600;
             color: var(--text-muted);
-            line-height: 1.45;
+            line-height: 1.35;
             margin: 0;
         }
 
@@ -1659,8 +1660,9 @@ $isLoggedIn = isCrewLoggedIn();
 
             .android-agent-duty {
                 display: block !important;
-                font-size: 11px !important;
-                line-height: 1.4 !important;
+                font-size: 11.5px !important;
+                font-weight: 600 !important;
+                line-height: 1.35 !important;
                 color: var(--text-muted) !important;
             }
 
@@ -1879,7 +1881,7 @@ $isLoggedIn = isCrewLoggedIn();
                 </div>
             </li>
             <li>
-                <div class="sidebar-menu-item" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator')">
+                <div class="sidebar-menu-item" onclick="openAgentWorkspace('komandanPanel', 'Ndan Heru &ndash; Komandan Crew AI')">
                     <span class="menu-item-icon">⚡</span>
                     <span>Terminal & Pipeline Log</span>
                 </div>
@@ -2002,7 +2004,7 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                             <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Pak Hendra</h4>
-                                <p class="android-agent-duty">Riset harga BBM Pertamina, tarif tol resmi &amp; kalkulasi margin rute travel.</p>
+                                <p class="android-agent-duty">Riset Tol BBM</p>
                             </div>
                         </div>
 
@@ -2013,7 +2015,7 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                             <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Bung Kevin</h4>
-                                <p class="android-agent-duty">Meracik copywriting landing page rute penawaran All-In konversi tinggi.</p>
+                                <p class="android-agent-duty">CW Page</p>
                             </div>
                         </div>
 
@@ -2024,7 +2026,7 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                             <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Mbak Maya</h4>
-                                <p class="android-agent-duty">Memproduksi artikel blog edukasi SEO dinamis berstandar Google EEAT.</p>
+                                <p class="android-agent-duty">CW Post</p>
                             </div>
                         </div>
 
@@ -2035,7 +2037,7 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                             <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Mas Bayu</h4>
-                                <p class="android-agent-duty">Riset kata kunci turunan seed &ldquo;Drop Off&rdquo; dan analisa search intent.</p>
+                                <p class="android-agent-duty">Riset Keyword</p>
                             </div>
                         </div>
 
@@ -2046,7 +2048,7 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                             <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Mbak Dinda</h4>
-                                <p class="android-agent-duty">Menyusun kalender konten editorial mingguan untuk blog &amp; landing page.</p>
+                                <p class="android-agent-duty">Kalender</p>
                             </div>
                         </div>
 
@@ -2057,18 +2059,18 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                             <div class="ai-card-caption">
                                 <h4 class="android-agent-name">Bang Jaka</h4>
-                                <p class="android-agent-duty">Koordinasi kesiapan armada mobil dan jadwal penjemputan sopir 30 menit.</p>
+                                <p class="android-agent-duty">Koord. Armada</p>
                             </div>
                         </div>
 
-                        <!-- CARD 7: KOMANDAN SISTEM -->
-                        <div class="android-card" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator')">
+                        <!-- CARD 7: NDAN HERU -->
+                        <div class="android-card" onclick="openAgentWorkspace('komandanPanel', 'Ndan Heru &ndash; Komandan Crew AI')">
                             <div class="ai-icon-box icon-theme-indigo">
                                 <span>🧠</span>
                             </div>
                             <div class="ai-card-caption">
-                                <h4 class="android-agent-name">Komandan Sistem</h4>
-                                <p class="android-agent-duty">Orkestrasi jam kerja server 06-23 WIB, pipeline AI &amp; host Ollama.</p>
+                                <h4 class="android-agent-name">Ndan Heru</h4>
+                                <p class="android-agent-duty">Komandan Crew AI</p>
                             </div>
                         </div>
                     </div>
@@ -2606,8 +2608,8 @@ $isLoggedIn = isCrewLoggedIn();
                             <div class="hero-online-dot"></div>
                         </div>
                         <div class="hero-banner-text">
-                            <h2>Komandan Sistem &ndash; Orchestrator & Tailscale Host</h2>
-                            <p><strong>"Koordinasi terpadu antara server hosting Hostinger dan PC Server AI Anda."</strong> Saya mematuhi jam kerja 06.00-23.00 WIB, menjaga jalur Tailscale IP ke endpoint Ollama, dan memandu eksekusi bertahap Pak Hendra, Bung Kevin, dan Mbak Maya.</p>
+                            <h2>Ndan Heru &ndash; Komandan Crew AI & Tailscale Host</h2>
+                            <p><strong>"Koordinasi terpadu antara server hosting Hostinger dan PC Server AI Anda."</strong> Saya mematuhi jam kerja 06.00-23.00 WIB, menjaga jalur Tailscale IP ke endpoint Ollama, dan memandu eksekusi bertahap tim AI Traveego.</p>
                         </div>
                     </div>
                     <div class="hero-banner-actions">
@@ -2958,7 +2960,7 @@ $isLoggedIn = isCrewLoggedIn();
             <div class="bnav-icon-wrap">⚙️</div>
             <span class="bnav-label">Server</span>
         </div>
-        <div class="bnav-item" id="bnavPipeline" onclick="openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator'); updateBottomNavActive('bnavPipeline');">
+        <div class="bnav-item" id="bnavPipeline" onclick="openAgentWorkspace('komandanPanel', 'Ndan Heru &ndash; Komandan Crew AI'); updateBottomNavActive('bnavPipeline');">
             <div class="bnav-icon-wrap">⚡</div>
             <span class="bnav-label">Pipeline</span>
         </div>
@@ -3285,7 +3287,7 @@ $isLoggedIn = isCrewLoggedIn();
         const btnQ = document.getElementById('btnQuickRun');
         const term = document.getElementById('terminalOutput');
 
-        openAgentWorkspace('komandanPanel', 'Komandan Sistem &ndash; Orchestrator');
+        openAgentWorkspace('komandanPanel', 'Ndan Heru &ndash; Komandan Crew AI');
 
         if (btn) {
             btn.disabled = true;
