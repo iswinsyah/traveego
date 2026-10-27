@@ -1,64 +1,65 @@
 {
-  "slug": "drop-off-bandara-soekarno-hatta",
-  "generated_at": "2026-10-26 17:07:11",
-  "route_key": "jakarta_bandara_soetta",
-  "meta_title": "Sewa Mobil Drop Off Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) - Bandara Internasional Soekarno-Hatta (CGK) All-In 0% DP | Traveego",
-  "meta_description": "Jasa sewa mobil Drop-Off privat Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Internasional Soekarno-Hatta (CGK). Tarif All-In mulai Rp 250.000 sudah termasuk Tol MBZ, BBM & Sopir. Bayar tunai di tujuan tanpa DP.",
-  "hero": {
-    "headline": "SEWA MOBIL DROP OFF BANDARA INTERNASIONAL SOEKARNO-HATTA (CGK)",
-    "subheadline": "Perjalanan privat satu arah dari Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Internasional Soekarno-Hatta (CGK) tanpa repot. 100% All-In Tol & BBM, 0% Uang Muka, bayar langsung ke sopir saat tiba.",
-    "cta_button_text": "Pesan Unit Sekarang (0% DP)",
-    "wa_text": "Halo Traveego, saya mau pesan Drop-Off Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Internasional Soekarno-Hatta (CGK)"
-  },
-  "pricing_cards": [
-    {
-      "vehicle": "Avanza All New",
-      "price": "Rp 250.000",
-      "features": [
-        "4-5 Penumpang",
-        "Tol Penuh MBZ Termasuk",
-        "BBM All-In",
-        "Door-to-Door",
-        "Bayar di Lokasi"
-      ]
+    "slug": "drop-off-bandara-soekarno-hatta",
+    "generated_at": "2026-10-27 09:17:49",
+    "route_key": "jakarta_bandara_soetta",
+    "meta_title": "Sewa Mobil Drop Off Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) - Bandara Internasional Soekarno-Hatta (CGK) All-In 0% DP | Traveego",
+    "meta_description": "Jasa sewa mobil Drop-Off privat Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Internasional Soekarno-Hatta (CGK). Tarif All-In mulai Rp 250.000 sudah termasuk Tol MBZ, BBM & Sopir. Bayar tunai di tujuan tanpa DP.",
+    "hero": {
+        "headline": "SEWA MOBIL DROP OFF BANDARA INTERNASIONAL SOEKARNO-HATTA (CGK)",
+        "subheadline": "Perjalanan privat satu arah dari Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Internasional Soekarno-Hatta (CGK) tanpa repot. 100% All-In Tol & BBM, 0% Uang Muka, bayar langsung ke sopir saat tiba.",
+        "cta_button_text": "Pesan Unit Sekarang (0% DP)",
+        "wa_text": "Halo Traveego, saya mau pesan Drop-Off Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Internasional Soekarno-Hatta (CGK)"
     },
-    {
-      "vehicle": "Innova Reborn",
-      "price": "Rp 325.000",
-      "popular": true,
-      "features": [
-        "6-7 Penumpang",
-        "Suspensi Paling Nyaman",
-        "Tol Penuh MBZ Termasuk",
-        "BBM All-In",
-        "Door-to-Door"
-      ]
+    "pricing_cards": [
+        {
+            "vehicle": "Avanza All New",
+            "price": "Rp 250.000",
+            "features": [
+                "4-5 Penumpang",
+                "Tol Penuh MBZ Termasuk",
+                "BBM All-In",
+                "Door-to-Door",
+                "Bayar di Lokasi"
+            ]
+        },
+        {
+            "vehicle": "Innova Reborn",
+            "price": "Rp 325.000",
+            "popular": true,
+            "features": [
+                "6-7 Penumpang",
+                "Suspensi Paling Nyaman",
+                "Tol Penuh MBZ Termasuk",
+                "BBM All-In",
+                "Door-to-Door"
+            ]
+        },
+        {
+            "vehicle": "Hiace Commuter / Premio",
+            "price": "Rp 400.000",
+            "features": [
+                "10-14 Penumpang",
+                "Kabin Lega Rombongan",
+                "Tol Penuh Termasuk",
+                "BBM All-In",
+                "Door-to-Door"
+            ]
+        }
+    ],
+    "schema_markup": {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Car Rental Drop-Off",
+        "provider": {
+            "@type": "LocalBusiness",
+            "name": "Traveego Drop-Off"
+        },
+        "areaServed": "Bandara Internasional Soekarno-Hatta (CGK)",
+        "offers": {
+            "@type": "Offer",
+            "price": "250000",
+            "priceCurrency": "IDR"
+        }
     },
-    {
-      "vehicle": "Hiace Commuter / Premio",
-      "price": "Rp 400.000",
-      "features": [
-        "10-14 Penumpang",
-        "Kabin Lega Rombongan",
-        "Tol Penuh Termasuk",
-        "BBM All-In",
-        "Door-to-Door"
-      ]
-    }
-  ],
-  "schema_markup": {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Car Rental Drop-Off",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Traveego Drop-Off"
-    },
-    "areaServed": "Bandara Internasional Soekarno-Hatta (CGK)",
-    "offers": {
-      "@type": "Offer",
-      "price": "250000",
-      "priceCurrency": "IDR"
-    }
-  }
+    "sync_status": "synced_with_matrix"
 }

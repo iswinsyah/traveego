@@ -3302,7 +3302,13 @@ $isLoggedIn = isCrewLoggedIn();
 
         try {
             const res = await fetch('/api/crew.php?action=run_pipeline');
-            const d = await res.json();
+            const text = await res.text();
+            let d;
+            try {
+                d = JSON.parse(text);
+            } catch(jsonErr) {
+                throw new Error('Respon server bukan JSON: ' + (text ? text.substring(0, 150) : '(HTTP ' + res.status + ')'));
+            }
             term.innerText = d.log || 'Eksekusi selesai tanpa output log.';
             refreshData();
         } catch(e) {
