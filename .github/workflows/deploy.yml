@@ -22,7 +22,9 @@ jobs:
           username: ${{ secrets.FTP_USERNAME || secrets.USERNAME || secrets.FTP_USER || secrets.USER }}
           password: ${{ secrets.FTP_PASSWORD || secrets.PASSWORD }}
           server-dir: ./
-          timeout: 120000
+          timeout: 60000
+          security: loose
+          log-level: verbose
           exclude: |
             **/.git*
             **/.git*/**
