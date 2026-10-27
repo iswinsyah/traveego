@@ -16,17 +16,35 @@ jobs:
           fetch-depth: 2
 
       - name: 📂 Sinkronisasi File ke Hostinger public_html
+        id: ftp_deploy_1
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        continue-on-error: true
+        with:
+          server: ${{ secrets.FTP_SERVER || secrets.SERVER || secrets.FTP_HOST || secrets.HOST }}
+          username: ${{ secrets.FTP_USERNAME || secrets.USERNAME || secrets.FTP_USER || secrets.USER }}
+          password: ${{ secrets.FTP_PASSWORD || secrets.PASSWORD }}
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env*
+            package*.json
+            README.md
+            ARCHITECTURE.md
+            public/**
+            src/**
+            scripts/**
+            ai_crew/**
+
+      - name: 🔁 Coba Ulang Sinkronisasi (Jika Percobaan 1 Timeout)
+        if: steps.ftp_deploy_1.outcome == 'failure'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER || secrets.SERVER || secrets.FTP_HOST || secrets.HOST }}
           username: ${{ secrets.FTP_USERNAME || secrets.USERNAME || secrets.FTP_USER || secrets.USER }}
           password: ${{ secrets.FTP_PASSWORD || secrets.PASSWORD }}
           server-dir: ./
-          protocol: ftp
-          port: 21
-          timeout: 60000
-          security: loose
-          log-level: verbose
           exclude: |
             **/.git*
             **/.git*/**
