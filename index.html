@@ -1223,8 +1223,8 @@
 
                 <!-- 4. CTA BUTTON (DI BAWAH CAPTION PADA HP) -->
                 <div class="hero-cta-group">
-                    <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20pesan%20sewa%20mobil%20Drop-Off" target="_blank" class="btn-hero-primary">
-                        <span>💬 Pesan via WhatsApp</span>
+                    <a href="javascript:void(0)" onclick="quickBook('Semua Mobil', 'Halo Mbak Tiara Traveego, saya mau Pesan Cepat sewa mobil Drop-Off antar kota. Mohon info ketersediaan armada ya.')" class="btn-hero-primary">
+                        <span>⚡ Pesan Cepat</span>
                         <span>&rarr;</span>
                     </a>
                 </div>
@@ -1297,7 +1297,7 @@
                             <div class="fleet-fare-start">Tarif Mulai</div>
                             <div class="fleet-fare-num">Rp 750.000</div>
                         </div>
-                        <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20sewa%20Avanza%20Drop-Off" target="_blank" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">Pesan Mobil</a>
+                        <a href="javascript:void(0)" onclick="quickBook('Toyota All New Avanza', 'Halo Mbak Tiara Traveego, saya mau Pesan Cepat Avanza Drop-Off. Mohon info tarif terbaik & ketersediaan armada ya.')" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">⚡ Pesan Cepat</a>
                     </div>
                 </div>
             </div>
@@ -1324,7 +1324,7 @@
                             <div class="fleet-fare-start">Tarif Mulai</div>
                             <div class="fleet-fare-num">Rp 1.050.000</div>
                         </div>
-                        <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20sewa%20Innova%20Reborn%20Drop-Off" target="_blank" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">Pesan Mobil</a>
+                        <a href="javascript:void(0)" onclick="quickBook('Toyota Innova Reborn', 'Halo Mbak Tiara Traveego, saya mau Pesan Cepat Innova Reborn Drop-Off. Mohon info tarif terbaik & ketersediaan armada ya.')" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">⚡ Pesan Cepat</a>
                     </div>
                 </div>
             </div>
@@ -1351,7 +1351,7 @@
                             <div class="fleet-fare-start">Tarif Mulai</div>
                             <div class="fleet-fare-num">Rp 1.700.000</div>
                         </div>
-                        <a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20sewa%20HiAce%20Premio%20Drop-Off" target="_blank" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">Pesan Mobil</a>
+                        <a href="javascript:void(0)" onclick="quickBook('Toyota HiAce Premio', 'Halo Mbak Tiara Traveego, saya mau Pesan Cepat HiAce Premio Drop-Off rombongan. Mohon info ketersediaan armada ya.')" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">⚡ Pesan Cepat</a>
                     </div>
                 </div>
             </div>
@@ -1686,7 +1686,33 @@
         // Quick select from Fleet Catalog
         function selectRouteCard(carIdx = 1) {
             switchCar(carIdx);
-            window.open('https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20sewa%20mobil%20Drop-Off', '_blank');
+            const car = CARS[carIdx] || CARS[0];
+            quickBook(car.name, `Halo Mbak Tiara Traveego, saya mau Pesan Cepat Drop-Off ${car.name}. Mohon info armada ya.`);
+        }
+
+        // FUNGSI PESAN CEPAT: CATAT LEAD DIAM-DIAM & BUKA WHATSAPP
+        function quickBook(carName, customMsg) {
+            const phone = '6281234567891'; // WhatsApp Hotline Resmi
+            const msg = customMsg || `Halo Mbak Tiara Traveego, saya mau Pesan Cepat Drop-Off ${carName || 'mobil'}. Mohon info tarif dan kesiapan armada ya.`;
+            
+            // Catat Lead di Background secara asinkron ke Flat-File JSON Hostinger
+            try {
+                const payload = JSON.stringify({ car: carName || 'Mobil Pilihan', route: 'Pesan Cepat Web', source: 'index.html' });
+                if (navigator.sendBeacon) {
+                    const blob = new Blob([payload], { type: 'application/json' });
+                    navigator.sendBeacon('/api/leads.php?action=record_click', blob);
+                } else {
+                    fetch('/api/leads.php?action=record_click', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: payload,
+                        keepalive: true
+                    }).catch(() => {});
+                }
+            } catch(e) {}
+
+            const targetUrl = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+            window.open(targetUrl, '_blank');
         }
 
         // Accordion FAQ Toggle

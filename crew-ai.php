@@ -2243,6 +2243,59 @@ $isLoggedIn = isCrewLoggedIn();
                                 </button>
                             </div>
                         </div>
+
+                        <!-- MEJA KERJA NEGOSIASI & CLOSING TIARA (WHATSAPP PROXY ENGINE) -->
+                        <div class="tiara-closing-hub" style="margin-top: 24px; background: #FFFFFF; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-subtle);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+                                <div>
+                                    <h4 style="font-size: 17px; font-weight: 800; color: var(--text-title); display: flex; align-items: center; gap: 8px;">
+                                        <span>💬</span>
+                                        <span>Meja Kerja Closing Tiara &amp; Armada Bang Jaka</span>
+                                    </h4>
+                                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                                        Pantau tamu yang klik <strong>"Pesan Cepat"</strong> di web. Input hasil kesepakatan nego harga untuk menerbitkan Bukti Konfirmasi Resmi &amp; Magic Link Penjemputan.
+                                    </p>
+                                </div>
+                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                    <button type="button" class="btn-brand-outline" onclick="loadTiaraLeads()" style="font-size: 13px; padding: 8px 16px;">🔄 Segarkan Leads</button>
+                                    <button type="button" class="btn-brand-green" onclick="openClosingModal()" style="font-size: 13px; padding: 8px 18px; font-weight: 800;">➕ Input Rekap Closing Deal</button>
+                                </div>
+                            </div>
+
+                            <!-- Mini Stats Bar -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                                <div style="background: #F8FAFC; border: 1px solid var(--border-subtle); padding: 12px 16px; border-radius: 12px;">
+                                    <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Total Klik Pesan Cepat</div>
+                                    <div style="font-size: 20px; font-weight: 800; color: var(--text-title);" id="totalLeadsCount">Memuat...</div>
+                                </div>
+                                <div style="background: #F0FDF4; border: 1px solid #BBF7D0; padding: 12px 16px; border-radius: 12px;">
+                                    <div style="font-size: 11px; font-weight: 800; color: #15803D; text-transform: uppercase;">Berhasil Closing (Deal)</div>
+                                    <div style="font-size: 20px; font-weight: 800; color: #16A34A;" id="totalClosingsCount">Memuat...</div>
+                                </div>
+                                <div style="background: #EFF6FF; border: 1px solid #BFDBFE; padding: 12px 16px; border-radius: 12px;">
+                                    <div style="font-size: 11px; font-weight: 800; color: #1D4ED8; text-transform: uppercase;">Armada Terjadwal (Jaka)</div>
+                                    <div style="font-size: 20px; font-weight: 800; color: #0B4FD8;" id="totalActiveTripsCount">Memuat...</div>
+                                </div>
+                            </div>
+
+                            <!-- Tabel Riwayat Leads & Closing Terkini -->
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Waktu</th>
+                                            <th>ID &amp; Tamu</th>
+                                            <th>Rute / Mobil</th>
+                                            <th>Status</th>
+                                            <th>Aksi Tiara</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tiaraLeadsBody">
+                                        <tr><td colspan="5" style="text-align:center; padding: 16px; color: var(--text-muted);">Memuat data leads WhatsApp...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -3003,6 +3056,117 @@ $isLoggedIn = isCrewLoggedIn();
     </div>
 </div>
 
+<!-- ==============================================================
+     MODAL INPUT REKAP CLOSING TIARA & BANG JAKA
+     ============================================================== -->
+<div id="closingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); backdrop-filter:blur(6px); z-index:999; align-items:center; justify-content:center; padding:20px; overflow-y:auto;">
+    <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:24px; width:100%; max-width:540px; padding:30px; box-shadow:0 20px 50px rgba(0,0,0,0.15); margin:auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+            <div style="font-size:18px; font-weight:800; color:var(--text-title); display:flex; align-items:center; gap:8px;">
+                <span>📝</span>
+                <span>Rekap Closing Kesepakatan Tamu</span>
+            </div>
+            <button onclick="closeClosingModal()" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">&times;</button>
+        </div>
+
+        <form id="formClosingDeal" onsubmit="submitClosingDeal(event)">
+            <input type="hidden" id="clsLeadId" value="">
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Nama Tamu</label>
+                    <input type="text" id="clsCustName" required placeholder="Contoh: Ibu Maya Lestari" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Nomor WhatsApp</label>
+                    <input type="text" id="clsCustPhone" required placeholder="081234567890" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+                </div>
+            </div>
+
+            <div style="margin-bottom:14px;">
+                <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Tanggal &amp; Jam Penjemputan</label>
+                <input type="text" id="clsPickupDate" required placeholder="Contoh: Sabtu, 31 Okt 2026 pk 05:00 WIB" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Titik Penjemputan</label>
+                    <input type="text" id="clsPickupAddr" required placeholder="Contoh: Lobi Apartemen Mediterania" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Alamat Tujuan</label>
+                    <input type="text" id="clsDestAddr" required placeholder="Contoh: Bandara Soetta Terminal 3" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Jenis Armada</label>
+                    <select id="clsCarType" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+                        <option value="Toyota All New Avanza">Toyota All New Avanza</option>
+                        <option value="Toyota Innova Reborn" selected>Toyota Innova Reborn</option>
+                        <option value="Toyota HiAce Premio">Toyota HiAce Premio</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Tarif Disepakati (Rp)</label>
+                    <input type="number" id="clsAgreedPrice" required placeholder="320000" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Mitra Sopir (Bang Jaka)</label>
+                    <input type="text" id="clsDriverName" placeholder="Pak Budi Santoso" value="Pak Budi Santoso (Mitra Terpilih)" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Plat Nomor Mobil</label>
+                    <input type="text" id="clsCarPlate" placeholder="B 1421 KAZ" value="B 1421 KAZ" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+                </div>
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:4px;">Catatan Tambahan (Opsional)</label>
+                <input type="text" id="clsNotes" placeholder="Contoh: Bawa 3 koper besar, butuh stroller" style="width:100%; height:42px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; outline:none;">
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:flex-end;">
+                <button type="button" onclick="closeClosingModal()" class="btn-brand-outline">Batal</button>
+                <button type="submit" id="btnSubmitClosing" class="btn-brand-green" style="font-weight:800;">💾 Terbitkan Rekap &amp; Magic Link</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ==============================================================
+     MODAL HASIL CLOSING & TEMPLATE WHATSAPP
+     ============================================================== -->
+<div id="closingResultModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); backdrop-filter:blur(6px); z-index:999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:24px; width:100%; max-width:540px; padding:30px; box-shadow:0 20px 50px rgba(0,0,0,0.15);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <div style="font-size:18px; font-weight:800; color:#15803D; display:flex; align-items:center; gap:8px;">
+                <span>🎉</span>
+                <span>Closing Berhasil Diterbitkan!</span>
+            </div>
+            <button onclick="closeClosingResultModal()" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">&times;</button>
+        </div>
+
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">
+            Pesanan telah terdaftar di sistem. Silakan salin teks di bawah ini atau klik tombol kirim ke WhatsApp tamu:
+        </p>
+
+        <textarea id="closingResultText" readonly style="width:100%; height:200px; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:12px; padding:12px; font-family:var(--font-sans); font-size:12.5px; line-height:1.5; color:#0F172A; resize:none; margin-bottom:16px;"></textarea>
+
+        <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+            <button type="button" onclick="copyClosingText()" class="btn-brand-outline" style="font-size:13px;">📋 Salin Teks Rekap</button>
+            <a id="btnSendWaTamu" href="#" target="_blank" class="btn-brand-green" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800;">
+                <span>📲</span>
+                <span>Kirim ke WhatsApp Tamu</span>
+            </a>
+        </div>
+    </div>
+</div>
+
 <script>
     // Navigation Control
     function returnToOverviewHub() {
@@ -3487,11 +3651,219 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         alert('👩‍💼 Mbak Tiara (CS AI):\n"Halo Kak! Tiara terhubung langsung dengan data tarif update Pak Hendra dan armada standby Bang Jaka.\nTarif kami ALL-IN (Tol + BBM + Sopir) tanpa DP sama sekali, bayar di lokasi penjemputan/tujuan!"');
     }
 
+    // ==============================================================
+    // TIARA CLOSING HUB & WHATSAPP LEADS MANAGER
+    // ==============================================================
+    async function loadTiaraLeads() {
+        try {
+            const res = await fetch('/api/leads.php?action=list');
+            const data = await res.json();
+            if (!data.success) return;
+
+            const leads = data.leads || [];
+            const closings = data.closings || [];
+
+            // Update stats
+            const totalLeadsEl = document.getElementById('totalLeadsCount');
+            const totalClosingsEl = document.getElementById('totalClosingsCount');
+            const totalActiveEl = document.getElementById('totalActiveTripsCount');
+
+            if (totalLeadsEl) totalLeadsEl.innerText = leads.length + ' Lead';
+            if (totalClosingsEl) totalClosingsEl.innerText = closings.length + ' Deal';
+            if (totalActiveEl) totalActiveEl.innerText = closings.length + ' Armada Siap';
+
+            const tbody = document.getElementById('tiaraLeadsBody');
+            if (!tbody) return;
+
+            if (leads.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px; color: var(--text-muted);">Belum ada lead masuk dari tombol Pesan Cepat. Klik "Pesan Cepat" di landing page untuk mencoba.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            leads.forEach(ld => {
+                const isClosed = ld.status === 'CLOSING';
+                const isLoose = ld.status === 'LOOSE';
+                
+                let badgeClass = 'background:#FEF3C7; color:#92400E; border:1px solid #FCD34D;';
+                if (isClosed) badgeClass = 'background:#DCFCE7; color:#15803D; border:1px solid #86EFAC;';
+                if (isLoose) badgeClass = 'background:#F1F5F9; color:#64748B; border:1px solid #CBD5E1;';
+
+                const shortDate = (ld.timestamp || '').split(' ')[1] ? (ld.timestamp || '').split(' ')[1].substring(0, 5) + ' WIB' : (ld.timestamp || '');
+                const clientName = ld.customer_name ? ld.customer_name : '<span style="color:#94A3B8; font-style:italic;">Belum diinput</span>';
+
+                html += `
+                <tr>
+                    <td style="font-size:12px; color:var(--text-muted); white-space:nowrap;">
+                        <strong>${shortDate}</strong><br>
+                        <span style="font-size:10.5px;">${(ld.timestamp || '').split(' ')[0] || ''}</span>
+                    </td>
+                    <td>
+                        <span style="font-size:11px; font-family:monospace; background:#F1F5F9; padding:2px 6px; border-radius:4px; font-weight:700;">${ld.id}</span><br>
+                        <strong style="font-size:13px; color:var(--text-title);">${clientName}</strong>
+                        ${ld.customer_phone ? `<br><span style="font-size:11px; color:var(--text-muted);">📱 ${ld.customer_phone}</span>` : ''}
+                    </td>
+                    <td>
+                        <strong style="font-size:12.5px; color:#1E293B;">${ld.car || 'All New Avanza'}</strong><br>
+                        <span style="font-size:11px; color:var(--text-muted);">📍 ${ld.route || ld.source || 'Website'}</span>
+                    </td>
+                    <td>
+                        <span style="display:inline-block; font-size:11px; font-weight:800; padding:3px 8px; border-radius:20px; ${badgeClass}">
+                            ${ld.status}
+                        </span>
+                        ${ld.agreed_price ? `<div style="font-size:11px; font-weight:800; color:#15803D; margin-top:2px;">Rp ${Number(ld.agreed_price).toLocaleString('id-ID')}</div>` : ''}
+                    </td>
+                    <td style="white-space:nowrap;">
+                        ${!isClosed ? `
+                            <button type="button" onclick="openClosingModal('${ld.id}', '${encodeURIComponent(ld.car || '')}', '${encodeURIComponent(ld.route || '')}')" class="btn-brand-green" style="padding:5px 12px; font-size:11.5px; font-weight:800; margin-right:4px;">
+                                🤝 Deal
+                            </button>
+                            ${!isLoose ? `
+                                <button type="button" onclick="markLeadStatus('${ld.id}', 'LOOSE')" class="btn-brand-outline" style="padding:5px 8px; font-size:11.5px; color:#64748B;">
+                                    Loose
+                                </button>
+                            ` : ''}
+                        ` : `
+                            <span style="font-size:12px; color:#15803D; font-weight:800; display:inline-flex; align-items:center; gap:4px;">
+                                ✅ Deal (${ld.tracking_code || 'Closed'})
+                            </span>
+                        `}
+                    </td>
+                </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        } catch(e) {
+            console.error('Gagal memuat leads:', e);
+        }
+    }
+
+    function openClosingModal(leadId = '', car = '', route = '') {
+        document.getElementById('clsLeadId').value = leadId;
+        if (car) {
+            const decCar = decodeURIComponent(car);
+            const sel = document.getElementById('clsCarType');
+            for (let i = 0; i < sel.options.length; i++) {
+                if (sel.options[i].text.toLowerCase().includes(decCar.toLowerCase()) || decCar.toLowerCase().includes(sel.options[i].value.toLowerCase())) {
+                    sel.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+        if (route) {
+            const decRoute = decodeURIComponent(route);
+            if (decRoute && !document.getElementById('clsDestAddr').value) {
+                document.getElementById('clsDestAddr').value = decRoute;
+            }
+        }
+        const modal = document.getElementById('closingModal');
+        if (modal) modal.style.display = 'flex';
+    }
+
+    function closeClosingModal() {
+        const modal = document.getElementById('closingModal');
+        if (modal) modal.style.display = 'none';
+    }
+
+    async function submitClosingDeal(e) {
+        if (e) e.preventDefault();
+        const btn = document.getElementById('btnSubmitClosing');
+        btn.disabled = true;
+        btn.innerText = 'Menerbitkan Magic Link...';
+
+        const payload = {
+            lead_id: document.getElementById('clsLeadId').value,
+            customer_name: document.getElementById('clsCustName').value.trim(),
+            customer_phone: document.getElementById('clsCustPhone').value.trim(),
+            pickup_datetime: document.getElementById('clsPickupDate').value.trim(),
+            pickup_address: document.getElementById('clsPickupAddr').value.trim(),
+            destination_address: document.getElementById('clsDestAddr').value.trim(),
+            car_type: document.getElementById('clsCarType').value,
+            agreed_price: parseInt(document.getElementById('clsAgreedPrice').value) || 0,
+            driver_name: document.getElementById('clsDriverName').value.trim() || 'Pak Budi Santoso (Mitra Terpilih)',
+            car_plate: document.getElementById('clsCarPlate').value.trim() || 'B 1421 KAZ',
+            notes: document.getElementById('clsNotes').value.trim() || 'Tanpa catatan khusus'
+        };
+
+        try {
+            const res = await fetch('/api/leads.php?action=save_closing', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const d = await res.json();
+            if (d.success) {
+                closeClosingModal();
+                // Set modal result
+                document.getElementById('closingResultText').value = d.summary_text;
+                
+                // Set WhatsApp Send Link
+                let phone = payload.customer_phone.replace(/[^0-9]/g, '');
+                if (phone.startsWith('0')) {
+                    phone = '62' + phone.substring(1);
+                }
+                const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(d.summary_text)}`;
+                document.getElementById('btnSendWaTamu').setAttribute('href', waUrl);
+
+                const resModal = document.getElementById('closingResultModal');
+                if (resModal) resModal.style.display = 'flex';
+
+                loadTiaraLeads();
+            } else {
+                alert('Gagal menerbitkan closing: ' + (d.message || 'Error tidak diketahui'));
+            }
+        } catch(err) {
+            alert('Error: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = '💾 Terbitkan Rekap & Magic Link';
+        }
+    }
+
+    function closeClosingResultModal() {
+        const modal = document.getElementById('closingResultModal');
+        if (modal) modal.style.display = 'none';
+    }
+
+    function copyClosingText() {
+        const txt = document.getElementById('closingResultText');
+        if (!txt) return;
+        txt.select();
+        txt.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(txt.value).then(() => {
+            alert('✅ Teks rekap closing & Magic Link berhasil disalin!\nSilakan paste ke WhatsApp Tamu atau Sopir.');
+        }).catch(() => {
+            document.execCommand('copy');
+            alert('✅ Teks rekap closing & Magic Link berhasil disalin!');
+        });
+    }
+
+    async function markLeadStatus(leadId, status) {
+        if (!confirm(`Ubah status lead ${leadId} menjadi ${status}?`)) return;
+        try {
+            const res = await fetch('/api/leads.php?action=update_status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lead_id: leadId, status: status })
+            });
+            const d = await res.json();
+            if (d.success) {
+                loadTiaraLeads();
+            } else {
+                alert('Gagal: ' + d.message);
+            }
+        } catch(e) {
+            alert('Error: ' + e.message);
+        }
+    }
+
     function refreshData() {
         loadStatus();
         loadMatrix();
         loadPages();
         loadPosts();
+        loadTiaraLeads();
     }
 
     // Initial load

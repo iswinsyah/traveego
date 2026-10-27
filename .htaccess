@@ -2,6 +2,12 @@
 RewriteEngine On
 RewriteBase /
 
+# 0. PROTEKSI KEAMANAN DARI PENYUSUP (BLOKIR AKSES WEB KE FOLDER DATA & FILE SENSITIF)
+RewriteRule ^data(/.*)?$ - [F,L]
+<FilesMatch "^(\.env|\.git|.*\.(sql|log|md))$">
+    Require all denied
+</FilesMatch>
+
 # 1. Rute Live Tracking Pelanggan: /trip/TRX-XXXX
 RewriteCond %{DOCUMENT_ROOT}/public/trip.html -f
 RewriteRule ^trip/([A-Za-z0-9\-]+)/?$ public/trip.html?code=$1 [L,QSA]

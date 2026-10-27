@@ -1,0 +1,16 @@
+[
+    {
+        "id": "LEAD-261028-9088",
+        "timestamp": "2026-10-28 05:21:37",
+        "car": "Toyota Avanza",
+        "route": "Jakarta - Bandung",
+        "source": "Test CLI",
+        "status": "LEAD",
+        "customer_name": "",
+        "customer_phone": "",
+        "agreed_price": 0,
+        "notes": "",
+        "ip": "",
+        "user_agent": ""
+    }
+]

@@ -196,32 +196,46 @@ if ($action === 'track') {
         sendJson(['success' => false, 'message' => 'Kode tracking wajib ada'], 400);
     }
 
+    // 1. Cek Flat-File JSON store (Aman & Mandiri di Hostinger)
+    $ordersStoreFile = __DIR__ . '/../data/orders_store.json';
+    if (file_exists($ordersStoreFile)) {
+        $ordersStore = json_decode(file_get_contents($ordersStoreFile), true);
+        if (is_array($ordersStore) && isset($ordersStore[$code])) {
+            $order = $ordersStore[$code];
+            if (!empty($order['customer_phone'])) {
+                $phone = $order['customer_phone'];
+                $order['customer_phone_masked'] = substr($phone, 0, 4) . '-****-' . substr($phone, -4);
+            }
+            sendJson(['success' => true, 'data' => $order]);
+        }
+    }
+
+    // 2. Cek MySQL jika database sudah terhubung
     try {
-        $stmt = $pdo->prepare("
-            SELECT o.*, 
-                   d.name AS driver_name, d.phone AS driver_phone,
-                   d.car_model, d.car_plate, d.car_color, d.rating AS driver_rating,
-                   d.current_lat, d.current_lng, d.last_location_update
-            FROM orders o
-            LEFT JOIN drivers d ON o.driver_id = d.id
-            WHERE o.tracking_code = ?
-        ");
-        $stmt->execute([$code]);
-        $order = $stmt->fetch();
+        if (isset($pdo) && $pdo) {
+            $stmt = $pdo->prepare("
+                SELECT o.*, 
+                       d.name AS driver_name, d.phone AS driver_phone,
+                       d.car_model, d.car_plate, d.car_color, d.rating AS driver_rating,
+                       d.current_lat, d.current_lng, d.last_location_update
+                FROM orders o
+                LEFT JOIN drivers d ON o.driver_id = d.id
+                WHERE o.tracking_code = ?
+            ");
+            $stmt->execute([$code]);
+            $order = $stmt->fetch();
 
-        if (!$order) {
-            sendJson(['success' => false, 'message' => 'Pesanan tidak ditemukan'], 404);
+            if ($order) {
+                if (!empty($order['customer_phone'])) {
+                    $phone = $order['customer_phone'];
+                    $order['customer_phone_masked'] = substr($phone, 0, 4) . '-****-' . substr($phone, -4);
+                }
+                sendJson(['success' => true, 'data' => $order]);
+            }
         }
-
-        // Sensor nomor HP untuk menjaga privasi
-        if (!empty($order['customer_phone'])) {
-            $phone = $order['customer_phone'];
-            $order['customer_phone_masked'] = substr($phone, 0, 4) . '-****-' . substr($phone, -4);
-        }
-
-        sendJson(['success' => true, 'data' => $order]);
+        sendJson(['success' => false, 'message' => 'Pesanan tidak ditemukan'], 404);
     } catch (Exception $e) {
-        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+        sendJson(['success' => false, 'message' => 'Pesanan tidak ditemukan'], 404);
     }
 }
 
