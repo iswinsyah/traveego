@@ -2115,6 +2115,21 @@ $isLoggedIn = isCrewLoggedIn();
                                     <input type="text" id="cfgFonnteToken" placeholder="Tempel / Paste Kode Token Fonnte Anda di Sini" style="width: 100%; height: 42px; background: #FFF; border: 2px solid #86EFAC; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 13px; font-weight: 700; outline: none; color: #0F172A;">
                                     <small style="display: block; font-size: 11px; color: #166534; margin-top: 4px; font-weight: 600;">Salin token dari dashboard Fonnte saat hubungkan nomor WhatsApp CS AI Hasna.</small>
                                 </div>
+
+                                <!-- KOTAK WEBHOOK RESMI PEMBALAS OTOMATIS -->
+                                <div style="margin-top: 10px; margin-bottom: 10px; padding: 10px 12px; background: #FFFFFF; border: 1.5px dashed #86EFAC; border-radius: 10px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                        <label style="font-size: 11.5px; font-weight: 800; color: #166534;">🔗 URL Webhook Pembalas Otomatis:</label>
+                                        <button type="button" onclick="autoRegisterWebhook()" id="btnAutoWebhook" style="background: #16A34A; color: #FFF; border: none; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                                            <span>⚡</span><span>Auto Sambungkan</span>
+                                        </button>
+                                    </div>
+                                    <div style="display: flex; gap: 6px;">
+                                        <input type="text" id="cfgWebhookUrl" readonly value="https://dropoff.id/api/webhook_wa.php" style="width: 100%; height: 34px; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 6px; padding: 0 8px; font-family: monospace; font-size: 11px; color: #0F172A;">
+                                        <button type="button" onclick="copyWebhookUrl()" class="btn-brand-outline" style="height: 34px; padding: 0 10px; font-size: 11.5px; font-weight: 700; white-space: nowrap;">📋 Salin</button>
+                                    </div>
+                                    <small style="display: block; font-size: 10.5px; color: #64748B; margin-top: 4px; line-height: 1.4;">URL ini menerima chat masuk pelanggan dan otomatis membalas via Mbak Hasna.</small>
+                                </div>
                             </div>
 
                             <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end; margin-top: 6px;">
@@ -4179,6 +4194,44 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
             if (btn) {
                 btn.disabled = false;
                 btn.innerText = originalText;
+            }
+        }
+    }
+
+    function copyWebhookUrl() {
+        const input = document.getElementById('cfgWebhookUrl');
+        if (input) {
+            input.select();
+            navigator.clipboard.writeText(input.value);
+            alert('✅ URL Webhook berhasil disalin:\n' + input.value + '\n\nSilakan paste URL ini di pengaturan Webhook akun Fonnte Anda jika ingin menghubungkan manual.');
+        }
+    }
+
+    async function autoRegisterWebhook() {
+        const btn = document.getElementById('btnAutoWebhook');
+        const url = document.getElementById('cfgWebhookUrl') ? document.getElementById('cfgWebhookUrl').value.trim() : 'https://dropoff.id/api/webhook_wa.php';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = 'Menghubungkan...';
+        }
+        try {
+            const res = await fetch('/api/crew.php?action=set_fonnte_webhook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: url })
+            });
+            const d = await res.json();
+            if (d.success) {
+                alert('🎉 ' + d.message);
+            } else {
+                alert('⚠️ ' + d.message);
+            }
+        } catch(e) {
+            alert('Kesalahan jaringan: ' + e.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<span>⚡</span><span>Auto Sambungkan</span>';
             }
         }
     }

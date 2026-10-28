@@ -283,6 +283,48 @@ switch ($action) {
         }
         break;
 
+    case 'set_fonnte_webhook':
+        $cfg = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+        $token = trim($cfg['fonnte_token'] ?? '');
+        if (!$token) {
+            sendJson(['success' => false, 'message' => 'Token Fonnte belum tersimpan.'], 400);
+        }
+        $raw = file_get_contents('php://input');
+        $payload = json_decode($raw, true) ?: $_POST;
+        $webhookUrl = trim($payload['url'] ?? 'https://dropoff.id/api/webhook_wa.php');
+
+        $ch = curl_init('https://api.fonnte.com/set-webhook');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => [
+                'url' => $webhookUrl
+            ],
+            CURLOPT_HTTPHEADER => ["Authorization: $token"],
+            CURLOPT_TIMEOUT => 8,
+            CURLOPT_SSL_VERIFYPEER => false
+        ]);
+        $res = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $data = json_decode($res, true);
+        if ($httpCode === 200 && ($data['status'] ?? false)) {
+            sendJson([
+                'success' => true,
+                'message' => 'Webhook Fonnte BERHASIL Disambungkan! URL: ' . $webhookUrl . '. CS AI Hasna kini siap merespons chat WhatsApp otomatis.',
+                'data' => $data
+            ]);
+        } else {
+            $reason = $data['reason'] ?? ($data['message'] ?? "HTTP Status $httpCode");
+            sendJson([
+                'success' => false,
+                'message' => 'Fonnte merespons: ' . $reason . '. Silakan salin & paste URL Webhook secara manual di menu Webhook dashboard Fonnte.',
+                'data' => $data
+            ], 400);
+        }
+        break;
+
     case 'get_matrix':
         if (!file_exists($matrixFile)) {
             sendJson(['success' => false, 'message' => 'File cost_matrix.json belum ada. Silakan jalankan kalkulasi awal.'], 404);
