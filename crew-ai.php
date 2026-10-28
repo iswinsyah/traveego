@@ -1955,8 +1955,12 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                     </div>
                     <div class="hero-banner-actions">
-                        <button class="btn-brand-outline" onclick="openServerConfigModal()">⚙️ Atur PC Server</button>
-                        <button class="btn-brand-green" onclick="refreshData()">🔄 Segarkan Data</button>
+                        <button type="button" class="btn-brand-primary" onclick="scrollToApiToken()" style="background: linear-gradient(135deg, #16A34A, #15803D); border: none; font-weight: 800; box-shadow: 0 4px 14px rgba(22,163,74,0.35); padding: 9px 18px; font-size: 13px;">
+                            <span>🔑</span>
+                            <span>API &amp; Token (Gemini, Groq, Fonnte)</span>
+                        </button>
+                        <button type="button" class="btn-brand-outline" onclick="openServerConfigModal()">⚙️ Atur PC Server</button>
+                        <button type="button" class="btn-brand-green" onclick="refreshData()">🔄 Segarkan Data</button>
                     </div>
                 </div>
 
@@ -2090,37 +2094,37 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                         </div>
 
-                        <!-- KOTAK 3: FONNTE WHATSAPP GATEWAY -->
-                        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 18px; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+                        <!-- KOTAK 3: FONNTE WHATSAPP GATEWAY (BERDAMPINGAN DENGAN GEMINI & GROQ) -->
+                        <div style="background: #F0FDF4; border: 2px solid #86EFAC; border-top: 5px solid #16A34A; border-radius: 16px; padding: 18px; position: relative; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(22,163,74,0.08);">
                             <div>
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                                     <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div style="width: 34px; height: 34px; border-radius: 10px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800;">
+                                        <div style="width: 36px; height: 36px; border-radius: 10px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800;">
                                             💬
                                         </div>
                                         <div>
-                                            <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin: 0;">Token Fonnte WhatsApp</h4>
-                                            <div style="font-size: 11px; color: #64748B;">Gateway Notifikasi &amp; Chat</div>
+                                            <h4 style="font-size: 15px; font-weight: 800; color: #15803D; margin: 0;">Token Fonnte WhatsApp</h4>
+                                            <div style="font-size: 11px; color: #166534; font-weight: 600;">Gateway Negosiasi CS AI Hasna</div>
                                         </div>
                                     </div>
-                                    <span class="pill-badge pill-green" style="font-size: 11px; font-weight: 700;">fonnte.com</span>
+                                    <span class="pill-badge pill-green" style="font-size: 11px; font-weight: 800;">fonnte.com</span>
                                 </div>
 
                                 <div style="margin-bottom: 12px;">
-                                    <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Fonnte Device Token</label>
-                                    <input type="text" id="cfgFonnteToken" placeholder="Paste Token Akun Fonnte Anda" style="width: 100%; height: 42px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 12.5px; outline: none; color: #0F172A;">
-                                    <small style="display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px;">Diperoleh dari dashboard Fonnte saat hubungkan nomor WhatsApp.</small>
+                                    <label style="display: block; font-size: 12px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Kode Token Fonnte (Device Token)</label>
+                                    <input type="text" id="cfgFonnteToken" placeholder="Tempel / Paste Kode Token Fonnte Anda di Sini" style="width: 100%; height: 42px; background: #FFF; border: 2px solid #86EFAC; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 13px; font-weight: 700; outline: none; color: #0F172A;">
+                                    <small style="display: block; font-size: 11px; color: #166534; margin-top: 4px; font-weight: 600;">Salin token dari dashboard Fonnte saat hubungkan nomor WhatsApp CS AI Hasna.</small>
                                 </div>
                             </div>
 
                             <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end; margin-top: 6px;">
                                 <div>
-                                    <a href="https://fonnte.com" target="_blank" style="font-size: 12px; font-weight: 700; color: #2563EB; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 8px 0;">
-                                        <span>🌐 Dashboard Fonnte ➔</span>
+                                    <a href="https://fonnte.com" target="_blank" style="font-size: 12px; font-weight: 800; color: #2563EB; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 8px 0;">
+                                        <span>🌐 Buka Fonnte.com ➔</span>
                                     </a>
                                 </div>
-                                <button type="button" onclick="testCloudProvider('fonnte')" id="btnTestFonnte" class="btn-brand-outline" style="height: 38px; padding: 0 12px; font-size: 12px; font-weight: 800; border-color: #16A34A; color: #16A34A;">
-                                    🧪 Test WA
+                                <button type="button" onclick="testCloudProvider('fonnte')" id="btnTestFonnte" class="btn-brand-green" style="height: 38px; padding: 0 14px; font-size: 12px; font-weight: 800; background: #16A34A; color: #FFF; border: none; box-shadow: 0 2px 6px rgba(22,163,74,0.3);">
+                                    ⚡ Test Token WA
                                 </button>
                             </div>
                         </div>
@@ -3804,7 +3808,16 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         returnToOverviewHub();
         setTimeout(() => {
             const el = document.getElementById('apiTokenSection');
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                el.style.transition = 'all 0.4s ease';
+                el.style.boxShadow = '0 0 0 4px #16A34A, 0 12px 36px rgba(22,163,74,0.25)';
+                el.style.borderColor = '#16A34A';
+                setTimeout(() => {
+                    el.style.boxShadow = 'var(--shadow-subtle)';
+                    el.style.borderColor = '#CBD5E1';
+                }, 2500);
+            }
         }, 120);
     }
 

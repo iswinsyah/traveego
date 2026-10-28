@@ -239,67 +239,37 @@
 
     <div class="container">
  
-        <!-- KOTAK PENGATURAN WHATSAPP & TOKEN FONNTE (CS AI HASNA) -->
-        <div class="section-card" style="border-left: 4px solid #16A34A; background: #FFFFFF; margin-bottom: 24px; padding: 20px 24px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; border-bottom: 1px solid #F1F5F9; padding-bottom: 14px;">
+        <!-- KOTAK PENGATURAN NOMOR WHATSAPP CS AI (MBAK HASNA) -->
+        <div class="section-card" style="border-left: 4px solid #16A34A; background: #FFFFFF; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
                 <div style="display: flex; align-items: center; gap: 14px;">
                     <div style="width: 48px; height: 48px; border-radius: 12px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 24px;">
                         📱
                     </div>
                     <div>
-                        <h3 style="font-size: 16.5px; font-weight: 800; color: #0F172A; margin: 0 0 3px 0;">
-                            Pusat Komunikasi WhatsApp & Token Fonnte (CS AI Hasna)
+                        <h3 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 2px;">
+                            Nomor WhatsApp CS AI (Mbak Hasna)
                         </h3>
                         <p style="font-size: 13px; color: #64748B; margin: 0;">
-                            Atur nomor WhatsApp resmi dan hubungkan <strong>Token Fonnte</strong> agar CS AI Mbak Hasna dapat bernegosiasi otomatis 24 jam dengan calon penumpang.
+                            Nomor WhatsApp ini menerima seluruh chat otomatis dari tombol <strong>"PESAN CEPAT"</strong> di web.
+                        </p>
+                        <p style="font-size: 12px; color: #2563EB; margin: 4px 0 0 0; font-weight: 600;">
+                            🤖 <em>Untuk Token Fonnte WA, API Gemini & Groq dikelola di: <a href="/crew-ai" target="_blank" style="color: #2563EB; text-decoration: underline; font-weight: 700;">dropoff.id/crew-ai ↗</a></em>
                         </p>
                     </div>
                 </div>
-                <div>
-                    <a href="https://fonnte.com" target="_blank" style="font-size: 12px; font-weight: 700; color: #2563EB; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; background: #EFF6FF; padding: 6px 12px; border-radius: 8px;">
-                        <span>🌐 Dashboard Fonnte.com ↗</span>
-                    </a>
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: flex-end;">
-                <!-- KOLOM 1: NOMOR WHATSAPP CS AI -->
-                <div>
-                    <label style="display: block; font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 6px;">
-                        Nomor WhatsApp CS AI (Mbak Hasna)
-                    </label>
-                    <div style="display: flex; gap: 8px;">
-                        <input type="text" id="hotlineWaInput" placeholder="6281234567891" style="flex: 1; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 14px; font-size: 14px; font-weight: 800; outline: none; color: #0F172A;">
-                        <a id="btnTestWaHotline" href="https://wa.me/6281234567891" target="_blank" title="Uji chat langsung ke WhatsApp" style="height: 42px; padding: 0 14px; background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; border-radius: 10px; font-weight: 700; font-size: 12.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
-                            <span>📲 Tes Chat</span>
-                        </a>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <div style="position: relative;">
+                        <input type="text" id="hotlineWaInput" placeholder="6281234567891" style="height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 14px; font-size: 14px; font-weight: 800; width: 190px; outline: none; color: #0F172A;">
                     </div>
-                    <small style="display: block; font-size: 11px; color: #94A3B8; margin-top: 4px;">Awali dengan 62 tanpa spasi/tanda plus (+).</small>
-                </div>
-
-                <!-- KOLOM 2: TOKEN FONNTE GATEWAY -->
-                <div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <label style="font-size: 12.5px; font-weight: 700; color: #334155;">
-                            Token Fonnte WhatsApp Gateway
-                        </label>
-                        <span id="fonnteStatusBadge" style="font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: #F1F5F9; color: #64748B;">Belum diuji</span>
-                    </div>
-                    <div style="display: flex; gap: 8px;">
-                        <input type="text" id="fonnteTokenInput" placeholder="Paste Token Akun Fonnte Anda" style="flex: 1; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 14px; font-size: 12.5px; font-family: monospace; font-weight: 700; outline: none; color: #0F172A;">
-                        <button type="button" onclick="testAdminFonnte()" id="btnTestFonnte" title="Uji validitas token ke server Fonnte" style="height: 42px; padding: 0 12px; background: #F0FDF4; color: #16A34A; border: 1.5px solid #86EFAC; border-radius: 10px; font-weight: 800; font-size: 12px; cursor: pointer; white-space: nowrap;">
-                            <span>⚡ Tes Token</span>
-                        </button>
-                    </div>
-                    <small style="display: block; font-size: 11px; color: #94A3B8; margin-top: 4px;">Dibutuhkan untuk bot negosiasi otomatis CS AI Hasna langsung di WhatsApp.</small>
-                </div>
-
-                <!-- KOLOM 3: TOMBOL SIMPAN -->
-                <div style="display: flex; align-items: flex-end;">
-                    <button onclick="saveAdminHotlineWa()" id="btnSaveHotlineWa" style="width: 100%; height: 42px; padding: 0 20px; background: #16A34A; color: #FFF; border: none; border-radius: 10px; font-weight: 800; font-size: 13.5px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 6px rgba(22,163,74,0.3);">
+                    <button onclick="saveAdminHotlineWa()" id="btnSaveHotlineWa" style="height: 42px; padding: 0 18px; background: #16A34A; color: #FFF; border: none; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
                         <span>💾</span>
-                        <span>Simpan WhatsApp & Token</span>
+                        <span>Simpan Nomor</span>
                     </button>
+                    <a id="btnTestWaHotline" href="https://wa.me/6281234567891" target="_blank" style="height: 42px; padding: 0 14px; background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; border-radius: 10px; font-weight: 700; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>📲</span>
+                        <span>Tes Hubungi</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -572,25 +542,15 @@
             try {
                 const res = await fetch('/api/admin.php?action=get_hotline_wa');
                 const d = await res.json();
-                if (d.success) {
-                    if (d.hotline_wa) {
-                        document.getElementById('hotlineWaInput').value = d.hotline_wa;
-                        document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
-                    }
-                    if (d.fonnte_token) {
-                        document.getElementById('fonnteTokenInput').value = d.fonnte_token;
-                        const badge = document.getElementById('fonnteStatusBadge');
-                        badge.innerText = 'Token Terpasang';
-                        badge.style.background = '#DCFCE7';
-                        badge.style.color = '#16A34A';
-                    }
+                if (d.success && d.hotline_wa) {
+                    document.getElementById('hotlineWaInput').value = d.hotline_wa;
+                    document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
                 }
             } catch(e) {}
         }
 
         async function saveAdminHotlineWa() {
             const val = document.getElementById('hotlineWaInput').value.trim();
-            const token = document.getElementById('fonnteTokenInput').value.trim();
             if (!val) {
                 alert('Nomor WhatsApp tidak boleh kosong.');
                 return;
@@ -603,25 +563,12 @@
                 const res = await fetch('/api/admin.php?action=save_hotline_wa', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        hotline_wa: val,
-                        fonnte_token: token
-                    })
+                    body: JSON.stringify({ hotline_wa: val })
                 });
                 const d = await res.json();
                 if (d.success) {
                     alert('✅ ' + d.message);
                     document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
-                    const badge = document.getElementById('fonnteStatusBadge');
-                    if (token) {
-                        badge.innerText = 'Token Terpasang';
-                        badge.style.background = '#DCFCE7';
-                        badge.style.color = '#16A34A';
-                    } else {
-                        badge.innerText = 'Belum diisi';
-                        badge.style.background = '#F1F5F9';
-                        badge.style.color = '#64748B';
-                    }
                 } else {
                     alert('Gagal: ' + d.message);
                 }
@@ -629,48 +576,7 @@
                 alert('Error: ' + e.message);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<span>💾</span><span>Simpan WhatsApp & Token</span>';
-            }
-        }
-
-        async function testAdminFonnte() {
-            const token = document.getElementById('fonnteTokenInput').value.trim();
-            if (!token) {
-                alert('Silakan masukkan Token Fonnte terlebih dahulu.');
-                return;
-            }
-            const btn = document.getElementById('btnTestFonnte');
-            const badge = document.getElementById('fonnteStatusBadge');
-            btn.disabled = true;
-            btn.innerText = 'Menguji...';
-            badge.innerText = 'Memeriksa...';
-            badge.style.background = '#FEF3C7';
-            badge.style.color = '#D97706';
-
-            try {
-                const res = await fetch('/api/admin.php?action=test_fonnte', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ fonnte_token: token })
-                });
-                const d = await res.json();
-                if (d.success) {
-                    alert('✅ ' + d.message);
-                    badge.innerText = 'Valid & Terhubung';
-                    badge.style.background = '#DCFCE7';
-                    badge.style.color = '#16A34A';
-                } else {
-                    alert('❌ ' + d.message);
-                    badge.innerText = 'Uji Gagal';
-                    badge.style.background = '#FEE2E2';
-                    badge.style.color = '#DC2626';
-                }
-            } catch(e) {
-                alert('Error: ' + e.message);
-                badge.innerText = 'Error';
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<span>⚡ Tes Token</span>';
+                btn.innerHTML = '<span>💾</span><span>Simpan Nomor</span>';
             }
         }
 
