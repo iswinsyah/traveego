@@ -4182,21 +4182,6 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
             }
         }
     }
-            const d = await res.json();
-            if (d.success) {
-                alert('🎉 ' + d.message);
-            } else {
-                alert('⚠️ Uji ' + prov + ' gagal: ' + d.message);
-            }
-        } catch(e) {
-            alert('Kesalahan jaringan: ' + e.message);
-        } finally {
-            if (btn) {
-                btn.disabled = false;
-                btn.innerText = originalText;
-            }
-        }
-    }
 
     function refreshData() {
         loadStatus();

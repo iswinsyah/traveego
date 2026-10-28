@@ -169,7 +169,16 @@ switch ($action) {
         if (isset($payload['fonnte_token'])) $existing['fonnte_token'] = trim($payload['fonnte_token']);
         $existing['updated_at'] = date('Y-m-d H:i:s');
 
-        file_put_contents($aiConfigFile, json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $saved = @file_put_contents($aiConfigFile, json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        if ($saved === false) {
+            @chmod($dataDir, 0755);
+            @chmod($aiConfigFile, 0666);
+            $saved = @file_put_contents($aiConfigFile, json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+
+        if ($saved === false) {
+            sendJson(['success' => false, 'message' => 'Gagal menyimpan file konfigurasi. Periksa permission data/ai_server_config.json.'], 500);
+        }
 
         sendJson([
             'success' => true,
