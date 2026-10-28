@@ -8,8 +8,14 @@ require_once __DIR__ . '/../config.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
-// 0. VERIFIKASI GET DARI FONNTE
+// 0. VERIFIKASI GET DARI FONNTE & DEBUG MONITORING
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_GET['debug'])) {
+        header('Content-Type: text/plain; charset=utf-8');
+        $logFile = __DIR__ . '/../data/wa_debug.log';
+        echo file_exists($logFile) ? file_get_contents($logFile) : "=== WA DEBUG LOG KOSONG (Belum ada request dari Fonnte) ===\n";
+        exit;
+    }
     sendJson(['status' => true, 'message' => 'Traveego WhatsApp Webhook CS AI Hasna siap menerima pesan!']);
 }
 
