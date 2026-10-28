@@ -17,6 +17,33 @@ jobs:
 
       - name: 📂 Sinkronisasi File ke Hostinger public_html
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        id: deploy_step
+        continue-on-error: true
+        with:
+          server: ${{ secrets.FTP_SERVER || secrets.SERVER || secrets.FTP_HOST || secrets.HOST }}
+          username: ${{ secrets.FTP_USERNAME || secrets.USERNAME || secrets.FTP_USER || secrets.USER }}
+          password: ${{ secrets.FTP_PASSWORD || secrets.PASSWORD }}
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env*
+            package*.json
+            README.md
+            ARCHITECTURE.md
+            public/**
+            src/**
+            scripts/**
+            ai_crew/**
+
+      - name: ⏳ Tunggu Jeda Sebelum Retry
+        if: steps.deploy_step.outcome == 'failure'
+        run: sleep 5
+
+      - name: 🔁 Coba Ulang Sinkronisasi (Retry Hostinger FTP)
+        if: steps.deploy_step.outcome == 'failure'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER || secrets.SERVER || secrets.FTP_HOST || secrets.HOST }}
           username: ${{ secrets.FTP_USERNAME || secrets.USERNAME || secrets.FTP_USER || secrets.USER }}
