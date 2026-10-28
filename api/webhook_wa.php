@@ -14,17 +14,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         header('Content-Type: text/plain; charset=utf-8');
         $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
         $cfg = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
-        $t = $cfg['fonnte_token'] ?? '';
+        $t = trim($cfg['fonnte_token'] ?? '');
         $maskedToken = strlen($t) > 6 ? substr($t, 0, 4) . '***' . substr($t, -3) . ' (len ' . strlen($t) . ')' : '(kosong)';
         $geminiSet = !empty($cfg['gemini_api_key']) ? 'YES' : 'NO';
         $groqSet = !empty($cfg['groq_api_key']) ? 'YES' : 'NO';
 
         echo "=== STATUS LIVE KONFIGURASI TRAVEEGO WA ===\n";
         echo "Fonnte Token : $maskedToken\n";
-        echo "Gemini Key   : $geminiSet (Model: " . ($cfg['gemini_model'] ?? 'default') . ")\n";
-        echo "Groq Key     : $groqSet (Model: " . ($cfg['groq_model'] ?? 'default') . ")\n";
-        echo "Active Prov  : " . ($cfg['active_cloud_provider'] ?? 'gemini') . "\n";
-        echo "\n=== RECENT WA INCOMING LOGS ===\n";
+        echo "Gemini Key   : $geminiSet (Model: " . ($cfg['gemini_model'] ?? 'gemini-1.5-flash') . ")\n";
+        echo "Groq Key     : $groqSet (Model: " . ($cfg['groq_model'] ?? 'llama-3.1-8b-instant') . ")\n";
+        echo "Active Prov  : " . ($cfg['active_cloud_provider'] ?? 'gemini') . "\n\n";
+
+        // 1. Cek Status Device Fonnte Langsung
+        if ($t) {
+            $ch = curl_init('https://api.fonnte.com/device');
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_HTTPHEADER => ["Authorization: $t"],
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $fonnteDevRes = curl_exec($ch);
+            curl_close($ch);
+            echo "=== CEK STATUS DEVICE FONNTE ===\n$fonnteDevRes\n\n";
+        }
+
+        // 2. Tes Panggilan Singkat ke Gemini
+        if (!empty($cfg['gemini_api_key'])) {
+            $gKey = $cfg['gemini_api_key'];
+            $gModel = !empty($cfg['gemini_model']) && $cfg['gemini_model'] !== 'gemini-2.5-flash' ? $cfg['gemini_model'] : 'gemini-1.5-flash';
+            $ch = curl_init("https://generativelanguage.googleapis.com/v1beta/models/{$gModel}:generateContent?key=" . urlencode($gKey));
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode(['contents' => [['parts' => [['text' => 'Halo Hasna']]]]]),
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $gRes = curl_exec($ch);
+            $gCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            echo "=== TES LIVE GEMINI ($gModel) ===\nHTTP Code: $gCode\nRes: " . substr($gRes, 0, 300) . "\n\n";
+        }
+
+        // 3. Tes Panggilan Singkat ke Groq
+        if (!empty($cfg['groq_api_key'])) {
+            $qKey = $cfg['groq_api_key'];
+            $qModel = !empty($cfg['groq_model']) && $cfg['groq_model'] !== 'llama-3.3-70b-versatile' ? $cfg['groq_model'] : 'llama-3.1-8b-instant';
+            $ch = curl_init("https://api.groq.com/openai/v1/chat/completions");
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode([
+                    'model' => $qModel,
+                    'messages' => [['role' => 'user', 'content' => 'Halo Hasna']],
+                    'max_tokens' => 50
+                ]),
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer $qKey"],
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $qRes = curl_exec($ch);
+            $qCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            echo "=== TES LIVE GROQ ($qModel) ===\nHTTP Code: $qCode\nRes: " . substr($qRes, 0, 300) . "\n\n";
+        }
+
+        echo "=== RECENT WA INCOMING & OUTGOING LOGS ===\n";
         $logFile = __DIR__ . '/../data/wa_debug.log';
         echo file_exists($logFile) ? file_get_contents($logFile) : "(Belum ada request dari Fonnte)\n";
         exit;
@@ -106,12 +164,16 @@ if (!empty($geminiKey) || !empty($groqKey)) {
         . "Format Jawaban WhatsApp: Jawab secara ringkas (1-3 paragraf singkat), ramah, gunakan poin/emoji rapi khas WhatsApp, lalu tanyakan: 'Rencana perjalanannya untuk tanggal dan jam berapa Kak? Serta alamat jemput dan tujuannya ke mana agar Hasna siapkan unit terbaiknya 😊'.";
 
     $order = ($activeProvider === 'groq') ? ['groq', 'gemini'] : ['gemini', 'groq'];
+    $configUpdated = false;
 
     foreach ($order as $prov) {
-        if ($prov === 'gemini' && $geminiKey) {
-            $model = $aiConfig['gemini_model'] ?? 'gemini-1.5-flash';
-            if ($model === 'gemini-2.5-flash') $model = 'gemini-1.5-flash';
-            $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key=" . urlencode($geminiKey);
+        if ($prov === 'gemini' && $geminiKey && !$aiReply) {
+            $configuredModel = $aiConfig['gemini_model'] ?? 'gemini-1.5-flash';
+            // Hindari model deprecated 404
+            if ($configuredModel === 'gemini-2.5-flash' || empty($configuredModel)) {
+                $configuredModel = 'gemini-1.5-flash';
+            }
+            $geminiCandidates = array_unique([$configuredModel, 'gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-8b', 'gemini-1.5-pro']);
             $fullPrompt = $systemContext . "\n\nPertanyaan Calon Tamu WhatsApp (" . ($senderName ?: 'Tamu') . "): " . $incomingMsg;
             $payloadGemini = json_encode([
                 'contents' => [
@@ -123,72 +185,94 @@ if (!empty($geminiKey) || !empty($groqKey)) {
                 ]
             ]);
 
-            $ch = curl_init($url);
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => $payloadGemini,
-                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-                CURLOPT_TIMEOUT => 6,
-                CURLOPT_SSL_VERIFYPEER => false
-            ]);
-            $res = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $curlErr = curl_error($ch);
-            curl_close($ch);
-            @file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Gemini HTTP: $httpCode | Res: " . substr($res ?: $curlErr, 0, 120) . "\n", FILE_APPEND);
+            foreach ($geminiCandidates as $model) {
+                $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key=" . urlencode($geminiKey);
+                $ch = curl_init($url);
+                curl_setopt_array($ch, [
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => $payloadGemini,
+                    CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                    CURLOPT_TIMEOUT => 7,
+                    CURLOPT_SSL_VERIFYPEER => false
+                ]);
+                $res = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $curlErr = curl_error($ch);
+                curl_close($ch);
+                @file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Gemini ($model) HTTP: $httpCode | Res: " . substr($res ?: $curlErr, 0, 120) . "\n", FILE_APPEND);
 
-            if ($httpCode === 200 && $res) {
-                $parsed = json_decode($res, true);
-                $text = $parsed['candidates'][0]['content']['parts'][0]['text'] ?? '';
-                if ($text) {
-                    $aiReply = trim($text);
-                    $sourceEngine = "Gemini ($model)";
-                    break;
+                if ($httpCode === 200 && $res) {
+                    $parsed = json_decode($res, true);
+                    $text = $parsed['candidates'][0]['content']['parts'][0]['text'] ?? '';
+                    if ($text) {
+                        $aiReply = trim($text);
+                        $sourceEngine = "Gemini ($model)";
+                        if (($aiConfig['gemini_model'] ?? '') !== $model) {
+                            $aiConfig['gemini_model'] = $model;
+                            $configUpdated = true;
+                        }
+                        break;
+                    }
                 }
             }
-        } elseif ($prov === 'groq' && $groqKey) {
-            $model = $aiConfig['groq_model'] ?? 'llama-3.1-8b-instant';
-            if ($model === 'llama-3.3-70b-versatile') $model = 'llama-3.1-8b-instant';
-            $url = "https://api.groq.com/openai/v1/chat/completions";
-            $payloadGroq = json_encode([
-                'model' => $model,
-                'messages' => [
-                    ['role' => 'system', 'content' => $systemContext],
-                    ['role' => 'user', 'content' => $incomingMsg]
-                ],
-                'temperature' => 0.7,
-                'max_tokens' => 600
-            ]);
+        } elseif ($prov === 'groq' && $groqKey && !$aiReply) {
+            $configuredModel = $aiConfig['groq_model'] ?? 'llama-3.1-8b-instant';
+            // Hindari model decommissioned
+            if ($configuredModel === 'llama-3.3-70b-versatile' || empty($configuredModel)) {
+                $configuredModel = 'llama-3.1-8b-instant';
+            }
+            $groqCandidates = array_unique([$configuredModel, 'llama-3.1-8b-instant', 'llama-3.3-70b-specdec', 'llama3-70b-8192', 'llama3-8b-8192', 'mixtral-8x7b-32768']);
 
-            $ch = curl_init($url);
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => $payloadGroq,
-                CURLOPT_HTTPHEADER => [
-                    'Content-Type: application/json',
-                    'Authorization: Bearer ' . $groqKey
-                ],
-                CURLOPT_TIMEOUT => 6,
-                CURLOPT_SSL_VERIFYPEER => false
-            ]);
-            $res = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $curlErr = curl_error($ch);
-            curl_close($ch);
-            @file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Groq HTTP: $httpCode | Res: " . substr($res ?: $curlErr, 0, 120) . "\n", FILE_APPEND);
+            foreach ($groqCandidates as $model) {
+                $url = "https://api.groq.com/openai/v1/chat/completions";
+                $payloadGroq = json_encode([
+                    'model' => $model,
+                    'messages' => [
+                        ['role' => 'system', 'content' => $systemContext],
+                        ['role' => 'user', 'content' => $incomingMsg]
+                    ],
+                    'temperature' => 0.7,
+                    'max_tokens' => 600
+                ]);
 
-            if ($httpCode === 200 && $res) {
-                $parsed = json_decode($res, true);
-                $text = $parsed['choices'][0]['message']['content'] ?? '';
-                if ($text) {
-                    $aiReply = trim($text);
-                    $sourceEngine = "Groq ($model)";
-                    break;
+                $ch = curl_init($url);
+                curl_setopt_array($ch, [
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => $payloadGroq,
+                    CURLOPT_HTTPHEADER => [
+                        'Content-Type: application/json',
+                        'Authorization: Bearer ' . $groqKey
+                    ],
+                    CURLOPT_TIMEOUT => 7,
+                    CURLOPT_SSL_VERIFYPEER => false
+                ]);
+                $res = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $curlErr = curl_error($ch);
+                curl_close($ch);
+                @file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Groq ($model) HTTP: $httpCode | Res: " . substr($res ?: $curlErr, 0, 120) . "\n", FILE_APPEND);
+
+                if ($httpCode === 200 && $res) {
+                    $parsed = json_decode($res, true);
+                    $text = $parsed['choices'][0]['message']['content'] ?? '';
+                    if ($text) {
+                        $aiReply = trim($text);
+                        $sourceEngine = "Groq ($model)";
+                        if (($aiConfig['groq_model'] ?? '') !== $model) {
+                            $aiConfig['groq_model'] = $model;
+                            $configUpdated = true;
+                        }
+                        break;
+                    }
                 }
             }
         }
+    }
+
+    if ($configUpdated) {
+        @file_put_contents($aiConfigFile, json_encode($aiConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }
 
@@ -211,14 +295,19 @@ if (!$aiReply) {
 // 6. KIRIM BALASAN KE WHATSAPP PENGIRIM VIA API FONNTE
 $sendResult = null;
 if (!empty($fonnteToken)) {
+    $postData = [
+        'target' => $sender,
+        'message' => $aiReply
+    ];
+    if (!empty($payload['inboxid'])) {
+        $postData['inboxid'] = $payload['inboxid'];
+    }
+
     $ch = curl_init('https://api.fonnte.com/send');
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => [
-            'target' => $sender,
-            'message' => $aiReply
-        ],
+        CURLOPT_POSTFIELDS => $postData,
         CURLOPT_HTTPHEADER => ["Authorization: $fonnteToken"],
         CURLOPT_TIMEOUT => 10,
         CURLOPT_SSL_VERIFYPEER => false
