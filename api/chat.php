@@ -69,7 +69,8 @@ if (!empty($message) && ($geminiKey || $groqKey)) {
 
     foreach ($order as $prov) {
         if ($prov === 'gemini' && $geminiKey) {
-            $model = $aiConfig['gemini_model'] ?? 'gemini-2.5-flash';
+            $model = $aiConfig['gemini_model'] ?? 'gemini-1.5-flash';
+            if ($model === 'gemini-2.5-flash') $model = 'gemini-1.5-flash';
             $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key=" . urlencode($geminiKey);
             $fullPrompt = $systemContext . "\n\nPertanyaan Tamu: " . ($input['message'] ?? '');
             $payload = json_encode([
@@ -104,7 +105,8 @@ if (!empty($message) && ($geminiKey || $groqKey)) {
                 }
             }
         } elseif ($prov === 'groq' && $groqKey) {
-            $model = $aiConfig['groq_model'] ?? 'llama-3.3-70b-versatile';
+            $model = $aiConfig['groq_model'] ?? 'llama-3.1-8b-instant';
+            if ($model === 'llama-3.3-70b-versatile') $model = 'llama-3.1-8b-instant';
             $url = "https://api.groq.com/openai/v1/chat/completions";
             $payload = json_encode([
                 'model' => $model,

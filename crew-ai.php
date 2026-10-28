@@ -2047,8 +2047,8 @@ $isLoggedIn = isCrewLoggedIn();
                                 <div>
                                     <label style="display: block; font-size: 11.5px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Pilihan Model Gemini</label>
                                     <select id="cfgGeminiModel" style="width: 100%; height: 38px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 8px; font-size: 12px; outline: none;">
-                                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Cerdas &amp; Cepat)</option>
-                                        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                                        <option value="gemini-1.5-flash" selected>Gemini 1.5 Flash (Resmi &amp; Cepat)</option>
+                                        <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
                                     </select>
                                 </div>
                                 <button type="button" onclick="testCloudProvider('gemini')" id="btnTestGemini" class="btn-brand-outline" style="height: 38px; padding: 0 12px; font-size: 12px; font-weight: 800;">
@@ -2084,7 +2084,7 @@ $isLoggedIn = isCrewLoggedIn();
                                 <div>
                                     <label style="display: block; font-size: 11.5px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Pilihan Model Groq</label>
                                     <select id="cfgGroqModel" style="width: 100%; height: 38px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 8px; font-size: 12px; outline: none;">
-                                        <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile</option>
+                                        <option value="llama-3.1-8b-instant" selected>Llama 3.1 8B Instant (Resmi &amp; Cepat)</option>
                                         <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
                                     </select>
                                 </div>

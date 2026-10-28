@@ -109,7 +109,8 @@ if (!empty($geminiKey) || !empty($groqKey)) {
 
     foreach ($order as $prov) {
         if ($prov === 'gemini' && $geminiKey) {
-            $model = $aiConfig['gemini_model'] ?? 'gemini-2.5-flash';
+            $model = $aiConfig['gemini_model'] ?? 'gemini-1.5-flash';
+            if ($model === 'gemini-2.5-flash') $model = 'gemini-1.5-flash';
             $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key=" . urlencode($geminiKey);
             $fullPrompt = $systemContext . "\n\nPertanyaan Calon Tamu WhatsApp (" . ($senderName ?: 'Tamu') . "): " . $incomingMsg;
             $payloadGemini = json_encode([
@@ -147,7 +148,8 @@ if (!empty($geminiKey) || !empty($groqKey)) {
                 }
             }
         } elseif ($prov === 'groq' && $groqKey) {
-            $model = $aiConfig['groq_model'] ?? 'llama-3.3-70b-versatile';
+            $model = $aiConfig['groq_model'] ?? 'llama-3.1-8b-instant';
+            if ($model === 'llama-3.3-70b-versatile') $model = 'llama-3.1-8b-instant';
             $url = "https://api.groq.com/openai/v1/chat/completions";
             $payloadGroq = json_encode([
                 'model' => $model,
