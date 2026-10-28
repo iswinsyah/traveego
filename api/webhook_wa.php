@@ -8,6 +8,11 @@ require_once __DIR__ . '/../config.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
+// 0. VERIFIKASI GET DARI FONNTE
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    sendJson(['status' => true, 'message' => 'Traveego WhatsApp Webhook CS AI Hasna siap menerima pesan!']);
+}
+
 // 1. TERIMA PAYLOAD DARI FONNTE (JSON / POST FORM)
 $rawInput = file_get_contents('php://input');
 @file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Raw: " . ($rawInput ?: json_encode($_POST)) . PHP_EOL, FILE_APPEND);
