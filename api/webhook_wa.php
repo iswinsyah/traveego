@@ -128,12 +128,14 @@ if (!empty($geminiKey) || !empty($groqKey)) {
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $payloadGemini,
                 CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-                CURLOPT_TIMEOUT => 9,
+                CURLOPT_TIMEOUT => 6,
                 CURLOPT_SSL_VERIFYPEER => false
             ]);
             $res = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlErr = curl_error($ch);
             curl_close($ch);
+            @file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Gemini HTTP: $httpCode | Res: " . substr($res ?: $curlErr, 0, 120) . "\n", FILE_APPEND);
 
             if ($httpCode === 200 && $res) {
                 $parsed = json_decode($res, true);
@@ -166,12 +168,14 @@ if (!empty($geminiKey) || !empty($groqKey)) {
                     'Content-Type: application/json',
                     'Authorization: Bearer ' . $groqKey
                 ],
-                CURLOPT_TIMEOUT => 9,
+                CURLOPT_TIMEOUT => 6,
                 CURLOPT_SSL_VERIFYPEER => false
             ]);
             $res = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlErr = curl_error($ch);
             curl_close($ch);
+            @file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Groq HTTP: $httpCode | Res: " . substr($res ?: $curlErr, 0, 120) . "\n", FILE_APPEND);
 
             if ($httpCode === 200 && $res) {
                 $parsed = json_decode($res, true);
@@ -218,7 +222,9 @@ if (!empty($fonnteToken)) {
         CURLOPT_SSL_VERIFYPEER => false
     ]);
     $sendResult = curl_exec($ch);
+    $curlErr = curl_error($ch);
     curl_close($ch);
+    @file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Outgoing to $sender | Fonnte Res: " . ($sendResult ?: "Err: $curlErr") . " | Engine: $sourceEngine\n", FILE_APPEND);
 }
 
 // 7. ARSIPKAN PERCAKAPAN KE LEADS / CRM
