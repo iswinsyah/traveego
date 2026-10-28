@@ -12,8 +12,21 @@ header('Content-Type: application/json; charset=utf-8');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['debug'])) {
         header('Content-Type: text/plain; charset=utf-8');
+        $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
+        $cfg = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+        $t = $cfg['fonnte_token'] ?? '';
+        $maskedToken = strlen($t) > 6 ? substr($t, 0, 4) . '***' . substr($t, -3) . ' (len ' . strlen($t) . ')' : '(kosong)';
+        $geminiSet = !empty($cfg['gemini_api_key']) ? 'YES' : 'NO';
+        $groqSet = !empty($cfg['groq_api_key']) ? 'YES' : 'NO';
+
+        echo "=== STATUS LIVE KONFIGURASI TRAVEEGO WA ===\n";
+        echo "Fonnte Token : $maskedToken\n";
+        echo "Gemini Key   : $geminiSet (Model: " . ($cfg['gemini_model'] ?? 'default') . ")\n";
+        echo "Groq Key     : $groqSet (Model: " . ($cfg['groq_model'] ?? 'default') . ")\n";
+        echo "Active Prov  : " . ($cfg['active_cloud_provider'] ?? 'gemini') . "\n";
+        echo "\n=== RECENT WA INCOMING LOGS ===\n";
         $logFile = __DIR__ . '/../data/wa_debug.log';
-        echo file_exists($logFile) ? file_get_contents($logFile) : "=== WA DEBUG LOG KOSONG (Belum ada request dari Fonnte) ===\n";
+        echo file_exists($logFile) ? file_get_contents($logFile) : "(Belum ada request dari Fonnte)\n";
         exit;
     }
     sendJson(['status' => true, 'message' => 'Traveego WhatsApp Webhook CS AI Hasna siap menerima pesan!']);
