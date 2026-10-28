@@ -10,14 +10,16 @@ header('Content-Type: application/json; charset=utf-8');
 
 // 1. TERIMA PAYLOAD DARI FONNTE (JSON / POST FORM)
 $rawInput = file_get_contents('php://input');
+@file_put_contents(__DIR__ . '/../data/wa_debug.log', date('Y-m-d H:i:s') . " | Raw: " . ($rawInput ?: json_encode($_POST)) . PHP_EOL, FILE_APPEND);
+
 $payload = json_decode($rawInput, true);
 if (!is_array($payload) || empty($payload)) {
     $payload = $_POST;
 }
 
-$sender = preg_replace('/[^0-9]/', '', $payload['sender'] ?? '');
+$sender = preg_replace('/[^0-9]/', '', $payload['sender'] ?? ($payload['from'] ?? ''));
 $device = preg_replace('/[^0-9]/', '', $payload['device'] ?? '');
-$incomingMsg = trim($payload['message'] ?? '');
+$incomingMsg = trim($payload['message'] ?? ($payload['text'] ?? ''));
 $senderName = trim($payload['name'] ?? 'Tamu');
 
 // Abaikan jika tidak ada nomor pengirim atau pesan kosong
@@ -25,9 +27,10 @@ if (empty($sender) || empty($incomingMsg)) {
     sendJson(['status' => false, 'message' => 'No sender or message provided']);
 }
 
-// Cegah looping: abaikan jika pengirim adalah nomor bot / device itu sendiri
-if (!empty($device) && $sender === $device) {
-    sendJson(['status' => false, 'message' => 'Ignored message from self/bot device']);
+// Untuk tes: jika chat dikirim dari nomor bot itu sendiri, tetap izinkan jika mengandung kata pesan / sewa / hasna
+$isTestSelf = (!empty($device) && $sender === $device);
+if ($isTestSelf && !preg_match('/(hasna|pesan|sewa|drop|tarif|halo|mobil|avanza|innova|hiace|tes|test)/i', $incomingMsg)) {
+    sendJson(['status' => false, 'message' => 'Ignored background self message']);
 }
 
 // 2. LOAD KONFIGURASI AI SERVER & TOKEN FONNTE
@@ -213,9 +216,10 @@ array_unshift($leads, $leadEntry);
 if (count($leads) > 100) $leads = array_slice($leads, 0, 100);
 @file_put_contents($leadsFile, json_encode($leads, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-// 8. RESPON KE FONNTE
+// 8. RESPON KE FONNTE (Mendukung auto-reply instan via response webhook Fonnte)
 sendJson([
     'status' => true,
+    'reply' => $aiReply,
     'message' => 'Balasan berhasil diproses dan dikirim ke pengirim via WhatsApp',
     'sender' => $sender,
     'engine' => $sourceEngine,
