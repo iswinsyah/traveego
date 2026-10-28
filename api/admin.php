@@ -199,12 +199,19 @@ if ($action === 'save_site_content') {
     ]);
 }
 
-// 5b. GET & SAVE NOMOR WHATSAPP CS AI (HOTLINE)
+// 5b. GET & SAVE NOMOR WHATSAPP CS AI (HOTLINE) & TOKEN FONNTE
 if ($action === 'get_hotline_wa') {
     $dataFile = __DIR__ . '/../data/site_content.json';
     $data = file_exists($dataFile) ? json_decode(file_get_contents($dataFile), true) : [];
     $wa = $data['head']['hotline_wa'] ?? ($data['hero']['wa_number'] ?? '6281234567891');
-    sendJson(['success' => true, 'hotline_wa' => $wa]);
+    $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
+    $aiConfig = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+    $fonnteToken = $aiConfig['fonnte_token'] ?? '';
+    sendJson([
+        'success' => true,
+        'hotline_wa' => $wa,
+        'fonnte_token' => $fonnteToken
+    ]);
 }
 
 if ($action === 'save_hotline_wa') {
@@ -221,11 +228,64 @@ if ($action === 'save_hotline_wa') {
     $data['head']['hotline_wa'] = $wa;
     $data['hero']['wa_number'] = $wa;
     file_put_contents($dataFile, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+    // Simpan Fonnte Token jika dikirim
+    $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
+    $aiConfig = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+    if (isset($payload['fonnte_token'])) {
+        $aiConfig['fonnte_token'] = trim($payload['fonnte_token']);
+        $aiConfig['updated_at'] = date('Y-m-d H:i:s');
+        file_put_contents($aiConfigFile, json_encode($aiConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    }
     sendJson([
         'success' => true,
-        'message' => "Nomor WhatsApp CS AI berhasil diperbarui ke: $wa",
-        'hotline_wa' => $wa
+        'message' => "Pengaturan WhatsApp CS AI & Token Fonnte berhasil disimpan!",
+        'hotline_wa' => $wa,
+        'fonnte_token' => $aiConfig['fonnte_token'] ?? ''
     ]);
+}
+
+if ($action === 'test_fonnte') {
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true) ?: $_POST;
+    $token = trim($payload['fonnte_token'] ?? '');
+    if (!$token) {
+        $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
+        $aiConfig = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+        $token = trim($aiConfig['fonnte_token'] ?? '');
+    }
+    if (!$token) {
+        sendJson(['success' => false, 'message' => 'Token Fonnte belum diisi.'], 400);
+    }
+
+    $url = "https://api.fonnte.com/device";
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => ["Authorization: $token"],
+        CURLOPT_TIMEOUT => 8,
+        CURLOPT_SSL_VERIFYPEER => false
+    ]);
+    $res = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $data = json_decode($res, true);
+    if ($httpCode === 200 && ($data['status'] ?? false)) {
+        $device = $data['device'] ?? 'WhatsApp Terhubung';
+        $devStatus = $data['device_status'] ?? 'connect';
+        sendJson([
+            'success' => true,
+            'message' => "Token Fonnte VALID & TERHUBUNG! Nomor: $device (Status: $devStatus)"
+        ]);
+    } else {
+        $reason = $data['reason'] ?? ($data['message'] ?? "Gagal verifikasi (HTTP $httpCode)");
+        sendJson([
+            'success' => false,
+            'message' => "Uji Fonnte gagal: $reason"
+        ], 400);
+    }
 }
 
 // 6. SETUP / INISIALISASI DATABASE MYSQL (1-KLIK)

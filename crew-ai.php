@@ -1869,6 +1869,12 @@ $isLoggedIn = isCrewLoggedIn();
                 </div>
             </li>
             <li>
+                <div class="sidebar-menu-item" id="menuItemApiToken" onclick="scrollToApiToken()">
+                    <span class="menu-item-icon">🔑</span>
+                    <span>API &amp; Token (Gemini, Groq, Fonnte)</span>
+                </div>
+            </li>
+            <li>
                 <div class="sidebar-menu-item" onclick="scrollToWorkflows()">
                     <span class="menu-item-icon">🧭</span>
                     <span>Peta Alur Kerja (Workflow)</span>
@@ -1985,96 +1991,136 @@ $isLoggedIn = isCrewLoggedIn();
                 </div>
 
                 <!-- ==============================================================
-                     DUAL CLOUD AI ENGINE (KHUSUS MBAK Hasna & BANG JAKA)
+                     API & TOKEN ENGINE (GOOGLE GEMINI, GROQ CLOUD & FONNTE WA)
                      ============================================================== -->
-                <div class="content-card" style="margin-bottom: 24px; border: 1.5px solid #CBD5E1; border-radius: var(--radius-lg); background: #FFFFFF; padding: 24px; box-shadow: var(--shadow-subtle);">
+                <div class="content-card" id="apiTokenSection" style="margin-bottom: 24px; border: 1.5px solid #CBD5E1; border-radius: var(--radius-lg); background: #FFFFFF; padding: 24px; box-shadow: var(--shadow-subtle);">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
                         <div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: var(--text-title); margin: 0;">
-                                    🔑 Dual Cloud AI Engine (Mbak Hasna &amp; Bang Jaka)
+                                    🔑 Pusat API &amp; Token (Gemini, Groq &amp; Fonnte WhatsApp)
                                 </h3>
                                 <span class="pill-badge pill-green" id="badgeActiveCloudProv">Gemini Aktif</span>
                             </div>
-                            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 820px; line-height: 1.5;">
-                                <strong>Khusus Agen AI Hasna (CS AI) &amp; Bang Jaka (Koordinator Armada):</strong> Ditenagai Free Tier dari Google Gemini dan Groq Cloud. Jika kuota harian Gemini habis, sistem langsung otomatis <em>failover</em> ke API Groq tanpa jeda! Agen lain (Pak Hendra, Bung Kevin, Mbak Maya, Mas Bayu, Mbak Dinda) tetap 100% menggunakan otak AI Lokal (Ollama).
+                            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 860px; line-height: 1.5;">
+                                Konfigurasi kunci API Cloud AI (Mbak Hasna CS &amp; Bang Jaka Dispatcher) serta Token Gateway WhatsApp Fonnte untuk notifikasi otomatis &amp; koordinasi armada.
                             </p>
                         </div>
                         <div style="display: flex; gap: 8px; align-items: center;">
-                            <button type="button" class="btn-brand-green" onclick="saveCloudConfig()" id="btnSaveCloudTop" style="font-weight: 800; padding: 8px 18px; font-size: 13px;">
-                                💾 Simpan Kunci API
+                            <button type="button" class="btn-brand-green" onclick="saveCloudConfig()" id="btnSaveCloudTop" style="font-weight: 800; padding: 9px 20px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>💾</span>
+                                <span>Simpan Semua API &amp; Token</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- 2 KOLOM KOTAK PENYIMPANAN API KEY -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; margin-bottom: 18px;">
+                    <!-- 3 KOLOM KOTAK PENYIMPANAN API KEY & TOKEN -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-bottom: 18px;">
                         <!-- KOTAK 1: GOOGLE GEMINI -->
-                        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 18px; position: relative;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <div style="width: 34px; height: 34px; border-radius: 10px; background: #EFF6FF; color: #1D4ED8; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800;">
-                                        G
+                        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 18px; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div style="width: 34px; height: 34px; border-radius: 10px; background: #EFF6FF; color: #1D4ED8; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800;">
+                                            G
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin: 0;">Google Gemini API</h4>
+                                            <div style="font-size: 11px; color: #64748B;">Mesin Utama (Free Tier 1.500 RPD)</div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin: 0;">Google Gemini API</h4>
-                                        <div style="font-size: 11px; color: #64748B;">Mesin Utama (Free Tier 1.500 RPD)</div>
-                                    </div>
+                                    <span class="pill-badge pill-blue" style="font-size: 11px; font-weight: 700;">Google AI Studio</span>
                                 </div>
-                                <span class="pill-badge pill-blue" style="font-size: 11px; font-weight: 700;">Awalan AQ.Ab... ✅</span>
+
+                                <div style="margin-bottom: 12px;">
+                                    <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Gemini API Key</label>
+                                    <input type="password" id="cfgGeminiKey" placeholder="Paste Gemini API Key (AQ.Ab... / AIzaSy...)" value="" style="width: 100%; height: 42px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 12.5px; outline: none; color: #0F172A;">
+                                    <small style="display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px;">Format Authorization Key (AQ.Ab...) atau Legacy Key.</small>
+                                </div>
                             </div>
 
-                            <div style="margin-bottom: 12px;">
-                                <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Gemini API Key (Google AI Studio)</label>
-                                <input type="password" id="cfgGeminiKey" placeholder="Paste Gemini API Key (AQ.Ab... / AIzaSy...)" value="" style="width: 100%; height: 42px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 12.5px; outline: none; color: #0F172A;">
-                                <small style="display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px;">Format Authorization Key (AQ.Ab...) atau Legacy Key (AIzaSy...).</small>
-                            </div>
-
-                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end;">
+                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end; margin-top: 6px;">
                                 <div>
                                     <label style="display: block; font-size: 11.5px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Pilihan Model Gemini</label>
-                                    <select id="cfgGeminiModel" style="width: 100%; height: 38px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 8px; font-size: 12.5px; outline: none;">
-                                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Tercepat &amp; Cerdas)</option>
+                                    <select id="cfgGeminiModel" style="width: 100%; height: 38px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 8px; font-size: 12px; outline: none;">
+                                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Cerdas &amp; Cepat)</option>
                                         <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
                                     </select>
                                 </div>
-                                <button type="button" onclick="testCloudProvider('gemini')" id="btnTestGemini" class="btn-brand-outline" style="height: 38px; padding: 0 14px; font-size: 12px; font-weight: 800;">
-                                    🧪 Test Gemini
+                                <button type="button" onclick="testCloudProvider('gemini')" id="btnTestGemini" class="btn-brand-outline" style="height: 38px; padding: 0 12px; font-size: 12px; font-weight: 800;">
+                                    🧪 Test
                                 </button>
                             </div>
                         </div>
 
                         <!-- KOTAK 2: GROQ CLOUD -->
-                        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 18px; position: relative;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <div style="width: 34px; height: 34px; border-radius: 10px; background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800;">
-                                        ⚡
+                        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 18px; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div style="width: 34px; height: 34px; border-radius: 10px; background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800;">
+                                            ⚡
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin: 0;">Groq Cloud API</h4>
+                                            <div style="font-size: 11px; color: #64748B;">Cadangan Failover (Llama 3.3 70B)</div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin: 0;">Groq Cloud API</h4>
-                                        <div style="font-size: 11px; color: #64748B;">Cadangan Failover (Llama 3.3 70B Cepat)</div>
-                                    </div>
+                                    <span class="pill-badge pill-amber" style="font-size: 11px; font-weight: 700;">Failover Otomatis</span>
                                 </div>
-                                <span class="pill-badge pill-amber" style="font-size: 11px; font-weight: 700;">Auto-Failover</span>
+
+                                <div style="margin-bottom: 12px;">
+                                    <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Groq API Key</label>
+                                    <input type="text" id="cfgGroqKey" placeholder="gsk_..." style="width: 100%; height: 42px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 12.5px; outline: none; color: #0F172A;">
+                                    <small style="display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px;">Dapatkan gratis di console.groq.com/keys.</small>
+                                </div>
                             </div>
 
-                            <div style="margin-bottom: 12px;">
-                                <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Groq API Key (console.groq.com)</label>
-                                <input type="text" id="cfgGroqKey" placeholder="gsk_..." style="width: 100%; height: 42px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 12.5px; outline: none; color: #0F172A;">
-                                <small style="display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px;">Dapatkan gratis di console.groq.com/keys.</small>
-                            </div>
-
-                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end;">
+                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end; margin-top: 6px;">
                                 <div>
                                     <label style="display: block; font-size: 11.5px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Pilihan Model Groq</label>
-                                    <select id="cfgGroqModel" style="width: 100%; height: 38px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 8px; font-size: 12.5px; outline: none;">
-                                        <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile (300+ tok/s)</option>
-                                        <option value="mixtral-8x7b-32768">Mixtral 8x7B (32k Context)</option>
+                                    <select id="cfgGroqModel" style="width: 100%; height: 38px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 8px; font-size: 12px; outline: none;">
+                                        <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile</option>
+                                        <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
                                     </select>
                                 </div>
-                                <button type="button" onclick="testCloudProvider('groq')" id="btnTestGroq" class="btn-brand-outline" style="height: 38px; padding: 0 14px; font-size: 12px; font-weight: 800;">
-                                    🧪 Test Groq
+                                <button type="button" onclick="testCloudProvider('groq')" id="btnTestGroq" class="btn-brand-outline" style="height: 38px; padding: 0 12px; font-size: 12px; font-weight: 800;">
+                                    🧪 Test
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KOTAK 3: FONNTE WHATSAPP GATEWAY -->
+                        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 18px; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div style="width: 34px; height: 34px; border-radius: 10px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800;">
+                                            💬
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin: 0;">Token Fonnte WhatsApp</h4>
+                                            <div style="font-size: 11px; color: #64748B;">Gateway Notifikasi &amp; Chat</div>
+                                        </div>
+                                    </div>
+                                    <span class="pill-badge pill-green" style="font-size: 11px; font-weight: 700;">fonnte.com</span>
+                                </div>
+
+                                <div style="margin-bottom: 12px;">
+                                    <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Fonnte Device Token</label>
+                                    <input type="text" id="cfgFonnteToken" placeholder="Paste Token Akun Fonnte Anda" style="width: 100%; height: 42px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 12.5px; outline: none; color: #0F172A;">
+                                    <small style="display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px;">Diperoleh dari dashboard Fonnte saat hubungkan nomor WhatsApp.</small>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end; margin-top: 6px;">
+                                <div>
+                                    <a href="https://fonnte.com" target="_blank" style="font-size: 12px; font-weight: 700; color: #2563EB; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 8px 0;">
+                                        <span>🌐 Dashboard Fonnte ➔</span>
+                                    </a>
+                                </div>
+                                <button type="button" onclick="testCloudProvider('fonnte')" id="btnTestFonnte" class="btn-brand-outline" style="height: 38px; padding: 0 12px; font-size: 12px; font-weight: 800; border-color: #16A34A; color: #16A34A;">
+                                    🧪 Test WA
                                 </button>
                             </div>
                         </div>
@@ -2083,7 +2129,7 @@ $isLoggedIn = isCrewLoggedIn();
                     <!-- BARIS SWITCH / SUITE MESIN AKTIF -->
                     <div style="background: #F1F5F9; border-radius: 12px; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
                         <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
-                            <span style="font-size: 12.5px; font-weight: 800; color: var(--text-title);">Prioritas Mesin Aktif:</span>
+                            <span style="font-size: 12.5px; font-weight: 800; color: var(--text-title);">Prioritas Mesin AI:</span>
                             <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; cursor: pointer; color: #1E293B;">
                                 <input type="radio" name="cloudActiveProv" value="gemini" checked onchange="updateActiveBadge()" style="accent-color: #2563EB;">
                                 <span>Google Gemini (Utama)</span>
@@ -2094,7 +2140,7 @@ $isLoggedIn = isCrewLoggedIn();
                             </label>
                         </div>
                         <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">
-                            ⚡ <em>Otomatis beralih ke Groq jika kuota harian Gemini habis.</em>
+                            ⚡ <em>Otomatis beralih ke Groq jika kuota harian Gemini habis. Token Fonnte aktif untuk seluruh pesan WhatsApp.</em>
                         </div>
                     </div>
                 </div>
@@ -3754,6 +3800,14 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         }
     }
 
+    function scrollToApiToken() {
+        returnToOverviewHub();
+        setTimeout(() => {
+            const el = document.getElementById('apiTokenSection');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+    }
+
     function scrollToWorkflows() {
         returnToOverviewHub();
         setTimeout(() => {
@@ -3974,7 +4028,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
     }
 
     // ==============================================================
-    // DUAL CLOUD AI ENGINE (GEMINI & GROQ FAILOVER) HANDLERS
+    // DUAL CLOUD AI ENGINE (GEMINI, GROQ & FONNTE WA) HANDLERS
     // ==============================================================
     async function loadCloudConfig() {
         try {
@@ -3986,6 +4040,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
             if (d.gemini_model) document.getElementById('cfgGeminiModel').value = d.gemini_model;
             if (d.groq_api_key) document.getElementById('cfgGroqKey').value = d.groq_api_key;
             if (d.groq_model) document.getElementById('cfgGroqModel').value = d.groq_model;
+            if (d.fonnte_token) document.getElementById('cfgFonnteToken').value = d.fonnte_token;
 
             const radios = document.getElementsByName('cloudActiveProv');
             for (let r of radios) {
@@ -4022,6 +4077,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         const geminiModel = document.getElementById('cfgGeminiModel').value;
         const groqKey = document.getElementById('cfgGroqKey').value.trim();
         const groqModel = document.getElementById('cfgGroqModel').value;
+        const fonnteToken = document.getElementById('cfgFonnteToken').value.trim();
 
         const radios = document.getElementsByName('cloudActiveProv');
         let activeProv = 'gemini';
@@ -4032,7 +4088,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         const btn = document.getElementById('btnSaveCloudTop');
         if (btn) {
             btn.disabled = true;
-            btn.innerText = 'Menyimpan...';
+            btn.innerHTML = '<span>⏳</span><span>Menyimpan...</span>';
         }
 
         try {
@@ -4044,12 +4100,13 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
                     gemini_model: geminiModel,
                     groq_api_key: groqKey,
                     groq_model: groqModel,
+                    fonnte_token: fonnteToken,
                     active_cloud_provider: activeProv
                 })
             });
             const d = await res.json();
             if (d.success) {
-                alert('✅ ' + d.message + '\n\nMesin Aktif: ' + (activeProv === 'gemini' ? 'Google Gemini' : 'Groq Cloud'));
+                alert('✅ ' + d.message + '\n\n• Mesin AI Aktif: ' + (activeProv === 'gemini' ? 'Google Gemini' : 'Groq Cloud') + '\n• Gateway WA: ' + (fonnteToken ? 'Token Fonnte Terpasang' : 'Belum diisi'));
                 updateActiveBadge();
             } else {
                 alert('Gagal: ' + d.message);
@@ -4059,13 +4116,17 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         } finally {
             if (btn) {
                 btn.disabled = false;
-                btn.innerText = '💾 Simpan Kunci API';
+                btn.innerHTML = '<span>💾</span><span>Simpan Semua API &amp; Token</span>';
             }
         }
     }
 
     async function testCloudProvider(prov) {
-        const btn = (prov === 'gemini') ? document.getElementById('btnTestGemini') : document.getElementById('btnTestGroq');
+        let btn = null;
+        if (prov === 'gemini') btn = document.getElementById('btnTestGemini');
+        else if (prov === 'groq') btn = document.getElementById('btnTestGroq');
+        else if (prov === 'fonnte') btn = document.getElementById('btnTestFonnte');
+
         const originalText = btn ? btn.innerText : '';
         if (btn) {
             btn.disabled = true;
@@ -4077,6 +4138,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         const geminiModel = document.getElementById('cfgGeminiModel').value;
         const groqKey = document.getElementById('cfgGroqKey').value.trim();
         const groqModel = document.getElementById('cfgGroqModel').value;
+        const fonnteToken = document.getElementById('cfgFonnteToken').value.trim();
 
         try {
             await fetch('/api/crew.php?action=save_cloud_config', {
@@ -4086,11 +4148,27 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
                     gemini_api_key: geminiKey,
                     gemini_model: geminiModel,
                     groq_api_key: groqKey,
-                    groq_model: groqModel
+                    groq_model: groqModel,
+                    fonnte_token: fonnteToken
                 })
             });
 
             const res = await fetch('/api/crew.php?action=test_cloud_ai&provider=' + prov);
+            const d = await res.json();
+            if (d.success) {
+                alert('🎉 ' + d.message);
+            } else {
+                alert('⚠️ Uji ' + prov + ' gagal: ' + d.message);
+            }
+        } catch(e) {
+            alert('Kesalahan jaringan: ' + e.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        }
+    }
             const d = await res.json();
             if (d.success) {
                 alert('🎉 ' + d.message);

@@ -149,7 +149,8 @@ switch ($action) {
             'gemini_model' => $cfg['gemini_model'] ?? 'gemini-2.5-flash',
             'groq_api_key' => $cfg['groq_api_key'] ?? '',
             'groq_model' => $cfg['groq_model'] ?? 'llama-3.3-70b-versatile',
-            'active_cloud_provider' => $cfg['active_cloud_provider'] ?? 'gemini'
+            'active_cloud_provider' => $cfg['active_cloud_provider'] ?? 'gemini',
+            'fonnte_token' => $cfg['fonnte_token'] ?? ''
         ]);
         break;
 
@@ -165,17 +166,19 @@ switch ($action) {
         if (isset($payload['groq_api_key'])) $existing['groq_api_key'] = trim($payload['groq_api_key']);
         if (isset($payload['groq_model'])) $existing['groq_model'] = trim($payload['groq_model']) ?: 'llama-3.3-70b-versatile';
         if (isset($payload['active_cloud_provider'])) $existing['active_cloud_provider'] = trim($payload['active_cloud_provider']) ?: 'gemini';
+        if (isset($payload['fonnte_token'])) $existing['fonnte_token'] = trim($payload['fonnte_token']);
         $existing['updated_at'] = date('Y-m-d H:i:s');
 
         file_put_contents($aiConfigFile, json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         sendJson([
             'success' => true,
-            'message' => 'Konfigurasi Cloud AI (Gemini & Groq) berhasil disimpan!',
+            'message' => 'Konfigurasi API & Token (Gemini, Groq, Fonnte) berhasil disimpan!',
             'config' => [
                 'active_cloud_provider' => $existing['active_cloud_provider'],
                 'gemini_model' => $existing['gemini_model'],
-                'groq_model' => $existing['groq_model']
+                'groq_model' => $existing['groq_model'],
+                'has_fonnte' => !empty($existing['fonnte_token'])
             ]
         ]);
         break;
@@ -230,6 +233,41 @@ switch ($action) {
                 $err = json_decode($res, true);
                 $msg = $err['error']['message'] ?? "HTTP Status $httpCode";
                 sendJson(['success' => false, 'provider' => 'groq', 'message' => "Gagal terhubung ke Groq: $msg"], 400);
+            }
+        } elseif ($provider === 'fonnte') {
+            $token = trim($cfg['fonnte_token'] ?? '');
+            if (!$token) {
+                sendJson(['success' => false, 'message' => 'Token Fonnte belum diisi.'], 400);
+            }
+            $url = "https://api.fonnte.com/device";
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_HTTPHEADER => ["Authorization: $token"],
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $res = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            $data = json_decode($res, true);
+            if ($data && isset($data['status']) && $data['status'] === true) {
+                $device = $data['device'] ?? 'Terhubung';
+                $devStatus = $data['device_status'] ?? 'connect';
+                sendJson([
+                    'success' => true,
+                    'provider' => 'fonnte',
+                    'message' => "Token Fonnte VALID & TERHUBUNG! Nomor: $device (Status: $devStatus)"
+                ]);
+            } else {
+                $reason = $data['reason'] ?? ($data['message'] ?? "Gagal verifikasi (HTTP $httpCode)");
+                sendJson([
+                    'success' => false,
+                    'provider' => 'fonnte',
+                    'message' => "Uji Fonnte gagal: $reason"
+                ], 400);
             }
         } else {
             sendJson(['success' => false, 'message' => 'Provider tidak dikenal.'], 400);
