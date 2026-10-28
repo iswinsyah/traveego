@@ -198,6 +198,35 @@ if ($action === 'save_site_content') {
     ]);
 }
 
+// 5b. GET & SAVE NOMOR WHATSAPP CS AI (HOTLINE)
+if ($action === 'get_hotline_wa') {
+    $dataFile = __DIR__ . '/../data/site_content.json';
+    $data = file_exists($dataFile) ? json_decode(file_get_contents($dataFile), true) : [];
+    $wa = $data['head']['hotline_wa'] ?? ($data['hero']['wa_number'] ?? '6281234567891');
+    sendJson(['success' => true, 'hotline_wa' => $wa]);
+}
+
+if ($action === 'save_hotline_wa') {
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true) ?: $_POST;
+    $wa = preg_replace('/[^0-9]/', '', trim($payload['hotline_wa'] ?? ''));
+    if (!$wa) {
+        sendJson(['success' => false, 'message' => 'Nomor WhatsApp tidak boleh kosong.'], 400);
+    }
+    $dataFile = __DIR__ . '/../data/site_content.json';
+    $data = file_exists($dataFile) ? json_decode(file_get_contents($dataFile), true) : [];
+    $data['head'] = $data['head'] ?? [];
+    $data['hero'] = $data['hero'] ?? [];
+    $data['head']['hotline_wa'] = $wa;
+    $data['hero']['wa_number'] = $wa;
+    file_put_contents($dataFile, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    sendJson([
+        'success' => true,
+        'message' => "Nomor WhatsApp CS AI berhasil diperbarui ke: $wa",
+        'hotline_wa' => $wa
+    ]);
+}
+
 // 6. SETUP / INISIALISASI DATABASE MYSQL (1-KLIK)
 if ($action === 'init_db') {
     try {

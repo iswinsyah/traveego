@@ -37,6 +37,123 @@ if (empty($message)) {
     sendJson(['reply' => "Halo Kak! Tiara (CS AI Traveego) siap membantu. Mau drop-off ke Bandara Soetta/Halim, Dalam Kota Jabodetabek, atau rute Jakarta - Bandung (Baraya)? 😊\n\n$fleetStatus"]);
 }
 
+// ==============================================================
+// 1. CLOUD LLM ENGINE (GEMINI & GROQ FAILOVER) UNTUK MBAK TIARA
+// ==============================================================
+$aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
+$aiConfig = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+
+$geminiKey = trim($aiConfig['gemini_api_key'] ?? '');
+$groqKey = trim($aiConfig['groq_api_key'] ?? '');
+$activeProvider = $aiConfig['active_cloud_provider'] ?? 'gemini';
+
+if (!empty($message) && ($geminiKey || $groqKey)) {
+    $systemContext = "Kamu adalah Mbak Tiara, Customer Service AI resmi Traveego (sewa mobil privat drop-off sekali jalan antarkota).\n"
+        . "Karakter: Ramah, santun, solutif, persuasif, memakai sapaan hangat ('Halo Kak!', 'Ada yang bisa Tiara bantu?').\n"
+        . "Prinsip Utama Traveego:\n"
+        . "1. TARIF ALL-IN: Sudah termasuk Sewa Mobil Privat + Jasa Sopir + BBM + Saldo Tol Penuh (Tol MBZ, Cipularang, Sedyatmo, JORR).\n"
+        . "2. PEMBAYARAN AMAN (0% DP): Tidak ada uang muka sama sekali. Pembayaran cash atau transfer langsung ke sopir setelah tiba di tujuan.\n"
+        . "3. KOORDINASI ARMADA (BANG JAKA): Unit standby di pool terdekat se-Jabodetabek & Bandung (Avanza 1-4 pax, Innova Reborn 1-5 pax, HiAce Premio 8-14 pax). Sopir standby 30 menit sebelum jadwal penjemputan door-to-door.\n"
+        . "4. TARIF ACUAN RESMI PAK HENDRA:\n"
+        . "   - Bandara Soetta/Halim: Avanza $soettaAvanza, Innova $soettaInnova, HiAce $soettaHiace\n"
+        . "   - Dalam Kota Jabodetabek: Avanza $kotaAvanza, Innova $kotaInnova, HiAce $kotaHiace\n"
+        . "   - Jakarta ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
+        . "Jawab pertanyaan calon pelanggan secara ringkas (maksimal 2-3 paragraf), jelas, sopan, dan ajak untuk klik tombol 'Pesan Cepat' di web.";
+
+    $aiReply = null;
+    $providerUsed = '';
+
+    // Prioritas provider (Primary vs Backup)
+    $order = ($activeProvider === 'groq') ? ['groq', 'gemini'] : ['gemini', 'groq'];
+
+    foreach ($order as $prov) {
+        if ($prov === 'gemini' && $geminiKey) {
+            $model = $aiConfig['gemini_model'] ?? 'gemini-2.5-flash';
+            $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key=" . urlencode($geminiKey);
+            $fullPrompt = $systemContext . "\n\nPertanyaan Tamu: " . ($input['message'] ?? '');
+            $payload = json_encode([
+                'contents' => [
+                    ['parts' => [['text' => $fullPrompt]]]
+                ],
+                'generationConfig' => [
+                    'temperature' => 0.7,
+                    'maxOutputTokens' => 600
+                ]
+            ]);
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $payload,
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                CURLOPT_TIMEOUT => 6,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $res = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode === 200 && $res) {
+                $parsed = json_decode($res, true);
+                $text = $parsed['candidates'][0]['content']['parts'][0]['text'] ?? '';
+                if ($text) {
+                    $aiReply = trim($text);
+                    $providerUsed = 'Google Gemini (' . $model . ')';
+                    break;
+                }
+            }
+        } elseif ($prov === 'groq' && $groqKey) {
+            $model = $aiConfig['groq_model'] ?? 'llama-3.3-70b-versatile';
+            $url = "https://api.groq.com/openai/v1/chat/completions";
+            $payload = json_encode([
+                'model' => $model,
+                'messages' => [
+                    ['role' => 'system', 'content' => $systemContext],
+                    ['role' => 'user', 'content' => $input['message'] ?? '']
+                ],
+                'temperature' => 0.7,
+                'max_tokens' => 600
+            ]);
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $payload,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' . $groqKey
+                ],
+                CURLOPT_TIMEOUT => 6,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $res = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode === 200 && $res) {
+                $parsed = json_decode($res, true);
+                $text = $parsed['choices'][0]['message']['content'] ?? '';
+                if ($text) {
+                    $aiReply = trim($text);
+                    $providerUsed = 'Groq Cloud (' . $model . ')';
+                    break;
+                }
+            }
+        }
+    }
+
+    if ($aiReply) {
+        sendJson([
+            'success' => true,
+            'reply' => $aiReply,
+            'source' => $providerUsed
+        ]);
+    }
+}
+
+// ==============================================================
+// 2. FALLBACK DETERMINISTIK / ATURAN MATRIKS PAK HENDRA
+// ==============================================================
 $reply = '';
 
 if (preg_match('/(harga|tarif|biaya|berapa|ongkos)/', $message)) {

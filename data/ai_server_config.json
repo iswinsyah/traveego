@@ -3,5 +3,10 @@
   "api_endpoint": "http://100.85.151.80:11434/v1",
   "model": "qwen2.5-coder:7b",
   "tailscale_ip": "100.85.151.80",
-  "note": "PC Server Ollama via Tailscale network"
+  "gemini_api_key": "",
+  "gemini_model": "gemini-2.5-flash",
+  "groq_api_key": "",
+  "groq_model": "llama-3.3-70b-versatile",
+  "active_cloud_provider": "gemini",
+  "note": "PC Server Ollama (Agen Lokal) + Dual Cloud API (Mbak Tiara & Bang Jaka)"
 }

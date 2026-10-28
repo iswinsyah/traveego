@@ -237,6 +237,38 @@
     </nav>
 
     <div class="container">
+ 
+        <!-- KOTAK PENGATURAN NOMOR WHATSAPP CS AI (MBAK TIARA) -->
+        <div class="section-card" style="border-left: 4px solid #16A34A; background: #FFFFFF; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                        📱
+                    </div>
+                    <div>
+                        <h3 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 2px;">
+                            Nomor WhatsApp CS AI (Mbak Tiara)
+                        </h3>
+                        <p style="font-size: 13px; color: #64748B;">
+                            Nomor WhatsApp ini menerima seluruh chat otomatis dari tombol <strong>"PESAN CEPAT"</strong> di web.
+                        </p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <div style="position: relative;">
+                        <input type="text" id="hotlineWaInput" placeholder="6281234567891" style="height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 14px; font-size: 14px; font-weight: 800; width: 190px; outline: none; color: #0F172A;">
+                    </div>
+                    <button onclick="saveAdminHotlineWa()" id="btnSaveHotlineWa" style="height: 42px; padding: 0 18px; background: #16A34A; color: #FFF; border: none; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>💾</span>
+                        <span>Simpan Nomor</span>
+                    </button>
+                    <a id="btnTestWaHotline" href="https://wa.me/6281234567891" target="_blank" style="height: 42px; padding: 0 14px; background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; border-radius: 10px; font-weight: 700; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>📲</span>
+                        <span>Tes Hubungi</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- STATS -->
         <div class="metrics-grid">
@@ -502,9 +534,52 @@
             document.getElementById('proofModal').style.display = 'none';
         }
 
+        async function loadAdminHotlineWa() {
+            try {
+                const res = await fetch('/api/admin.php?action=get_hotline_wa');
+                const d = await res.json();
+                if (d.success && d.hotline_wa) {
+                    document.getElementById('hotlineWaInput').value = d.hotline_wa;
+                    document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
+                }
+            } catch(e) {}
+        }
+
+        async function saveAdminHotlineWa() {
+            const val = document.getElementById('hotlineWaInput').value.trim();
+            if (!val) {
+                alert('Nomor WhatsApp tidak boleh kosong.');
+                return;
+            }
+            const btn = document.getElementById('btnSaveHotlineWa');
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+
+            try {
+                const res = await fetch('/api/admin.php?action=save_hotline_wa', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ hotline_wa: val })
+                });
+                const d = await res.json();
+                if (d.success) {
+                    alert('✅ ' + d.message);
+                    document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
+                } else {
+                    alert('Gagal: ' + d.message);
+                }
+            } catch(e) {
+                alert('Error: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>💾</span><span>Simpan Nomor</span>';
+            }
+        }
+
         // Jalankan saat load
         loadAdminData();
         loadFleetMap();
+        loadAdminHotlineWa();
         setInterval(loadAdminData, 15000);
         setInterval(loadFleetMap, 20000);
     </script>

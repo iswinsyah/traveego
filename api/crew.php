@@ -137,6 +137,104 @@ switch ($action) {
         ]);
         break;
 
+    case 'get_cloud_config':
+        $cfg = [];
+        if (file_exists($aiConfigFile)) {
+            $cfg = json_decode(file_get_contents($aiConfigFile), true) ?: [];
+        }
+        sendJson([
+            'success' => true,
+            'gemini_api_key' => $cfg['gemini_api_key'] ?? '',
+            'gemini_model' => $cfg['gemini_model'] ?? 'gemini-2.5-flash',
+            'groq_api_key' => $cfg['groq_api_key'] ?? '',
+            'groq_model' => $cfg['groq_model'] ?? 'llama-3.3-70b-versatile',
+            'active_cloud_provider' => $cfg['active_cloud_provider'] ?? 'gemini'
+        ]);
+        break;
+
+    case 'save_cloud_config':
+        $raw = file_get_contents('php://input');
+        $payload = json_decode($raw, true) ?: $_POST;
+
+        $existing = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+        if (!is_array($existing)) $existing = [];
+
+        if (isset($payload['gemini_api_key'])) $existing['gemini_api_key'] = trim($payload['gemini_api_key']);
+        if (isset($payload['gemini_model'])) $existing['gemini_model'] = trim($payload['gemini_model']) ?: 'gemini-2.5-flash';
+        if (isset($payload['groq_api_key'])) $existing['groq_api_key'] = trim($payload['groq_api_key']);
+        if (isset($payload['groq_model'])) $existing['groq_model'] = trim($payload['groq_model']) ?: 'llama-3.3-70b-versatile';
+        if (isset($payload['active_cloud_provider'])) $existing['active_cloud_provider'] = trim($payload['active_cloud_provider']) ?: 'gemini';
+        $existing['updated_at'] = date('Y-m-d H:i:s');
+
+        file_put_contents($aiConfigFile, json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        sendJson([
+            'success' => true,
+            'message' => 'Konfigurasi Cloud AI (Gemini & Groq) berhasil disimpan!',
+            'config' => [
+                'active_cloud_provider' => $existing['active_cloud_provider'],
+                'gemini_model' => $existing['gemini_model'],
+                'groq_model' => $existing['groq_model']
+            ]
+        ]);
+        break;
+
+    case 'test_cloud_ai':
+        $provider = $_GET['provider'] ?? 'gemini';
+        $cfg = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+
+        if ($provider === 'gemini') {
+            $apiKey = trim($cfg['gemini_api_key'] ?? '');
+            if (!$apiKey) {
+                sendJson(['success' => false, 'message' => 'Gemini API Key belum diisi.'], 400);
+            }
+            $url = "https://generativelanguage.googleapis.com/v1beta/models?key=" . urlencode($apiKey);
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $res = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode === 200) {
+                sendJson(['success' => true, 'provider' => 'gemini', 'message' => "Google Gemini API Key AKTIF & VALID! Kuota siap digunakan."]);
+            } else {
+                $err = json_decode($res, true);
+                $msg = $err['error']['message'] ?? "HTTP Status $httpCode";
+                sendJson(['success' => false, 'provider' => 'gemini', 'message' => "Gagal terhubung ke Gemini: $msg"], 400);
+            }
+        } elseif ($provider === 'groq') {
+            $apiKey = trim($cfg['groq_api_key'] ?? '');
+            if (!$apiKey) {
+                sendJson(['success' => false, 'message' => 'Groq API Key belum diisi.'], 400);
+            }
+            $url = "https://api.groq.com/openai/v1/models";
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => ["Authorization: Bearer $apiKey"],
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $res = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode === 200) {
+                sendJson(['success' => true, 'provider' => 'groq', 'message' => "Groq Cloud API Key AKTIF & VALID! Llama-3.3 70B siap sebagai cadangan."]);
+            } else {
+                $err = json_decode($res, true);
+                $msg = $err['error']['message'] ?? "HTTP Status $httpCode";
+                sendJson(['success' => false, 'provider' => 'groq', 'message' => "Gagal terhubung ke Groq: $msg"], 400);
+            }
+        } else {
+            sendJson(['success' => false, 'message' => 'Provider tidak dikenal.'], 400);
+        }
+        break;
+
     case 'get_matrix':
         if (!file_exists($matrixFile)) {
             sendJson(['success' => false, 'message' => 'File cost_matrix.json belum ada. Silakan jalankan kalkulasi awal.'], 404);

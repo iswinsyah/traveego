@@ -1984,6 +1984,121 @@ $isLoggedIn = isCrewLoggedIn();
                     </div>
                 </div>
 
+                <!-- ==============================================================
+                     DUAL CLOUD AI ENGINE (KHUSUS MBAK TIARA & BANG JAKA)
+                     ============================================================== -->
+                <div class="content-card" style="margin-bottom: 24px; border: 1.5px solid #CBD5E1; border-radius: var(--radius-lg); background: #FFFFFF; padding: 24px; box-shadow: var(--shadow-subtle);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <h3 style="font-size: 18px; font-weight: 800; color: var(--text-title); margin: 0;">
+                                    🔑 Dual Cloud AI Engine (Mbak Tiara &amp; Bang Jaka)
+                                </h3>
+                                <span class="pill-badge pill-green" id="badgeActiveCloudProv">Gemini Aktif</span>
+                            </div>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 820px; line-height: 1.5;">
+                                <strong>Khusus Agen AI Tiara (CS AI) &amp; Bang Jaka (Koordinator Armada):</strong> Ditenagai Free Tier dari Google Gemini dan Groq Cloud. Jika kuota harian Gemini habis, sistem langsung otomatis <em>failover</em> ke API Groq tanpa jeda! Agen lain (Pak Hendra, Bung Kevin, Mbak Maya, Mas Bayu, Mbak Dinda) tetap 100% menggunakan otak AI Lokal (Ollama).
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button type="button" class="btn-brand-green" onclick="saveCloudConfig()" id="btnSaveCloudTop" style="font-weight: 800; padding: 8px 18px; font-size: 13px;">
+                                💾 Simpan Kunci API
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2 KOLOM KOTAK PENYIMPANAN API KEY -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; margin-bottom: 18px;">
+                        <!-- KOTAK 1: GOOGLE GEMINI -->
+                        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 18px; position: relative;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 34px; height: 34px; border-radius: 10px; background: #EFF6FF; color: #1D4ED8; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800;">
+                                        G
+                                    </div>
+                                    <div>
+                                        <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin: 0;">Google Gemini API</h4>
+                                        <div style="font-size: 11px; color: #64748B;">Mesin Utama (Free Tier 1.500 RPD)</div>
+                                    </div>
+                                </div>
+                                <span class="pill-badge pill-blue" style="font-size: 11px; font-weight: 700;">Awalan AQ.Ab... ✅</span>
+                            </div>
+
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Gemini API Key (Google AI Studio)</label>
+                                <input type="password" id="cfgGeminiKey" placeholder="Paste Gemini API Key (AQ.Ab... / AIzaSy...)" value="" style="width: 100%; height: 42px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 12.5px; outline: none; color: #0F172A;">
+                                <small style="display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px;">Format Authorization Key (AQ.Ab...) atau Legacy Key (AIzaSy...).</small>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end;">
+                                <div>
+                                    <label style="display: block; font-size: 11.5px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Pilihan Model Gemini</label>
+                                    <select id="cfgGeminiModel" style="width: 100%; height: 38px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 8px; font-size: 12.5px; outline: none;">
+                                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Tercepat &amp; Cerdas)</option>
+                                        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                                    </select>
+                                </div>
+                                <button type="button" onclick="testCloudProvider('gemini')" id="btnTestGemini" class="btn-brand-outline" style="height: 38px; padding: 0 14px; font-size: 12px; font-weight: 800;">
+                                    🧪 Test Gemini
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KOTAK 2: GROQ CLOUD -->
+                        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 18px; position: relative;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 34px; height: 34px; border-radius: 10px; background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800;">
+                                        ⚡
+                                    </div>
+                                    <div>
+                                        <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin: 0;">Groq Cloud API</h4>
+                                        <div style="font-size: 11px; color: #64748B;">Cadangan Failover (Llama 3.3 70B Cepat)</div>
+                                    </div>
+                                </div>
+                                <span class="pill-badge pill-amber" style="font-size: 11px; font-weight: 700;">Auto-Failover</span>
+                            </div>
+
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Groq API Key (console.groq.com)</label>
+                                <input type="text" id="cfgGroqKey" placeholder="gsk_..." style="width: 100%; height: 42px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 12.5px; outline: none; color: #0F172A;">
+                                <small style="display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px;">Dapatkan gratis di console.groq.com/keys.</small>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end;">
+                                <div>
+                                    <label style="display: block; font-size: 11.5px; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">Pilihan Model Groq</label>
+                                    <select id="cfgGroqModel" style="width: 100%; height: 38px; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 8px; font-size: 12.5px; outline: none;">
+                                        <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile (300+ tok/s)</option>
+                                        <option value="mixtral-8x7b-32768">Mixtral 8x7B (32k Context)</option>
+                                    </select>
+                                </div>
+                                <button type="button" onclick="testCloudProvider('groq')" id="btnTestGroq" class="btn-brand-outline" style="height: 38px; padding: 0 14px; font-size: 12px; font-weight: 800;">
+                                    🧪 Test Groq
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BARIS SWITCH / SUITE MESIN AKTIF -->
+                    <div style="background: #F1F5F9; border-radius: 12px; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                        <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+                            <span style="font-size: 12.5px; font-weight: 800; color: var(--text-title);">Prioritas Mesin Aktif:</span>
+                            <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; cursor: pointer; color: #1E293B;">
+                                <input type="radio" name="cloudActiveProv" value="gemini" checked onchange="updateActiveBadge()" style="accent-color: #2563EB;">
+                                <span>Google Gemini (Utama)</span>
+                            </label>
+                            <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; cursor: pointer; color: #1E293B;">
+                                <input type="radio" name="cloudActiveProv" value="groq" onchange="updateActiveBadge()" style="accent-color: #EA580C;">
+                                <span>Groq Cloud (Cadangan / Suite Langsung)</span>
+                            </label>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">
+                            ⚡ <em>Otomatis beralih ke Groq jika kuota harian Gemini habis.</em>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- VISUAL AI AGENTS: KOTAK ICON + CAPTION NAMA & TUGAS SINGKAT -->
                 <div class="android-menu-section" id="androidMenuSection">
                     <div class="android-section-header">
@@ -3858,12 +3973,147 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         }
     }
 
+    // ==============================================================
+    // DUAL CLOUD AI ENGINE (GEMINI & GROQ FAILOVER) HANDLERS
+    // ==============================================================
+    async function loadCloudConfig() {
+        try {
+            const res = await fetch('/api/crew.php?action=get_cloud_config');
+            const d = await res.json();
+            if (!d.success) return;
+
+            if (d.gemini_api_key) document.getElementById('cfgGeminiKey').value = d.gemini_api_key;
+            if (d.gemini_model) document.getElementById('cfgGeminiModel').value = d.gemini_model;
+            if (d.groq_api_key) document.getElementById('cfgGroqKey').value = d.groq_api_key;
+            if (d.groq_model) document.getElementById('cfgGroqModel').value = d.groq_model;
+
+            const radios = document.getElementsByName('cloudActiveProv');
+            for (let r of radios) {
+                if (r.value === (d.active_cloud_provider || 'gemini')) {
+                    r.checked = true;
+                    break;
+                }
+            }
+            updateActiveBadge();
+        } catch(e) {
+            console.error('Gagal load cloud config:', e);
+        }
+    }
+
+    function updateActiveBadge() {
+        const badge = document.getElementById('badgeActiveCloudProv');
+        if (!badge) return;
+        const radios = document.getElementsByName('cloudActiveProv');
+        let val = 'gemini';
+        for (let r of radios) {
+            if (r.checked) { val = r.value; break; }
+        }
+        if (val === 'gemini') {
+            badge.className = 'pill-badge pill-green';
+            badge.innerText = 'Gemini Aktif (Utama)';
+        } else {
+            badge.className = 'pill-badge pill-amber';
+            badge.innerText = 'Groq Aktif (Cadangan)';
+        }
+    }
+
+    async function saveCloudConfig() {
+        const geminiKey = document.getElementById('cfgGeminiKey').value.trim();
+        const geminiModel = document.getElementById('cfgGeminiModel').value;
+        const groqKey = document.getElementById('cfgGroqKey').value.trim();
+        const groqModel = document.getElementById('cfgGroqModel').value;
+
+        const radios = document.getElementsByName('cloudActiveProv');
+        let activeProv = 'gemini';
+        for (let r of radios) {
+            if (r.checked) { activeProv = r.value; break; }
+        }
+
+        const btn = document.getElementById('btnSaveCloudTop');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+        }
+
+        try {
+            const res = await fetch('/api/crew.php?action=save_cloud_config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    gemini_api_key: geminiKey,
+                    gemini_model: geminiModel,
+                    groq_api_key: groqKey,
+                    groq_model: groqModel,
+                    active_cloud_provider: activeProv
+                })
+            });
+            const d = await res.json();
+            if (d.success) {
+                alert('✅ ' + d.message + '\n\nMesin Aktif: ' + (activeProv === 'gemini' ? 'Google Gemini' : 'Groq Cloud'));
+                updateActiveBadge();
+            } else {
+                alert('Gagal: ' + d.message);
+            }
+        } catch(e) {
+            alert('Error: ' + e.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerText = '💾 Simpan Kunci API';
+            }
+        }
+    }
+
+    async function testCloudProvider(prov) {
+        const btn = (prov === 'gemini') ? document.getElementById('btnTestGemini') : document.getElementById('btnTestGroq');
+        const originalText = btn ? btn.innerText : '';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = 'Menguji...';
+        }
+
+        // Simpan dulu config sebelum uji agar terupdate
+        const geminiKey = document.getElementById('cfgGeminiKey').value.trim();
+        const geminiModel = document.getElementById('cfgGeminiModel').value;
+        const groqKey = document.getElementById('cfgGroqKey').value.trim();
+        const groqModel = document.getElementById('cfgGroqModel').value;
+
+        try {
+            await fetch('/api/crew.php?action=save_cloud_config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    gemini_api_key: geminiKey,
+                    gemini_model: geminiModel,
+                    groq_api_key: groqKey,
+                    groq_model: groqModel
+                })
+            });
+
+            const res = await fetch('/api/crew.php?action=test_cloud_ai&provider=' + prov);
+            const d = await res.json();
+            if (d.success) {
+                alert('🎉 ' + d.message);
+            } else {
+                alert('⚠️ Uji ' + prov + ' gagal: ' + d.message);
+            }
+        } catch(e) {
+            alert('Kesalahan jaringan: ' + e.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        }
+    }
+
     function refreshData() {
         loadStatus();
         loadMatrix();
         loadPages();
         loadPosts();
         loadTiaraLeads();
+        loadCloudConfig();
     }
 
     // Initial load
