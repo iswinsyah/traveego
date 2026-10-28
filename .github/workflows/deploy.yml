@@ -13,7 +13,7 @@ jobs:
       - name: 🚚 Checkout Kode Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: 📂 Sinkronisasi File ke Hostinger public_html
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
