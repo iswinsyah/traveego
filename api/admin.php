@@ -1,4 +1,5 @@
 <?php
+// Deploy v1.2: CS AI WhatsApp Hotline Config
 require_once __DIR__ . '/../config.php';
 $action = $_GET['action'] ?? $_POST['action'] ?? 'stats';
 

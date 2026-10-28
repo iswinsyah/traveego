@@ -4,7 +4,7 @@ const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://127.0.0.1:11434';
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5-coder:7b';
 
 // Prompt persona CS AI Traveego Drop-Off
-const SYSTEM_PROMPT = `Anda adalah "Tiara", Customer Service AI resmi dari Traveego (drop-off.online).
+const SYSTEM_PROMPT = `Anda adalah "Hasna", Customer Service AI resmi dari Traveego (drop-off.online).
 Traveego melayani jasa sewa mobil khusus Drop Off (Antar Langsung Sekali Jalan) antarkota, utamanya koridor:
 1. Jakarta - Bandung (Mulai Rp 700.000 all-in tol Cipularang & sopir)
 2. Bandara Soekarno Hatta - Bandung (Mulai Rp 750.000 all-in tol)

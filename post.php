@@ -382,7 +382,7 @@ $publishedDate = date('d F Y', strtotime($publishAt ?: 'now'));
     </a>
     <a href="https://api.whatsapp.com/send?phone=628190000000&text=Halo%20Traveego,%20saya%20membaca%20artikel%20<?= urlencode($title) ?>" class="btn-topbar-wa" target="_blank" rel="noopener">
         <span>💬</span>
-        <span>Chat CS Mbak Tiara</span>
+        <span>Chat CS Mbak Hasna</span>
     </a>
 </header>
 

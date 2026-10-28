@@ -1,4 +1,5 @@
 <?php
+// Deploy v1.2: Dual Cloud AI Gemini & Groq Failover
 require_once __DIR__ . '/../config.php';
 
 $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
@@ -34,11 +35,11 @@ $kotaHiace  = $jabodetabekPrices['hiace']['formatted_price'] ?? 'Rp 550.000';
 $fleetStatus = "🚐 **Status Armada Standby (Bang Jaka):** Unit Avanza, Innova Reborn, dan HiAce Premio sedang standby di pool terdekat se-Jabodetabek & Bandung. Sopir siap meluncur jemput tepat waktu (standby 30 menit sebelum jadwal).";
 
 if (empty($message)) {
-    sendJson(['reply' => "Halo Kak! Tiara (CS AI Traveego) siap membantu. Mau drop-off ke Bandara Soetta/Halim, Dalam Kota Jabodetabek, atau rute Jakarta - Bandung (Baraya)? 😊\n\n$fleetStatus"]);
+    sendJson(['reply' => "Halo Kak! Hasna (CS AI Traveego) siap membantu. Mau drop-off ke Bandara Soetta/Halim, Dalam Kota Jabodetabek, atau rute Jakarta - Bandung (Baraya)? 😊\n\n$fleetStatus"]);
 }
 
 // ==============================================================
-// 1. CLOUD LLM ENGINE (GEMINI & GROQ FAILOVER) UNTUK MBAK TIARA
+// 1. CLOUD LLM ENGINE (GEMINI & GROQ FAILOVER) UNTUK MBAK HASNA
 // ==============================================================
 $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
 $aiConfig = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
@@ -48,8 +49,8 @@ $groqKey = trim($aiConfig['groq_api_key'] ?? '');
 $activeProvider = $aiConfig['active_cloud_provider'] ?? 'gemini';
 
 if (!empty($message) && ($geminiKey || $groqKey)) {
-    $systemContext = "Kamu adalah Mbak Tiara, Customer Service AI resmi Traveego (sewa mobil privat drop-off sekali jalan antarkota).\n"
-        . "Karakter: Ramah, santun, solutif, persuasif, memakai sapaan hangat ('Halo Kak!', 'Ada yang bisa Tiara bantu?').\n"
+    $systemContext = "Kamu adalah Mbak Hasna, Customer Service AI resmi Traveego (sewa mobil privat drop-off sekali jalan antarkota).\n"
+        . "Karakter: Ramah, santun, solutif, persuasif, memakai sapaan hangat ('Halo Kak!', 'Ada yang bisa Hasna bantu?').\n"
         . "Prinsip Utama Traveego:\n"
         . "1. TARIF ALL-IN: Sudah termasuk Sewa Mobil Privat + Jasa Sopir + BBM + Saldo Tol Penuh (Tol MBZ, Cipularang, Sedyatmo, JORR).\n"
         . "2. PEMBAYARAN AMAN (0% DP): Tidak ada uang muka sama sekali. Pembayaran cash atau transfer langsung ke sopir setelah tiba di tujuan.\n"
@@ -167,7 +168,7 @@ if (preg_match('/(harga|tarif|biaya|berapa|ongkos)/', $message)) {
         $reply = "Saat ini Traveego melayani 3 fokus rute utama (Update Tarif Pak Hendra):\n1. ✈️ **Antar Jemput Bandara (Soetta & Halim)**: Mulai $soettaAvanza\n2. 🏙️ **Drop-Off Dalam Kota Jabodetabek**: Mulai $kotaAvanza\n3. 🛣️ **Jakarta &ndash; Baraya (Bandung Raya)**: Mulai $barayaAvanza\n\nSemua tarif berkonsep **ALL-IN MURNI** (Mobil + Sopir + BBM + Tol), tanpa DP, bayar langsung ke sopir saat tiba di tujuan!\n\n$fleetStatus";
     }
 } elseif (preg_match('/(armada|mobil|avanza|innova|hiace|ready|standby|unit)/', $message)) {
-    $reply = "Koordinasi Tiara langsung dengan **Bang Jaka (Dispatcher Armada)**:\n\n$fleetStatus\n\n📌 **Pilihan Armada:**\n1. **Toyota Avanza / Veloz** (3-4 Pax) – Nyaman, irit, lincah.\n2. **Toyota Innova Reborn** (4-5 Pax) – Suspensi empuk, bagasi luas, premium.\n3. **Toyota HiAce Premio** (8-10 Pax) – Kapasitas besar untuk rombongan & keluarga besar.\n\nSemua unit wangi, bersih, AC dingin, dan bebas asap rokok.";
+    $reply = "Koordinasi Hasna langsung dengan **Bang Jaka (Dispatcher Armada)**:\n\n$fleetStatus\n\n📌 **Pilihan Armada:**\n1. **Toyota Avanza / Veloz** (3-4 Pax) – Nyaman, irit, lincah.\n2. **Toyota Innova Reborn** (4-5 Pax) – Suspensi empuk, bagasi luas, premium.\n3. **Toyota HiAce Premio** (8-10 Pax) – Kapasitas besar untuk rombongan & keluarga besar.\n\nSemua unit wangi, bersih, AC dingin, dan bebas asap rokok.";
 } elseif (preg_match('/(tol|bbm|bensin|all in|include|termasuk)/', $message)) {
     $reply = "Betul sekali Kak! Semua tarif di Traveego berkonsep **ALL-IN MURNI** sesuai kalkulasi Pak Hendra:\n✅ Sewa Mobil Privat (Avanza / Innova / HiAce)\n✅ Jasa Sopir Profesional\n✅ BBM penuh\n✅ Saldo Tol penuh (Tol MBZ, Tol Cipularang, Tol Bandara Sedyatmo, JORR)\n\nTidak ada biaya tersembunyi. 0% DP, bayar tunai/transfer ke sopir setelah sampai tujuan.";
 } elseif (preg_match('/(bayar|pembayaran|cash|transfer|rekening|dp)/', $message)) {
@@ -177,7 +178,7 @@ if (preg_match('/(harga|tarif|biaya|berapa|ongkos)/', $message)) {
 } elseif (preg_match('/(semarang|surabaya|solo|jogja|luar kota)/', $message)) {
     $reply = "Untuk saat ini, demi menjaga garansi armada prima dan ketepatan waktu penjemputan Bang Jaka, Traveego memfokuskan armada khusus pada koridor **Antar Jemput Bandara (Soetta & Halim)**, **Dalam Kota Jabodetabek**, dan **Jakarta &ndash; Baraya (Bandung Raya)** Kak. 😊";
 } else {
-    $reply = "Halo Kak! Tiara (CS AI Traveego) siap membantu. Kami melayani rute prioritas: ✈️ **Bandara (Soetta & Halim)**, 🏙️ **Dalam Kota Jabodetabek**, dan 🛣️ **Jakarta &ndash; Baraya (Bandung Raya)** dengan sistem All-In (Tol + BBM + Sopir) tanpa DP.\n\n$fleetStatus\n\nAda rute yang ingin Kakak tanyakan tarifnya?";
+    $reply = "Halo Kak! Hasna (CS AI Traveego) siap membantu. Kami melayani rute prioritas: ✈️ **Bandara (Soetta & Halim)**, 🏙️ **Dalam Kota Jabodetabek**, dan 🛣️ **Jakarta &ndash; Baraya (Bandung Raya)** dengan sistem All-In (Tol + BBM + Sopir) tanpa DP.\n\n$fleetStatus\n\nAda rute yang ingin Kakak tanyakan tarifnya?";
 }
 
 sendJson(['success' => true, 'reply' => $reply]);

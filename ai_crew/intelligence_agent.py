@@ -91,7 +91,7 @@ DEFAULT_COST_DATA = {
 class IntelligenceAgent:
     """
     Agent Pemantau Biaya & Tarif: Menghitung struktur harga All-In transparan
-    yang menjadi acuan bagi Page Crew, Post Crew, dan CS AI Tiara.
+    yang menjadi acuan bagi Page Crew, Post Crew, dan CS AI Hasna.
     """
     def __init__(self):
         self.llm = LocalLLMClient()

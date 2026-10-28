@@ -134,7 +134,7 @@ switch ($action) {
         }
         break;
 
-    // 4. TIARA SAVE CLOSING: BUAT NOTIFIKASI REKAP & MAGIC LINK
+    // 4. HASNA SAVE CLOSING: BUAT NOTIFIKASI REKAP & MAGIC LINK
     case 'save_closing':
         if (!isAdminLoggedIn() && !isCrewLoggedIn()) {
             sendJson(['success' => false, 'message' => 'Akses ditolak.'], 401);
@@ -164,7 +164,7 @@ switch ($action) {
         $magicLink = "https://dropiff.id/trip.html?code=" . $trackingCode;
         $formattedPrice = 'Rp ' . number_format($price, 0, ',', '.');
 
-        // Susun Ringkasan Closing Resmi Mbak Tiara
+        // Susun Ringkasan Closing Resmi Mbak Hasna
         $summaryText = "📄 *BUKTI KONFIRMASI PEMESANAN TRAVEEGO*\n"
             . "*Kode Booking:* `#" . $trackingCode . "`\n"
             . "━━━━━━━━━━━━━━━━━━━━\n"

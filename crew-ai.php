@@ -1347,7 +1347,7 @@ $isLoggedIn = isCrewLoggedIn();
             padding-top: 12px;
         }
 
-        /* Chat Simulator for Mbak Tiara */
+        /* Chat Simulator for Mbak Hasna */
         .chat-sim-container {
             display: grid;
             grid-template-columns: 1fr 340px;
@@ -1406,7 +1406,7 @@ $isLoggedIn = isCrewLoggedIn();
             white-space: pre-wrap;
         }
 
-        .chat-bubble.tiara {
+        .chat-bubble.Hasna {
             align-self: flex-start;
             background: #FFFFFF;
             color: var(--text-title);
@@ -1985,19 +1985,19 @@ $isLoggedIn = isCrewLoggedIn();
                 </div>
 
                 <!-- ==============================================================
-                     DUAL CLOUD AI ENGINE (KHUSUS MBAK TIARA & BANG JAKA)
+                     DUAL CLOUD AI ENGINE (KHUSUS MBAK Hasna & BANG JAKA)
                      ============================================================== -->
                 <div class="content-card" style="margin-bottom: 24px; border: 1.5px solid #CBD5E1; border-radius: var(--radius-lg); background: #FFFFFF; padding: 24px; box-shadow: var(--shadow-subtle);">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: var(--text-title); margin: 0;">
-                                    🔑 Dual Cloud AI Engine (Mbak Tiara &amp; Bang Jaka)
+                                    🔑 Dual Cloud AI Engine (Mbak Hasna &amp; Bang Jaka)
                                 </h3>
                                 <span class="pill-badge pill-green" id="badgeActiveCloudProv">Gemini Aktif</span>
                             </div>
                             <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 820px; line-height: 1.5;">
-                                <strong>Khusus Agen AI Tiara (CS AI) &amp; Bang Jaka (Koordinator Armada):</strong> Ditenagai Free Tier dari Google Gemini dan Groq Cloud. Jika kuota harian Gemini habis, sistem langsung otomatis <em>failover</em> ke API Groq tanpa jeda! Agen lain (Pak Hendra, Bung Kevin, Mbak Maya, Mas Bayu, Mbak Dinda) tetap 100% menggunakan otak AI Lokal (Ollama).
+                                <strong>Khusus Agen AI Hasna (CS AI) &amp; Bang Jaka (Koordinator Armada):</strong> Ditenagai Free Tier dari Google Gemini dan Groq Cloud. Jika kuota harian Gemini habis, sistem langsung otomatis <em>failover</em> ke API Groq tanpa jeda! Agen lain (Pak Hendra, Bung Kevin, Mbak Maya, Mas Bayu, Mbak Dinda) tetap 100% menggunakan otak AI Lokal (Ollama).
                             </p>
                         </div>
                         <div style="display: flex; gap: 8px; align-items: center;">
@@ -2213,7 +2213,7 @@ $isLoggedIn = isCrewLoggedIn();
                             </button>
                             <button type="button" class="btn-wf-tab" id="tabBtnWf2" onclick="switchWorkflowTab('wf2')">
                                 <span>💬</span>
-                                <span>Workflow 2: CS Tiara &amp; Armada Jaka</span>
+                                <span>Workflow 2: CS Hasna &amp; Armada Jaka</span>
                             </button>
                         </div>
                     </div>
@@ -2300,18 +2300,18 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                     </div>
 
-                    <!-- WORKFLOW 2: CS TIARA & DISPATCH FLEET ENGINE -->
+                    <!-- WORKFLOW 2: CS Hasna & DISPATCH FLEET ENGINE -->
                     <div class="wf-content-tab" id="wfTab2" style="display: none;">
                         <div class="wf-banner-notice" style="background: #EFF6FF; border-color: #BFDBFE; color: #1E40AF;">
-                            <strong>💬 Layanan Nyata Pelanggan:</strong> Mbak Tiara (CS AI) menjawab chat &amp; pesan WhatsApp/telpon user menggunakan data tarif update terbaru dari Pak Hendra serta berkomunikasi dengan Bang Jaka untuk kesiapan armada standby terdekat.
+                            <strong>💬 Layanan Nyata Pelanggan:</strong> Mbak Hasna (CS AI) menjawab chat &amp; pesan WhatsApp/telpon user menggunakan data tarif update terbaru dari Pak Hendra serta berkomunikasi dengan Bang Jaka untuk kesiapan armada standby terdekat.
                         </div>
 
                         <div class="wf-steps-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
-                            <!-- W2 Step 1: Mbak Tiara -->
+                            <!-- W2 Step 1: Mbak Hasna -->
                             <div class="wf-step-card">
                                 <div class="wf-step-num">Frontliner Pelanggan 24/7</div>
                                 <div class="wf-step-avatar" style="background: linear-gradient(135deg, #FDF2F8, #FCE7F3); border: 2px solid #FBCFE8; color: #DB2777;">👩‍💼</div>
-                                <h4 class="wf-step-title">Mbak Tiara &ndash; CS AI Traveego</h4>
+                                <h4 class="wf-step-title">Mbak Hasna &ndash; CS AI Traveego</h4>
                                 <div class="wf-step-role">AI Frontliner (Homepage, Landing Page &amp; WhatsApp)</div>
                                 <p class="wf-step-desc">
                                     Menjawab telpon, chat web, dan WhatsApp customer dengan ramah dan akurat. Menjelaskan keunggulan All-In (Tol + BBM + Sopir), penjemputan door-to-door, dan opsi aman bayar di tempat (0% DP).
@@ -2319,8 +2319,8 @@ $isLoggedIn = isCrewLoggedIn();
                                 <div class="wf-step-output">
                                     <span>🌐 Channel:</span> <strong>Homepage, Landing Page &amp; WhatsApp</strong>
                                 </div>
-                                <button type="button" class="btn-wf-action" onclick="simulateTiaraChat()">
-                                    Test Simulasi CS Mbak Tiara ➔
+                                <button type="button" class="btn-wf-action" onclick="simulateHasnaChat()">
+                                    Test Simulasi CS Mbak Hasna ➔
                                 </button>
                             </div>
 
@@ -2331,13 +2331,13 @@ $isLoggedIn = isCrewLoggedIn();
                                 <h4 class="wf-step-title">Sinkron Data Pak Hendra</h4>
                                 <div class="wf-step-role">Real-Time Single Source of Truth</div>
                                 <p class="wf-step-desc">
-                                    Mbak Tiara membaca data <code>data/cost_matrix.json</code> hasil riset mingguan Pak Hendra secara langsung. Jika harga BBM atau tarif tol naik/turun, jawaban tarif Tiara otomatis langsung presisi tanpa rekonfigurasi manual.
+                                    Mbak Hasna membaca data <code>data/cost_matrix.json</code> hasil riset mingguan Pak Hendra secara langsung. Jika harga BBM atau tarif tol naik/turun, jawaban tarif Hasna otomatis langsung presisi tanpa rekonfigurasi manual.
                                 </p>
                                 <div class="wf-step-output">
                                     <span>🔄 Integrasi:</span> <strong>API Real-Time Cost Matrix</strong>
                                 </div>
                                 <button type="button" class="btn-wf-action" onclick="openAgentWorkspace('hendraPanel', 'Pak Hendra &ndash; Tariff &amp; Intelligence')">
-                                    Lihat Matrix Acuan Tiara ➔
+                                    Lihat Matrix Acuan Hasna ➔
                                 </button>
                             </div>
 
@@ -2348,7 +2348,7 @@ $isLoggedIn = isCrewLoggedIn();
                                 <h4 class="wf-step-title">Bang Jaka &ndash; Dispatcher Armada</h4>
                                 <div class="wf-step-role">Fleet Readiness &amp; Sopir Standby</div>
                                 <p class="wf-step-desc">
-                                    Mbak Tiara selalu berkomunikasi dengan Bang Jaka untuk update data unit yang sedang standby &amp; ready melayani penjemputan (Avanza, Innova Reborn, HiAce Premio). Sopir dipastikan tiba di lokasi jemput 30 menit sebelum jadwal.
+                                    Mbak Hasna selalu berkomunikasi dengan Bang Jaka untuk update data unit yang sedang standby &amp; ready melayani penjemputan (Avanza, Innova Reborn, HiAce Premio). Sopir dipastikan tiba di lokasi jemput 30 menit sebelum jadwal.
                                 </p>
                                 <div class="wf-step-output">
                                     <span>🛡️ Jaminan:</span> <strong>Standby 30 Menit &amp; Privasi Terjaga</strong>
@@ -2359,20 +2359,20 @@ $isLoggedIn = isCrewLoggedIn();
                             </div>
                         </div>
 
-                        <!-- MEJA KERJA NEGOSIASI & CLOSING TIARA (WHATSAPP PROXY ENGINE) -->
-                        <div class="tiara-closing-hub" style="margin-top: 24px; background: #FFFFFF; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-subtle);">
+                        <!-- MEJA KERJA NEGOSIASI & CLOSING Hasna (WHATSAPP PROXY ENGINE) -->
+                        <div class="Hasna-closing-hub" style="margin-top: 24px; background: #FFFFFF; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-subtle);">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
                                 <div>
                                     <h4 style="font-size: 17px; font-weight: 800; color: var(--text-title); display: flex; align-items: center; gap: 8px;">
                                         <span>💬</span>
-                                        <span>Meja Kerja Closing Tiara &amp; Armada Bang Jaka</span>
+                                        <span>Meja Kerja Closing Hasna &amp; Armada Bang Jaka</span>
                                     </h4>
                                     <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
                                         Pantau tamu yang klik <strong>"Pesan Cepat"</strong> di web. Input hasil kesepakatan nego harga untuk menerbitkan Bukti Konfirmasi Resmi &amp; Magic Link Penjemputan.
                                     </p>
                                 </div>
                                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                    <button type="button" class="btn-brand-outline" onclick="loadTiaraLeads()" style="font-size: 13px; padding: 8px 16px;">🔄 Segarkan Leads</button>
+                                    <button type="button" class="btn-brand-outline" onclick="loadHasnaLeads()" style="font-size: 13px; padding: 8px 16px;">🔄 Segarkan Leads</button>
                                     <button type="button" class="btn-brand-green" onclick="openClosingModal()" style="font-size: 13px; padding: 8px 18px; font-weight: 800;">➕ Input Rekap Closing Deal</button>
                                 </div>
                             </div>
@@ -2402,10 +2402,10 @@ $isLoggedIn = isCrewLoggedIn();
                                             <th>ID &amp; Tamu</th>
                                             <th>Rute / Mobil</th>
                                             <th>Status</th>
-                                            <th>Aksi Tiara</th>
+                                            <th>Aksi Hasna</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tiaraLeadsBody">
+                                    <tbody id="HasnaLeadsBody">
                                         <tr><td colspan="5" style="text-align:center; padding: 16px; color: var(--text-muted);">Memuat data leads WhatsApp...</td></tr>
                                     </tbody>
                                 </table>
@@ -2507,7 +2507,7 @@ $isLoggedIn = isCrewLoggedIn();
                             <span>📊</span>
                             <span>Matrix Biaya Riil 4 Koridor Prioritas</span>
                         </h3>
-                        <span class="tag-dynamic">Data Acuan Seluruh Penulis & CS Tiara</span>
+                        <span class="tag-dynamic">Data Acuan Seluruh Penulis & CS Hasna</span>
                     </div>
 
                     <div class="table-responsive">
@@ -3172,7 +3172,7 @@ $isLoggedIn = isCrewLoggedIn();
 </div>
 
 <!-- ==============================================================
-     MODAL INPUT REKAP CLOSING TIARA & BANG JAKA
+     MODAL INPUT REKAP CLOSING Hasna & BANG JAKA
      ============================================================== -->
 <div id="closingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); backdrop-filter:blur(6px); z-index:999; align-items:center; justify-content:center; padding:20px; overflow-y:auto;">
     <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:24px; width:100%; max-width:540px; padding:30px; box-shadow:0 20px 50px rgba(0,0,0,0.15); margin:auto;">
@@ -3662,7 +3662,7 @@ $isLoggedIn = isCrewLoggedIn();
         }
     }
 
-    // Chat Simulator Mbak Tiara
+    // Chat Simulator Mbak Hasna
     async function sendChatSim(e) {
         if (e) e.preventDefault();
         const input = document.getElementById('chatInputText');
@@ -3675,9 +3675,9 @@ $isLoggedIn = isCrewLoggedIn();
         const typingId = 'typing-' + Date.now();
         const feed = document.getElementById('chatFeed');
         const typingEl = document.createElement('div');
-        typingEl.className = 'chat-bubble tiara';
+        typingEl.className = 'chat-bubble Hasna';
         typingEl.id = typingId;
-        typingEl.innerText = 'Mbak Tiara sedang mengetik...';
+        typingEl.innerText = 'Mbak Hasna sedang mengetik...';
         feed.appendChild(typingEl);
         feed.scrollTop = feed.scrollHeight;
 
@@ -3690,11 +3690,11 @@ $isLoggedIn = isCrewLoggedIn();
             const d = await res.json();
             const el = document.getElementById(typingId);
             if (el) el.remove();
-            appendChatBubble('tiara', d.reply || 'Maaf, Tiara sedang memeriksa data rute. Mohon coba sesaat lagi ya.');
+            appendChatBubble('Hasna', d.reply || 'Maaf, Hasna sedang memeriksa data rute. Mohon coba sesaat lagi ya.');
         } catch(err) {
             const el = document.getElementById(typingId);
             if (el) el.remove();
-            appendChatBubble('tiara', 'Maaf terjadi gangguan koneksi ke server chat: ' + err.message);
+            appendChatBubble('Hasna', 'Maaf terjadi gangguan koneksi ke server chat: ' + err.message);
         }
     }
 
@@ -3715,7 +3715,7 @@ $isLoggedIn = isCrewLoggedIn();
     function clearChatSim() {
         const feed = document.getElementById('chatFeed');
         feed.innerHTML = `
-            <div class="chat-bubble tiara">
+            <div class="chat-bubble Hasna">
 Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Bandara, Jabodetabek, atau Bandung! 😊
             </div>
         `;
@@ -3762,14 +3762,14 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         }, 120);
     }
 
-    function simulateTiaraChat() {
-        alert('👩‍💼 Mbak Tiara (CS AI):\n"Halo Kak! Tiara terhubung langsung dengan data tarif update Pak Hendra dan armada standby Bang Jaka.\nTarif kami ALL-IN (Tol + BBM + Sopir) tanpa DP sama sekali, bayar di lokasi penjemputan/tujuan!"');
+    function simulateHasnaChat() {
+        alert('👩‍💼 Mbak Hasna (CS AI):\n"Halo Kak! Hasna terhubung langsung dengan data tarif update Pak Hendra dan armada standby Bang Jaka.\nTarif kami ALL-IN (Tol + BBM + Sopir) tanpa DP sama sekali, bayar di lokasi penjemputan/tujuan!"');
     }
 
     // ==============================================================
-    // TIARA CLOSING HUB & WHATSAPP LEADS MANAGER
+    // Hasna CLOSING HUB & WHATSAPP LEADS MANAGER
     // ==============================================================
-    async function loadTiaraLeads() {
+    async function loadHasnaLeads() {
         try {
             const res = await fetch('/api/leads.php?action=list');
             const data = await res.json();
@@ -3787,7 +3787,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
             if (totalClosingsEl) totalClosingsEl.innerText = closings.length + ' Deal';
             if (totalActiveEl) totalActiveEl.innerText = closings.length + ' Armada Siap';
 
-            const tbody = document.getElementById('tiaraLeadsBody');
+            const tbody = document.getElementById('HasnaLeadsBody');
             if (!tbody) return;
 
             if (leads.length === 0) {
@@ -3924,7 +3924,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
                 const resModal = document.getElementById('closingResultModal');
                 if (resModal) resModal.style.display = 'flex';
 
-                loadTiaraLeads();
+                loadHasnaLeads();
             } else {
                 alert('Gagal menerbitkan closing: ' + (d.message || 'Error tidak diketahui'));
             }
@@ -3964,7 +3964,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
             });
             const d = await res.json();
             if (d.success) {
-                loadTiaraLeads();
+                loadHasnaLeads();
             } else {
                 alert('Gagal: ' + d.message);
             }
@@ -4112,7 +4112,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         loadMatrix();
         loadPages();
         loadPosts();
-        loadTiaraLeads();
+        loadHasnaLeads();
         loadCloudConfig();
     }
 
