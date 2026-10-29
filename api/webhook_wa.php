@@ -109,6 +109,17 @@ if (empty($sender) || empty($incomingMsg)) {
     sendJson(['status' => false, 'message' => 'No sender or message provided']);
 }
 
+// Abaikan pesan grup WhatsApp agar tidak membalas obrolan grup atau menghabiskan kuota
+$isGroup = !empty($payload['isgroup']) || strpos($sender, '-') !== false || (!empty($payload['senderlid']) && strpos($payload['senderlid'], 'g.us') !== false);
+if ($isGroup) {
+    sendJson(['status' => false, 'message' => 'Group message ignored']);
+}
+
+// Abaikan laporan absensi otomatis atau bot broadcast
+if (preg_match('/(LAPORAN ABSENSI|Absen (Masuk|Pulang)|Villa Quran)/i', $incomingMsg)) {
+    sendJson(['status' => false, 'message' => 'Automated report broadcast ignored']);
+}
+
 // Untuk tes: jika chat dikirim dari nomor bot itu sendiri, tetap izinkan jika mengandung kata pesan / sewa / hasna
 $isTestSelf = (!empty($device) && $sender === $device);
 if ($isTestSelf && !preg_match('/(hasna|pesan|sewa|drop|tarif|halo|mobil|avanza|innova|hiace|tes|test)/i', $incomingMsg)) {
