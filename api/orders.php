@@ -239,5 +239,57 @@ if ($action === 'track') {
     }
 }
 
+
+// 7. IN-APP CHAT ANTARA SOPIR DAN TAMU (BERBASIS TRACKING CODE)
+if ($action === 'order_chat') {
+    $chatDir = __DIR__ . '/../data/order_chats/';
+    if (!is_dir($chatDir)) {
+        @mkdir($chatDir, 0755, true);
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $code = trim($_GET['code'] ?? '');
+        if (empty($code)) {
+            sendJson(['success' => false, 'message' => 'Kode tracking wajib diisi'], 400);
+        }
+        $safeCode = preg_replace('/[^A-Za-z0-9\-]/', '', $code);
+        $chatFile = $chatDir . $safeCode . '.json';
+        $messages = file_exists($chatFile) ? (json_decode(file_get_contents($chatFile), true) ?: []) : [];
+        sendJson(['success' => true, 'data' => $messages]);
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+        $code = trim($input['code'] ?? '');
+        $sender = trim($input['sender'] ?? 'driver'); // 'driver' atau 'customer'
+        $text = trim($input['text'] ?? '');
+        $name = trim($input['sender_name'] ?? ($sender === 'driver' ? 'Sopir' : 'Penumpang'));
+
+        if (empty($code) || empty($text)) {
+            sendJson(['success' => false, 'message' => 'Kode tracking dan pesan wajib diisi'], 400);
+        }
+
+        $safeCode = preg_replace('/[^A-Za-z0-9\-]/', '', $code);
+        $chatFile = $chatDir . $safeCode . '.json';
+        $messages = file_exists($chatFile) ? (json_decode(file_get_contents($chatFile), true) ?: []) : [];
+
+        $newMsg = [
+            'id' => uniqid('msg_'),
+            'sender' => $sender,
+            'name' => htmlspecialchars($name),
+            'text' => htmlspecialchars($text),
+            'time' => date('H:i')
+        ];
+        $messages[] = $newMsg;
+
+        if (count($messages) > 100) {
+            $messages = array_slice($messages, -100);
+        }
+        file_put_contents($chatFile, json_encode($messages, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+        sendJson(['success' => true, 'message' => 'Pesan terkirim', 'data' => $newMsg]);
+    }
+}
+
 // Default fallback
 sendJson(['success' => false, 'message' => 'Action tidak dikenali'], 404);

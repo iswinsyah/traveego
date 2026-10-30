@@ -105,4 +105,24 @@ if ($action === 'history') {
     }
 }
 
+
+// 4. TOGGLE STATUS ONLINE / OFFLINE SOPIR
+if ($action === 'toggle_online') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $driverId = intval($input['driver_id'] ?? 0);
+    $isOnline = !empty($input['is_online']) ? 1 : 0;
+
+    if ($driverId <= 0) {
+        sendJson(['success' => false, 'message' => 'driver_id wajib ada'], 400);
+    }
+
+    try {
+        $stmt = $pdo->prepare("UPDATE drivers SET is_online = ? WHERE id = ?");
+        $stmt->execute([$isOnline, $driverId]);
+        sendJson(['success' => true, 'is_online' => (bool)$isOnline]);
+    } catch (Exception $e) {
+        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
 sendJson(['success' => false, 'message' => 'Action tidak dikenali'], 404);

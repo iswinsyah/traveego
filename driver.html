@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dropoff.id Mitra | PWA Sopir Mandiri</title>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#0F4C81">
+    <meta name="theme-color" content="#0A192F">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <!-- Google Fonts -->
@@ -14,15 +14,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #0F4C81;
-            --primary-dark: #0A3258;
-            --primary-light: #EBF4FC;
-            --accent-green: #25D366;
-            --accent-green-hover: #1EBE5D;
+            --primary-navy: #0A192F;
+            --royal-blue: #0B4FD8;
+            --royal-blue-hover: #1D4ED8;
+            --accent-green: #16A34A;
+            --accent-green-hover: #15803D;
             --accent-gold: #F59E0B;
             --bg-body: #F1F5F9;
             --text-main: #0F172A;
             --text-muted: #64748B;
+            --border-subtle: #E2E8F0;
             --radius-md: 12px;
             --radius-lg: 16px;
         }
@@ -39,113 +40,110 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 40px;
+            padding-bottom: 90px;
         }
 
+        /* HEADER PWA */
         .app-header {
-            background: var(--primary-blue);
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #0F284E 100%);
             color: #FFF;
-            padding: 16px 20px;
+            padding: 14px 18px;
             position: sticky;
             top: 0;
             z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         .app-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 8px;
+            letter-spacing: -0.3px;
         }
 
-        .driver-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 10px;
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* TOGGLE STATUS SIAGA */
+        .status-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
             border-radius: 20px;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .status-online {
+            background: #16A34A;
+            color: #FFFFFF;
+            box-shadow: 0 0 12px rgba(22, 163, 74, 0.4);
+        }
+        .status-offline {
+            background: #475569;
+            color: #E2E8F0;
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
-            padding: 16px;
+            padding: 14px;
         }
 
         /* LOGIN SCREEN */
         .login-card {
             background: #FFF;
-            padding: 30px 24px;
+            padding: 32px 24px;
             border-radius: var(--radius-lg);
             box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-            margin-top: 40px;
+            margin-top: 36px;
             text-align: center;
+            border: 1px solid var(--border-subtle);
         }
-
-        .login-logo { font-size: 40px; margin-bottom: 12px; }
-        .login-title { font-size: 20px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px; }
-        .login-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
-
+        .login-logo { font-size: 42px; margin-bottom: 12px; }
+        .login-title { font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 6px; }
+        .login-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
         .form-group { text-align: left; margin-bottom: 16px; }
         .form-group label { font-size: 12px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 6px; }
-        .form-control { width: 100%; padding: 12px 14px; border: 1px solid #CBD5E1; border-radius: 10px; font-size: 15px; outline: none; }
-        .form-control:focus { border-color: var(--primary-blue); }
-
+        .form-control { width: 100%; padding: 12px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 15px; outline: none; transition: border-color 0.2s; }
+        .form-control:focus { border-color: var(--royal-blue); }
         .btn-primary {
             width: 100%;
-            background: var(--primary-blue);
+            background: linear-gradient(135deg, var(--royal-blue), #1E40AF);
             color: #FFF;
             padding: 14px;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 15px;
             font-weight: 800;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(15, 76, 129, 0.3);
+            box-shadow: 0 4px 14px rgba(11, 79, 216, 0.35);
             margin-top: 8px;
+            transition: all 0.2s;
         }
+        .btn-primary:active { transform: scale(0.98); }
 
-        /* DRIVER PROFILE CARD */
-        .profile-card {
-            background: #FFF;
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 1px solid #E2E8F0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .profile-info h3 { font-size: 15px; font-weight: 800; }
-        .profile-car { font-size: 13px; color: var(--primary-blue); font-weight: 700; margin-top: 2px; }
-        .profile-plate { font-size: 11px; background: #000; color: #FFF; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
-
-        .btn-logout {
-            background: #FEE2E2;
-            color: #DC2626;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        /* SECTION TABS */
+        /* RADAR HEADER */
         .radar-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 20px 0 12px;
+            margin: 14px 0 10px;
         }
         .radar-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             display: flex;
             align-items: center;
@@ -157,7 +155,7 @@
             background: #16A34A;
             border-radius: 50%;
             display: inline-block;
-            box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.3);
             animation: pulse-dot 1.5s infinite;
         }
         @keyframes pulse-dot {
@@ -170,55 +168,51 @@
         .auction-card {
             background: #FFF;
             border-radius: var(--radius-lg);
-            border: 1px solid #E2E8F0;
-            padding: 18px;
+            border: 1.5px solid #E2E8F0;
+            padding: 16px;
             margin-bottom: 14px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
             position: relative;
             overflow: hidden;
         }
-
         .auction-badge-time {
             position: absolute;
             top: 14px;
             right: 14px;
-            background: var(--primary-light);
-            color: var(--primary-blue);
+            background: #EFF6FF;
+            color: var(--royal-blue);
             font-size: 11px;
             font-weight: 800;
             padding: 4px 8px;
             border-radius: 6px;
         }
-
         .trip-point {
             display: flex;
             gap: 10px;
             margin-bottom: 8px;
             font-size: 13px;
+            line-height: 1.45;
         }
         .trip-point strong { color: var(--text-main); font-weight: 700; }
-
         .fare-row {
             background: #F8FAFC;
-            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
             padding: 12px;
-            margin: 14px 0;
+            margin: 12px 0 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .fare-guest { font-size: 16px; font-weight: 800; color: #16A34A; }
+        .fare-guest { font-size: 17px; font-weight: 800; color: #16A34A; }
         .fare-commission { font-size: 12px; color: #DC2626; font-weight: 700; }
-
         .btn-take-order {
             width: 100%;
-            background: var(--accent-green);
+            background: linear-gradient(135deg, #16A34A, #15803D);
             color: #FFF;
-            padding: 14px;
+            padding: 13px;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             border: none;
             cursor: pointer;
@@ -226,7 +220,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
             transition: all 0.2s;
         }
         .btn-take-order:active { transform: scale(0.98); }
@@ -234,91 +228,305 @@
         /* ACTIVE TRIP CONTAINER */
         .active-trip-box {
             background: #FFF;
-            border: 2px solid var(--primary-blue);
+            border: 2px solid var(--royal-blue);
             border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(15, 76, 129, 0.12);
+            padding: 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 25px rgba(11, 79, 216, 0.12);
         }
-
         .trip-status-badge {
-            background: var(--primary-blue);
+            background: var(--royal-blue);
             color: #FFF;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 800;
             padding: 4px 10px;
             border-radius: 6px;
             display: inline-block;
             margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+
+        /* NAVIGATION BUTTONS (GOOGLE MAPS & WAZE 100% GRATIS) */
+        .nav-btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 14px 0;
+        }
+        .btn-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 12px 10px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .btn-nav-pickup {
+            background: #16A34A;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+        }
+        .btn-nav-dest {
+            background: #0B4FD8;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(11, 79, 216, 0.25);
+        }
+        .btn-chat-guest {
+            width: 100%;
+            background: #0F172A;
+            color: #FFFFFF;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .btn-status-flow {
             width: 100%;
-            background: var(--primary-blue);
+            background: var(--royal-blue);
             color: #FFF;
             padding: 14px;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 15px;
             font-weight: 800;
             border: none;
             cursor: pointer;
-            margin-top: 12px;
+            margin-top: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(11, 79, 216, 0.3);
         }
 
         /* SETTLEMENT SECTION (PASCA-BAYAR) */
         .settlement-card {
             background: #FFF;
             border-radius: var(--radius-lg);
-            border: 1px solid #E2E8F0;
+            border: 2px solid #16A34A;
             padding: 20px;
-            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.12);
         }
-
         .admin-bank-box {
-            background: var(--primary-light);
-            border: 1px dashed var(--primary-blue);
-            border-radius: 10px;
+            background: #F0FDF4;
+            border: 1.5px dashed #16A34A;
+            border-radius: 12px;
             padding: 14px;
             margin: 12px 0 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .btn-copy-account {
-            background: var(--primary-blue);
+            background: #16A34A;
             color: #FFF;
             border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 7px 12px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
         }
 
-        .empty-radar {
+        /* RIWAYAT & DOMPET */
+        .wallet-card {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #1E3A8A 100%);
+            color: #FFF;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 25px rgba(10, 25, 47, 0.2);
+        }
+        .wallet-stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+        .history-item {
+            background: #FFF;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        /* PROFIL AKUN */
+        .profile-box {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+            border: 3px solid var(--royal-blue);
+        }
+
+        /* IN-APP CHAT MODAL */
+        .chat-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .chat-modal-content {
+            background: #FFF;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 20px 20px 0 0;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
+        }
+        .chat-header {
+            padding: 14px 18px;
+            background: var(--primary-navy);
+            color: #FFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-messages {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            background: #F8FAFC;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 50vh;
+        }
+        .msg-bubble {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+        .msg-driver {
+            align-self: flex-end;
+            background: var(--royal-blue);
+            color: #FFF;
+            border-bottom-right-radius: 3px;
+        }
+        .msg-customer {
+            align-self: flex-start;
+            background: #FFF;
+            color: var(--text-main);
+            border: 1px solid var(--border-subtle);
+            border-bottom-left-radius: 3px;
+        }
+        .chat-input-box {
+            padding: 12px 14px;
+            background: #FFF;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            gap: 8px;
+        }
+
+        /* BOTTOM NAVIGATION PWA */
+        .pwa-bottom-dock {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--primary-navy);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 10px 14px;
+            z-index: 99;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+        }
+        .dock-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #94A3B8;
+            background: none;
+            border: none;
+            font-size: 10.5px;
+            font-weight: 700;
+            gap: 3px;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .dock-btn.active {
+            color: #38BDF8;
+        }
+        .dock-badge-dot {
+            position: absolute;
+            top: 2px;
+            right: 14px;
+            width: 8px;
+            height: 8px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: var(--text-muted);
             background: #FFF;
             border-radius: var(--radius-lg);
             border: 1px dashed #CBD5E1;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
+    <!-- HEADER APLIKASI -->
     <header class="app-header">
         <div class="app-title">
-            <span>🚘 Dropoff.id Driver</span>
-            <span class="driver-badge" id="onlineBadge">STANDBY</span>
+            <span>🚘 Dropoff.id Mitra</span>
         </div>
-        <div style="font-size: 12px; font-weight: 700;" id="headerDriverName">Mitra Mandiri</div>
+        <div class="header-actions">
+            <button class="status-toggle-btn status-online" id="btnStatusToggle" onclick="toggleDriverOnlineStatus()">
+                <span class="radar-pulse" style="width:7px; height:7px; background:#FFF;"></span>
+                <span id="txtStatusToggle">SIAP NARIK</span>
+            </button>
+        </div>
     </header>
 
     <div class="container">
 
-        <!-- 1. TAMPILAN LOGIN -->
+        <!-- 1. TAMPILAN LOGIN MITRA SOPIR -->
         <div id="loginScreen" class="login-card">
             <div class="login-logo">👋</div>
             <h2 class="login-title">Login Mitra Sopir</h2>
@@ -339,43 +547,75 @@
             </div>
         </div>
 
-        <!-- 2. TAMPILAN DASHBOARD PWA -->
+        <!-- 2. DASHBOARD MITRA SOPIR (4 TAB) -->
         <div id="mainDashboard" style="display: none;">
-            
-            <!-- PROFIL SINGKAT -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <h3 id="driverProfileName">Pak Budi Santoso</h3>
-                    <div class="profile-car" id="driverProfileCar">Toyota Avanza Veloz</div>
-                    <div class="profile-plate" id="driverProfilePlate">B 1823 KBC</div>
+
+            <!-- TAB 1: RADAR LELANG PESANAN -->
+            <div id="tabRadarSection">
+                <div class="radar-header">
+                    <div class="radar-title">
+                        <span class="radar-pulse"></span>
+                        <span>Radar Lelang Orderan</span>
+                    </div>
+                    <div style="font-size: 12px; font-weight: 700; color: var(--royal-blue);" id="auctionCount">0 Order Terbuka</div>
                 </div>
-                <button class="btn-logout" onclick="doDriverLogout()">Keluar</button>
+
+                <div id="offlineNotice" style="display:none; background:#FEF2F2; border:1px solid #FCA5A5; color:#991B1B; padding:12px; border-radius:12px; font-size:12.5px; margin-bottom:12px; text-align:center;">
+                    ⏸️ Status Anda sedang <b>ISTIRAHAT</b>. Tekan tombol di pojok kanan atas untuk kembali Siap Narik.
+                </div>
+
+                <div id="auctionOrdersList">
+                    <div class="empty-state">
+                        <div style="font-size: 36px; margin-bottom: 8px;">📡</div>
+                        <b>Belum Ada Orderan Baru di Radar</b>
+                        <p style="font-size: 12px; margin-top: 4px;">Tetap standby, orderan dari web Google Rank 1 akan muncul di sini secara otomatis.</p>
+                    </div>
+                </div>
             </div>
 
-            <!-- PESANAN YANG SEDANG DIJALANKAN (ANTI-BAJAK: NOMOR TAMU DISENSOR) -->
-            <div id="activeTripSection" style="display: none;">
-                <div class="active-trip-box">
-                    <div class="trip-status-badge" id="activeStatusBadge">SEDANG BERJALAN</div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Kode Booking: <b id="activeTrackingCode">TRX-....</b></div>
-                    <h3 style="font-size: 16px; margin-bottom: 12px;" id="activeCustomerName">Ibu Maya Lestari</h3>
+            <!-- TAB 2: TRIP AKTIF (COCKPIT PERJALANAN) -->
+            <div id="tabTripSection" style="display: none;">
+                <!-- PESANAN YANG SEDANG DIJALANKAN -->
+                <div id="activeTripBox" class="active-trip-box" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div class="trip-status-badge" id="activeStatusBadge">ORDER DITERIMA</div>
+                        <div style="font-size: 12px; font-weight: 700; color: var(--text-muted);" id="activeTrackingCode">TRX-....</div>
+                    </div>
+
+                    <h3 style="font-size: 16px; margin-bottom: 12px;" id="activeCustomerName">Tamu: ...</h3>
 
                     <div class="trip-point">
                         <span>🟢</span>
-                        <div><b>Jemput:</b> <span id="activePickup">Bandara Soetta</span></div>
+                        <div><b>Jemput:</b> <span id="activePickup">Memuat...</span></div>
                     </div>
                     <div class="trip-point">
                         <span>🔴</span>
-                        <div><b>Tujuan:</b> <span id="activeDest">Dago Bandung</span></div>
+                        <div><b>Tujuan:</b> <span id="activeDest">Memuat...</span></div>
                     </div>
+
+                    <!-- TOMBOL NAVIGASI GRATIS GOOGLE MAPS / WAZE -->
+                    <div class="nav-btn-grid">
+                        <a href="javascript:void(0)" id="btnNavPickup" class="btn-nav btn-nav-pickup" target="_blank" rel="noopener">
+                            <span>🧭 Navigasi Jemput</span>
+                        </a>
+                        <a href="javascript:void(0)" id="btnNavDest" class="btn-nav btn-nav-dest" target="_blank" rel="noopener">
+                            <span>🧭 Navigasi Tujuan</span>
+                        </a>
+                    </div>
+
+                    <!-- TOMBOL CHAT TAMU -->
+                    <button type="button" class="btn-chat-guest" onclick="openOrderChatModal()">
+                        <span>💬 Chat In-App dengan Tamu</span>
+                    </button>
 
                     <div class="fare-row">
                         <div>
                             <div style="font-size: 11px; color: var(--text-muted);">Tagih Cash ke Tamu:</div>
-                            <div class="fare-guest" id="activeFareGuest">Rp 1.050.000</div>
+                            <div class="fare-guest" id="activeFareGuest">Rp 0</div>
                         </div>
                         <div style="text-align: right;">
-                            <div style="font-size: 11px; color: var(--text-muted);">Setoran Komisi Admin:</div>
-                            <div class="fare-commission" id="activeFareCommission">Rp 105.000</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Setor Komisi Platform:</div>
+                            <div class="fare-commission" id="activeFareCommission">Rp 0</div>
                         </div>
                     </div>
 
@@ -383,21 +623,19 @@
                         Saya Sudah Menuju Lokasi Jemput &rarr;
                     </button>
                 </div>
-            </div>
 
-            <!-- FORM SETORAN KOMISI PASCA-BAYAR -->
-            <div id="settlementSection" style="display: none;">
-                <div class="settlement-card">
-                    <h3 style="font-size: 16px; color: var(--primary-dark); margin-bottom: 6px;">💳 Konfirmasi Setoran Komisi</h3>
-                    <p style="font-size: 12px; color: var(--text-muted);">Perjalanan selesai dan Anda telah menerima uang cash dari tamu. Silakan transfer bagi hasil admin ke rekening di bawah ini:</p>
+                <!-- FORM SETORAN KOMISI PASCA-BAYAR -->
+                <div id="settlementSection" class="settlement-card" style="display: none;">
+                    <h3 style="font-size: 16px; color: var(--accent-green); margin-bottom: 6px;">🎉 Perjalanan Selesai!</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">Anda telah menerima pembayaran cash penuh dari tamu. Silakan transfer bagi hasil platform ke rekening operasional Dropoff.id:</p>
 
                     <div class="admin-bank-box">
                         <div>
-                            <div style="font-weight: 800; color: var(--primary-blue);" id="bankNameDisplay">BCA</div>
-                            <div style="font-size: 17px; font-weight: 800; letter-spacing: 1px;" id="bankAccountDisplay">1234567890</div>
-                            <div style="font-size: 12px; color: var(--text-muted);" id="bankHolderDisplay">a/n Dropoff.id Operasional</div>
+                            <div style="font-weight: 800; color: #16A34A;" id="bankNameDisplay">BCA (Operasional)</div>
+                            <div style="font-size: 18px; font-weight: 800; letter-spacing: 1px;" id="bankAccountDisplay">1234567890</div>
+                            <div style="font-size: 11.5px; color: var(--text-muted);" id="bankHolderDisplay">a/n Dropoff.id Operasional</div>
                         </div>
-                        <button class="btn-copy-account" onclick="copyBankAccount()">Salin No. Rek</button>
+                        <button class="btn-copy-account" onclick="copyBankAccount()">Salin Rek</button>
                     </div>
 
                     <div class="form-group">
@@ -408,7 +646,7 @@
                             <option value="BRI">BRI</option>
                             <option value="BNI">BNI</option>
                             <option value="BSI">BSI</option>
-                            <option value="Seabank">SeaBank / Lainnya</option>
+                            <option value="SeaBank">SeaBank / Lainnya</option>
                         </select>
                     </div>
 
@@ -418,7 +656,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Foto Bukti Transfer (Screenshot M-Banking)</label>
+                        <label>Foto Bukti Transfer (Screenshot Struk M-Banking)</label>
                         <input type="file" id="proofImage" class="form-control" accept="image/*">
                     </div>
 
@@ -426,28 +664,114 @@
                         Kirim Bukti Transfer ke Admin
                     </button>
                 </div>
+
+                <!-- JIKA TIDAK ADA TRIP AKTIF -->
+                <div id="emptyTripNotice" class="empty-state">
+                    <div style="font-size: 36px; margin-bottom: 8px;">🚘</div>
+                    <b>Tidak Ada Perjalanan Aktif</b>
+                    <p style="font-size: 12px; margin-top: 4px;">Silakan buka tab Radar Lelang untuk mengambil orderan drop-off yang masuk.</p>
+                </div>
             </div>
 
-            <!-- RADAR LELANG (SIAPA CEPAT DIA DAPAT) -->
-            <div class="radar-header">
-                <div class="radar-title">
-                    <span class="radar-pulse"></span>
-                    <span>Radar Lelang Orderan</span>
+            <!-- TAB 3: RIWAYAT & DOMPET PENDAPATAN -->
+            <div id="tabHistorySection" style="display: none;">
+                <div class="wallet-card">
+                    <div style="font-size: 12px; opacity: 0.85;">Estimasi Penghasilan Bersih</div>
+                    <div style="font-size: 26px; font-weight: 800; margin-top: 4px;" id="walletTotalNet">Rp 0</div>
+                    <div class="wallet-stat-row">
+                        <div>
+                            <div style="font-size: 11px; opacity: 0.8;">Total Trip</div>
+                            <div style="font-weight: 800; font-size: 14px;" id="walletTotalTrips">0 Perjalanan</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 11px; opacity: 0.8;">Rating Anda</div>
+                            <div style="font-weight: 800; font-size: 14px;" id="walletDriverRating">⭐ 5.0</div>
+                        </div>
+                    </div>
                 </div>
-                <div style="font-size: 12px; color: var(--text-muted);" id="auctionCount">0 Order Terbuka</div>
+
+                <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 12px;">Riwayat Perjalanan Terakhir</h3>
+                <div id="historyListContainer">
+                    <div class="empty-state">Memuat riwayat...</div>
+                </div>
             </div>
 
-            <div id="auctionOrdersList">
-                <div class="empty-radar">
-                    <div style="font-size: 32px; margin-bottom: 8px;">📡</div>
-                    <b>Belum Ada Orderan Baru di Radar</b>
-                    <p style="font-size: 12px; margin-top: 4px;">Tetap standby, orderan dari web Google Rank 1 akan muncul di sini secara otomatis.</p>
+            <!-- TAB 4: PROFIL AKUN & MOBIL -->
+            <div id="tabProfileSection" style="display: none;">
+                <div class="profile-box">
+                    <div class="profile-avatar">👨‍✈️</div>
+                    <h2 style="font-size: 18px; font-weight: 800;" id="profDriverName">Mitra Sopir</h2>
+                    <div style="font-size: 13px; color: var(--royal-blue); font-weight: 700; margin-top: 4px;" id="profCarModel">Toyota Avanza</div>
+                    <div style="display: inline-block; background: #0F172A; color: #FFF; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; margin-top: 6px;" id="profCarPlate">B 1234 ABC</div>
                 </div>
+
+                <div style="background: #FFF; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); padding: 16px; margin-bottom: 16px;">
+                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Informasi Akun</div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px dashed #E2E8F0;">
+                        <span style="color: var(--text-muted);">No. WhatsApp</span>
+                        <b id="profDriverPhone">-</b>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px dashed #E2E8F0;">
+                        <span style="color: var(--text-muted);">Status Mitra</span>
+                        <b style="color: #16A34A;">Terverifikasi (Pasca-Bayar)</b>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0;">
+                        <span style="color: var(--text-muted);">Basis Operasional</span>
+                        <b>Jabodetabek &amp; Jawa Barat</b>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-primary" style="background: #EF4444; box-shadow: none;" onclick="doDriverLogout()">
+                    Keluar dari Akun (Logout)
+                </button>
             </div>
 
         </div>
 
     </div>
+
+    <!-- 3. IN-APP CHAT MODAL (SOPIR & TAMU) -->
+    <div class="chat-modal-overlay" id="orderChatModal" onclick="closeOrderChatModal(event)">
+        <div class="chat-modal-content" onclick="event.stopPropagation()">
+            <div class="chat-header">
+                <div>
+                    <div style="font-weight: 800; font-size: 14px;">💬 Chat Koordinasi Penjemputan</div>
+                    <div style="font-size: 11px; opacity: 0.8;" id="chatGuestNameSubtitle">Tamu Dropoff.id</div>
+                </div>
+                <button onclick="closeOrderChatModal()" style="background:none; border:none; color:#FFF; font-size:22px; cursor:pointer;">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessagesList">
+                <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin: 10px 0;">
+                    🔒 Pesan dienkripsi. Koordinasikan lokasi parkir atau titik jemput di sini tanpa bertukar nomor telepon.
+                </div>
+            </div>
+            <div class="chat-input-box">
+                <input type="text" id="chatInputText" class="form-control" style="font-size: 13px; padding: 10px 12px;" placeholder="Ketik pesan untuk tamu..." onkeypress="if(event.key==='Enter') sendOrderChatMessage()">
+                <button type="button" class="btn-primary" style="width: auto; padding: 0 16px; margin: 0; font-size: 13px;" onclick="sendOrderChatMessage()">Kirim</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. BOTTOM DOCK NAVIGATION MITRA PWA -->
+    <nav class="pwa-bottom-dock" id="pwaBottomDock" style="display: none;">
+        <button type="button" class="dock-btn active" id="dockBtnRadar" onclick="switchDriverTab('radar')">
+            <span style="font-size: 18px;">📡</span>
+            <span>Radar Lelang</span>
+        </button>
+        <button type="button" class="dock-btn" id="dockBtnTrip" onclick="switchDriverTab('trip')">
+            <span class="dock-badge-dot" id="tripBadgeDot"></span>
+            <span style="font-size: 18px;">🚘</span>
+            <span>Trip Aktif</span>
+        </button>
+        <button type="button" class="dock-btn" id="dockBtnHistory" onclick="switchDriverTab('history')">
+            <span style="font-size: 18px;">📊</span>
+            <span>Riwayat</span>
+        </button>
+        <button type="button" class="dock-btn" id="dockBtnProfile" onclick="switchDriverTab('profile')">
+            <span style="font-size: 18px;">👤</span>
+            <span>Akun</span>
+        </button>
+    </nav>
 
     <!-- AUDIO NOTIFIKASI TING-TING! -->
     <audio id="audioAlert" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
@@ -456,6 +780,8 @@
         let currentDriver = null;
         let activeOrder = null;
         let lastAuctionCount = 0;
+        let isOnlineState = true;
+        let chatInterval = null;
 
         // Register Service Worker PWA
         if ('serviceWorker' in navigator) {
@@ -469,6 +795,53 @@
                 currentDriver = JSON.parse(savedDriver);
                 showDashboard();
             } catch (e) {}
+        }
+
+        // TOGGLE STATUS SIAGA
+        function toggleDriverOnlineStatus() {
+            if (!currentDriver) return;
+            isOnlineState = !isOnlineState;
+            const btn = document.getElementById('btnStatusToggle');
+            const txt = document.getElementById('txtStatusToggle');
+            const notice = document.getElementById('offlineNotice');
+
+            if (isOnlineState) {
+                btn.className = 'status-toggle-btn status-online';
+                txt.innerText = 'SIAP NARIK';
+                if (notice) notice.style.display = 'none';
+                loadAuctionOrders();
+            } else {
+                btn.className = 'status-toggle-btn status-offline';
+                txt.innerText = 'ISTIRAHAT';
+                if (notice) notice.style.display = 'block';
+            }
+
+            // Sync ke backend
+            fetch('/api/driver.php?action=toggle_online', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    driver_id: currentDriver.id,
+                    is_online: isOnlineState ? 1 : 0
+                })
+            }).catch(console.warn);
+        }
+
+        // TAB SWITCHER
+        function switchDriverTab(tab) {
+            document.getElementById('tabRadarSection').style.display = tab === 'radar' ? 'block' : 'none';
+            document.getElementById('tabTripSection').style.display = tab === 'trip' ? 'block' : 'none';
+            document.getElementById('tabHistorySection').style.display = tab === 'history' ? 'block' : 'none';
+            document.getElementById('tabProfileSection').style.display = tab === 'profile' ? 'block' : 'none';
+
+            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+            if (tab === 'radar') document.getElementById('dockBtnRadar').classList.add('active');
+            if (tab === 'trip') document.getElementById('dockBtnTrip').classList.add('active');
+            if (tab === 'history') {
+                document.getElementById('dockBtnHistory').classList.add('active');
+                loadHistoryData();
+            }
+            if (tab === 'profile') document.getElementById('dockBtnProfile').classList.add('active');
         }
 
         // 1. UPDATE GPS LOCATION KE SERVER SECARA BERKALA (UNTUK PETA LEAFLET OPENSTREETMAP)
@@ -488,7 +861,7 @@
                         })
                     }).catch(console.warn);
                 }, (err) => {
-                    console.log('GPS error/permission:', err.message);
+                    console.log('GPS tracking info:', err.message);
                 }, {
                     enableHighAccuracy: true,
                     maximumAge: 15000,
@@ -538,23 +911,29 @@
                 activeOrder = null;
                 document.getElementById('loginScreen').style.display = 'block';
                 document.getElementById('mainDashboard').style.display = 'none';
+                document.getElementById('pwaBottomDock').style.display = 'none';
             }
         }
 
         function showDashboard() {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainDashboard').style.display = 'block';
-            document.getElementById('driverProfileName').innerText = currentDriver.name;
-            document.getElementById('driverProfileCar').innerText = currentDriver.car_model;
-            document.getElementById('driverProfilePlate').innerText = currentDriver.car_plate;
-            document.getElementById('headerDriverName').innerText = currentDriver.name.split(' ')[0];
+            document.getElementById('pwaBottomDock').style.display = 'flex';
+
+            // Profil Data
+            document.getElementById('profDriverName').innerText = currentDriver.name;
+            document.getElementById('profCarModel').innerText = currentDriver.car_model;
+            document.getElementById('profCarPlate').innerText = currentDriver.car_plate;
+            document.getElementById('profDriverPhone').innerText = currentDriver.phone;
 
             loadAuctionOrders();
             renderActiveTrip();
             startGpsTracking();
             
             // Polling lelang setiap 6 detik
-            setInterval(loadAuctionOrders, 6000);
+            setInterval(() => {
+                if (isOnlineState) loadAuctionOrders();
+            }, 6000);
         }
 
         function copyBankAccount() {
@@ -570,7 +949,6 @@
                 const list = document.getElementById('auctionOrdersList');
                 
                 if (data.success && data.data.length > 0) {
-                    // Bunyikan notifikasi ting-ting jika ada order bertambah!
                     if (data.data.length > lastAuctionCount) {
                         playAlertSound();
                     }
@@ -613,8 +991,8 @@
                     lastAuctionCount = 0;
                     document.getElementById('auctionCount').innerText = `0 Order Terbuka`;
                     list.innerHTML = `
-                        <div class="empty-radar">
-                            <div style="font-size: 32px; margin-bottom: 8px;">📡</div>
+                        <div class="empty-state">
+                            <div style="font-size: 36px; margin-bottom: 8px;">📡</div>
                             <b>Belum Ada Orderan Baru di Radar</b>
                             <p style="font-size: 12px; margin-top: 4px;">Tetap standby, orderan dari web Google Rank 1 akan muncul di sini secara otomatis.</p>
                         </div>
@@ -641,10 +1019,12 @@
 
                 const data = await res.json();
                 if (data.success) {
-                    alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini!\nSilakan segera luncur ke titik penjemputan.');
+                    alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini!
+Silakan segera meluncur ke titik penjemputan.');
                     activeOrder = data.data;
                     renderActiveTrip();
                     loadAuctionOrders();
+                    switchDriverTab('trip');
                 } else {
                     alert('⚠️ ' + data.message);
                     loadAuctionOrders();
@@ -655,53 +1035,67 @@
         }
 
         function renderActiveTrip() {
-            const section = document.getElementById('activeTripSection');
+            const tripBox = document.getElementById('activeTripBox');
             const settlementSection = document.getElementById('settlementSection');
+            const emptyTripNotice = document.getElementById('emptyTripNotice');
+            const tripDot = document.getElementById('tripBadgeDot');
 
             if (!activeOrder || activeOrder.status === 'CANCELLED') {
-                section.style.display = 'none';
+                tripBox.style.display = 'none';
                 settlementSection.style.display = 'none';
+                emptyTripNotice.style.display = 'block';
+                if (tripDot) tripDot.style.display = 'none';
                 return;
             }
 
-            section.style.display = 'block';
+            if (tripDot) tripDot.style.display = 'block';
+            emptyTripNotice.style.display = 'none';
             document.getElementById('activeTrackingCode').innerText = activeOrder.tracking_code;
             
             // ANTI-BAJAK: Tampilkan nomor tamu yang disensor
             const maskedPhone = activeOrder.customer_phone_masked || (activeOrder.customer_phone ? activeOrder.customer_phone.substring(0,4) + '-****-' + activeOrder.customer_phone.slice(-4) : '');
-            document.getElementById('activeCustomerName').innerText = `${activeOrder.customer_name} (${maskedPhone})`;
+            document.getElementById('activeCustomerName').innerText = `Tamu: ${activeOrder.customer_name} (${maskedPhone})`;
             
             document.getElementById('activePickup').innerText = activeOrder.pickup_address;
             document.getElementById('activeDest').innerText = activeOrder.destination_address;
             document.getElementById('activeFareGuest').innerText = 'Rp ' + parseFloat(activeOrder.total_fare).toLocaleString('id-ID');
             document.getElementById('activeFareCommission').innerText = 'Rp ' + parseFloat(activeOrder.admin_commission).toLocaleString('id-ID');
 
+            // Set Universal Free Deep Links ke Google Maps Navigasi
+            const navPickup = document.getElementById('btnNavPickup');
+            const navDest = document.getElementById('btnNavDest');
+            navPickup.href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(activeOrder.pickup_address)}`;
+            navDest.href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(activeOrder.destination_address)}`;
+
             const badge = document.getElementById('activeStatusBadge');
             const btnNext = document.getElementById('btnNextStatus');
 
             if (activeOrder.status === 'ACCEPTED') {
+                tripBox.style.display = 'block';
+                settlementSection.style.display = 'none';
                 badge.innerText = 'STATUS: ORDER DITERIMA';
                 btnNext.innerText = '🚘 Saya Sudah Menuju Lokasi Jemput';
                 btnNext.style.display = 'block';
-                settlementSection.style.display = 'none';
             } else if (activeOrder.status === 'ON_THE_WAY') {
+                tripBox.style.display = 'block';
+                settlementSection.style.display = 'none';
                 badge.innerText = 'STATUS: MENUJU PENJEMPUTAN';
                 btnNext.innerText = '📍 Saya Sudah Tiba di Titik Jemput';
                 btnNext.style.display = 'block';
-                settlementSection.style.display = 'none';
             } else if (activeOrder.status === 'ARRIVED') {
+                tripBox.style.display = 'block';
+                settlementSection.style.display = 'none';
                 badge.innerText = 'STATUS: TIBA DI LOKASI JEMPUT';
                 btnNext.innerText = '🛣️ Tamu Sudah Naik - Mulai Perjalanan';
                 btnNext.style.display = 'block';
-                settlementSection.style.display = 'none';
             } else if (activeOrder.status === 'IN_TRIP') {
+                tripBox.style.display = 'block';
+                settlementSection.style.display = 'none';
                 badge.innerText = 'STATUS: SEDANG ANTAR TAMU';
                 btnNext.innerText = '✅ Selesaikan Perjalanan & Tagih Cash';
                 btnNext.style.display = 'block';
-                settlementSection.style.display = 'none';
             } else if (activeOrder.status === 'COMPLETED') {
-                badge.innerText = 'STATUS: PERJALANAN SELESAI';
-                btnNext.style.display = 'none';
+                tripBox.style.display = 'none';
                 settlementSection.style.display = 'block';
             }
         }
@@ -769,11 +1163,138 @@
                     activeOrder = null;
                     renderActiveTrip();
                     loadAuctionOrders();
+                    switchDriverTab('radar');
                 } else {
                     alert(data.message);
                 }
             } catch (err) {
                 alert('Gagal mengirim setoran: ' + err.message);
+            }
+        }
+
+        // LOAD RIWAYAT & DOMPET
+        async function loadHistoryData() {
+            if (!currentDriver) return;
+            const container = document.getElementById('historyListContainer');
+            try {
+                const res = await fetch(`/api/driver.php?action=history&driver_id=${currentDriver.id}`);
+                const data = await res.json();
+                if (data.success && data.data.length > 0) {
+                    let totalNet = 0;
+                    let tripsCount = data.data.length;
+                    container.innerHTML = '';
+
+                    data.data.forEach(trip => {
+                        const fare = parseFloat(trip.total_fare || 0);
+                        const comm = parseFloat(trip.admin_commission || 0);
+                        const net = fare - comm;
+                        totalNet += net;
+
+                        let settleBadge = '<span style="color:#F59E0B; font-weight:700;">⏳ Menunggu Verifikasi</span>';
+                        if (trip.settlement_status === 'VERIFIED_PAID') {
+                            settleBadge = '<span style="color:#16A34A; font-weight:700;">✅ Setoran Lunas</span>';
+                        } else if (!trip.settlement_status) {
+                            settleBadge = '<span style="color:#DC2626; font-weight:700;">⚠️ Belum Setor</span>';
+                        }
+
+                        const card = document.createElement('div');
+                        card.className = 'history-item';
+                        card.innerHTML = `
+                            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+                                <b>${trip.tracking_code}</b>
+                                <span style="color:var(--text-muted);">${trip.created_at ? trip.created_at.substring(0,10) : ''}</span>
+                            </div>
+                            <div style="font-size:13px; font-weight:700;">${trip.pickup_address} ➔ ${trip.destination_address}</div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:12px; border-top:1px dashed #E2E8F0; padding-top:6px;">
+                                <div>Bersih Anda: <b style="color:#16A34A;">Rp ${net.toLocaleString('id-ID')}</b></div>
+                                <div>${settleBadge}</div>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+
+                    document.getElementById('walletTotalNet').innerText = 'Rp ' + totalNet.toLocaleString('id-ID');
+                    document.getElementById('walletTotalTrips').innerText = `${tripsCount} Perjalanan`;
+                    document.getElementById('walletDriverRating').innerText = `⭐ ${currentDriver.rating || '5.0'}`;
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <b>Belum Ada Riwayat Perjalanan</b>
+                            <p style="font-size:12px; margin-top:4px;">Perjalanan yang Anda selesaikan akan otomatis tercatat di sini.</p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                container.innerHTML = `<div class="empty-state">Gagal memuat riwayat.</div>`;
+            }
+        }
+
+        // IN-APP CHAT PESANAN
+        function openOrderChatModal() {
+            if (!activeOrder) return;
+            document.getElementById('orderChatModal').style.display = 'flex';
+            document.getElementById('chatGuestNameSubtitle').innerText = `Tamu: ${activeOrder.customer_name} (${activeOrder.tracking_code})`;
+            loadOrderChatMessages();
+            if (chatInterval) clearInterval(chatInterval);
+            chatInterval = setInterval(loadOrderChatMessages, 3500);
+        }
+
+        function closeOrderChatModal(e) {
+            if (!e || e.target.id === 'orderChatModal') {
+                document.getElementById('orderChatModal').style.display = 'none';
+                if (chatInterval) clearInterval(chatInterval);
+            }
+        }
+
+        async function loadOrderChatMessages() {
+            if (!activeOrder) return;
+            try {
+                const res = await fetch(`/api/orders.php?action=order_chat&code=${activeOrder.tracking_code}`);
+                const data = await res.json();
+                if (data.success) {
+                    const box = document.getElementById('chatMessagesList');
+                    box.innerHTML = '';
+                    if (data.data.length === 0) {
+                        box.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:12px; margin:20px 0;">Belum ada pesan. Silakan kirim pesan ke tamu bila ada koordinasi titik jemput.</div>';
+                        return;
+                    }
+                    data.data.forEach(msg => {
+                        const div = document.createElement('div');
+                        div.className = `msg-bubble ${msg.sender === 'driver' ? 'msg-driver' : 'msg-customer'}`;
+                        div.innerHTML = `
+                            <div style="font-size:10.5px; opacity:0.8; margin-bottom:2px;">${msg.name} &bull; ${msg.time}</div>
+                            <div>${msg.text}</div>
+                        `;
+                        box.appendChild(div);
+                    });
+                    box.scrollTop = box.scrollHeight;
+                }
+            } catch (err) {
+                console.warn(err);
+            }
+        }
+
+        async function sendOrderChatMessage() {
+            if (!activeOrder) return;
+            const input = document.getElementById('chatInputText');
+            const text = input.value.trim();
+            if (!text) return;
+
+            try {
+                input.value = '';
+                await fetch('/api/orders.php?action=order_chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: activeOrder.tracking_code,
+                        sender: 'driver',
+                        sender_name: currentDriver.name,
+                        text: text
+                    })
+                });
+                loadOrderChatMessages();
+            } catch (err) {
+                alert('Gagal mengirim pesan: ' + err.message);
             }
         }
     </script>
