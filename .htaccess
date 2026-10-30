@@ -9,13 +9,9 @@ RewriteRule ^data(/.*)?$ - [F,L]
 </FilesMatch>
 
 # 1. Rute Live Tracking Pelanggan: /trip/TRX-XXXX
-RewriteCond %{DOCUMENT_ROOT}/public/trip.html -f
-RewriteRule ^trip/([A-Za-z0-9\-]+)/?$ public/trip.html?code=$1 [L,QSA]
 RewriteRule ^trip/([A-Za-z0-9\-]+)/?$ trip.html?code=$1 [L,QSA]
 
 # 2. Rute PWA Sopir: /driver
-RewriteCond %{DOCUMENT_ROOT}/public/driver.html -f
-RewriteRule ^driver/?$ public/driver.html [L]
 RewriteRule ^driver/?$ driver.html [L]
 
 # 3. Rute Dashboard Admin: /admin (Dilindungi Login WordPress: admin / admin@traveego)
