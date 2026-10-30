@@ -70,7 +70,7 @@ if ($isScheduled && !$canPreview) {
     </head>
     <body>
         <div class="box">
-            <div class="badge">✍️ KALENDER KONTEN MBAK MAYA</div>
+            <div class="badge">📅 JADWAL PUBLIKASI ARTIKEL</div>
             <h1>Artikel Sedang Dalam Antrean Tayang</h1>
             <p>Artikel edukasi perjalanan ini dijadwalkan rilis otomatis ke publik pada:</p>
             <div class="schedule-pill">🗓️ <?= $formattedDate ?></div>
@@ -189,9 +189,9 @@ $publishedDate = date('d F Y', strtotime($publishAt ?: 'now'));
       "@type": "BlogPosting",
       "headline": "<?= addslashes($title) ?>",
       "description": "<?= addslashes($metaDesc) ?>",
-      "author": {
-        "@type": "Person",
-        "name": "Mbak Maya (Traveego SEO Team)"
+      "publisher": {
+        "@type": "Organization",
+        "name": "Traveego Indonesia"
       },
       "publisher": {
         "@type": "Organization",
@@ -390,12 +390,12 @@ $publishedDate = date('d F Y', strtotime($publishAt ?: 'now'));
     <span class="category-pill"><?= $category ?></span>
     <h1 class="article-title"><?= $title ?></h1>
 
-    <div class="author-box">
-        <div class="author-avatar">✍️</div>
-        <div class="author-info">
-            <h5>Mbak Maya &bull; Traveego SEO Content Team</h5>
-            <p>Diterbitkan <?= $publishedDate ?> &bull; Diverifikasi Pak Hendra (Tariff Intelligence)</p>
-        </div>
+    <div style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 13.5px; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 1px solid var(--border-subtle);">
+        <span>📅 Diterbitkan <?= $publishedDate ?></span>
+        <span>&bull;</span>
+        <span>⏱️ 4 Menit Baca</span>
+        <span>&bull;</span>
+        <span>🛡️ Panduan Resmi Traveego</span>
     </div>
 
     <article class="article-body">

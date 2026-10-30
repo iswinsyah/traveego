@@ -45,3 +45,4 @@ echo json_encode([
     'total' => count($articles),
     'articles' => $articles
 ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
