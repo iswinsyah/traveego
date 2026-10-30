@@ -696,6 +696,125 @@
         }
 
         /* ==============================================================
+           8b. BLOG & TRAVEL ARTICLES SECTION
+           ============================================================== */
+        .articles-section {
+            padding: 76px 20px;
+            background: #F8FAFC;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .articles-max {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 24px;
+            margin-top: 36px;
+        }
+        .article-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+            text-decoration: none;
+            color: inherit;
+        }
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(15, 76, 129, 0.1);
+            border-color: #93C5FD;
+        }
+        .article-cat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            background: #EFF6FF;
+            padding: 4px 12px;
+            border-radius: 20px;
+            width: fit-content;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .article-card-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.4;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .article-card-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 18px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+        .article-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px dashed var(--border-subtle);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .article-read-btn {
+            color: var(--royal-blue);
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 0.2s;
+        }
+        .article-card:hover .article-read-btn {
+            gap: 8px;
+            color: var(--primary-blue);
+        }
+        .articles-cta-wrap {
+            text-align: center;
+            margin-top: 36px;
+        }
+        .btn-view-all-articles {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            border: 1.5px solid var(--border-subtle);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 13.5px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .btn-view-all-articles:hover {
+            border-color: var(--royal-blue);
+            color: var(--royal-blue);
+            transform: translateY(-2px);
+        }
+
+        /* ==============================================================
            9. ACCORDION FAQ SECTION
            ============================================================== */
         .faq-section {
@@ -1188,6 +1307,7 @@
                 <li><a href="#carakerja" class="desktop-nav-link">Cara Kerja</a></li>
                 <li><a href="#katalog" class="desktop-nav-link">Pilihan Armada</a></li>
                 <li><a href="#keunggulan" class="desktop-nav-link">Keunggulan</a></li>
+                <li><a href="#artikel" class="desktop-nav-link">Artikel & Panduan</a></li>
                 <li><a href="#faq" class="desktop-nav-link">FAQ</a></li>
             </ul>
         </nav>
@@ -1476,6 +1596,65 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8b. PANDUAN & ARTIKEL PERJALANAN TERKINI (BLOG SECTION) -->
+    <section class="articles-section" id="artikel">
+        <div class="articles-max">
+            <div class="section-header-center">
+                <span class="section-kicker">Wawasan &amp; Edukasi Perjalanan</span>
+                <h2 class="section-headline">Panduan Rute &amp; Estimasi Tarif Tol Terkini</h2>
+                <p class="section-desc">Kutipan informasi praktis seputar jalan tol bebas hambatan, tips drop-off bandara 24 jam, dan panduan perjalanan hemat tanpa ribet.</p>
+            </div>
+
+            <div class="articles-grid" id="articlesGridContainer">
+                <!-- ARTIKEL 1: JAKARTA KE BANDUNG -->
+                <a href="/blog/panduan-tarif-drop-off-jakarta-ke-bandung" class="article-card">
+                    <div>
+                        <span class="article-cat-badge">🏷️ Info Tarif &amp; Tol</span>
+                        <h3 class="article-card-title">Rincian Biaya &amp; Tarif Tol Drop Off Jakarta ke Bandung Terbaru 2026</h3>
+                        <p class="article-card-desc">Panduan lengkap estimasi biaya sewa mobil drop-off privat Jakarta ke Bandung (Kota, Lembang, Cimahi). Termasuk rincian Tol MBZ, konsumsi BBM, dan paket All-In tanpa DP.</p>
+                    </div>
+                    <div class="article-card-footer">
+                        <span>✍️ Mbak Maya</span>
+                        <span class="article-read-btn">Baca Panduan &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- ARTIKEL 2: BANDARA SOETTA 24 JAM -->
+                <a href="/blog/panduan-tarif-drop-off-jabodetabek-ke-bandara-internasional-soekarno-hatta" class="article-card">
+                    <div>
+                        <span class="article-cat-badge">✈️ Bandara 24 Jam</span>
+                        <h3 class="article-card-title">Panduan Drop Off Bandara Soetta: SOP Bayar di Tempat Tanpa DP</h3>
+                        <p class="article-card-desc">Estimasi waktu tempuh dan tarif drop-off ke Terminal 1, 2, dan 3 Bandara Soekarno-Hatta. Sopir standby tepat waktu termasuk keberangkatan dini hari/subuh.</p>
+                    </div>
+                    <div class="article-card-footer">
+                        <span>✍️ Mbak Maya</span>
+                        <span class="article-read-btn">Baca Panduan &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- ARTIKEL 3: JABODETABEK KE BARAYA -->
+                <a href="/blog/panduan-tarif-drop-off-jabodetabek-ke-baraya" class="article-card">
+                    <div>
+                        <span class="article-cat-badge">🚐 Drop-Off Privat</span>
+                        <h3 class="article-card-title">Panduan Lengkap Drop Off Jabodetabek ke Baraya (Bandung Raya)</h3>
+                        <p class="article-card-desc">Solusi perjalanan keluarga sekali jalan tanpa harus bayar rental 24 jam. Nyaman, sopir berpengalaman, bebas tentukan jam jemput door-to-door.</p>
+                    </div>
+                    <div class="article-card-footer">
+                        <span>✍️ Mbak Maya</span>
+                        <span class="article-read-btn">Baca Panduan &rarr;</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="articles-cta-wrap">
+                <a href="/blog/panduan-tarif-drop-off-jakarta-ke-bandung" class="btn-view-all-articles">
+                    <span>📚</span>
+                    <span>Jelajahi Panduan &amp; Tips Perjalanan Selengkapnya &rarr;</span>
+                </a>
             </div>
         </div>
     </section>
@@ -1953,6 +2132,30 @@
                     const desc = testiSec.querySelector('.section-desc');
                     if (desc && data.testimonials.description) desc.innerText = data.testimonials.description;
                 }
+
+                // 6b. Dynamic Articles Sync
+                try {
+                    const resArticles = await fetch('/api/articles.php?limit=3');
+                    const artData = await resArticles.json();
+                    if (artData.success && Array.isArray(artData.articles) && artData.articles.length > 0) {
+                        const grid = document.getElementById('articlesGridContainer');
+                        if (grid) {
+                            grid.innerHTML = artData.articles.map(art => `
+                                <a href="${art.url}" class="article-card">
+                                    <div>
+                                        <span class="article-cat-badge">📖 ${escapeText(art.category || 'Panduan')}</span>
+                                        <h3 class="article-card-title">${escapeText(art.title)}</h3>
+                                        <p class="article-card-desc">${escapeText(art.meta_description || '')}</p>
+                                    </div>
+                                    <div class="article-card-footer">
+                                        <span>✍️ Mbak Maya</span>
+                                        <span class="article-read-btn">Baca Panduan &rarr;</span>
+                                    </div>
+                                </a>
+                            `).join('');
+                        }
+                    }
+                } catch (eArt) {}
 
                 // 7. FAQ (#faq)
                 const faqSec = document.getElementById('faq');

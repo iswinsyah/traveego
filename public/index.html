@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Traveego Drop-Off | Sewa Mobil Sekali Jalan Antarkota All-In Tol & BBM</title>
-    <meta name="description" content="Layanan drop-off mobil privat sekali jalan Jakarta - Bandung, Bandara Soetta, Surabaya - Malang. Tarif all-in tol, BBM, sopir, bayar cash ke sopir.">
+    <title>Traveego Drop-Off | Sewa Mobil Sekali Jalan Antarkota & Bandara All-In Tol BBM</title>
+    <meta name="description" content="Layanan drop-off mobil privat sekali jalan Jakarta - Bandung, Bandara Soetta, Surabaya - Malang. Tarif all-in tol MBZ & BBM, sopir profesional, bayar cash di tujuan tanpa DP.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -30,13 +30,15 @@
             --primary-blue: #0F4C81;
             --primary-dark: #0A2E50;
             --royal-blue: #0B4FD8;
-            --deep-navy: #020F2B;
+            --deep-navy: #020C1E;
             --accent-green: #16A34A;
+            --accent-emerald: #10B981;
             --accent-amber: #F59E0B;
             --text-title: #0F172A;
             --text-body: #475569;
             --text-muted: #94A3B8;
             --border-subtle: #E2E8F0;
+            --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
             --radius-xl: 24px;
@@ -51,6 +53,10 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: #030C1E;
             color: #FFFFFF;
@@ -59,34 +65,34 @@
         }
 
         /* ==============================================================
-           1. LUXURY HERO STAGE (ROYAL BLUE SATIN STYLE - PERSIS GAMBAR)
+           1. LUXURY HERO STAGE (ROYAL BLUE SATIN STYLE)
            ============================================================== */
         .luxury-hero-wrapper {
             position: relative;
             background: #031233 url('/assets/bg-satin.jpg') center center / cover no-repeat;
-            min-height: 100vh;
+            min-height: auto;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             overflow: hidden;
             box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.7);
+            padding-bottom: 24px;
         }
 
-        /* Atmospheric Vignette & Radial Light Overlay */
         .luxury-hero-wrapper::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 60% 40%, rgba(15, 76, 217, 0.25) 0%, rgba(2, 12, 34, 0.6) 60%, rgba(1, 7, 20, 0.92) 100%);
+            background: radial-gradient(circle at 60% 40%, rgba(15, 76, 217, 0.28) 0%, rgba(2, 12, 34, 0.65) 60%, rgba(1, 7, 20, 0.94) 100%);
             z-index: 1;
             pointer-events: none;
         }
 
-        /* TOP NAVIGATION (TRANSPARENT LUXURY BAR) */
+        /* TOP NAVIGATION */
         .luxury-navbar {
             position: relative;
             z-index: 20;
-            padding: 24px 32px;
+            padding: 14px 28px 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -103,17 +109,18 @@
             color: #FFFFFF;
         }
         .luxury-logo-symbol {
-            width: 34px;
-            height: 34px;
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            width: 38px;
+            height: 38px;
+            border: 2px solid rgba(255, 255, 255, 0.85);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 900;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .luxury-brand-name {
             font-size: 22px;
@@ -122,218 +129,166 @@
             text-transform: uppercase;
         }
 
-        /* RADAR STATUS PILL DI TOP BAR */
-        .radar-status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(22, 163, 74, 0.18);
-            border: 1px solid rgba(74, 222, 128, 0.4);
-            color: #86EFAC;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 30px;
-            backdrop-filter: blur(8px);
-        }
-        .radar-dot {
-            width: 7px;
-            height: 7px;
-            background: #4ADE80;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.4);
-            animation: pulse-ring 1.8s infinite;
-        }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.9); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(0.9); }
-        }
-
-        /* ==============================================================
-           ANDROID-STYLE FLOATING BOTTOM NAVIGATION DOCK (PC & MOBILE)
-           ============================================================== */
-        .android-bottom-dock {
-            position: fixed;
-            bottom: 22px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 110;
+        /* DESKTOP WEB NAVBAR STYLES */
+        .desktop-nav-menu {
             display: flex;
             align-items: center;
-            gap: 4px;
-            background: rgba(2, 12, 34, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(255, 255, 255, 0.16);
-            border-radius: 40px;
-            padding: 6px 10px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 25px rgba(11, 79, 216, 0.3);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            gap: 24px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
-
-        .dock-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .desktop-nav-link {
+            color: rgba(255, 255, 255, 0.78);
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.65);
-            padding: 7px 16px;
-            border-radius: 28px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            min-width: 60px;
-        }
-
-        .dock-item:hover {
-            color: #FFFFFF;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .dock-item.active {
-            color: #FFFFFF;
-            background: linear-gradient(135deg, rgba(11, 79, 216, 0.6), rgba(30, 64, 175, 0.8));
-            box-shadow: 0 4px 15px rgba(11, 79, 216, 0.35);
-        }
-
-        .dock-icon {
-            font-size: 17px;
-            line-height: 1.2;
-            margin-bottom: 2px;
-            transition: transform 0.2s;
-        }
-
-        .dock-item:hover .dock-icon {
-            transform: translateY(-2px);
-        }
-
-        .dock-label {
-            font-size: 11px;
+            font-size: 13.5px;
             font-weight: 700;
             letter-spacing: 0.3px;
-            white-space: nowrap;
+            transition: all 0.2s;
+            position: relative;
+            padding: 6px 0;
+        }
+        .desktop-nav-link:hover, .desktop-nav-link.active {
+            color: #FFFFFF;
+        }
+        .desktop-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #60A5FA;
+            border-radius: 2px;
         }
 
-        /* HERO MAIN BODY (DUAL-SIDE TYPOGRAPHY + CENTER CAR STAGE) */
+        /* HERO MAIN BODY */
         .luxury-hero-content {
             position: relative;
             z-index: 10;
             max-width: var(--container-max);
             margin: 0 auto;
-            padding: 10px 24px;
+            padding: 4px 24px 10px;
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         .hero-headline-row {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            align-items: start;
+            grid-template-columns: 1.15fr 0.85fr;
+            grid-template-areas:
+                "title car"
+                "sub   car"
+                "cta   car";
+            gap: 10px 40px;
+            align-items: center;
+            width: 100%;
+            padding: 4px 0 10px;
         }
 
-        /* Left Side: Bold Big Typography */
-        .hero-text-left {
-            max-width: 520px;
-        }
         .hero-big-title {
-            font-size: 42px;
+            grid-area: title;
+            font-size: 44px;
             font-weight: 900;
-            line-height: 1.08;
+            line-height: 1.12;
             letter-spacing: -1px;
             text-transform: uppercase;
             color: #FFFFFF;
-            text-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
-            margin-bottom: 12px;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+            margin: 0;
+            text-align: left;
         }
-        .hero-big-sub {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.85);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            line-height: 1.4;
-            margin-bottom: 24px;
+        .hero-big-title span {
+            background: linear-gradient(135deg, #60A5FA, #93C5FD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Explore / Book CTA Button Outline (Persis tombol "EXPLORE NOW ➜") */
-        .btn-explore-now {
+        .hero-big-sub {
+            grid-area: sub;
+            font-size: 15px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.6;
+            max-width: 540px;
+            text-align: left;
+            margin: 0;
+        }
+
+        /* CTA BUTTONS ROW */
+        .hero-cta-group {
+            grid-area: cta;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-primary {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1.8px solid #FFFFFF;
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
             color: #FFFFFF;
-            padding: 12px 24px;
-            font-size: 13px;
+            padding: 13px 28px;
+            font-size: 13.5px;
             font-weight: 800;
-            letter-spacing: 1.5px;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
             text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.45);
         }
-        .btn-explore-now:hover {
-            background: #FFFFFF;
-            color: #031233;
+        .btn-hero-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.35);
+            box-shadow: 0 12px 30px rgba(22, 163, 74, 0.6);
         }
 
-        /* Right Side: *SPECS Box */
-        .hero-specs-right {
-            display: none;
-            flex-direction: column;
+        .btn-hero-outline {
+            display: inline-flex;
+            align-items: center;
             gap: 8px;
-            text-align: right;
-            align-self: flex-start;
-        }
-        .specs-label {
-            font-size: 14px;
-            font-weight: 900;
-            letter-spacing: 2px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
             color: #FFFFFF;
+            padding: 13px 22px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.25s;
+            backdrop-filter: blur(8px);
         }
-        .spec-item {
-            display: flex;
-            justify-content: flex-end;
-            gap: 16px;
-            font-size: 12.5px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        .spec-name {
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 600;
-        }
-        .spec-val {
-            font-weight: 700;
-            color: #FFFFFF;
+        .btn-hero-outline:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #FFFFFF;
         }
 
-        /* CENTERPIECE: STAGE MOBIL BERKILAU */
+
+
+        /* CAR SHOWCASE STAGE */
         .hero-car-stage {
+            grid-area: car;
             position: relative;
-            margin: 20px auto 10px;
             width: 100%;
-            max-width: 900px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
         .hero-car-img {
             width: 100%;
-            max-height: 440px;
+            max-height: 380px;
             object-fit: contain;
-            filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 40px rgba(11, 79, 216, 0.25));
+            filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 45px rgba(11, 79, 216, 0.3));
             transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .hero-car-img.fade-out {
@@ -341,32 +296,17 @@
             transform: scale(0.96) translateX(-15px);
         }
 
-        /* BOTTOM HERO CONTROLS BAR */
-        .hero-bottom-bar {
-            position: relative;
-            z-index: 20;
-            max-width: var(--container-max);
-            margin: 0 auto;
-            padding: 20px 32px 32px;
-            width: 100%;
+        .car-switcher-bar {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Left tags */
-        .bottom-links-left {
-            display: none;
-            align-items: center;
+            justify-content: center;
             gap: 16px;
-            font-size: 11.5px;
-            font-weight: 600;
-            letter-spacing: 0.8px;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
+            margin-top: 10px;
+            width: 100%;
         }
 
-        /* Center Pagination Dots */
+
+
         .carousel-dots {
             display: flex;
             align-items: center;
@@ -382,29 +322,28 @@
             transition: all 0.25s;
         }
         .c-dot.active {
-            width: 22px;
+            width: 24px;
             border-radius: 12px;
             background: #FFFFFF;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
-        /* Right Prev / Next Navigation Arrows */
         .carousel-nav-arrows {
             display: flex;
             align-items: center;
             gap: 12px;
         }
         .btn-arrow-circle {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: 1.5px solid rgba(255, 255, 255, 0.5);
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.25);
             color: #FFFFFF;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             transition: all 0.2s;
             backdrop-filter: blur(8px);
@@ -415,289 +354,315 @@
             color: #031233;
             transform: scale(1.08);
         }
-        .arrow-nav-label {
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.7);
-            margin-left: 6px;
-            display: none;
-        }
+
 
         /* ==============================================================
-           2. FORMULIR PEMESANAN & ESTIMASI HARGA (BAGIAN BAWAH HERO)
+           SHARED SECTION HEADER STYLES
            ============================================================== */
-        .booking-section-wrapper {
-            background: #F8FAFC;
-            color: var(--text-title);
-            padding: 64px 20px;
-            position: relative;
+        .section-header-center {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 36px;
         }
-        .booking-inner-container {
-            max-width: 1080px;
-            margin: 0 auto;
+        .section-kicker {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #60A5FA;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .section-headline {
+            font-size: 28px;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        .section-desc {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.6;
         }
 
-        .booking-main-card {
+
+        /* ==============================================================
+           5. HOW IT WORKS (3 LANGKAH MUDAH)
+           ============================================================== */
+        .how-section {
             background: #FFFFFF;
-            border-radius: var(--radius-xl);
-            padding: 36px 32px;
-            box-shadow: 0 20px 50px rgba(15, 76, 129, 0.12);
-            border: 1px solid var(--border-subtle);
-            margin-top: -60px;
-            position: relative;
-            z-index: 30;
-        }
-
-        .card-top-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
+            color: var(--text-title);
+            padding: 68px 20px;
             border-bottom: 1px solid var(--border-subtle);
         }
-        .card-top-title {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .tag-allin-gold {
-            background: #FEF3C7;
-            color: #B45309;
-            font-size: 12px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 6px;
-        }
-
-        /* SECTION LABEL */
-        .step-label {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin: 18px 0 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* SELECT RUTE */
-        .route-picker {
-            background: #F1F5F9;
-            border: 1.5px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            transition: all 0.2s;
-        }
-        .route-picker:focus-within {
-            border-color: var(--primary-blue);
-            background: #FFFFFF;
-            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.1);
-        }
-        .route-picker select {
-            width: 100%;
-            border: none;
-            background: transparent;
-            font-size: 14.5px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            outline: none;
-            cursor: pointer;
-        }
-
-        /* TITIK JEMPUT & TUJUAN */
-        .locations-box {
-            background: #FFFFFF;
-            border: 1.5px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 4px 16px;
-            margin-bottom: 16px;
-        }
-        .loc-item-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-        }
-        .loc-item-row:first-child {
-            border-bottom: 1px dashed var(--border-subtle);
-        }
-        .loc-pin {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-        .loc-body {
-            flex: 1;
-        }
-        .loc-caption {
-            font-size: 10.5px;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        .loc-input-field {
-            width: 100%;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-title);
-            background: transparent;
-            padding-top: 2px;
-        }
-        .loc-input-field::placeholder {
-            color: #94A3B8;
-            font-weight: 500;
-        }
-
-        /* FLEET SELECTION CHIPS */
-        .fleet-selector-grid {
+        .how-grid {
+            max-width: var(--container-max);
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-        .fleet-chip {
-            background: #FFFFFF;
-            border: 1.5px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
+            gap: 30px;
             position: relative;
         }
-        .fleet-chip.active {
-            border-color: var(--primary-blue);
-            background: #EBF4FC;
-            box-shadow: 0 4px 15px rgba(15, 76, 129, 0.12);
-        }
-        .chip-badge-rec {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: var(--accent-amber);
-            color: #FFFFFF;
-            font-size: 9px;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-        .chip-name {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-        .chip-capacity {
-            font-size: 11px;
-            color: var(--text-body);
-            margin-bottom: 8px;
-        }
-        .chip-price {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--primary-blue);
-        }
-
-        /* 2-COL CONTACT & TIME */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .input-group label {
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--text-body);
-        }
-        .input-control {
-            border: 1.5px solid var(--border-subtle);
+        .how-card {
             background: #F8FAFC;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 13.5px;
-            font-weight: 600;
-            outline: none;
-            width: 100%;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            position: relative;
+            text-align: center;
+            transition: transform 0.25s;
         }
-        .input-control:focus {
-            border-color: var(--primary-blue);
-            background: #FFFFFF;
+        .how-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
         }
-
-        /* FARE BAR & SUBMIT */
-        .fare-checkout-banner {
-            background: linear-gradient(135deg, var(--deep-navy), var(--primary-blue));
+        .how-step-num {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 34px;
+            height: 34px;
+            background: var(--royal-blue);
             color: #FFFFFF;
-            border-radius: var(--radius-md);
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 24px;
-        }
-        .fare-display-col {
-            display: flex;
-            flex-direction: column;
-        }
-        .fare-subtag {
-            font-size: 11px;
-            color: #93C5FD;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .fare-main-val {
-            font-size: 24px;
+            border-radius: 50%;
+            font-size: 14px;
             font-weight: 900;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(11, 79, 216, 0.35);
         }
-        .btn-order-cta {
-            background: linear-gradient(135deg, #22C55E, #16A34A);
-            color: #FFFFFF;
-            border: none;
-            border-radius: 10px;
-            padding: 14px 28px;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
-            transition: all 0.2s;
+        .how-icon {
+            font-size: 40px;
+            margin: 10px 0 16px;
+            display: inline-block;
         }
-        .btn-order-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.5);
+        .how-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        .how-text {
+            font-size: 13.5px;
+            color: var(--text-body);
+            line-height: 1.6;
         }
 
         /* ==============================================================
-           3. KONTEN EEAT, FAQ & FOOTER
+           6. RICH FLEET SHOWCASE SECTION
+           ============================================================== */
+        .fleet-showcase-section {
+            background: #030C1E;
+            color: #FFFFFF;
+            padding: 72px 20px;
+        }
+        .fleet-rich-grid {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 26px;
+        }
+        .fleet-rich-card {
+            background: rgba(11, 25, 54, 0.75);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+        }
+        .fleet-rich-card:hover {
+            border-color: #3B82F6;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(11, 79, 216, 0.28);
+        }
+        .fleet-card-img-wrap {
+            position: relative;
+            background: #020817;
+            padding: 44px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 210px;
+            overflow: hidden;
+        }
+        .fleet-card-img {
+            max-width: 100%;
+            max-height: 155px;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8));
+            transition: transform 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        .fleet-rich-card:hover .fleet-card-img {
+            transform: scale(1.04);
+        }
+        .fleet-card-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 10;
+            background: #0B4FD8;
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+        .fleet-card-badge.gold {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: #FFFFFF;
+        }
+        .fleet-card-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+        }
+        .fleet-car-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 6px;
+        }
+        .fleet-car-sub {
+            font-size: 12.5px;
+            color: #93C5FD;
+            margin-bottom: 16px;
+        }
+        .fleet-features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+        .fleet-features-list li {
+            font-size: 12.5px;
+            color: rgba(255, 255, 255, 0.85);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .fleet-card-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .fleet-fare-start {
+            font-size: 11px;
+            color: #94A3B8;
+            text-transform: uppercase;
+        }
+        .fleet-fare-num {
+            font-size: 18px;
+            font-weight: 900;
+            color: #4ADE80;
+        }
+        .btn-fleet-choose {
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-fleet-choose:hover {
+            background: var(--royal-blue);
+            color: #FFFFFF;
+        }
+
+        /* ==============================================================
+           7. TESTIMONIALS & SOCIAL PROOF
+           ============================================================== */
+        .testimonials-section {
+            background: #F8FAFC;
+            color: var(--text-title);
+            padding: 72px 20px;
+        }
+        .testimonials-grid {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .testi-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testi-stars {
+            color: #F59E0B;
+            font-size: 16px;
+            margin-bottom: 14px;
+            letter-spacing: 2px;
+        }
+        .testi-quote {
+            font-size: 13.5px;
+            color: var(--text-body);
+            line-height: 1.65;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .testi-author-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 14px;
+        }
+        .testi-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+        .testi-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+        .testi-route-tag {
+            font-size: 11.5px;
+            color: var(--royal-blue);
+            font-weight: 700;
+        }
+
+        /* ==============================================================
+           8. COMPARISON TABLE SECTION
            ============================================================== */
         .info-content-wrap {
-            padding: 60px 20px;
+            padding: 68px 20px;
             background: #FFFFFF;
             color: var(--text-title);
+            border-bottom: 1px solid var(--border-subtle);
         }
         .info-max {
             max-width: var(--container-max);
@@ -715,13 +680,14 @@
             font-size: 13.5px;
         }
         .custom-table th, .custom-table td {
-            padding: 14px 18px;
+            padding: 16px 20px;
             border-bottom: 1px solid var(--border-subtle);
         }
         .custom-table th {
             background: #F8FAFC;
             color: var(--primary-dark);
             font-weight: 800;
+            font-size: 14px;
         }
         .custom-table td.brand-col {
             background: #F0F7FD;
@@ -729,25 +695,296 @@
             color: var(--primary-blue);
         }
 
-        /* FOOTER */
-        .luxury-footer {
-            background: var(--deep-navy);
-            color: #94A3B8;
-            padding: 48px 24px 32px;
-            font-size: 13px;
+        /* ==============================================================
+           8b. BLOG & TRAVEL ARTICLES SECTION
+           ============================================================== */
+        .articles-section {
+            padding: 76px 20px;
+            background: #F8FAFC;
+            border-bottom: 1px solid var(--border-subtle);
         }
-        .footer-grid {
+        .articles-max {
             max-width: var(--container-max);
             margin: 0 auto;
+        }
+        .articles-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 32px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 24px;
+            margin-top: 36px;
+        }
+        .article-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+            text-decoration: none;
+            color: inherit;
+        }
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(15, 76, 129, 0.1);
+            border-color: #93C5FD;
+        }
+        .article-cat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            background: #EFF6FF;
+            padding: 4px 12px;
+            border-radius: 20px;
+            width: fit-content;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .article-card-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.4;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .article-card-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 18px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+        .article-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px dashed var(--border-subtle);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .article-read-btn {
+            color: var(--royal-blue);
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 0.2s;
+        }
+        .article-card:hover .article-read-btn {
+            gap: 8px;
+            color: var(--primary-blue);
+        }
+        .articles-cta-wrap {
+            text-align: center;
+            margin-top: 36px;
+        }
+        .btn-view-all-articles {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            border: 1.5px solid var(--border-subtle);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 13.5px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .btn-view-all-articles:hover {
+            border-color: var(--royal-blue);
+            color: var(--royal-blue);
+            transform: translateY(-2px);
         }
 
-        /* FLOATING CS AI */
+        /* ==============================================================
+           9. ACCORDION FAQ SECTION
+           ============================================================== */
+        .faq-section {
+            background: #0B1936;
+            color: #FFFFFF;
+            padding: 72px 20px;
+        }
+        .faq-max {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .faq-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 32px;
+        }
+        .faq-item {
+            background: rgba(2, 12, 34, 0.6);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all 0.25s;
+        }
+        .faq-item.active {
+            border-color: #3B82F6;
+            background: rgba(11, 30, 70, 0.85);
+        }
+        .faq-question {
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 800;
+            color: #FFFFFF;
+            user-select: none;
+        }
+        .faq-icon-arrow {
+            font-size: 18px;
+            transition: transform 0.3s;
+            color: #60A5FA;
+        }
+        .faq-item.active .faq-icon-arrow {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease-out, padding 0.35s ease;
+            font-size: 13.5px;
+            color: #CBD5E1;
+            line-height: 1.65;
+            padding: 0 22px;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 250px;
+            padding: 0 22px 20px 22px;
+        }
+
+        /* ==============================================================
+           10. LIVE BOOKING TOAST NOTIFICATION
+           ============================================================== */
+        .live-booking-toast {
+            position: fixed;
+            bottom: 86px;
+            left: 20px;
+            z-index: 105;
+            background: rgba(2, 12, 34, 0.92);
+            border: 1px solid rgba(74, 222, 128, 0.4);
+            border-radius: 14px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(14px);
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
+            max-width: 380px;
+        }
+        .live-booking-toast.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .toast-title {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+        .toast-sub {
+            font-size: 11px;
+            color: #86EFAC;
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: #94A3B8;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+
+        /* ANDROID BOTTOM DOCK (DEFAULT HIDDEN DI PC) */
+        .android-bottom-dock {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 110;
+            align-items: center;
+            gap: 4px;
+            background: rgba(2, 12, 34, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255, 255, 255, 0.16);
+            border-radius: 40px;
+            padding: 6px 10px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 25px rgba(11, 79, 216, 0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dock-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.65);
+            padding: 7px 16px;
+            border-radius: 28px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            min-width: 60px;
+        }
+        .dock-item:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .dock-item.active {
+            color: #FFFFFF;
+            background: linear-gradient(135deg, rgba(11, 79, 216, 0.6), rgba(30, 64, 175, 0.8));
+            box-shadow: 0 4px 15px rgba(11, 79, 216, 0.35);
+        }
+        .dock-icon {
+            font-size: 17px;
+            line-height: 1.2;
+            margin-bottom: 2px;
+        }
+        .dock-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
         .btn-ai-float {
             position: fixed;
             bottom: 24px;
@@ -771,7 +1008,7 @@
             transform: scale(1.05);
         }
 
-        /* BOTTOM SHEET CS AI (Hasna) */
+        /* CHAT SHEET MODAL (Hasna CS AI) */
         .chat-sheet-modal {
             display: none;
             position: fixed;
@@ -853,31 +1090,173 @@
             cursor: pointer;
         }
 
+        /* FOOTER */
+        .luxury-footer {
+            background: var(--deep-navy);
+            color: #94A3B8;
+            padding: 56px 24px 80px;
+            font-size: 13px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .footer-grid {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 32px;
+            margin-bottom: 24px;
+        }
+
         /* ==============================================================
-           4. RESPONSIVE MEDIA QUERIES (DESKTOP & MOBILE)
+           12. RESPONSIVE BREAKPOINTS
            ============================================================== */
         @media (min-width: 992px) {
-            .hero-headline-row {
-                grid-template-columns: 1fr 1fr;
+            .desktop-nav-menu {
+                display: flex !important;
+            }
+            .android-bottom-dock {
+                display: none !important;
             }
             .hero-big-title {
-                font-size: 54px;
-            }
-            .hero-specs-right {
-                display: flex;
+                font-size: 50px;
             }
             .bottom-links-left {
                 display: flex;
             }
-            .arrow-nav-label {
-                display: inline;
+        }
+
+        @media (max-width: 991px) {
+            .luxury-navbar {
+                padding: 10px 18px 2px;
+            }
+            .luxury-hero-content {
+                padding: 0 16px 8px;
+            }
+            /* Sembunyikan Navigasi Menu Web di HP */
+            .desktop-nav-menu {
+                display: none !important;
+            }
+            /* Tampilkan Bottom Bar di HP */
+            .android-bottom-dock {
+                display: flex !important;
+                bottom: 12px;
+                width: calc(100% - 24px);
+                max-width: 440px;
+                justify-content: space-around;
+                padding: 5px 8px;
+            }
+            .hero-headline-row {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 10px;
+                padding: 4px 0 8px;
+            }
+            /* 1. Judul di atas gambar (Rata Tengah) */
+            .hero-big-title {
+                order: 1;
+                font-size: 27px;
+                line-height: 1.2;
+                text-align: center;
+                width: 100%;
+                margin: 0;
+            }
+            /* 2. Gambar mobil (Rata Tengah) */
+            .hero-car-stage {
+                order: 2;
+                width: 100%;
+                max-width: 440px;
+                margin: 0 auto;
+                align-items: center;
+            }
+            .hero-car-img {
+                max-height: 190px;
+            }
+            .car-switcher-bar {
+                margin-top: 6px;
+                gap: 12px;
+                justify-content: center;
+            }
+            .btn-arrow-circle {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+            /* 3. Caption di bawah gambar (Rata Tengah) */
+            .hero-big-sub {
+                order: 3;
+                font-size: 13.5px;
+                line-height: 1.55;
+                text-align: center;
+                margin: 0 auto;
+                max-width: 460px;
+                color: rgba(255, 255, 255, 0.9);
+            }
+            /* 4. Tombol di bawah caption (Rata Tengah) */
+            .hero-cta-group {
+                order: 4;
+                width: 100%;
+                justify-content: center;
+                margin-top: 4px;
+            }
+            .btn-hero-primary {
+                width: 100%;
+                max-width: 290px;
+                justify-content: center;
+                padding: 12px 22px;
+                font-size: 13.5px;
+            }
+
+            .fleet-rich-grid {
+                grid-template-columns: 1fr;
+            }
+            /* Cara Kerja di HP: Tersusun Horisontal 1, 2, 3 dengan Ukuran Kotak Kompak & Proporsional */
+            .how-section {
+                padding: 42px 14px 38px;
+            }
+            .how-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 8px;
+                padding-top: 14px;
+            }
+            .how-card {
+                padding: 16px 6px 12px;
+                border-radius: 14px;
+                min-width: 0;
+            }
+            .how-step-num {
+                top: -12px;
+                width: 25px;
+                height: 25px;
+                font-size: 11px;
+            }
+            .how-icon {
+                font-size: 26px;
+                margin: 4px 0 6px;
+            }
+            .how-title {
+                font-size: 12px;
+                line-height: 1.25;
+                margin-bottom: 5px;
+                font-weight: 800;
+            }
+            .how-text {
+                font-size: 10.5px;
+                line-height: 1.38;
+            }
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .hero-big-title {
-                font-size: 32px;
-            }
+
             .android-bottom-dock {
                 bottom: 12px;
                 width: calc(100% - 24px);
@@ -896,259 +1275,283 @@
                 font-size: 10px;
             }
             .btn-ai-float {
-                bottom: 78px;
-                right: 16px;
-                padding: 9px 14px;
+                bottom: 74px;
+                right: 14px;
+                padding: 8px 14px;
                 font-size: 12px;
             }
-            .fleet-selector-grid {
-                grid-template-columns: 1fr;
-            }
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-            .fare-checkout-banner {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
-            .btn-order-cta {
-                width: 100%;
-                justify-content: center;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr;
+            .live-booking-toast {
+                bottom: 130px;
+                left: 14px;
+                right: 14px;
+                max-width: none;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. LUXURY HERO WRAPPER (ROYAL BLUE SATIN STYLE) -->
-    <div class="luxury-hero-wrapper">
+    <!-- 1. LUXURY HERO STAGE (ROYAL BLUE SATIN STYLE) -->
+    <div class="luxury-hero-wrapper" id="hero">
         
-        <!-- TOP BRAND BAR (BERSIH & MEWAH, MENU PINDAH KE BOTTOM BAR) -->
+        <!-- TOP BRAND BAR -->
         <nav class="luxury-navbar">
             <a href="/" class="luxury-brand">
                 <div class="luxury-logo-symbol">🚗</div>
                 <div class="luxury-brand-name">TRAVEEGO</div>
             </a>
 
-            <div class="luxury-nav-actions">
-                <div class="radar-status-pill">
-                    <span class="radar-dot"></span>
-                    <span>18 Sopir Siap di Radar</span>
-                </div>
-            </div>
+            <!-- DESKTOP WEB NAVIGATION MENU (TAMPIL DI PC, SEMBUNYI DI HP) -->
+            <ul class="desktop-nav-menu">
+                <li><a href="#hero" class="desktop-nav-link active">Home</a></li>
+                <li><a href="#carakerja" class="desktop-nav-link">Cara Kerja</a></li>
+                <li><a href="#katalog" class="desktop-nav-link">Pilihan Armada</a></li>
+                <li><a href="#keunggulan" class="desktop-nav-link">Keunggulan</a></li>
+                <li><a href="#artikel" class="desktop-nav-link">Artikel & Panduan</a></li>
+                <li><a href="#faq" class="desktop-nav-link">FAQ</a></li>
+            </ul>
         </nav>
 
-        <!-- MAIN HERO CONTENT: TYPOGRAPHY & CAR STAGE -->
-        <div class="luxury-hero-content" id="hero">
+        <!-- MAIN HERO CONTENT -->
+        <div class="luxury-hero-content">
             
             <div class="hero-headline-row">
-                <!-- LEFT SIDE TYPOGRAPHY -->
-                <div class="hero-text-left">
-                    <h1 class="hero-big-title">
-                        PREMIUM CAR<br>RENTALS
-                    </h1>
-                    <p class="hero-big-sub">
-                        DROP-OFF SEKALI JALAN JAKARTA &bull; BANDUNG &bull; SOETTA ALL-IN
-                    </p>
-                    <a href="#pesan" class="btn-explore-now">
-                        <span>PESAN SEKARANG</span>
+                <!-- 1. TITLE (DI ATAS GAMBAR PADA HP) -->
+                <h1 class="hero-big-title">
+                    SEWA MOBIL<br><span>DROP-OFF PRIVAT</span>
+                </h1>
+
+                <!-- 2. CAR SHOWCASE STAGE (DI TENGAH PADA HP) -->
+                <div class="hero-car-stage">
+                    <img id="heroCarImg" src="/assets/innova.jpg" alt="Toyota Innova Reborn Traveego" class="hero-car-img">
+                    
+                    <div class="car-switcher-bar">
+                        <button type="button" class="btn-arrow-circle" onclick="prevCar()" title="Mobil Sebelumnya">&lt;</button>
+                        <div class="carousel-dots">
+                            <div class="c-dot" onclick="switchCar(0)" id="dot-0"></div>
+                            <div class="c-dot active" onclick="switchCar(1)" id="dot-1"></div>
+                            <div class="c-dot" onclick="switchCar(2)" id="dot-2"></div>
+                        </div>
+                        <button type="button" class="btn-arrow-circle" onclick="nextCar()" title="Mobil Berikutnya">&gt;</button>
+                    </div>
+                </div>
+
+                <!-- 3. CAPTION (DI BAWAH GAMBAR PADA HP) -->
+                <p class="hero-big-sub">
+                    Layanan antar jemput sekali jalan rute Jakarta, Bandung, Bandara Soetta &amp; Surabaya. 100% mobil privat tanpa orang asing, All-In BBM &amp; Tol MBZ.
+                </p>
+
+                <!-- 4. CTA BUTTON (DI BAWAH CAPTION PADA HP) -->
+                <div class="hero-cta-group">
+                    <a href="javascript:void(0)" onclick="quickBook('Semua Mobil', 'Halo Mbak Hasna Traveego, saya mau Pesan Cepat sewa mobil Drop-Off antar kota. Mohon info ketersediaan armada ya.')" class="btn-hero-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; flex-shrink: 0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        <span>PESAN CEPAT</span>
                         <span>&rarr;</span>
                     </a>
                 </div>
-
-                <!-- RIGHT SIDE *SPECS (PERSIS GAMBAR REFERENSI) -->
-                <div class="hero-specs-right">
-                    <div class="specs-label">*SPECS</div>
-                    <div class="spec-item">
-                        <span class="spec-name">Armada</span>
-                        <span class="spec-val" id="specModel">Toyota Innova Reborn</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-name">Tarif All-In</span>
-                        <span class="spec-val" id="specPrice" style="color: #60A5FA;">Rp 1.050.000</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-name">Kapasitas</span>
-                        <span class="spec-val" id="specCap">1-5 Penumpang &bull; 4 Koper</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-name">Fasilitas</span>
-                        <span class="spec-val">Mobil + BBM + Tol MBZ/Cipularang</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-name">Sistem Bayar</span>
-                        <span class="spec-val" style="color: #4ADE80;">Cash ke Sopir (0% DP)</span>
-                    </div>
-                </div>
             </div>
 
-            <!-- CENTERPIECE: STAGE MOBIL BERKILAU (INNOVA / VELOZ / HIACE) -->
-            <div class="hero-car-stage">
-                <img id="heroCarImg" src="/assets/innova.jpg" alt="Toyota Innova Reborn Traveego" class="hero-car-img">
-            </div>
-
-        </div>
-
-        <!-- HERO BOTTOM BAR: CONTROLS & PAGINATION (PERSIS GAMBAR) -->
-        <div class="hero-bottom-bar">
-            <!-- Left Info Tags -->
-            <div class="bottom-links-left">
-                <span>Tol Penuh MBZ</span>
-                <span>&bull;</span>
-                <span>BBM Termasuk</span>
-                <span>&bull;</span>
-                <span>Door-to-Door</span>
-            </div>
-
-            <!-- Center Pagination Dots -->
-            <div class="carousel-dots">
-                <div class="c-dot" onclick="switchCar(0)" id="dot-0"></div>
-                <div class="c-dot active" onclick="switchCar(1)" id="dot-1"></div>
-                <div class="c-dot" onclick="switchCar(2)" id="dot-2"></div>
-            </div>
-
-            <!-- Right Next/Prev Arrows -->
-            <div class="carousel-nav-arrows">
-                <button type="button" class="btn-arrow-circle" onclick="prevCar()">&lt;</button>
-                <button type="button" class="btn-arrow-circle" onclick="nextCar()">&gt;</button>
-                <span class="arrow-nav-label">Ganti Mobil</span>
-            </div>
         </div>
 
     </div>
 
-    <!-- 2. FORMULIR PEMESANAN & INSTANT ESTIMATOR -->
-    <section class="booking-section-wrapper" id="pesan">
-        <div class="booking-inner-container">
+    <!-- 2. HOW IT WORKS (TANPA RIBET - CARA KERJA PEMESANAN TRAVEEGO) -->
+    <section class="how-section" id="carakerja">
+        <div class="section-header-center">
+            <span class="section-kicker" style="color: var(--royal-blue);">Tanpa Ribet</span>
+            <h2 class="section-headline" style="color: var(--primary-dark);">Cara Kerja Pemesanan Traveego</h2>
+            <p class="section-desc">Nikmati kemudahan sewa mobil sekali jalan tanpa harus download aplikasi atau transfer DP di muka.</p>
+        </div>
 
-            <div class="booking-main-card">
-                <div class="card-top-header">
-                    <div class="card-top-title">
-                        <span>📋 Formulir Pemesanan Drop-Off</span>
-                    </div>
-                    <span class="tag-allin-gold">✨ All-In Tol &amp; BBM &bull; Bayar Cash di Tujuan</span>
-                </div>
-
-                <form id="bookingForm" onsubmit="event.preventDefault(); submitBookingOrder();">
-                    
-                    <!-- 1. PILIH RUTE PERJALANAN -->
-                    <div class="step-label">
-                        <span>1. Pilih Rute Antarkota</span>
-                        <span style="color: var(--primary-blue);">Tarif Tetap</span>
-                    </div>
-                    <div class="route-picker">
-                        <span style="font-size: 20px;">🛣️</span>
-                        <select id="routeSelect" onchange="calculateFare()">
-                            <option value="1" data-fare="750000" selected>Jakarta &rarr; Bandung Kota (Via Tol Layang MBZ &amp; Cipularang)</option>
-                            <option value="2" data-fare="750000">Bandung Kota &rarr; Jakarta (Semua Area)</option>
-                            <option value="3" data-fare="850000">Bandara Soekarno-Hatta (CGK) &rarr; Bandung (Drop Pintu)</option>
-                            <option value="4" data-fare="850000">Bandung &rarr; Bandara Soekarno-Hatta (CGK)</option>
-                            <option value="5" data-fare="650000">Surabaya &rarr; Kota Malang / Batu (Via Tol Singosari)</option>
-                        </select>
-                    </div>
-
-                    <!-- 2. ALAMAT JEMPUT & TUJUAN -->
-                    <div class="step-label">
-                        <span>2. Lokasi Penjemputan &amp; Pengantaran</span>
-                    </div>
-                    <div class="locations-box">
-                        <div class="loc-item-row">
-                            <span class="loc-pin">🟢</span>
-                            <div class="loc-body">
-                                <div class="loc-caption">Alamat Penjemputan Lengkap</div>
-                                <input type="text" id="pickupAddress" class="loc-input-field" placeholder="Contoh: Jl. Sudirman No. 45 / Terminal 3 Kedatangan Soetta" required>
-                            </div>
-                        </div>
-                        <div class="loc-item-row">
-                            <span class="loc-pin">🔴</span>
-                            <div class="loc-body">
-                                <div class="loc-caption">Alamat Tujuan Pengantaran</div>
-                                <input type="text" id="destAddress" class="loc-input-field" placeholder="Contoh: Dago Asri No. 18 Bandung / Hotel Gaia Lembang" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3. PILIHAN ARMADA KENDARAAN -->
-                    <div class="step-label" id="armada">
-                        <span>3. Pilihan Armada Kendaraan</span>
-                    </div>
-                    <div class="fleet-selector-grid">
-                        <!-- Avanza -->
-                        <div class="fleet-chip" id="chip-0" onclick="switchCar(0)">
-                            <div class="chip-name">Avanza / Veloz</div>
-                            <div class="chip-capacity">👥 1-4 Orang &bull; 🧳 3 Koper</div>
-                            <div class="chip-price" id="priceTagAvanza">Rp 750.000</div>
-                        </div>
-
-                        <!-- Innova Reborn -->
-                        <div class="fleet-chip active" id="chip-1" onclick="switchCar(1)">
-                            <span class="chip-badge-rec">EKSEKUTIF</span>
-                            <div class="chip-name">Innova Reborn</div>
-                            <div class="chip-capacity">👥 1-5 Orang &bull; 🧳 4 Koper</div>
-                            <div class="chip-price" id="priceTagInnova">Rp 1.050.000</div>
-                        </div>
-
-                        <!-- HiAce Premio -->
-                        <div class="fleet-chip" id="chip-2" onclick="switchCar(2)">
-                            <div class="chip-name">HiAce Premio</div>
-                            <div class="chip-capacity">👥 10-14 Orang &bull; 🧳 8 Koper</div>
-                            <div class="chip-price" id="priceTagHiace">Rp 1.700.000</div>
-                        </div>
-                    </div>
-
-                    <!-- 4. DATA PEMESAN & JADWAL -->
-                    <div class="step-label">
-                        <span>4. Kontak Pemesan &amp; Waktu Jemput</span>
-                    </div>
-                    <div class="contact-grid">
-                        <div class="input-group">
-                            <label>Nama Pemesan</label>
-                            <input type="text" id="custName" class="input-control" placeholder="Nama Lengkap Anda" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Nomor WhatsApp</label>
-                            <input type="tel" id="custPhone" class="input-control" placeholder="0812-xxxx-xxxx" required>
-                        </div>
-                    </div>
-
-                    <div class="input-group" style="margin-bottom: 8px;">
-                        <label>Waktu Penjemputan</label>
-                        <input type="datetime-local" id="pickupTime" class="input-control" required>
-                    </div>
-
-                    <!-- CHECKOUT BANNER -->
-                    <div class="fare-checkout-banner">
-                        <div class="fare-display-col">
-                            <span class="fare-subtag">Total Tarif All-In (Tol + BBM + Sopir)</span>
-                            <div class="fare-main-val">
-                                <span id="bottomFareText">Rp 1.050.000</span>
-                                <span style="font-size: 11px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">CASH</span>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn-order-cta">
-                            <span>💬 Pesan Sekarang (Lelang ke Sopir)</span>
-                        </button>
-                    </div>
-
-                </form>
+        <div class="how-grid">
+            <div class="how-card">
+                <div class="how-step-num">1</div>
+                <div class="how-icon">📋</div>
+                <h3 class="how-title">Pilih Rute &amp; Jadwal</h3>
+                <p class="how-text">Tentukan alamat penjemputan, tujuan, dan jenis mobil yang diinginkan melalui formulir online dalam hitungan detik.</p>
             </div>
-
+            <div class="how-card">
+                <div class="how-step-num">2</div>
+                <div class="how-icon">🚖</div>
+                <h3 class="how-title">Sopir Jemput di Pintu</h3>
+                <p class="how-text">Mitra sopir terdekat di radar langsung meluncur. Pantau posisi mobil secara real-time via Magic Link peta Traveego.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-step-num">3</div>
+                <div class="how-icon">💵</div>
+                <h3 class="how-title">Sampai &amp; Bayar di Tujuan</h3>
+                <p class="how-text">Perjalanan tenang dan nyaman lewat jalan tol. Setelah tiba dengan selamat di tujuan, baru Anda bayar tunai ke sopir.</p>
+            </div>
         </div>
     </section>
 
-    <!-- 3. EDUKASI EEAT & PERBANDINGAN LAYANAN -->
+
+
+    <!-- 6. RICH FLEET SHOWCASE -->
+    <section class="fleet-showcase-section" id="katalog">
+        <div class="section-header-center">
+            <span class="section-kicker">Standar Kenyamanan Tinggi</span>
+            <h2 class="section-headline">Pilihan Armada Traveego</h2>
+            <p class="section-desc">Seluruh armada dirawat rutin, bersih, wangi, dan dikemudikan oleh sopir profesional berstandar etika tinggi.</p>
+        </div>
+
+        <div class="fleet-rich-grid">
+            <!-- Avanza / Veloz -->
+            <div class="fleet-rich-card">
+                <div class="fleet-card-img-wrap">
+                    <span class="fleet-card-badge">HEMAT &amp; GESIT</span>
+                    <img src="/assets/veloz.jpg" alt="Toyota Avanza Veloz" class="fleet-card-img">
+                </div>
+                <div class="fleet-card-body">
+                    <div>
+                        <h3 class="fleet-car-title">Avanza / Veloz Modern</h3>
+                        <div class="fleet-car-sub">Pilihan pas untuk keluarga kecil &amp; perjalanan dinas ringkas</div>
+                        <ul class="fleet-features-list">
+                            <li>👥 Kapasitas 1-4 Penumpang</li>
+                            <li>🧳 Muat hingga 3 Koper Sedang</li>
+                            <li>❄️ AC Dingin &amp; Kabin Bersih Harum</li>
+                            <li>🔌 Charger HP &amp; Audio Bluetooth</li>
+                        </ul>
+                    </div>
+                    <div class="fleet-card-footer">
+                        <div>
+                            <div class="fleet-fare-start">Tarif Mulai</div>
+                            <div class="fleet-fare-num">Rp 750.000</div>
+                        </div>
+                        <a href="javascript:void(0)" onclick="quickBook('Toyota All New Avanza', 'Halo Mbak Hasna Traveego, saya mau Pesan Cepat Avanza Drop-Off. Mohon info tarif terbaik & ketersediaan armada ya.')" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            <span>PESAN CEPAT</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Innova Reborn -->
+            <div class="fleet-rich-card">
+                <div class="fleet-card-img-wrap">
+                    <span class="fleet-card-badge gold">⭐ FAVORIT EKSEKUTIF</span>
+                    <img src="/assets/innova.jpg" alt="Toyota Innova Reborn" class="fleet-card-img">
+                </div>
+                <div class="fleet-card-body">
+                    <div>
+                        <h3 class="fleet-car-title">Toyota Innova Reborn</h3>
+                        <div class="fleet-car-sub">Standar emas kenyamanan antarkota, suspensi empuk &amp; kedap suara</div>
+                        <ul class="fleet-features-list">
+                            <li>👥 Kapasitas 1-5 Penumpang</li>
+                            <li>🧳 Muat hingga 4 Koper Besar</li>
+                            <li>💺 Reclining Seat + Ruang Kaki Luas</li>
+                            <li>💧 Gratis Air Mineral Botol</li>
+                        </ul>
+                    </div>
+                    <div class="fleet-card-footer">
+                        <div>
+                            <div class="fleet-fare-start">Tarif Mulai</div>
+                            <div class="fleet-fare-num">Rp 1.050.000</div>
+                        </div>
+                        <a href="javascript:void(0)" onclick="quickBook('Toyota Innova Reborn', 'Halo Mbak Hasna Traveego, saya mau Pesan Cepat Innova Reborn Drop-Off. Mohon info tarif terbaik & ketersediaan armada ya.')" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            <span>PESAN CEPAT</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HiAce Premio -->
+            <div class="fleet-rich-card">
+                <div class="fleet-card-img-wrap">
+                    <span class="fleet-card-badge">ROMBONGAN &amp; VIP</span>
+                    <img src="/assets/hiace.jpg" alt="Toyota HiAce Premio" class="fleet-card-img">
+                </div>
+                <div class="fleet-card-body">
+                    <div>
+                        <h3 class="fleet-car-title">Toyota HiAce Premio</h3>
+                        <div class="fleet-car-sub">Kabin ekstra lega dan tinggi untuk liburan keluarga besar / corporate</div>
+                        <ul class="fleet-features-list">
+                            <li>👥 Kapasitas 10-14 Penumpang</li>
+                            <li>🧳 Muat hingga 8-10 Koper Besar</li>
+                            <li>🚪 Pintu Geser Elektrik Nyaman</li>
+                            <li>❄️ AC Double Blower Setiap Baris</li>
+                        </ul>
+                    </div>
+                    <div class="fleet-card-footer">
+                        <div>
+                            <div class="fleet-fare-start">Tarif Mulai</div>
+                            <div class="fleet-fare-num">Rp 1.700.000</div>
+                        </div>
+                        <a href="javascript:void(0)" onclick="quickBook('Toyota HiAce Premio', 'Halo Mbak Hasna Traveego, saya mau Pesan Cepat HiAce Premio Drop-Off rombongan. Mohon info ketersediaan armada ya.')" class="btn-fleet-choose" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            <span>PESAN CEPAT</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS & SOCIAL PROOF -->
+    <section class="testimonials-section" id="testimoni">
+        <div class="section-header-center">
+            <span class="section-kicker" style="color: var(--royal-blue);">Ulasan Pengguna</span>
+            <h2 class="section-headline" style="color: var(--primary-dark);">Dipercaya 1.850+ Pelanggan Setia</h2>
+            <p class="section-desc">Rating kepuasan 4.9/5 dari pelanggan perjalanan dinas, keluarga, dan penjemputan bandara.</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <!-- Testi 1 -->
+            <div class="testi-card">
+                <div>
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-quote">"Sangat puas! Sopir jemput tepat waktu jam 5 pagi di SCBD Jakarta. Mobil Innova Reborn bersih dan tidak bau rokok sama sekali. Lewat tol layang MBZ lancar jaya sampai Bandung."</p>
+                </div>
+                <div class="testi-author-row">
+                    <div class="testi-avatar">HW</div>
+                    <div>
+                        <div class="testi-name">Hendra Wijaya</div>
+                        <div class="testi-route-tag">Jakarta ➔ Dago Bandung (Business Trip)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testi 2 -->
+            <div class="testi-card">
+                <div>
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-quote">"Landing di Soetta Terminal 3 jam 11 malam bawa 2 balita dan 4 koper besar. Begitu keluar pintu, sopir sudah siap angkut barang. Nggak ribet transfer DP, sampai rumah baru bayar."</p>
+                </div>
+                <div class="testi-author-row">
+                    <div class="testi-avatar">MS</div>
+                    <div>
+                        <div class="testi-name">Maria Susanto</div>
+                        <div class="testi-route-tag">Soetta T3 ➔ Setiabudi Bandung (Family)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testi 3 -->
+            <div class="testi-card">
+                <div>
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-quote">"Beda banget sama travel reguler yang bikin pusing karena ngetem keliling jemput orang asing. Di Traveego 100% mobil privat, langsung gas via tol Singosari sampai Malang."</p>
+                </div>
+                <div class="testi-author-row">
+                    <div class="testi-avatar">RP</div>
+                    <div>
+                        <div class="testi-name">dr. Rian Pratama</div>
+                        <div class="testi-route-tag">Surabaya ➔ Kota Malang (Personal Trip)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. PERBANDINGAN LAYANAN EEAT -->
     <section class="info-content-wrap" id="keunggulan">
         <div class="info-max">
-            <h2 style="font-size: 26px; font-weight: 800; color: var(--primary-dark); text-align: center; margin-bottom: 8px;">
-                Transparansi Layanan Drop-Off Privat Traveego
-            </h2>
-            <p style="text-align: center; color: var(--text-body); max-width: 600px; margin: 0 auto 32px;">
-                Bandingkan efisiensi waktu, privasi tanpa orang asing, dan kejelasan biaya All-In tanpa tambahan terselubung.
-            </p>
+            <div class="section-header-center">
+                <span class="section-kicker" style="color: var(--royal-blue);">Transparansi Layanan</span>
+                <h2 class="section-headline" style="color: var(--primary-dark);">Bandingkan Efisiensi Traveego</h2>
+                <p class="section-desc">Mengapa sewa mobil drop-off sekali jalan jauh lebih menguntungkan dibanding travel umum atau sewa lepas kunci.</p>
+            </div>
 
             <div class="table-responsive">
                 <table class="custom-table">
@@ -1185,77 +1588,209 @@
                             <td>Wajib lunas transfer di muka</td>
                             <td>Deposit jutaan rupiah + survei rumah</td>
                         </tr>
+                        <tr>
+                            <td><b>Waktu Keberangkatan</b></td>
+                            <td class="brand-col">Fleksibel 24 Jam bebas tentukan sendiri</td>
+                            <td>Terikat jadwal jam pool tetap</td>
+                            <td>Terikat durasi hitungan 24 jam</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
 
-    <!-- 4. FOOTER -->
-    <footer class="luxury-footer" id="faq">
+    <!-- 8b. PANDUAN & ARTIKEL PERJALANAN TERKINI (BLOG SECTION) -->
+    <section class="articles-section" id="artikel">
+        <div class="articles-max">
+            <div class="section-header-center">
+                <span class="section-kicker">Wawasan &amp; Edukasi Perjalanan</span>
+                <h2 class="section-headline">Panduan Rute &amp; Estimasi Tarif Tol Terkini</h2>
+                <p class="section-desc">Kutipan informasi praktis seputar jalan tol bebas hambatan, tips drop-off bandara 24 jam, dan panduan perjalanan hemat tanpa ribet.</p>
+            </div>
+
+            <div class="articles-grid" id="articlesGridContainer">
+                <!-- ARTIKEL 1: JAKARTA KE BANDUNG -->
+                <a href="/blog/panduan-tarif-drop-off-jakarta-ke-bandung" class="article-card">
+                    <div>
+                        <span class="article-cat-badge">🏷️ Info Tarif &amp; Tol</span>
+                        <h3 class="article-card-title">Rincian Biaya &amp; Tarif Tol Drop Off Jakarta ke Bandung Terbaru 2026</h3>
+                        <p class="article-card-desc">Panduan lengkap estimasi biaya sewa mobil drop-off privat Jakarta ke Bandung (Kota, Lembang, Cimahi). Termasuk rincian Tol MBZ, konsumsi BBM, dan paket All-In tanpa DP.</p>
+                    </div>
+                    <div class="article-card-footer">
+                        <span>✍️ Mbak Maya</span>
+                        <span class="article-read-btn">Baca Panduan &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- ARTIKEL 2: BANDARA SOETTA 24 JAM -->
+                <a href="/blog/panduan-tarif-drop-off-jabodetabek-ke-bandara-internasional-soekarno-hatta" class="article-card">
+                    <div>
+                        <span class="article-cat-badge">✈️ Bandara 24 Jam</span>
+                        <h3 class="article-card-title">Panduan Drop Off Bandara Soetta: SOP Bayar di Tempat Tanpa DP</h3>
+                        <p class="article-card-desc">Estimasi waktu tempuh dan tarif drop-off ke Terminal 1, 2, dan 3 Bandara Soekarno-Hatta. Sopir standby tepat waktu termasuk keberangkatan dini hari/subuh.</p>
+                    </div>
+                    <div class="article-card-footer">
+                        <span>✍️ Mbak Maya</span>
+                        <span class="article-read-btn">Baca Panduan &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- ARTIKEL 3: JABODETABEK KE BARAYA -->
+                <a href="/blog/panduan-tarif-drop-off-jabodetabek-ke-baraya" class="article-card">
+                    <div>
+                        <span class="article-cat-badge">🚐 Drop-Off Privat</span>
+                        <h3 class="article-card-title">Panduan Lengkap Drop Off Jabodetabek ke Baraya (Bandung Raya)</h3>
+                        <p class="article-card-desc">Solusi perjalanan keluarga sekali jalan tanpa harus bayar rental 24 jam. Nyaman, sopir berpengalaman, bebas tentukan jam jemput door-to-door.</p>
+                    </div>
+                    <div class="article-card-footer">
+                        <span>✍️ Mbak Maya</span>
+                        <span class="article-read-btn">Baca Panduan &rarr;</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="articles-cta-wrap">
+                <a href="/blog/panduan-tarif-drop-off-jakarta-ke-bandung" class="btn-view-all-articles">
+                    <span>📚</span>
+                    <span>Jelajahi Panduan &amp; Tips Perjalanan Selengkapnya &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. ACCORDION FAQ SECTION -->
+    <section class="faq-section" id="faq">
+        <div class="faq-max">
+            <div class="section-header-center">
+                <span class="section-kicker">Tanya Jawab</span>
+                <h2 class="section-headline">Pertanyaan yang Sering Diajukan</h2>
+                <p class="section-desc">Jawaban transparan untuk memastikan pengalaman perjalanan Anda tenang dan memuaskan.</p>
+            </div>
+
+            <div class="faq-accordion">
+                <!-- Q1 -->
+                <div class="faq-item active" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Apakah harga yang tercantum sudah termasuk Tol dan BBM?</span>
+                        <span class="faq-icon-arrow">&#9660;</span>
+                    </div>
+                    <div class="faq-answer">
+                        Ya, 100% All-In murni! Tarif yang tertera di form pemesanan sudah mencakup unit mobil, jasa sopir profesional, BBM selama perjalanan, serta biaya tol layang MBZ dan tol Cipularang. Tidak ada biaya tambahan di luar kesepakatan.
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Apakah saya harus membayar uang muka (DP) saat booking?</span>
+                        <span class="faq-icon-arrow">&#9660;</span>
+                    </div>
+                    <div class="faq-answer">
+                        Tidak perlu sama sekali (0% DP). Kami menerapkan sistem bayar di tempat (cash on arrival). Anda cukup membayar ongkos perjalanan langsung ke sopir setelah Anda dan rombongan tiba dengan selamat di lokasi tujuan.
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Bagaimana jika penerbangan saya di Bandara Soetta mengalami delay?</span>
+                        <span class="faq-icon-arrow">&#9660;</span>
+                    </div>
+                    <div class="faq-answer">
+                        Tenang, sopir kami akan memantau nomor penerbangan Anda. Sopir akan menyesuaikan waktu penjemputan di terminal kedatangan (Terminal 1, 2, atau 3) tanpa biaya hangus atau pembatalan sepihak.
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Apakah saya bisa meminta sopir berhenti istirahat di Rest Area?</span>
+                        <span class="faq-icon-arrow">&#9660;</span>
+                    </div>
+                    <div class="faq-answer">
+                        Tentu saja bisa! Karena layanan Traveego adalah 100% sewa mobil privat, Anda bebas meminta sopir mampir ke Rest Area untuk sholat, ke toilet, ataupun makan tanpa terburu-buru.
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Bagaimana cara mengetahui lokasi sopir setelah memesan?</span>
+                        <span class="faq-icon-arrow">&#9660;</span>
+                    </div>
+                    <div class="faq-answer">
+                        Setelah pesanan Anda diambil oleh mitra sopir di radar, Anda akan mendapatkan tautan halaman pelacakan langsung (Magic Link). Anda dapat melihat pergerakan mobil di peta dan melakukan chat interaktif langsung dengan sopir.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="luxury-footer">
         <div class="footer-grid">
             <div>
                 <div style="font-size: 20px; font-weight: 900; color: #FFF; margin-bottom: 10px;">TRAVEEGO DROP-OFF</div>
                 <p style="line-height: 1.6; margin-bottom: 14px;">
-                    Layanan transportasi antarkota privat berbasis lelang instan pertama di Indonesia. Melayani rute Jakarta, Bandung, Bandara Soetta, dan Surabaya dengan tarif All-In murni.
+                    Platform sewa mobil privat sekali jalan antarkota berbasis radar lelang tercepat di Indonesia. Melayani rute Jabodetabek, Bandung, Bandara Soekarno-Hatta, dan Surabaya dengan tarif All-In transparan.
                 </p>
                 <div>&copy; 2026 Traveego Mobilitas Indonesia. Hak cipta dilindungi.</div>
             </div>
             <div>
-                <div style="font-weight: 800; color: #FFF; margin-bottom: 12px;">Rute Utama</div>
+                <div style="font-weight: 800; color: #FFF; margin-bottom: 12px;">Rute Terpopuler</div>
                 <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
-                    <li>Jakarta - Bandung PP</li>
-                    <li>Bandara Soetta - Bandung</li>
-                    <li>Surabaya - Malang PP</li>
-                    <li>Drop-Off Stasiun &amp; Bandara</li>
+                    <li><a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20rute%20Jakarta-Bandung" target="_blank" style="color: #93C5FD; text-decoration: none;">Jakarta ➔ Bandung PP</a></li>
+                    <li><a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20rute%20Soetta-Bandung" target="_blank" style="color: #93C5FD; text-decoration: none;">Bandara Soetta ➔ Bandung</a></li>
+                    <li><a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20rute%20Bandung-Soetta" target="_blank" style="color: #93C5FD; text-decoration: none;">Bandung ➔ Bandara Soetta</a></li>
+                    <li><a href="https://wa.me/6281234567891?text=Halo%20Traveego,%20saya%20mau%20tanya%20rute%20Surabaya-Malang" target="_blank" style="color: #93C5FD; text-decoration: none;">Surabaya ➔ Malang / Batu</a></li>
                 </ul>
             </div>
             <div>
-                <div style="font-weight: 800; color: #FFF; margin-bottom: 12px;">Akses Cepat</div>
+                <div style="font-weight: 800; color: #FFF; margin-bottom: 12px;">Pintu Navigasi</div>
                 <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
-                    <li><a href="/trip.html" style="color: #93C5FD; text-decoration: none;">📍 Lacak Pesanan</a></li>
+                    <li><a href="/trip.html" style="color: #93C5FD; text-decoration: none;">📍 Lacak Pesanan Anda</a></li>
                     <li><a href="/driver.html" style="color: #93C5FD; text-decoration: none;">📱 PWA Mitra Sopir</a></li>
-                    <li><a href="/admin.html" style="color: #93C5FD; text-decoration: none;">⚙️ Dashboard Admin</a></li>
+                    <li><a href="/admin" style="color: #93C5FD; text-decoration: none;">⚙️ Konsol Operasional Admin</a></li>
+                    <li><a href="https://wa.me/6281234567891" target="_blank" style="color: #4ADE80; text-decoration: none;">💬 WhatsApp Hotline</a></li>
                 </ul>
             </div>
         </div>
     </footer>
 
-    <!-- 5. FLOATING ANDROID-STYLE BOTTOM NAVIGATION DOCK (PC & MOBILE) -->
+    <!-- 11. LIVE BOOKING TOAST NOTIFICATION -->
+    <div class="live-booking-toast" id="liveBookingToast">
+        <div class="toast-icon">🔥</div>
+        <div>
+            <div class="toast-title" id="toastTitle">Pesanan Baru Diterima!</div>
+            <div class="toast-sub" id="toastSub">Innova Reborn (Soetta T3 ➔ Bandung)</div>
+        </div>
+        <button class="toast-close" onclick="closeToast()">&times;</button>
+    </div>
+
+    <!-- 12. FLOATING ANDROID-STYLE BOTTOM NAVIGATION DOCK -->
     <nav class="android-bottom-dock" id="androidBottomDock">
         <a href="#hero" class="dock-item active" data-section="hero">
             <span class="dock-icon">🏠</span>
             <span class="dock-label">Home</span>
         </a>
-        <a href="#pesan" class="dock-item" data-section="pesan">
-            <span class="dock-icon">📋</span>
-            <span class="dock-label">Pesan</span>
+        <a href="#carakerja" class="dock-item" data-section="carakerja">
+            <span class="dock-icon">⚡</span>
+            <span class="dock-label">Cara Kerja</span>
         </a>
-        <a href="#armada" class="dock-item" data-section="armada">
+        <a href="#katalog" class="dock-item" data-section="katalog">
             <span class="dock-icon">🚘</span>
             <span class="dock-label">Armada</span>
         </a>
-        <a href="#keunggulan" class="dock-item" data-section="keunggulan">
-            <span class="dock-icon">⭐</span>
-            <span class="dock-label">Keunggulan</span>
-        </a>
-        <a href="/trip.html" class="dock-item">
-            <span class="dock-icon">📍</span>
-            <span class="dock-label">Lacak</span>
-        </a>
-        <a href="/driver.html" class="dock-item">
-            <span class="dock-icon">🚖</span>
-            <span class="dock-label">Sopir</span>
-        </a>
     </nav>
 
-    <!-- 6. FLOATING AI BUTTON -->
+    <!-- 13. FLOATING AI BUTTON -->
     <button type="button" class="btn-ai-float" onclick="openChatSheet()">
         <span>🤖</span>
         <span>Tanya Hasna CS</span>
     </button>
 
-    <!-- 6. CHAT BOTTOM SHEET -->
+    <!-- 14. CHAT BOTTOM SHEET (Hasna CS AI) -->
     <div class="chat-sheet-modal" id="chatSheet" onclick="closeChatSheet(event)">
         <div class="chat-sheet-box" onclick="event.stopPropagation()">
             <div class="sheet-bar">
@@ -1277,7 +1812,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT CAROUSEL & BUSINESS LOGIC -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         // Data Mobil untuk Carousel Hero & Form
         const CARS = [
@@ -1312,26 +1847,19 @@
 
             // Animasi transisi mobil hero
             const carImg = document.getElementById('heroCarImg');
-            carImg.classList.add('fade-out');
-            setTimeout(() => {
-                carImg.src = car.img;
-                carImg.classList.remove('fade-out');
-            }, 180);
-
-            // Update *SPECS di hero
-            document.getElementById('specModel').innerText = car.modelSpec;
-            document.getElementById('specCap').innerText = car.capSpec;
+            if (carImg) {
+                carImg.classList.add('fade-out');
+                setTimeout(() => {
+                    carImg.src = car.img;
+                    carImg.classList.remove('fade-out');
+                }, 180);
+            }
 
             // Update Pagination Dots
             for (let i = 0; i < 3; i++) {
                 const dot = document.getElementById('dot-' + i);
                 if (dot) dot.classList.toggle('active', i === idx);
-
-                const chip = document.getElementById('chip-' + i);
-                if (chip) chip.classList.toggle('active', i === idx);
             }
-
-            calculateFare();
         }
 
         function nextCar() {
@@ -1344,83 +1872,73 @@
             switchCar(prev);
         }
 
-        function calculateFare() {
-            const routeSelect = document.getElementById('routeSelect');
-            const baseFare = parseFloat(routeSelect.options[routeSelect.selectedIndex].getAttribute('data-fare'));
-            const car = CARS[currentCarIdx];
-
-            // Hitung harga masing-masing mobil untuk card previews
-            const avanzaFare = Math.round((baseFare * 1.0) / 50000) * 50000;
-            const innovaFare = Math.round((baseFare * 1.4) / 50000) * 50000;
-            const hiaceFare = Math.round((baseFare * 2.3) / 50000) * 50000;
-
-            document.getElementById('priceTagAvanza').innerText = 'Rp ' + avanzaFare.toLocaleString('id-ID');
-            document.getElementById('priceTagInnova').innerText = 'Rp ' + innovaFare.toLocaleString('id-ID');
-            document.getElementById('priceTagHiace').innerText = 'Rp ' + hiaceFare.toLocaleString('id-ID');
-
-            // Total terpilih saat ini
-            const total = Math.round((baseFare * car.multiplier) / 50000) * 50000;
-            const formatted = 'Rp ' + total.toLocaleString('id-ID');
-
-            document.getElementById('bottomFareText').innerText = formatted;
-            document.getElementById('specPrice').innerText = formatted + ' (All-In)';
-
-            return total;
+        // Quick select from Fleet Catalog
+        function selectRouteCard(carIdx = 1) {
+            switchCar(carIdx);
+            const car = CARS[carIdx] || CARS[0];
+            quickBook(car.name, `Halo Mbak Hasna Traveego, saya mau Pesan Cepat Drop-Off ${car.name}. Mohon info armada ya.`);
         }
 
-        // Set waktu default: Besok jam 08.00 pagi
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(8, 0, 0, 0);
-        document.getElementById('pickupTime').value = tomorrow.toISOString().slice(0, 16);
-
-        // Submit Booking ke PHP API
-        async function submitBookingOrder() {
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const pickup = document.getElementById('pickupAddress').value.trim();
-            const dest = document.getElementById('destAddress').value.trim();
-            const pickupTime = document.getElementById('pickupTime').value;
-            const routeSelect = document.getElementById('routeSelect');
-            const car = CARS[currentCarIdx];
-
-            if (!pickup || !dest) {
-                alert('📍 Mohon isi Alamat Penjemputan dan Alamat Tujuan ya Kak.');
-                return;
-            }
-            if (!name || !phone) {
-                alert('📱 Mohon lengkapi Nama Anda dan Nomor WhatsApp ya Kak.');
-                return;
-            }
-
-            const totalFare = calculateFare();
-            const payload = {
-                customer_name: name,
-                customer_phone: phone,
-                pickup_address: pickup,
-                destination_address: dest,
-                pickup_datetime: pickupTime,
-                car_type: car.name,
-                route_id: routeSelect.value,
-                total_fare: totalFare
-            };
-
+        // FUNGSI PESAN CEPAT: CATAT LEAD DIAM-DIAM & BUKA WHATSAPP
+        function quickBook(carName, customMsg) {
+            const phone = window.traveegoHotlineWa || '6281234567891'; // WhatsApp Hotline Resmi
+            const msg = customMsg || `Halo Mbak Hasna Traveego, saya mau Pesan Cepat Drop-Off ${carName || 'mobil'}. Mohon info tarif dan kesiapan armada ya.`;
+            
+            // Catat Lead di Background secara asinkron ke Flat-File JSON Hostinger
             try {
-                const res = await fetch('/api/orders.php?action=create', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                if (data.success) {
-                    alert('🎉 Pesanan Berhasil Diterbitkan!\n\nKode Booking: ' + data.order.tracking_code + '\nOrderan Kakak langsung dilelang ke mitra sopir di radar PWA.');
-                    window.location.href = '/trip.html?code=' + data.order.tracking_code;
+                const payload = JSON.stringify({ car: carName || 'Mobil Pilihan', route: 'Pesan Cepat Web', source: 'index.html' });
+                if (navigator.sendBeacon) {
+                    const blob = new Blob([payload], { type: 'application/json' });
+                    navigator.sendBeacon('/api/leads.php?action=record_click', blob);
                 } else {
-                    alert('Gagal membuat order: ' + data.message);
+                    fetch('/api/leads.php?action=record_click', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: payload,
+                        keepalive: true
+                    }).catch(() => {});
                 }
-            } catch (err) {
-                alert('Terjadi kesalahan koneksi ke server: ' + err.message);
+            } catch(e) {}
+
+            const targetUrl = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+            window.open(targetUrl, '_blank');
+        }
+
+        // Accordion FAQ Toggle
+        function toggleFaq(el) {
+            const isActive = el.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            if (!isActive) {
+                el.classList.add('active');
             }
+        }
+
+        // Live Booking Toast Simulator
+        const sampleBookings = [
+            { title: "🔥 Baru Saja Dipesan!", desc: "Innova Reborn (Soetta T3 ➔ Bandung Kota)" },
+            { title: "⚡ Pesanan Terkonfirmasi!", desc: "Avanza Veloz (Jakarta Selatan ➔ Dago)" },
+            { title: "🚗 Sopir Menuju Lokasi!", desc: "HiAce Premio (Kelapa Gading ➔ Soetta T2)" },
+            { title: "✨ Order Drop-Off Sukses!", desc: "Innova Reborn (Surabaya ➔ Kota Batu)" }
+        ];
+        let toastIdx = 0;
+
+        function showNextToast() {
+            const toast = document.getElementById('liveBookingToast');
+            if (!toast) return;
+            const data = sampleBookings[toastIdx % sampleBookings.length];
+            document.getElementById('toastTitle').innerText = data.title;
+            document.getElementById('toastSub').innerText = data.desc;
+            toast.classList.add('visible');
+            toastIdx++;
+
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 6000);
+        }
+
+        function closeToast() {
+            const toast = document.getElementById('liveBookingToast');
+            if (toast) toast.classList.remove('visible');
         }
 
         // CHAT BOTTOM SHEET (Hasna CS AI)
@@ -1467,19 +1985,20 @@
                 const data = await res.json();
                 loadingBubble.innerHTML = data.reply.replace(/\n/g, '<br>');
             } catch (err) {
-                loadingBubble.innerText = 'Maaf Kak, saat ini koneksi AI sedang sibuk. Silakan pesan langsung via formulir ya Kak.';
+                loadingBubble.innerText = 'Maaf Kak, saat ini koneksi AI sedang sibuk. Silakan pesan langsung via WhatsApp ya Kak.';
             }
             box.scrollTop = box.scrollHeight;
         }
 
-        // Run on load
-        calculateFare();
+        // Mulai simulasi toast live booking setelah 4 detik, dan berulang tiap 24 detik
+        setTimeout(showNextToast, 4000);
+        setInterval(showNextToast, 24000);
 
-        // ScrollSpy untuk Android Bottom Dock
-        const dockSections = ['hero', 'pesan', 'armada', 'keunggulan'];
+        // ScrollSpy untuk Desktop Nav & Mobile Bottom Dock
+        const navSections = ['hero', 'carakerja', 'katalog', 'keunggulan', 'faq'];
         window.addEventListener('scroll', () => {
             const scrollPos = window.scrollY + 220;
-            dockSections.forEach(id => {
+            navSections.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     const top = el.offsetTop;
@@ -1488,10 +2007,198 @@
                         document.querySelectorAll('.dock-item[data-section]').forEach(item => {
                             item.classList.toggle('active', item.getAttribute('data-section') === id);
                         });
+                        document.querySelectorAll('.desktop-nav-link[href]').forEach(item => {
+                            item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+                        });
                     }
                 }
             });
         }, { passive: true });
+
+        // DYNAMIC CONTENT LOADER DARI CMS WORDPRESS CUSTOMIZER
+        async function loadDynamicContent() {
+            try {
+                const res = await fetch('/api/content.php');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data) return;
+
+                function escapeText(str) {
+                    return String(str || '')
+                        .replace(/&/g, '&amp;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                }
+
+                // 1. Head
+                if (data.head?.title) document.title = data.head.title;
+                if (data.head?.hotline_wa || data.hero?.wa_number) {
+                    window.traveegoHotlineWa = (data.head?.hotline_wa || data.hero?.wa_number || '').replace(/[^0-9]/g, '');
+                }
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc && data.head?.meta_description) metaDesc.content = data.head.meta_description;
+
+                // 2. Navbar Brand
+                const logoSym = document.querySelector('.luxury-logo-symbol');
+                if (logoSym && data.head?.logo_icon) logoSym.innerText = data.head.logo_icon;
+                const brandName = document.querySelector('.luxury-brand-name');
+                if (brandName && data.head?.brand_name) brandName.innerText = data.head.brand_name;
+
+                // 3. Hero
+                const heroTitle = document.querySelector('.hero-big-title');
+                if (heroTitle && data.hero?.title_line_1 && data.hero?.title_line_2) {
+                    heroTitle.innerHTML = `${escapeText(data.hero.title_line_1)}<br><span>${escapeText(data.hero.title_line_2)}</span>`;
+                }
+                const heroSub = document.querySelector('.hero-big-sub');
+                if (heroSub && data.hero?.subtitle) heroSub.innerText = data.hero.subtitle;
+                const heroCta = document.querySelector('.btn-hero-primary');
+                if (heroCta) {
+                    const waIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; flex-shrink: 0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>`;
+                    heroCta.innerHTML = `${waIcon}<span>PESAN CEPAT</span><span>&rarr;</span>`;
+                    heroCta.setAttribute('onclick', "quickBook('Semua Mobil', 'Halo Mbak Hasna Traveego, saya mau Pesan Cepat sewa mobil Drop-Off antar kota. Mohon info ketersediaan armada ya.')");
+                    heroCta.setAttribute('href', 'javascript:void(0)');
+                }
+
+                // 4. Cara Kerja (#carakerja)
+                const howSec = document.getElementById('carakerja');
+                if (howSec && data.how_it_works) {
+                    const kicker = howSec.querySelector('.section-kicker');
+                    if (kicker && data.how_it_works.kicker) kicker.innerText = data.how_it_works.kicker;
+                    const hl = howSec.querySelector('.section-headline');
+                    if (hl && data.how_it_works.headline) hl.innerText = data.how_it_works.headline;
+                    const desc = howSec.querySelector('.section-desc');
+                    if (desc && data.how_it_works.description) desc.innerText = data.how_it_works.description;
+
+                    const cards = howSec.querySelectorAll('.how-card');
+                    if (Array.isArray(data.how_it_works.steps)) {
+                        data.how_it_works.steps.forEach((st, i) => {
+                            if (cards[i]) {
+                                const icon = cards[i].querySelector('.how-icon');
+                                if (icon && st.icon) icon.innerText = st.icon;
+                                const title = cards[i].querySelector('.how-title');
+                                if (title && st.title) title.innerText = st.title;
+                                const txt = cards[i].querySelector('.how-text');
+                                if (txt && st.text) txt.innerText = st.text;
+                            }
+                        });
+                    }
+                }
+
+                // 5. Armada (#katalog)
+                const fleetSec = document.getElementById('katalog');
+                if (fleetSec && data.fleet) {
+                    const kicker = fleetSec.querySelector('.section-kicker');
+                    if (kicker && data.fleet.kicker) kicker.innerText = data.fleet.kicker;
+                    const hl = fleetSec.querySelector('.section-headline');
+                    if (hl && data.fleet.headline) hl.innerText = data.fleet.headline;
+                    const desc = fleetSec.querySelector('.section-desc');
+                    if (desc && data.fleet.description) desc.innerText = data.fleet.description;
+
+                    const carCards = fleetSec.querySelectorAll('.fleet-rich-card');
+                    if (Array.isArray(data.fleet.cars)) {
+                        data.fleet.cars.forEach((car, i) => {
+                            if (carCards[i]) {
+                                const badge = carCards[i].querySelector('.fleet-card-badge');
+                                if (badge && car.badge) badge.innerText = car.badge;
+                                const img = carCards[i].querySelector('.fleet-card-img');
+                                if (img && car.img) img.src = car.img;
+                                const title = carCards[i].querySelector('.fleet-car-title');
+                                if (title && car.name) title.innerText = car.name;
+                                const sub = carCards[i].querySelector('.fleet-car-sub');
+                                if (sub && car.subtitle) sub.innerText = car.subtitle;
+                                const fare = carCards[i].querySelector('.fleet-fare-num');
+                                if (fare && car.fare_num) fare.innerText = car.fare_num;
+                                const btn = carCards[i].querySelector('.btn-fleet-choose');
+                                if (btn) {
+                                    if (car.btn_text) btn.innerText = car.btn_text;
+                                    const waNum = data.hero?.wa_number || '6281234567891';
+                                    const waMsg = encodeURIComponent(car.wa_message || `Halo Traveego, saya mau sewa ${car.name}`);
+                                    btn.href = `https://wa.me/${waNum}?text=${waMsg}`;
+                                }
+                            }
+                        });
+                    }
+                }
+
+                // 6. Testimoni (#testimoni)
+                const testiSec = document.getElementById('testimoni');
+                if (testiSec && data.testimonials) {
+                    const kicker = testiSec.querySelector('.section-kicker');
+                    if (kicker && data.testimonials.kicker) kicker.innerText = data.testimonials.kicker;
+                    const hl = testiSec.querySelector('.section-headline');
+                    if (hl && data.testimonials.headline) hl.innerText = data.testimonials.headline;
+                    const desc = testiSec.querySelector('.section-desc');
+                    if (desc && data.testimonials.description) desc.innerText = data.testimonials.description;
+                }
+
+                // 6b. Dynamic Articles Sync
+                try {
+                    const resArticles = await fetch('/api/articles.php?limit=3');
+                    const artData = await resArticles.json();
+                    if (artData.success && Array.isArray(artData.articles) && artData.articles.length > 0) {
+                        const grid = document.getElementById('articlesGridContainer');
+                        if (grid) {
+                            grid.innerHTML = artData.articles.map(art => `
+                                <a href="${art.url}" class="article-card">
+                                    <div>
+                                        <span class="article-cat-badge">📖 ${escapeText(art.category || 'Panduan')}</span>
+                                        <h3 class="article-card-title">${escapeText(art.title)}</h3>
+                                        <p class="article-card-desc">${escapeText(art.meta_description || '')}</p>
+                                    </div>
+                                    <div class="article-card-footer">
+                                        <span>✍️ Mbak Maya</span>
+                                        <span class="article-read-btn">Baca Panduan &rarr;</span>
+                                    </div>
+                                </a>
+                            `).join('');
+                        }
+                    }
+                } catch (eArt) {}
+
+                // 7. FAQ (#faq)
+                const faqSec = document.getElementById('faq');
+                if (faqSec && data.faq) {
+                    const kicker = faqSec.querySelector('.section-kicker');
+                    if (kicker && data.faq.kicker) kicker.innerText = data.faq.kicker;
+                    const hl = faqSec.querySelector('.section-headline');
+                    if (hl && data.faq.headline) hl.innerText = data.faq.headline;
+                    const desc = faqSec.querySelector('.section-desc');
+                    if (desc && data.faq.description) desc.innerText = data.faq.description;
+
+                    const accordion = faqSec.querySelector('.faq-accordion');
+                    if (accordion && Array.isArray(data.faq.items) && data.faq.items.length > 0) {
+                        accordion.innerHTML = data.faq.items.map((item, idx) => `
+                            <div class="faq-item ${idx === 0 ? 'active' : ''}" onclick="toggleFaq(this)">
+                                <div class="faq-question">
+                                    <span>${escapeText(item.q || '')}</span>
+                                    <span class="faq-icon-arrow">&#9660;</span>
+                                </div>
+                                <div class="faq-answer">
+                                    ${escapeText(item.a || '')}
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+
+                // 8. Footer
+                const footer = document.querySelector('.luxury-footer');
+                if (footer && data.footer) {
+                    const brand = footer.querySelector('div[style*="font-size: 20px"]');
+                    if (brand && data.footer.brand_name) brand.innerText = data.footer.brand_name;
+                    const about = footer.querySelector('p[style*="line-height: 1.6"]');
+                    if (about && data.footer.about_text) about.innerText = data.footer.about_text;
+                }
+            } catch (e) {
+                // Senyap jika gagal, fallback ke HTML statis default
+            }
+        }
+
+        // Jalankan sinkronisasi dinamis
+        window.addEventListener('DOMContentLoaded', loadDynamicContent);
     </script>
+    <!-- Traveego Build 2026.10.28: Dual Cloud AI (Gemini & Groq) & CS AI Hotline WA -->
 </body>
 </html>
