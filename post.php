@@ -113,9 +113,27 @@ $rawMarkdown = preg_replace('/\{\{harga_avanza_[^\}]+\}\}/', 'Rp 250.000 - Rp 50
 $rawMarkdown = preg_replace('/\{\{harga_innova_[^\}]+\}\}/', 'Rp 325.000 - Rp 700.000', $rawMarkdown);
 $rawMarkdown = preg_replace('/\{\{bbm_[^\}]+\}\}/', 'Rp 40.000 - Rp 85.000', $rawMarkdown);
 
-// Simple Markdown to HTML parser
+// Smart Markdown to HTML parser dengan deteksi link keluar (Outbound) vs link ke dalam (Internal)
+function parseInlineLinksAndFormatting($text) {
+    // Replace links [text](url) dengan atribut SEO ramah Google
+    $text = preg_replace_callback('/\[(.*?)\]\((.*?)\)/', function($matches) {
+        $anchor = $matches[1];
+        $url = $matches[2];
+        if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
+            // Outbound Link (External): Buka tab baru, noopener noreferrer untuk otoritas & keamanan
+            return '<a href="' . htmlspecialchars($url) . '" target="_blank" rel="noopener noreferrer">' . $anchor . '</a>';
+        } else {
+            // Internal Link: Pindah halaman secara mulus
+            return '<a href="' . htmlspecialchars($url) . '">' . $anchor . '</a>';
+        }
+    }, $text);
+
+    // Replace bold **text**
+    $text = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $text);
+    return $text;
+}
+
 function markdownToHtml($md) {
-    // Escaping
     $lines = explode("\n", $md);
     $html = '';
     $inList = false;
@@ -124,6 +142,13 @@ function markdownToHtml($md) {
         $trimmed = trim($line);
         if (empty($trimmed)) {
             if ($inList) { $html .= "</ul>\n"; $inList = false; }
+            continue;
+        }
+
+        // Horizontal Rule
+        if ($trimmed === '---' || $trimmed === '***') {
+            if ($inList) { $html .= "</ul>\n"; $inList = false; }
+            $html .= "<hr style='border: 0; border-top: 1px solid #E2E8F0; margin: 32px 0;'>\n";
             continue;
         }
 
@@ -139,23 +164,15 @@ function markdownToHtml($md) {
             $html .= "<h1>" . htmlspecialchars($m[1]) . "</h1>\n";
         } elseif (preg_match('/^> (.*)/', $trimmed, $m)) {
             if ($inList) { $html .= "</ul>\n"; $inList = false; }
-            $text = $m[1];
-            // Replace links [text](url)
-            $text = preg_replace('/\[(.*?)\]\((.*?)\)/', '<a href="$2">$1</a>', $text);
-            // Replace bold **text**
-            $text = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $text);
+            $text = parseInlineLinksAndFormatting($m[1]);
             $html .= "<blockquote>" . $text . "</blockquote>\n";
         } elseif (preg_match('/^[-*] (.*)/', $trimmed, $m)) {
             if (!$inList) { $html .= "<ul>\n"; $inList = true; }
-            $text = $m[1];
-            $text = preg_replace('/\[(.*?)\]\((.*?)\)/', '<a href="$2">$1</a>', $text);
-            $text = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $text);
+            $text = parseInlineLinksAndFormatting($m[1]);
             $html .= "<li>" . $text . "</li>\n";
         } else {
             if ($inList) { $html .= "</ul>\n"; $inList = false; }
-            $text = $trimmed;
-            $text = preg_replace('/\[(.*?)\]\((.*?)\)/', '<a href="$2">$1</a>', $text);
-            $text = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $text);
+            $text = parseInlineLinksAndFormatting($trimmed);
             $html .= "<p>" . $text . "</p>\n";
         }
     }
