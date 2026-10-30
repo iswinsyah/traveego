@@ -27,6 +27,11 @@ if (!file_exists($postFile)) {
 $postData = json_decode(file_get_contents($postFile), true) ?: [];
 $yoastAnalysis = YoastSeoAnalyzer::analyze($postData);
 
+// Load Nomor CS AI WhatsApp Resmi (Mbak Hasna)
+$siteContentFile = __DIR__ . '/data/site_content.json';
+$siteContent = file_exists($siteContentFile) ? (json_decode(file_get_contents($siteContentFile), true) ?: []) : [];
+$csAiPhone = $siteContent['head']['hotline_wa'] ?? ($siteContent['hero']['wa_number'] ?? '6281234567891');
+
 // Load Data Kalender Mbak Dinda untuk validasi Auto-Scheduled
 $calFile = __DIR__ . '/data/content_calendar.json';
 $calendar = file_exists($calFile) ? (json_decode(file_get_contents($calFile), true) ?: []) : [];
@@ -355,29 +360,87 @@ $featuredImage = $postData['featured_image'] ?? '';
             color: #166534;
         }
 
-        /* CTA Bottom */
+        /* CTA Bottom High-Contrast */
         .cta-box {
-            background: linear-gradient(135deg, #0B4FD8, #073594);
-            border-radius: 18px;
-            padding: 30px;
-            color: #FFFFFF;
+            background: linear-gradient(145deg, #072D6B 0%, #0B4FD8 100%);
+            border: 2px solid #60A5FA;
+            border-radius: 20px;
+            padding: 36px 28px;
             text-align: center;
-            margin-top: 40px;
+            margin-top: 42px;
+            box-shadow: 0 14px 35px -5px rgba(11, 79, 216, 0.4);
+            position: relative;
+            overflow: hidden;
         }
-        .cta-box h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-        .cta-box p { font-size: 14px; color: #DBEAFE; margin-bottom: 20px; }
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .cta-badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #FEF08A;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .cta-box h3 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #FDE047 !important; /* Kuning Emas Terang Kontras */
+            margin-bottom: 12px;
+            line-height: 1.35;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .cta-box p {
+            font-size: 15.5px;
+            color: #FFFFFF !important; /* Putih Bersih Kontras */
+            line-height: 1.65;
+            margin-bottom: 26px;
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        }
         .btn-cta-wa {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: #16A34A;
-            color: #FFFFFF;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 15px;
+            justify-content: center;
+            gap: 10px;
+            background: #16A34A; /* Hijau WhatsApp */
+            color: #FFFFFF !important; /* Tulisannya Putih Kontras */
+            padding: 15px 32px;
+            border-radius: 14px;
+            font-size: 16px;
             font-weight: 800;
             text-decoration: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45);
+            transition: all 0.2s ease;
+            border: 1.5px solid #86EFAC;
+        }
+        .btn-cta-wa:hover {
+            background: #15803D;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.55);
+            color: #FFFFFF !important;
+        }
+        .btn-cta-wa span {
+            color: #FFFFFF !important;
         }
 
         .footer { text-align: center; padding: 30px; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); background: #FFFFFF; }
@@ -401,7 +464,7 @@ $featuredImage = $postData['featured_image'] ?? '';
         <span style="font-size:24px;">🚐</span>
         <span>TRAVEEGO BLOG</span>
     </a>
-    <a href="https://api.whatsapp.com/send?phone=628190000000&text=Halo%20Traveego,%20saya%20membaca%20artikel%20<?= urlencode($title) ?>" class="btn-topbar-wa" target="_blank" rel="noopener">
+    <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= urlencode('Halo Mbak Hasna, saya sedang membaca artikel: ' . $title) ?>" class="btn-topbar-wa" target="_blank" rel="noopener">
         <span>💬</span>
         <span>Chat CS Mbak Hasna</span>
     </a>
@@ -429,11 +492,12 @@ $featuredImage = $postData['featured_image'] ?? '';
         <?= $articleHtml ?>
 
         <div class="cta-box">
+            <div class="cta-badge-tag">⚡ Layanan Siaga 24 Jam &bull; 0% Uang Muka</div>
             <h3>Mau Bepergian Tanpa Capek Menyetir?</h3>
-            <p>Nikmati layanan sewa mobil Drop-Off privat Traveego. Tarif All-In (Tol + BBM + Sopir) murni tanpa uang muka (0% DP), bayar di tujuan!</p>
-            <a href="https://api.whatsapp.com/send?phone=628190000000&text=Halo%20Traveego,%20saya%20ingin%20tanya%20tarif%20drop%20off" class="btn-cta-wa" target="_blank" rel="noopener">
-                <span>💬</span>
-                <span>Konsultasi Rute via WhatsApp</span>
+            <p>Nikmati layanan sewa mobil Drop-Off privat Traveego. Tarif All-In (Tol + BBM + Sopir) murni tanpa uang muka (0% DP), bayar langsung di lokasi tujuan!</p>
+            <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= urlencode('Halo Mbak Hasna, saya sedang membaca artikel ' . $title . '. Mau tanya rute dan booking drop-off') ?>" class="btn-cta-wa" target="_blank" rel="noopener">
+                <span style="font-size: 20px;">💬</span>
+                <span>Chat CS AI Mbak Hasna via WhatsApp</span>
             </a>
         </div>
     </article>

@@ -27,6 +27,11 @@ if (!file_exists($pageFile)) {
 $pageData = json_decode(file_get_contents($pageFile), true) ?: [];
 $yoastAnalysis = YoastSeoAnalyzer::analyze($pageData);
 
+// Load Nomor CS AI WhatsApp Resmi (Mbak Hasna)
+$siteContentFile = __DIR__ . '/data/site_content.json';
+$siteContent = file_exists($siteContentFile) ? (json_decode(file_get_contents($siteContentFile), true) ?: []) : [];
+$csAiPhone = $siteContent['head']['hotline_wa'] ?? ($siteContent['hero']['wa_number'] ?? '6281234567891');
+
 // Load Data Kalender Mbak Dinda untuk validasi Auto-Scheduled
 $calFile = __DIR__ . '/data/content_calendar.json';
 $calendar = file_exists($calFile) ? (json_decode(file_get_contents($calFile), true) ?: []) : [];
@@ -132,7 +137,7 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
       "provider": {
         "@type": "LocalBusiness",
         "name": "Traveego Indonesia",
-        "telephone": "+628190000000",
+        "telephone": "+<?= $csAiPhone ?>",
         "priceRange": "Rp 250.000 - Rp 1.500.000"
       },
       "description": "<?= addslashes($metaDesc) ?>",
@@ -399,7 +404,7 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
         <span style="font-size:24px;">🚐</span>
         <span>TRAVEEGO</span>
     </a>
-    <a href="https://api.whatsapp.com/send?phone=628190000000&text=<?= $waText ?>" class="btn-topbar-wa" target="_blank" rel="noopener">
+    <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= $waText ?>" class="btn-topbar-wa" target="_blank" rel="noopener">
         <span>💬</span>
         <span>Pesan via WhatsApp (0% DP)</span>
     </a>
@@ -411,7 +416,7 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
         <div class="hero-pill">⚡ LAYANAN DROP OFF PRIVAT ALL-IN</div>
         <h1 class="hero-title"><?= $headline ?></h1>
         <p class="hero-desc"><?= $subheadline ?></p>
-        <a href="https://api.whatsapp.com/send?phone=628190000000&text=<?= $waText ?>" class="hero-cta" target="_blank" rel="noopener">
+        <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= $waText ?>" class="hero-cta" target="_blank" rel="noopener">
             <span>🚀</span>
             <span>Pesan Unit Sekarang (0% DP &bull; Bayar di Tujuan)</span>
         </a>
@@ -458,7 +463,7 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
                 <li>✅ Penjemputan Door-to-Door</li>
                 <li>✅ Bayar Cash / Transfer ke Sopir</li>
             </ul>
-            <a href="https://api.whatsapp.com/send?phone=628190000000&text=<?= urlencode("Halo Traveego, saya ingin pesan Drop-Off unit Avanza untuk rute " . $slug) ?>" class="btn-card-book" target="_blank" rel="noopener">Pilih Avanza (0% DP)</a>
+            <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= urlencode("Halo Mbak Hasna, saya ingin pesan Drop-Off unit Avanza untuk rute " . $slug) ?>" class="btn-card-book" target="_blank" rel="noopener">Pilih Avanza (0% DP)</a>
         </div>
 
         <!-- Innova Reborn -->
@@ -473,7 +478,7 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
                 <li>✅ BBM All-In Termasuk</li>
                 <li>✅ Door-to-Door &amp; Tanpa Uang Muka</li>
             </ul>
-            <a href="https://api.whatsapp.com/send?phone=628190000000&text=<?= urlencode("Halo Traveego, saya ingin pesan Drop-Off unit Innova Reborn untuk rute " . $slug) ?>" class="btn-card-book" target="_blank" rel="noopener">Pilih Innova Reborn (0% DP)</a>
+            <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= urlencode("Halo Mbak Hasna, saya ingin pesan Drop-Off unit Innova Reborn untuk rute " . $slug) ?>" class="btn-card-book" target="_blank" rel="noopener">Pilih Innova Reborn (0% DP)</a>
         </div>
 
         <!-- Hiace Premio -->
@@ -487,7 +492,7 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
                 <li>✅ BBM All-In Termasuk</li>
                 <li>✅ Penjemputan Tepat Waktu 30 Menit Awal</li>
             </ul>
-            <a href="https://api.whatsapp.com/send?phone=628190000000&text=<?= urlencode("Halo Traveego, saya ingin pesan Drop-Off unit HiAce Premio untuk rute " . $slug) ?>" class="btn-card-book" target="_blank" rel="noopener">Pilih HiAce Premio (0% DP)</a>
+            <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= urlencode("Halo Mbak Hasna, saya ingin pesan Drop-Off unit HiAce Premio untuk rute " . $slug) ?>" class="btn-card-book" target="_blank" rel="noopener">Pilih HiAce Premio (0% DP)</a>
         </div>
     </div>
 
