@@ -168,6 +168,7 @@ $title = htmlspecialchars($postData['title'] ?? 'Panduan Tarif Drop Off Traveego
 $metaDesc = htmlspecialchars($postData['meta_description'] ?? 'Panduan sewa mobil drop-off tarif all in tol dan bbm.');
 $category = htmlspecialchars($postData['category'] ?? 'Info Tarif & Tol');
 $publishedDate = date('d F Y', strtotime($publishAt ?: 'now'));
+$featuredImage = $postData['featured_image'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -176,6 +177,7 @@ $publishedDate = date('d F Y', strtotime($publishAt ?: 'now'));
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?> | Traveego Blog</title>
     <meta name="description" content="<?= $metaDesc ?>">
+    <?php if (!empty($featuredImage)): ?><meta property="og:image" content="<?= htmlspecialchars($featuredImage) ?>"><?php endif; ?>
     <link rel="canonical" href="https://dropoff.id/blog/<?= htmlspecialchars($slug) ?>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -397,6 +399,12 @@ $publishedDate = date('d F Y', strtotime($publishAt ?: 'now'));
         <span>&bull;</span>
         <span>🛡️ Panduan Resmi Traveego</span>
     </div>
+
+    <?php if (!empty($featuredImage)): ?>
+    <div style="margin-bottom: 30px; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+        <img src="<?= htmlspecialchars($featuredImage) ?>" alt="<?= htmlspecialchars($title) ?>" style="width: 100%; height: auto; max-height: 440px; object-fit: cover; display: block;" loading="lazy">
+    </div>
+    <?php endif; ?>
 
     <article class="article-body">
         <?= $articleHtml ?>

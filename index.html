@@ -717,7 +717,7 @@
             background: #FFFFFF;
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-lg);
-            padding: 24px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -728,26 +728,49 @@
         }
         .article-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(15, 76, 129, 0.1);
+            box-shadow: 0 14px 30px rgba(15, 76, 129, 0.12);
             border-color: #93C5FD;
         }
+        .article-card-thumb {
+            width: 100%;
+            height: 190px;
+            position: relative;
+            overflow: hidden;
+            background: #E2E8F0;
+        }
+        .article-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            display: block;
+        }
+        .article-card:hover .article-card-thumb img {
+            transform: scale(1.06);
+        }
         .article-cat-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11.5px;
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 11px;
             font-weight: 800;
-            color: var(--primary-blue);
-            background: #EFF6FF;
-            padding: 4px 12px;
+            color: #0F172A;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            padding: 4px 10px;
             border-radius: 20px;
-            width: fit-content;
-            margin-bottom: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .article-card-body {
+            padding: 18px 20px 0 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
         .article-card-title {
-            font-size: 17px;
+            font-size: 16.5px;
             font-weight: 800;
             color: var(--primary-dark);
             line-height: 1.4;
@@ -758,10 +781,10 @@
             overflow: hidden;
         }
         .article-card-desc {
-            font-size: 13.5px;
+            font-size: 13px;
             color: var(--text-muted);
             line-height: 1.6;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
@@ -769,10 +792,10 @@
             flex-grow: 1;
         }
         .article-card-footer {
+            padding: 14px 20px 18px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-top: 14px;
             border-top: 1px dashed var(--border-subtle);
             font-size: 12px;
             color: var(--text-muted);
@@ -1612,8 +1635,11 @@
             <div class="articles-grid" id="articlesGridContainer">
                 <!-- ARTIKEL 1: JAKARTA KE BANDUNG -->
                 <a href="/blog/panduan-tarif-drop-off-jakarta-ke-bandung" class="article-card">
-                    <div>
+                    <div class="article-card-thumb">
+                        <img src="https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=600&q=80" alt="Tol Jakarta ke Bandung" loading="lazy">
                         <span class="article-cat-badge">🏷️ Info Tarif &amp; Tol</span>
+                    </div>
+                    <div class="article-card-body">
                         <h3 class="article-card-title">Rincian Biaya &amp; Tarif Tol Drop Off Jakarta ke Bandung Terbaru 2026</h3>
                         <p class="article-card-desc">Panduan lengkap estimasi biaya sewa mobil drop-off privat Jakarta ke Bandung (Kota, Lembang, Cimahi). Termasuk rincian Tol MBZ, konsumsi BBM, dan paket All-In tanpa DP.</p>
                     </div>
@@ -1625,26 +1651,32 @@
 
                 <!-- ARTIKEL 2: BANDARA SOETTA 24 JAM -->
                 <a href="/blog/panduan-tarif-drop-off-jabodetabek-ke-bandara-internasional-soekarno-hatta" class="article-card">
-                    <div>
+                    <div class="article-card-thumb">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" alt="Bandara Soekarno Hatta" loading="lazy">
                         <span class="article-cat-badge">✈️ Bandara 24 Jam</span>
+                    </div>
+                    <div class="article-card-body">
                         <h3 class="article-card-title">Panduan Drop Off Bandara Soetta: SOP Bayar di Tempat Tanpa DP</h3>
                         <p class="article-card-desc">Estimasi waktu tempuh dan tarif drop-off ke Terminal 1, 2, dan 3 Bandara Soekarno-Hatta. Sopir standby tepat waktu termasuk keberangkatan dini hari/subuh.</p>
                     </div>
                     <div class="article-card-footer">
-                        <span>📅 27 Okt 2026</span>
+                        <span>📅 01 Nov 2026</span>
                         <span class="article-read-btn">Baca Panduan &rarr;</span>
                     </div>
                 </a>
 
                 <!-- ARTIKEL 3: JABODETABEK KE BARAYA -->
                 <a href="/blog/panduan-tarif-drop-off-jabodetabek-ke-baraya" class="article-card">
-                    <div>
+                    <div class="article-card-thumb">
+                        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80" alt="Bandung Raya Baraya" loading="lazy">
                         <span class="article-cat-badge">🚐 Drop-Off Privat</span>
+                    </div>
+                    <div class="article-card-body">
                         <h3 class="article-card-title">Panduan Lengkap Drop Off Jabodetabek ke Baraya (Bandung Raya)</h3>
                         <p class="article-card-desc">Solusi perjalanan keluarga sekali jalan tanpa harus bayar rental 24 jam. Nyaman, sopir berpengalaman, bebas tentukan jam jemput door-to-door.</p>
                     </div>
                     <div class="article-card-footer">
-                        <span>📅 27 Okt 2026</span>
+                        <span>📅 28 Okt 2026</span>
                         <span class="article-read-btn">Baca Panduan &rarr;</span>
                     </div>
                 </a>
@@ -2142,8 +2174,11 @@
                         if (grid) {
                             grid.innerHTML = artData.articles.map(art => `
                                 <a href="${art.url}" class="article-card">
-                                    <div>
-                                        <span class="article-cat-badge">📖 ${escapeText(art.category || 'Panduan')}</span>
+                                    <div class="article-card-thumb">
+                                        <img src="${art.featured_image || 'https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=600&q=80'}" alt="${escapeText(art.title)}" loading="lazy">
+                                        <span class="article-cat-badge">${escapeText(art.category || 'Panduan')}</span>
+                                    </div>
+                                    <div class="article-card-body">
                                         <h3 class="article-card-title">${escapeText(art.title)}</h3>
                                         <p class="article-card-desc">${escapeText(art.meta_description || '')}</p>
                                     </div>

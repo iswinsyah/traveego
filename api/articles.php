@@ -23,6 +23,7 @@ if (is_dir($postsDir)) {
                     'category' => $data['category'] ?? 'Info Perjalanan',
                     'published_at' => $data['published_at'] ?? date('Y-m-d H:i:s'),
                     'meta_description' => $data['meta_description'] ?? '',
+                    'featured_image' => $data['featured_image'] ?? '',
                     'url' => '/blog/' . $data['slug']
                 ];
             }
