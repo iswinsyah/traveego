@@ -526,24 +526,24 @@
 
     <div class="container">
 
-        <!-- 1. TAMPILAN LOGIN MITRA SOPIR -->
+        <!-- 1. TAMPILAN LOGIN MITRA SOPIR & SUPER ADMIN -->
         <div id="loginScreen" class="login-card">
             <div class="login-logo">👋</div>
             <h2 class="login-title">Login Mitra Sopir</h2>
-            <p class="login-subtitle">Masukkan No. WhatsApp dan PIN untuk masuk ke radar lelang Dropoff.id.</p>
+            <p class="login-subtitle">Masukkan No. WhatsApp mitra atau Username Super Admin untuk masuk ke radar Dropoff.id.</p>
 
             <div class="form-group">
-                <label>Nomor WhatsApp Terdaftar</label>
-                <input type="tel" id="loginPhone" class="form-control" placeholder="Cth: 081234567891" value="081234567891">
+                <label>Nomor WhatsApp atau Username</label>
+                <input type="text" id="loginPhone" class="form-control" placeholder="No. WA (0812...) atau Username Admin" value="winsyah" autocomplete="username">
             </div>
             <div class="form-group">
-                <label>PIN Cepat (Default: 1234)</label>
-                <input type="password" id="loginPin" class="form-control" placeholder="4 Digit PIN" value="1234" maxlength="6">
+                <label>PIN atau Password</label>
+                <input type="password" id="loginPin" class="form-control" placeholder="PIN Mitra atau Password Admin" value="khilafet@1924" autocomplete="current-password">
             </div>
 
-            <button type="button" class="btn-primary" onclick="doDriverLogin()">Masuk ke Radar Lelang</button>
+            <button type="button" class="btn-primary" onclick="doDriverLogin()">Masuk ke Sistem</button>
             <div style="font-size: 12px; color: var(--text-muted); margin-top: 14px;">
-                *Akun contoh siap pakai: <b>081234567891</b> (PIN: <b>1234</b>)
+                *Login Super Admin: <b>winsyah</b> &bull; Mitra Demo: <b>081234567891</b> (PIN: <b>1234</b>)
             </div>
         </div>
 
@@ -925,6 +925,16 @@
             document.getElementById('profCarModel').innerText = currentDriver.car_model;
             document.getElementById('profCarPlate').innerText = currentDriver.car_plate;
             document.getElementById('profDriverPhone').innerText = currentDriver.phone;
+
+            if (currentDriver.is_super_admin) {
+                const badgeTitle = document.querySelector('.app-title span');
+                if (badgeTitle) badgeTitle.innerHTML = '🚘 Dropoff.id <span style="background:#F59E0B; color:#000; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; margin-left:6px;">SUPER ADMIN</span>';
+                const statusMitra = document.getElementById('profDriverPhone')?.parentElement?.nextElementSibling?.querySelector('b');
+                if (statusMitra) {
+                    statusMitra.innerHTML = '🛡️ Super Admin (Akses Penuh)';
+                    statusMitra.style.color = '#F59E0B';
+                }
+            }
 
             loadAuctionOrders();
             renderActiveTrip();

@@ -21,6 +21,23 @@ define('ADMIN_PASSWORD', 'admin@dropoff.id');
 define('CREW_USERNAME', 'winsyah');
 define('CREW_PASSWORD', 'Khilafet@1924');
 
+// 2c. KREDENSIAL SUPER ADMIN MITRA DRIVER (/driver) - HASH AMAN ANTI-HACKER
+define('SUPER_ADMIN_DRIVER_USER', 'winsyah');
+define('SUPER_ADMIN_DRIVER_SALT', 'Dropoff_SuperAdmin_Salt_2026');
+// Hash SHA-256 dari ('Dropoff_SuperAdmin_Salt_2026' . 'khilafet@1924')
+define('SUPER_ADMIN_DRIVER_HASH_LOWER', 'd46a97f4337044587a670a9b7c502ffcc2bf08cc230d588e108ea202aa5d2c02');
+// Hash SHA-256 dari ('Dropoff_SuperAdmin_Salt_2026' . 'Khilafet@1924')
+define('SUPER_ADMIN_DRIVER_HASH_TITLE', 'b789d77dae9127c1b89ea0b7e1c375cc2a77848fe3dd8d81bff362b9e83fd564');
+
+function verifySuperAdminDriver($user, $pass) {
+    if (strtolower(trim((string)$user)) !== SUPER_ADMIN_DRIVER_USER) {
+        return false;
+    }
+    $calc = hash('sha256', SUPER_ADMIN_DRIVER_SALT . trim((string)$pass));
+    return hash_equals(SUPER_ADMIN_DRIVER_HASH_LOWER, $calc) || hash_equals(SUPER_ADMIN_DRIVER_HASH_TITLE, $calc);
+}
+
+
 function startAdminSession() {
     if (session_status() === PHP_SESSION_NONE) {
         // Keamanan cookie session
