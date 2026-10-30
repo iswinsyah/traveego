@@ -1008,110 +1008,6 @@
             white-space: nowrap;
         }
 
-        .btn-ai-float {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: linear-gradient(135deg, var(--royal-blue), #1E40AF);
-            color: #FFFFFF;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 30px;
-            font-size: 13.5px;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(11, 79, 216, 0.45);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s;
-        }
-        .btn-ai-float:hover {
-            transform: scale(1.05);
-        }
-
-        /* CHAT SHEET MODAL (Hasna CS AI) */
-        .chat-sheet-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 120;
-            align-items: flex-end;
-            justify-content: center;
-        }
-        .chat-sheet-box {
-            background: #FFFFFF;
-            color: var(--text-title);
-            width: 100%;
-            max-width: 480px;
-            border-radius: 20px 20px 0 0;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
-        }
-        .sheet-bar {
-            padding: 14px 18px;
-            background: #F8FAFC;
-            border-bottom: 1px solid var(--border-subtle);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .sheet-msgs {
-            padding: 16px;
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: #F1F5F9;
-        }
-        .bubble {
-            max-width: 85%;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-        .bubble-ai {
-            align-self: flex-start;
-            background: #FFFFFF;
-            color: var(--text-title);
-            border: 1px solid var(--border-subtle);
-        }
-        .bubble-user {
-            align-self: flex-end;
-            background: var(--primary-blue);
-            color: #FFFFFF;
-        }
-        .sheet-input-row {
-            padding: 12px 16px;
-            background: #FFFFFF;
-            border-top: 1px solid var(--border-subtle);
-            display: flex;
-            gap: 8px;
-        }
-        .sheet-text-input {
-            flex: 1;
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 10px 12px;
-            font-size: 13px;
-            outline: none;
-        }
-        .sheet-submit-btn {
-            background: var(--primary-blue);
-            color: #FFFFFF;
-            border: none;
-            border-radius: 8px;
-            padding: 0 16px;
-            font-weight: 700;
-            cursor: pointer;
-        }
 
         /* FOOTER */
         .luxury-footer {
@@ -1296,12 +1192,6 @@
             }
             .dock-label {
                 font-size: 10px;
-            }
-            .btn-ai-float {
-                bottom: 74px;
-                right: 14px;
-                padding: 8px 14px;
-                font-size: 12px;
             }
             .live-booking-toast {
                 bottom: 130px;
@@ -1816,33 +1706,6 @@
         </a>
     </nav>
 
-    <!-- 13. FLOATING AI BUTTON -->
-    <button type="button" class="btn-ai-float" onclick="openChatSheet()">
-        <span>🤖</span>
-        <span>Tanya Hasna CS</span>
-    </button>
-
-    <!-- 14. CHAT BOTTOM SHEET (Hasna CS AI) -->
-    <div class="chat-sheet-modal" id="chatSheet" onclick="closeChatSheet(event)">
-        <div class="chat-sheet-box" onclick="event.stopPropagation()">
-            <div class="sheet-bar">
-                <div style="font-weight: 800; display: flex; align-items: center; gap: 6px;">
-                    <span>🤖</span>
-                    <span>Hasna &ndash; CS AI Dropoff.id</span>
-                </div>
-                <button onclick="closeChatSheet()" style="background:none;border:none;font-size:22px;cursor:pointer;">&times;</button>
-            </div>
-            <div class="sheet-msgs" id="sheetMessages">
-                <div class="bubble bubble-ai">
-                    Halo Kak! Saya <b>Hasna</b>, asisten AI Dropoff.id. Butuh rekomendasi mobil, info rute, atau hitung tarif khusus? Silakan ketik pertanyaan Anda di sini ya! 😊
-                </div>
-            </div>
-            <div class="sheet-input-row">
-                <input type="text" id="sheetInput" class="sheet-text-input" placeholder="Ketik pesan..." onkeypress="handleSheetEnter(event)">
-                <button class="sheet-submit-btn" onclick="sendSheetMessage()">Kirim</button>
-            </div>
-        </div>
-    </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
@@ -1973,54 +1836,6 @@
             if (toast) toast.classList.remove('visible');
         }
 
-        // CHAT BOTTOM SHEET (Hasna CS AI)
-        function openChatSheet() {
-            document.getElementById('chatSheet').style.display = 'flex';
-        }
-        function closeChatSheet(e) {
-            if (!e || e.target.id === 'chatSheet') {
-                document.getElementById('chatSheet').style.display = 'none';
-            }
-        }
-        function handleSheetEnter(e) {
-            if (e.key === 'Enter') sendSheetMessage();
-        }
-
-        async function sendSheetMessage() {
-            const input = document.getElementById('sheetInput');
-            const text = input.value.trim();
-            if (!text) return;
-
-            const box = document.getElementById('sheetMessages');
-            
-            // User msg
-            const userBubble = document.createElement('div');
-            userBubble.className = 'bubble bubble-user';
-            userBubble.innerText = text;
-            box.appendChild(userBubble);
-            input.value = '';
-            box.scrollTop = box.scrollHeight;
-
-            // Loading AI
-            const loadingBubble = document.createElement('div');
-            loadingBubble.className = 'bubble bubble-ai';
-            loadingBubble.innerText = 'Hasna sedang memproses...';
-            box.appendChild(loadingBubble);
-            box.scrollTop = box.scrollHeight;
-
-            try {
-                const res = await fetch('/api/chat.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
-                });
-                const data = await res.json();
-                loadingBubble.innerHTML = data.reply.replace(/\n/g, '<br>');
-            } catch (err) {
-                loadingBubble.innerText = 'Maaf Kak, saat ini koneksi AI sedang sibuk. Silakan pesan langsung via WhatsApp ya Kak.';
-            }
-            box.scrollTop = box.scrollHeight;
-        }
 
         // Mulai simulasi toast live booking setelah 4 detik, dan berulang tiap 24 detik
         setTimeout(showNextToast, 4000);
