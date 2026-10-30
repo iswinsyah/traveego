@@ -2143,6 +2143,39 @@ $isLoggedIn = isCrewLoggedIn();
                                 </button>
                             </div>
                         </div>
+
+                        <!-- 4. KOTAK INTEGRASI PIXABAY MEDIA API -->
+                        <div style="background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 12px; padding: 16px; margin-top: 14px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 10px; background: #FEF3C7; color: #B45309; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800;">
+                                        📸
+                                    </div>
+                                    <div>
+                                        <h4 style="font-size: 15px; font-weight: 800; color: #92400E; margin: 0;">API Pixabay (Media Foto Blog)</h4>
+                                        <div style="font-size: 11px; color: #B45309; font-weight: 600;">Penyedia Foto Artikel Gratis &amp; Bebas Royalti</div>
+                                    </div>
+                                </div>
+                                <span class="pill-badge pill-amber" style="font-size: 11px; font-weight: 800;">pixabay.com/api</span>
+                            </div>
+
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; font-size: 12px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Kode API Key Pixabay</label>
+                                <input type="text" id="cfgPixabayKey" placeholder="Tempel API Key Pixabay Anda di Sini" style="width: 100%; height: 42px; background: #FFF; border: 2px solid #FCD34D; border-radius: 8px; padding: 0 12px; font-family: monospace; font-size: 13px; font-weight: 700; outline: none; color: #0F172A;">
+                                <small style="display: block; font-size: 11px; color: #92400E; margin-top: 4px; font-weight: 600;">Digunakan oleh Mbak Maya untuk mencari dan menanamkan foto artikel secara otomatis.</small>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end; margin-top: 6px;">
+                                <div>
+                                    <a href="https://pixabay.com/api/docs/" target="_blank" style="font-size: 12px; font-weight: 800; color: #B45309; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 8px 0;">
+                                        <span>🌐 Dokumentasi Pixabay API ➔</span>
+                                    </a>
+                                </div>
+                                <button type="button" onclick="testPixabayKey()" id="btnTestPixabay" class="btn-brand-amber" style="height: 38px; padding: 0 14px; font-size: 12px; font-weight: 800; background: #D97706; color: #FFF; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 6px rgba(217,119,6,0.3);">
+                                    ⚡ Test API Pixabay
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- BARIS SWITCH / SUITE MESIN AKTIF -->
@@ -3848,6 +3881,31 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         alert('👩‍💼 Mbak Hasna (CS AI):\n"Halo Kak! Hasna terhubung langsung dengan data tarif update Pak Hendra dan armada standby Bang Jaka.\nTarif kami ALL-IN (Tol + BBM + Sopir) tanpa DP sama sekali, bayar di lokasi penjemputan/tujuan!"');
     }
 
+    async function testPixabayKey() {
+        const key = document.getElementById('cfgPixabayKey').value.trim();
+        if (!key) {
+            alert('Masukkan API Key Pixabay terlebih dahulu!');
+            return;
+        }
+        const btn = document.getElementById('btnTestPixabay');
+        btn.disabled = true;
+        btn.innerText = 'Menguji...';
+        try {
+            const res = await fetch('/api/crew.php?action=test_pixabay&key=' + encodeURIComponent(key));
+            const d = await res.json();
+            if (d.success) {
+                alert('✅ ' + d.message + (d.sample_image ? '\n\nContoh foto ditemukan:\n' + d.sample_image : ''));
+            } else {
+                alert('❌ ' + d.message);
+            }
+        } catch(e) {
+            alert('Error koneksi: ' + e.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = '⚡ Test API Pixabay';
+        }
+    }
+
     // ==============================================================
     // Hasna CLOSING HUB & WHATSAPP LEADS MANAGER
     // ==============================================================
@@ -4069,6 +4127,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
             if (d.groq_api_key) document.getElementById('cfgGroqKey').value = d.groq_api_key;
             if (d.groq_model) document.getElementById('cfgGroqModel').value = d.groq_model;
             if (d.fonnte_token) document.getElementById('cfgFonnteToken').value = d.fonnte_token;
+            if (d.pixabay_api_key) document.getElementById('cfgPixabayKey').value = d.pixabay_api_key;
 
             const radios = document.getElementsByName('cloudActiveProv');
             for (let r of radios) {
@@ -4106,6 +4165,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         const groqKey = document.getElementById('cfgGroqKey').value.trim();
         const groqModel = document.getElementById('cfgGroqModel').value;
         const fonnteToken = document.getElementById('cfgFonnteToken').value.trim();
+        const pixabayKey = document.getElementById('cfgPixabayKey').value.trim();
 
         const radios = document.getElementsByName('cloudActiveProv');
         let activeProv = 'gemini';
@@ -4129,6 +4189,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
                     groq_api_key: groqKey,
                     groq_model: groqModel,
                     fonnte_token: fonnteToken,
+                    pixabay_api_key: pixabayKey,
                     active_cloud_provider: activeProv
                 })
             });
@@ -4167,6 +4228,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         const groqKey = document.getElementById('cfgGroqKey').value.trim();
         const groqModel = document.getElementById('cfgGroqModel').value;
         const fonnteToken = document.getElementById('cfgFonnteToken').value.trim();
+        const pixabayKey = document.getElementById('cfgPixabayKey').value.trim();
 
         try {
             await fetch('/api/crew.php?action=save_cloud_config', {

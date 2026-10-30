@@ -9,5 +9,6 @@
   "groq_model": "qwen/qwen3.8-27b",
   "active_cloud_provider": "gemini",
   "fonnte_token": "",
-  "note": "PC Server Ollama (Agen Lokal) + Dual Cloud API (Mbak Hasna & Bang Jaka) + Fonnte WA Gateway"
+  "pixabay_api_key": "56406805-a0d81200003f85a440edb2e28",
+  "note": "PC Server Ollama (Agen Lokal) + Dual Cloud API (Mbak Hasna & Bang Jaka) + Fonnte WA Gateway + Pixabay Media API"
 }

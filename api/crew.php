@@ -150,7 +150,8 @@ switch ($action) {
             'groq_api_key' => $cfg['groq_api_key'] ?? '',
             'groq_model' => $cfg['groq_model'] ?? 'llama-3.3-70b-versatile',
             'active_cloud_provider' => $cfg['active_cloud_provider'] ?? 'gemini',
-            'fonnte_token' => $cfg['fonnte_token'] ?? ''
+            'fonnte_token' => $cfg['fonnte_token'] ?? '',
+            'pixabay_api_key' => $cfg['pixabay_api_key'] ?? ''
         ]);
         break;
 
@@ -167,6 +168,7 @@ switch ($action) {
         if (isset($payload['groq_model'])) $existing['groq_model'] = trim($payload['groq_model']) ?: 'qwen/qwen3.8-27b';
         if (isset($payload['active_cloud_provider'])) $existing['active_cloud_provider'] = trim($payload['active_cloud_provider']) ?: 'gemini';
         if (isset($payload['fonnte_token'])) $existing['fonnte_token'] = trim($payload['fonnte_token']);
+        if (isset($payload['pixabay_api_key'])) $existing['pixabay_api_key'] = trim($payload['pixabay_api_key']);
         $existing['updated_at'] = date('Y-m-d H:i:s');
 
         $saved = @file_put_contents($aiConfigFile, json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -190,6 +192,38 @@ switch ($action) {
                 'has_fonnte' => !empty($existing['fonnte_token'])
             ]
         ]);
+        break;
+
+    case 'test_pixabay':
+        $cfg = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+        $key = trim($_GET['key'] ?? ($cfg['pixabay_api_key'] ?? ''));
+        if (empty($key)) {
+            sendJson(['success' => false, 'message' => 'API Key Pixabay belum dimasukkan.'], 400);
+        }
+        $url = "https://pixabay.com/api/?key=" . urlencode($key) . "&q=toll+road+highway&image_type=photo&orientation=horizontal&safesearch=true&per_page=3";
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_USERAGENT => 'TraveegoBot/1.0 (Windows NT 10.0; Win64; x64)',
+            CURLOPT_TIMEOUT => 6,
+            CURLOPT_SSL_VERIFYPEER => false
+        ]);
+        $res = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode === 200 && $res) {
+            $data = json_decode($res, true);
+            $hits = $data['totalHits'] ?? 0;
+            $sample = $data['hits'][0]['webformatURL'] ?? '';
+            sendJson([
+                'success' => true,
+                'message' => "API Key Pixabay AKTIF & VALID! Ditemukan " . number_format($hits, 0, ',', '.') . " foto bebas royalti siap pakai.",
+                'sample_image' => $sample
+            ]);
+        } else {
+            sendJson(['success' => false, 'message' => "Gagal terhubung ke Pixabay (HTTP $httpCode). Pastikan API Key valid."], 400);
+        }
         break;
 
     case 'test_cloud_ai':
