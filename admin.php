@@ -645,6 +645,8 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
 <?php
 
 // JIKA SUDAH LOGIN: TAMPILKAN ADMIN PORTAL LENGKAP
+
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -688,9 +690,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             display: flex;
         }
 
-        /* ==============================================================
-           1. SIDEBAR (UNTUK TAMPILAN PC / DESKTOP)
-           ============================================================== */
+        /* 1. SIDEBAR DESKTOP (TAMPILAN PC) */
         .admin-sidebar {
             width: var(--sidebar-width);
             background: var(--wp-dark);
@@ -701,7 +701,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             height: 100vh;
             border-right: 1px solid var(--wp-border-dark);
             z-index: 100;
-            transition: all 0.3s ease;
         }
 
         .sidebar-brand {
@@ -742,7 +741,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             letter-spacing: 0.5px;
         }
 
-        /* SIDEBAR NAVIGATION ITEMS */
         .sidebar-menu {
             flex: 1;
             padding: 16px 12px;
@@ -807,7 +805,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             transform: scale(1.1);
         }
 
-        /* SIDEBAR QUICK LINKS */
         .sidebar-quick-links {
             padding: 12px;
             border-top: 1px solid var(--wp-border-dark);
@@ -834,7 +831,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             color: #FFF;
         }
 
-        /* SIDEBAR USER FOOTER */
         .sidebar-footer {
             padding: 14px 16px;
             border-top: 1px solid var(--wp-border-dark);
@@ -899,9 +895,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             color: #FFF;
         }
 
-        /* ==============================================================
-           2. MAIN CONTENT VIEWPORT (IFRAME CONTAINER)
-           ============================================================== */
+        /* 2. MAIN VIEWPORT AREA */
         .admin-main-wrap {
             flex: 1;
             display: flex;
@@ -911,7 +905,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             position: relative;
         }
 
-        /* TOP HEADER KHUSUS MOBILE HEADER */
         .mobile-top-bar {
             display: none;
             height: 52px;
@@ -964,9 +957,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             display: block;
         }
 
-        /* ==============================================================
-           3. BOTTOM NAVIGATION BAR (UNTUK TAMPILAN HP / MOBILE)
-           ============================================================== */
+        /* 3. BOTTOM NAVIGATION BAR (TAMPILAN HP) */
         .mobile-bottom-bar {
             display: none;
             height: var(--bottom-nav-height);
@@ -1015,26 +1006,20 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             transform: translateY(-2px);
         }
 
-        /* ==============================================================
-           4. RESPONSIVE BREAKPOINT (@media)
-           ============================================================== */
+        /* 4. RESPONSIVE BREAKPOINT (@media) */
         @media (max-width: 900px) {
-            /* Sembunyikan Sidebar PC */
             .admin-sidebar {
                 display: none !important;
             }
 
-            /* Tampilkan Mobile Top Bar */
             .mobile-top-bar {
                 display: flex !important;
             }
 
-            /* Tampilkan Bottom Bar di HP */
             .mobile-bottom-bar {
                 display: flex !important;
             }
 
-            /* Berikan ruang di bawah konten iframe agar tidak tertutup bottom bar */
             .viewport-area {
                 height: calc(100vh - 52px - var(--bottom-nav-height));
                 margin-bottom: var(--bottom-nav-height);
