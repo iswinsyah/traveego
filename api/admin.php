@@ -288,6 +288,173 @@ if ($action === 'test_fonnte') {
     }
 }
 
+// 5c. TRAINING & PROMPT SYSTEM CS AI (MBAK HASNA)
+$hasnaPromptFile = __DIR__ . '/../data/hasna_prompt_training.txt';
+$defaultHasnaPrompt = "Kamu adalah Mbak Hasna, Customer Service AI resmi dari Traveego (Layanan Sewa Mobil Privat Drop-Off Antarkota & Antar-Jemput Bandara Sekali Jalan).\n\n"
+    . "KARAKTER & PERSONA:\n"
+    . "- Ramah, santun, hangat, solutif, persuasif, dan komunikatif khas Customer Service profesional Indonesia.\n"
+    . "- Gunakan sapaan hangat seperti \"Halo Kak!\", \"Ada yang bisa Hasna bantu?\", dan gunakan emoji ramah khas WhatsApp 😊.\n"
+    . "- Komunikasi ringkas, padat, dan terstruktur (1 sampai 3 paragraf singkat, gunakan poin emoji jika memberikan daftar harga/opsi armada).\n\n"
+    . "PRINSIP UTAMA LAYANAN TRAVEEGO:\n"
+    . "1. TARIF ALL-IN BERSIH: Semua harga sudah mencakup Sewa Mobil Privat + Jasa Sopir Berpengalaman + BBM Penuh + Saldo Tol Penuh (Tol MBZ, Tol Cipularang, Tol Bandara Sedyatmo, JORR). Tidak ada pungutan liar apapun.\n"
+    . "2. 100% AMAN (0% DP): Bebas uang muka / DP Rp 0. Pembayaran dilakukan 100% setelah tiba dengan selamat di tujuan, baik secara tunai maupun transfer ke sopir.\n"
+    . "3. ARMADA PRIVAT (Bukan Travel Gabungan/Umum):\n"
+    . "   - Toyota Avanza / Veloz (1-4 penumpang)\n"
+    . "   - Toyota Innova Reborn (1-5 penumpang)\n"
+    . "   - Toyota HiAce Premio (8-14 penumpang)\n"
+    . "   Sopir standby 30 menit sebelum jadwal penjemputan door-to-door.\n\n"
+    . "GAYA MENJAWAB & CLOSING PERCAKAPAN:\n"
+    . "- Jawab langsung pertanyaan calon tamu mengenai ketersediaan armada, kenyamanan, atau estimasi harga.\n"
+    . "- Jelaskan bahwa pemesanan adalah sewa mobil privat (1 mobil khusus untuk rombongan pemesan).\n"
+    . "- Di akhir balasan, selalu tanyakan: \"Rencana perjalanannya untuk tanggal dan jam berapa Kak? Serta titik jemput dan tujuannya ke mana agar Hasna siapkan armada terbaiknya 😊\".";
+
+if ($action === 'get_hasna_prompt') {
+    $prompt = file_exists($hasnaPromptFile) ? trim(file_get_contents($hasnaPromptFile)) : '';
+    if (empty($prompt)) {
+        $prompt = $defaultHasnaPrompt;
+        @file_put_contents($hasnaPromptFile, $defaultHasnaPrompt);
+    }
+
+    $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
+    $aiConfig = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+
+    sendJson([
+        'success' => true,
+        'prompt' => $prompt,
+        'default_prompt' => $defaultHasnaPrompt,
+        'active_provider' => $aiConfig['active_cloud_provider'] ?? 'gemini',
+        'has_gemini' => !empty($aiConfig['gemini_api_key']),
+        'has_groq' => !empty($aiConfig['groq_api_key']),
+        'updated_at' => file_exists($hasnaPromptFile) ? date('Y-m-d H:i:s', filemtime($hasnaPromptFile)) : date('Y-m-d H:i:s')
+    ]);
+}
+
+if ($action === 'save_hasna_prompt') {
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true) ?: $_POST;
+    $newPrompt = trim($payload['prompt'] ?? '');
+    if (empty($newPrompt)) {
+        sendJson(['success' => false, 'message' => 'Prompt training tidak boleh kosong.'], 400);
+    }
+    $saved = @file_put_contents($hasnaPromptFile, $newPrompt);
+    if ($saved === false) {
+        sendJson(['success' => false, 'message' => 'Gagal menulis ke file data/hasna_prompt_training.txt. Periksa permission.'], 500);
+    }
+    sendJson([
+        'success' => true,
+        'message' => 'Prompt Training Mbak Hasna BERHASIL Disimpan! Otak CS AI langsung menggunakan instruksi ini secara realtime.',
+        'prompt' => $newPrompt,
+        'char_count' => strlen($newPrompt)
+    ]);
+}
+
+if ($action === 'reset_hasna_prompt') {
+    @file_put_contents($hasnaPromptFile, $defaultHasnaPrompt);
+    sendJson([
+        'success' => true,
+        'message' => 'Prompt Training Mbak Hasna telah direset kembali ke Standar Resmi Traveego.',
+        'prompt' => $defaultHasnaPrompt
+    ]);
+}
+
+if ($action === 'test_hasna_sim') {
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true) ?: $_POST;
+    $userMsg = trim($payload['message'] ?? 'Halo Mbak Hasna, sewa Avanza drop-off ke Depok Sukmajaya berapa ya?');
+    $customPrompt = trim($payload['prompt'] ?? '');
+    if (empty($customPrompt)) {
+        $customPrompt = file_exists($hasnaPromptFile) ? trim(file_get_contents($hasnaPromptFile)) : $defaultHasnaPrompt;
+    }
+
+    $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
+    $aiConfig = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+    $geminiKey = trim($aiConfig['gemini_api_key'] ?? '');
+    $groqKey = trim($aiConfig['groq_api_key'] ?? '');
+    $activeProv = $aiConfig['active_cloud_provider'] ?? 'gemini';
+
+    // Rangkai konteks dengan matriks harga
+    $matrixFile = __DIR__ . '/../data/cost_matrix.json';
+    $matrix = file_exists($matrixFile) ? json_decode(file_get_contents($matrixFile), true) : [];
+    $routes = $matrix['routes'] ?? [];
+    $soettaAvanza = $routes['jakarta_bandara_soetta']['pricing']['avanza']['formatted_price'] ?? 'Rp 260.000';
+    $barayaAvanza = $routes['jakarta_baraya']['pricing']['avanza']['formatted_price'] ?? 'Rp 500.000';
+    $kotaAvanza   = $routes['jabodetabek_dalam_kota']['pricing']['avanza']['formatted_price'] ?? 'Rp 275.000';
+
+    $fullSystem = $customPrompt . "\n\n"
+        . "DATA TARIF REAL-TIME ACUAN RESMI:\n"
+        . "- Bandara Soetta: Mulai $soettaAvanza (All-In)\n"
+        . "- Dalam Kota: Mulai $kotaAvanza (All-In)\n"
+        . "- Jakarta ke Bandung: Mulai $barayaAvanza (All-In)";
+
+    $simReply = '';
+    $engine = 'Rule Engine';
+
+    $order = ($activeProv === 'groq') ? ['groq', 'gemini'] : ['gemini', 'groq'];
+    foreach ($order as $prov) {
+        if ($prov === 'gemini' && $geminiKey && !$simReply) {
+            $model = $aiConfig['gemini_model'] ?? 'gemini-1.5-flash';
+            if ($model === 'gemini-2.5-flash') $model = 'gemini-1.5-flash';
+            $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key=" . urlencode($geminiKey);
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode([
+                    'contents' => [['parts' => [['text' => $fullSystem . "\n\nPertanyaan Tamu: " . $userMsg]]]]
+                ]),
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $res = curl_exec($ch);
+            $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if ($http === 200 && $res) {
+                $p = json_decode($res, true);
+                $simReply = trim($p['candidates'][0]['content']['parts'][0]['text'] ?? '');
+                if ($simReply) $engine = "Gemini ($model)";
+            }
+        } elseif ($prov === 'groq' && $groqKey && !$simReply) {
+            $model = $aiConfig['groq_model'] ?? 'llama-3.1-8b-instant';
+            if ($model === 'llama-3.3-70b-versatile') $model = 'llama-3.1-8b-instant';
+            $ch = curl_init("https://api.groq.com/openai/v1/chat/completions");
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode([
+                    'model' => $model,
+                    'messages' => [
+                        ['role' => 'system', 'content' => $fullSystem],
+                        ['role' => 'user', 'content' => $userMsg]
+                    ]
+                ]),
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer $groqKey"],
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_SSL_VERIFYPEER => false
+            ]);
+            $res = curl_exec($ch);
+            $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if ($http === 200 && $res) {
+                $p = json_decode($res, true);
+                $simReply = trim($p['choices'][0]['message']['content'] ?? '');
+                if ($simReply) $engine = "Groq ($model)";
+            }
+        }
+    }
+
+    if (!$simReply) {
+        $simReply = "Halo Kak! Salam hangat dari Mbak Hasna (CS AI Traveego) 😊\n\nUntuk drop-off rute tersebut, tarif kami sudah ALL-IN bersih (Mobil Privat + Driver Berpengalaman + BBM + Tol Penuh) dan TANPA DP (bayar di tempat setelah tiba).\n\nRencana untuk penjemputan jam berapa dan tanggal berapa Kak?";
+    }
+
+    sendJson([
+        'success' => true,
+        'reply' => $simReply,
+        'engine' => $engine,
+        'message_tested' => $userMsg
+    ]);
+}
+
 // 6. SETUP / INISIALISASI DATABASE MYSQL (1-KLIK)
 if ($action === 'init_db') {
     try {

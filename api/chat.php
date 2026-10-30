@@ -49,7 +49,18 @@ $groqKey = trim($aiConfig['groq_api_key'] ?? '');
 $activeProvider = $aiConfig['active_cloud_provider'] ?? 'gemini';
 
 if (!empty($message) && ($geminiKey || $groqKey)) {
-    $systemContext = "Kamu adalah Mbak Hasna, Customer Service AI resmi Traveego (sewa mobil privat drop-off sekali jalan antarkota).\n"
+    $promptFile = __DIR__ . '/../data/hasna_prompt_training.txt';
+    $customPrompt = file_exists($promptFile) ? trim(file_get_contents($promptFile)) : '';
+
+    if (!empty($customPrompt)) {
+        $systemContext = $customPrompt . "\n\n"
+            . "DATA TARIF REAL-TIME ACUAN RESMI PAK HENDRA:\n"
+            . "- Bandara Soetta/Halim: Avanza $soettaAvanza, Innova $soettaInnova, HiAce $soettaHiace\n"
+            . "- Dalam Kota Jabodetabek: Avanza $kotaAvanza, Innova $kotaInnova, HiAce $kotaHiace\n"
+            . "- Jakarta ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
+            . "Jawab pertanyaan calon pelanggan secara ringkas (maksimal 2-3 paragraf), jelas, sopan, dan ajak untuk klik tombol 'Pesan Cepat' di web.";
+    } else {
+        $systemContext = "Kamu adalah Mbak Hasna, Customer Service AI resmi Traveego (sewa mobil privat drop-off sekali jalan antarkota).\n"
         . "Karakter: Ramah, santun, solutif, persuasif, memakai sapaan hangat ('Halo Kak!', 'Ada yang bisa Hasna bantu?').\n"
         . "Prinsip Utama Traveego:\n"
         . "1. TARIF ALL-IN: Sudah termasuk Sewa Mobil Privat + Jasa Sopir + BBM + Saldo Tol Penuh (Tol MBZ, Cipularang, Sedyatmo, JORR).\n"
@@ -60,6 +71,7 @@ if (!empty($message) && ($geminiKey || $groqKey)) {
         . "   - Dalam Kota Jabodetabek: Avanza $kotaAvanza, Innova $kotaInnova, HiAce $kotaHiace\n"
         . "   - Jakarta ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
         . "Jawab pertanyaan calon pelanggan secara ringkas (maksimal 2-3 paragraf), jelas, sopan, dan ajak untuk klik tombol 'Pesan Cepat' di web.";
+    }
 
     $aiReply = null;
     $providerUsed = '';

@@ -521,6 +521,9 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 <button type="button" class="btn-tab-pill <?= $activeTab === 'ops' ? 'active' : '' ?>" id="tabBtnOps" onclick="switchAdminTab('ops')">
                     <span>⚙️ Konsol Operasional &amp; Radar</span>
                 </button>
+                <button type="button" class="btn-tab-pill" id="tabBtnTraining" onclick="goToTrainingHasna()" title="Buka Ruang Training CS AI Mbak Hasna">
+                    <span>🧠 Training CS AI Hasna</span>
+                </button>
             </div>
         </div>
 
@@ -559,6 +562,24 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             const btnOps = document.getElementById('tabBtnOps');
             const frameCms = document.getElementById('frameCms');
             const frameOps = document.getElementById('frameOps');
+
+        function goToTrainingHasna() {
+            switchAdminTab('ops');
+            setTimeout(() => {
+                const frameOps = document.getElementById('frameOps');
+                if (frameOps && frameOps.contentWindow) {
+                    const card = frameOps.contentWindow.document.getElementById('hasnaTrainingCard');
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth' });
+                        card.style.transition = 'box-shadow 0.4s ease';
+                        card.style.boxShadow = '0 0 0 4px #2563EB, 0 8px 24px rgba(37,99,235,0.2)';
+                        setTimeout(() => {
+                            card.style.boxShadow = '0 4px 14px rgba(37,99,235,0.06)';
+                        }, 2000);
+                    }
+                }
+            }, 250);
+        }
 
             if (tabName === 'cms') {
                 btnCms.classList.add('active');

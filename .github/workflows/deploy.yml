@@ -36,4 +36,5 @@ jobs:
             scripts/**
             ai_crew/**
             data/ai_server_config.json
+            data/hasna_prompt_training.txt
             data/*.log
