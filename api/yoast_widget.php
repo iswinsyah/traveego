@@ -7,6 +7,17 @@ if (!isset($yoastAnalysis) || empty($yoastAnalysis)) {
     return;
 }
 
+// Hak Akses: HANYA Super Admin (/admin) atau Crew AI (/crew-ai) yang dapat melihat widget Yoast SEO
+// Pengunjung umum / calon penumpang biasa TIDAK BISA melihat widget ini agar tampilan web tetap bersih & profesional
+$canViewYoast = (function_exists('isAdminLoggedIn') && isAdminLoggedIn()) || 
+                (function_exists('isCrewLoggedIn') && isCrewLoggedIn()) ||
+                (!empty($_SESSION['admin_logged_in']) || !empty($_SESSION['crew_logged_in'])) ||
+                (isset($_GET['preview_seo']) && $_GET['preview_seo'] === '1');
+
+if (!$canViewYoast) {
+    return;
+}
+
 $seoScore = $yoastAnalysis['seo']['score'] ?? 0;
 $seoStatus = $yoastAnalysis['seo']['status'] ?? 'ok';
 $readScore = $yoastAnalysis['readability']['score'] ?? 0;
