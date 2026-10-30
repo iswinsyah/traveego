@@ -750,3 +750,4 @@ if (basename($_SERVER['SCRIPT_FILENAME'] ?? '') === 'yoast_analyzer.php') {
     echo json_encode(['success' => false, 'message' => 'Parameter slug atau data tidak valid'], JSON_PRETTY_PRINT);
     exit;
 }
+

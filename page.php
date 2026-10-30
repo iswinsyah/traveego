@@ -389,6 +389,86 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
             .hero-title { font-size: 24px; }
             .trust-grid, .pricing-grid { grid-template-columns: 1fr; }
         }
+
+        /* CTA Bottom High-Contrast */
+        .cta-box {
+            background: linear-gradient(145deg, #072D6B 0%, #0B4FD8 100%);
+            border: 2px solid #60A5FA;
+            border-radius: 20px;
+            padding: 36px 28px;
+            text-align: center;
+            margin-top: 36px;
+            box-shadow: 0 14px 35px -5px rgba(11, 79, 216, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .cta-badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #FEF08A;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .cta-box h3 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #FDE047 !important;
+            margin-bottom: 12px;
+            line-height: 1.35;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .cta-box p {
+            font-size: 15.5px;
+            color: #FFFFFF !important;
+            line-height: 1.65;
+            margin-bottom: 26px;
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        }
+        .btn-cta-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #16A34A;
+            color: #FFFFFF !important;
+            padding: 15px 32px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45);
+            transition: all 0.2s ease;
+            border: 1.5px solid #86EFAC;
+        }
+        .btn-cta-wa:hover {
+            background: #15803D;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.55);
+            color: #FFFFFF !important;
+        }
     </style>
 </head>
 <body>
@@ -405,8 +485,8 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
         <span>TRAVEEGO</span>
     </a>
     <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= $waText ?>" class="btn-topbar-wa" target="_blank" rel="noopener">
-        <span>💬</span>
-        <span>Pesan via WhatsApp (0% DP)</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; flex-shrink: 0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <span>Hubungi Customer Service</span>
     </a>
 </header>
 
@@ -504,6 +584,17 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
             <li><strong>Kabin Bersih &amp; Dingin:</strong> Unit disemprot disinfektan, wangi, ber-AC dingin, dan bebas dari aroma rokok.</li>
             <li><strong>Anti-Batal Sepihak:</strong> Penjemputan dijamin tepat waktu sesuai jam yang Anda pesan.</li>
         </ul>
+    </div>
+
+    <!-- CTA Box Halaman Rute -->
+    <div class="cta-box">
+        <div class="cta-badge-tag">⚡ Layanan Siaga 24 Jam &bull; 0% Uang Muka</div>
+        <h3>Mau Konsultasi Rute atau Pesan Sekarang?</h3>
+        <p>Hubungi customer service kami untuk cek ketersediaan armada, jadwal penjemputan, dan konsultasi rute perjalanan tanpa uang muka (0% DP)!</p>
+        <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= urlencode('Halo Mbak Hasna, saya ingin tanya rute dan booking drop-off: ' . $headline) ?>" class="btn-cta-wa" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; flex-shrink: 0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Hubungi Customer Service</span>
+        </a>
     </div>
 </main>
 
