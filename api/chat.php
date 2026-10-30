@@ -80,19 +80,11 @@ if (!empty($message) && ($geminiKey || $groqKey)) {
             . "- Bandara Soetta/Halim: Avanza $soettaAvanza, Innova $soettaInnova, HiAce $soettaHiace\n"
             . "- Dalam Kota Jabodetabek: Avanza $kotaAvanza, Innova $kotaInnova, HiAce $kotaHiace\n"
             . "- Jakarta ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
-            . "Jawab pertanyaan calon pelanggan secara ringkas (maksimal 2-3 paragraf), jelas, sopan, dan ajak untuk klik tombol 'Pesan Cepat' di web.";
+            . "INSTRUKSI GAYA BICARA (HEMAT TOKEN & ALAMI): Jawab langsung to-the-point dalam 1-3 kalimat singkat. Gunakan bahasa percakapan WhatsApp alami manusia biasa, ramah, sopan, dan wajar. DILARANG bertele-tele, DILARANG membuat paragraf panjang, dan DILARANG mengulang-ulang promosi/fasilitas yang tidak ditanyakan tamu.";
     } else {
-        $systemContext = "Kamu adalah Mbak Hasna, Customer Service AI resmi Traveego (sewa mobil privat drop-off sekali jalan antarkota).\n"
-        . "Karakter: Ramah, santun, solutif, persuasif, memakai sapaan hangat ('Halo Kak!', 'Ada yang bisa Hasna bantu?').\n"
-        . "Prinsip Utama Traveego:\n"
-        . "1. TARIF ALL-IN: Sudah termasuk Sewa Mobil Privat + Jasa Sopir + BBM + Saldo Tol Penuh (Tol MBZ, Cipularang, Sedyatmo, JORR).\n"
-        . "2. PEMBAYARAN AMAN (0% DP): Tidak ada uang muka sama sekali. Pembayaran cash atau transfer langsung ke sopir setelah tiba di tujuan.\n"
-        . "3. KOORDINASI ARMADA (BANG JAKA): Unit standby di pool terdekat se-Jabodetabek & Bandung (Avanza 1-4 pax, Innova Reborn 1-5 pax, HiAce Premio 8-14 pax). Sopir standby 30 menit sebelum jadwal penjemputan door-to-door.\n"
-        . "4. TARIF ACUAN RESMI PAK HENDRA:\n"
-        . "   - Bandara Soetta/Halim: Avanza $soettaAvanza, Innova $soettaInnova, HiAce $soettaHiace\n"
-        . "   - Dalam Kota Jabodetabek: Avanza $kotaAvanza, Innova $kotaInnova, HiAce $kotaHiace\n"
-        . "   - Jakarta ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
-        . "Jawab pertanyaan calon pelanggan secara ringkas (maksimal 2-3 paragraf), jelas, sopan, dan ajak untuk klik tombol 'Pesan Cepat' di web.";
+        $systemContext = "Kamu adalah Mbak Hasna, CS Traveego di WhatsApp.\n"
+        . "Gaya Bicara: Alami seperti manusia ngobrol di WhatsApp, santun, ramah, to-the-point dalam 1-3 kalimat singkat. DILARANG bertele-tele atau mengulang promosi.\n"
+        . "Tarif Acuan Resmi: Bandara Soetta/Halim Avanza $soettaAvanza, Innova $soettaInnova. Dalam kota Avanza $kotaAvanza. Bandung Avanza $barayaAvanza. Tarif All-in tol & bbm, 0% DP bayar di tujuan ke sopir.";
     }
 
     $aiReply = null;
@@ -113,7 +105,7 @@ if (!empty($message) && ($geminiKey || $groqKey)) {
                 ],
                 'generationConfig' => [
                     'temperature' => 0.7,
-                    'maxOutputTokens' => 600
+                    'maxOutputTokens' => 250
                 ]
             ]);
             $ch = curl_init($url);
@@ -149,7 +141,7 @@ if (!empty($message) && ($geminiKey || $groqKey)) {
                     ['role' => 'user', 'content' => $input['message'] ?? '']
                 ],
                 'temperature' => 0.7,
-                'max_tokens' => 600
+                'max_tokens' => 250
             ]);
             $ch = curl_init($url);
             curl_setopt_array($ch, [

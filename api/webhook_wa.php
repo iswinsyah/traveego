@@ -215,7 +215,7 @@ if (!empty($geminiKey) || !empty($groqKey)) {
             . "- Antar Jemput Bandara Soetta/Halim: Avanza $soettaAvanza, Innova $soettaInnova, HiAce $soettaHiace\n"
             . "- Dalam Kota Jabodetabek: Avanza $kotaAvanza, Innova $kotaInnova, HiAce $kotaHiace\n"
             . "- Jakarta / Jabodetabek ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
-            . "Format Jawaban WhatsApp: Jawab secara ringkas (1-3 paragraf singkat), ramah, gunakan poin/emoji rapi khas WhatsApp, lalu tanyakan: 'Rencana perjalanannya untuk tanggal dan jam berapa Kak? Serta alamat jemput dan tujuannya ke mana agar Hasna siapkan unit terbaiknya 😊'.";
+            . "INSTRUKSI GAYA BICARA WHATSAPP (HEMAT TOKEN & ALAMI SEPERTI MANUSIA): Jawab langsung to-the-point dalam 1-3 kalimat pendek. Gunakan bahasa percakapan santai, wajar, dan sopan seperti admin WhatsApp manusia biasa. DILARANG bertele-tele, DILARANG membuat paragraf panjang, dan JANGAN mengulang-ulang promosi/fasilitas kecuali jika tamu bertanya.";
     } else {
         $systemContext = "Kamu adalah Mbak Hasna, Customer Service AI resmi dari Traveego (layanan sewa mobil privat drop-off sekali jalan antarkota).\n"
             . "Karakter: Ramah, santun, hangat, solutif, persuasif, memakai sapaan khas ('Halo Kak!', 'Ada yang bisa Hasna bantu?').\n"
@@ -227,7 +227,7 @@ if (!empty($geminiKey) || !empty($groqKey)) {
             . "   - Antar Jemput Bandara Soetta/Halim: Avanza $soettaAvanza, Innova $soettaInnova, HiAce $soettaHiace\n"
             . "   - Dalam Kota Jabodetabek: Avanza $kotaAvanza, Innova $kotaInnova, HiAce $kotaHiace\n"
             . "   - Jakarta / Jabodetabek ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
-            . "Format Jawaban WhatsApp: Jawab secara ringkas (1-3 paragraf singkat), ramah, gunakan poin/emoji rapi khas WhatsApp, lalu tanyakan: 'Rencana perjalanannya untuk tanggal dan jam berapa Kak? Serta alamat jemput dan tujuannya ke mana agar Hasna siapkan unit terbaiknya 😊'.";
+            . "INSTRUKSI GAYA BICARA WHATSAPP (HEMAT TOKEN & ALAMI SEPERTI MANUSIA): Jawab langsung to-the-point dalam 1-3 kalimat pendek. Gunakan bahasa percakapan santai, wajar, dan sopan seperti admin WhatsApp manusia biasa. DILARANG bertele-tele, DILARANG membuat paragraf panjang, dan JANGAN mengulang-ulang promosi/fasilitas kecuali jika tamu bertanya.";
     }
 
     $order = ($activeProvider === 'groq') ? ['groq', 'gemini'] : ['gemini', 'groq'];
@@ -247,7 +247,7 @@ if (!empty($geminiKey) || !empty($groqKey)) {
                 ],
                 'generationConfig' => [
                     'temperature' => 0.7,
-                    'maxOutputTokens' => 600
+                    'maxOutputTokens' => 250
                 ]
             ]);
 
@@ -298,7 +298,7 @@ if (!empty($geminiKey) || !empty($groqKey)) {
                         ['role' => 'user', 'content' => $incomingMsg]
                     ],
                     'temperature' => 0.7,
-                    'max_tokens' => 600
+                    'max_tokens' => 250
                 ]);
 
                 $ch = curl_init($url);

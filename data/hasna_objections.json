@@ -1,47 +1,42 @@
 [
     {
         "id": "KB-01",
-        "category": "Harga",
+        "category": "Harga & Perbandingan",
         "trigger": "Kok lebih mahal dari travel umum / bus / kereta?",
-        "objection_summary": "Pelanggan membandingkan dengan travel per-kursi",
-        "strategy": "Tekankan nilai mobil privat door-to-door, waktu fleksibel tidak menunggu penumpang lain, bebas mampir rest area, dan tarif sudah All-In termasuk tol penuh + BBM.",
-        "sample_response": "Betul Kak, karena di Traveego layanannya adalah Sewa Mobil Privat (1 mobil utuh khusus rombongan Kakak, tidak digabung penumpang asing dan tidak muter-muter keliling jemput orang lain). Jadwal bebas tentukan sendiri dan tarif sudah ALL-IN bersih termasuk Tol MBZ/Bandara + BBM tanpa biaya tambahan sepeserpun 😊.",
+        "strategy": "Jelaskan santai bahwa ini sewa 1 mobil privat bukan gabung orang lain, tidak muter jemput orang, dan tol sudah ditanggung.",
+        "sample_response": "Karena sistem kita sewa 1 mobil privat utuh Kak, gak dicampur penumpang lain dan gak keliling jemput orang. Jamnya bebas Kakak yang atur, dan tarifnya udah termasuk bbm sama tol penuh 😊",
         "is_active": true
     },
     {
         "id": "KB-02",
-        "category": "Negosiasi",
+        "category": "Diskon & Negosiasi",
         "trigger": "Bisa kurang nggak harganya? / Minta diskon dong",
-        "objection_summary": "Pelanggan ingin potongan harga atau menawar tarif",
-        "strategy": "Apresiasi minat pelanggan, tegaskan harga All-In sudah sangat hemat, lalu tawarkan voucher diskon penutupan cepat (Rp 15.000 - Rp 25.000) khusus pemesanan hari ini.",
-        "sample_response": "Terima kasih banyak sudah berminat dengan Traveego Kak! Tarif resmi kami sebenarnya sudah all-in bersih tanpa biaya tambahan. Tapi khusus penjemputan terdekat jika Kakak amankan slot armadanya hari ini, Hasna bisa bantu ajukan potongan spesial Rp 25.000 dari tarif resmi ya. Mau Hasna bantu amankan unitnya sekarang Kak? 😊",
+        "strategy": "Tanggapi ramah, jelaskan tarif sudah all-in bersih, lalu tawarkan potongan cepat Rp 25.000 jika pesan sekarang.",
+        "sample_response": "Tarif kita sebenarnya udah all-in bersih Kak. Tapi kalau Kakak mau amankan jadwalnya sekarang, Hasna kasih potongan spesial Rp 25.000 ya. Mau Hasna catat jadwalnya Kak? 😊",
         "is_active": true
     },
     {
         "id": "KB-03",
-        "category": "Kepercayaan",
+        "category": "Keamanan & DP 0%",
         "trigger": "Beneran tanpa DP? Nanti sopir nggak jemput / takut penipuan",
-        "objection_summary": "Pelanggan ragu komitmen tanpa uang muka atau takut ditipu",
-        "strategy": "Yakinkan sistem 100% aman (0% DP). Pembayaran cash atau transfer ke sopir setelah tiba dengan selamat. Bang Jaka menjadwalkan driver standby 30 menit sebelum jadwal penjemputan.",
-        "sample_response": "Dijamin 100% aman dan bebas rasa cemas Kak! Traveego menggunakan sistem TANPA UANG MUKA (DP Rp 0). Kakak baru membayar secara tunai atau transfer langsung ke sopir setelah mobil tiba dengan selamat di tujuan. Driver kami di bawah koordinasi Bang Jaka selalu standby 30 menit sebelum waktu jemput 😊.",
+        "strategy": "Yakinkan santai tanpa DP, bayar pas tiba ke sopir, sopir standby 30 menit sebelumnya.",
+        "sample_response": "Iya betul Kak, tanpa DP sama sekali kok. Nanti bayarnya pas mobil dan sopir udah sampai di tujuan aja, jadi aman banget ya Kak. Sopir kami standby 30 menit sebelum jam jemput 😊",
         "is_active": true
     },
     {
         "id": "KB-04",
-        "category": "Waktu",
+        "category": "Layanan & Waktu",
         "trigger": "Bisa jemput subuh jam 2-4 pagi? / Pesawat saya delay",
-        "objection_summary": "Kekhawatiran penjemputan dini hari atau pesawat delay di bandara",
-        "strategy": "Layanan drop-off Traveego aktif 24 jam nonstop door-to-door. Untuk antar-jemput bandara, sopir memantau jadwal kedatangan (flight tracker) sehingga tetap ditunggu meski delay.",
-        "sample_response": "Tentu sangat bisa Kak! Layanan Traveego siap 24 jam nonstop, termasuk penjemputan dini hari jam 02:00 - 04:00 subuh. Untuk jemput di Bandara Soetta/Halim, sopir kami standby di terminal kedatangan dan memantau jam landing pesawat Kakak. Jadi tenang saja jika penerbangan delay, tetap kami tunggu 😊.",
+        "strategy": "Jawab singkat dan pasti bahwa kita siap 24 jam nonstop termasuk subuh.",
+        "sample_response": "Bisa banget Kak, kita siap 24 jam kok. Nanti sopir standby tepat waktu di titik penjemputan Kakak ya 😊",
         "is_active": true
     },
     {
         "id": "KB-05",
-        "category": "Komplain",
+        "category": "Komplain & Kendala",
         "trigger": "Sopirnya telat / AC kurang dingin / salah rute",
-        "objection_summary": "Keluhan ketidaknyamanan saat perjalanan atau penjemputan",
-        "strategy": "Empati penuh, minta maaf dengan santun, jangan membantah. Catat keluhan dan langsung eskalasi ke Bang Jaka (Dispatcher Operasional) untuk intervensi cepat.",
-        "sample_response": "Hasna mohon maaf yang sebesar-besarnya atas ketidaknyamanan yang Kakak alami 🙏. Kenyamanan dan keselamatan perjalanan Kakak adalah prioritas utama kami. Hasna langsung hubungkan laporan ini ke Bang Jaka (Koordinator Lapangan) agar segera menghubungi driver dan memberikan solusi terbaik saat ini juga.",
+        "strategy": "Minta maaf tulus dan langsung hubungkan ke Bang Jaka (operasional).",
+        "sample_response": "Aduh, mohon maaf banget ya Kak atas ketidaknyamanannya 🙏 Hasna langsung koordinasikan ke Bang Jaka tim operasional sekarang juga biar segera dibantu solusinya ya Kak.",
         "is_active": true
     }
 ]
