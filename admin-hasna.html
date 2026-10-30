@@ -2,22 +2,23 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training CS AI Mbak Hasna | Traveego Admin</title>
-    <!-- Google Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Training CS AI Mbak Hasna | Traveego</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #0F4C81;
+            --primary: #0F4C81;
             --primary-dark: #0A3258;
             --primary-light: #EBF4FC;
             --accent-green: #16A34A;
             --royal-blue: #2563EB;
             --bg-body: #F8FAFC;
+            --card-bg: #FFFFFF;
             --text-main: #0F172A;
             --text-muted: #64748B;
+            --border: #E2E8F0;
             --radius-md: 12px;
             --radius-lg: 16px;
         }
@@ -32,22 +33,108 @@
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
-            padding-bottom: 60px;
+            padding: 20px 16px 80px 16px;
         }
 
         .container {
             max-width: 1100px;
-            margin: 24px auto;
-            padding: 0 20px;
+            margin: 0 auto;
         }
 
-        .section-card {
-            background: #FFF;
+        /* HEADER BANNER */
+        .top-banner {
+            background: linear-gradient(135deg, #0F4C81 0%, #1E3A8A 100%);
             border-radius: var(--radius-lg);
-            border: 1px solid #E2E8F0;
+            padding: 24px 28px;
+            color: #FFFFFF;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px -5px rgba(15, 76, 129, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .top-banner h1 {
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .top-banner p {
+            font-size: 13.5px;
+            color: #E2E8F0;
+            margin-top: 6px;
+            line-height: 1.5;
+            max-width: 650px;
+        }
+
+        /* NAVIGATION SUB-TABS */
+        .sub-nav {
+            display: flex;
+            gap: 8px;
+            background: #E2E8F0;
+            padding: 6px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .sub-nav::-webkit-scrollbar { display: none; }
+
+        .sub-tab-btn {
+            flex: 1;
+            min-width: 170px;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        .sub-tab-btn:hover {
+            color: var(--primary);
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .sub-tab-btn.active {
+            background: #FFFFFF;
+            color: var(--royal-blue);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* CARD CONTAINERS */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
             padding: 24px;
             margin-bottom: 24px;
-            box-shadow: 0 4px 14px rgba(37,99,235,0.06);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .btn-view-proof {
@@ -63,6 +150,7 @@
             align-items: center;
             gap: 6px;
             transition: all 0.2s;
+            text-decoration: none;
         }
         .btn-view-proof:hover {
             background: #E2E8F0;
@@ -73,8 +161,8 @@
             background: #FFF;
             border: 1px solid #CBD5E1;
             border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 12px;
+            padding: 7px 14px;
+            font-size: 12.5px;
             font-weight: 700;
             color: #0F172A;
             cursor: pointer;
@@ -85,145 +173,266 @@
             color: var(--royal-blue);
             transform: translateY(-1px);
         }
+
+        /* OBJECTION & EVALUATION CARDS */
+        .item-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            transition: border-color 0.2s;
+        }
+        .item-card:hover {
+            border-color: #93C5FD;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-price { background: #FEF3C7; color: #92400E; }
+        .badge-trust { background: #E0E7FF; color: #3730A3; }
+        .badge-service { background: #DCFCE7; color: #166534; }
+        .badge-nego { background: #FCE7F3; color: #9D174D; }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 16px;
+        }
+        .modal-card {
+            background: #FFF;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
 
-        <!-- KOTAK HOTLINE WHATSAPP -->
-        <div class="section-card" style="border-left: 4px solid #16A34A; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 24px;">
-                        📱
+        <!-- TOP BANNER -->
+        <div class="top-banner">
+            <div>
+                <h1>
+                    <span>🧠</span>
+                    <span>Pusat Training CS AI Mbak Hasna</span>
+                </h1>
+                <p>
+                    Kelola karakter, kamus penanganan keberatan, negosiasi harga, dan catatan evaluasi harian agar Mbak Hasna semakin cerdas, persuasif, dan closing pesanan setiap hari.
+                </p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <a href="/crew-ai" target="_blank" class="btn-view-proof" style="background: #FFFFFF; color: #0F4C81; border: none; font-weight: 800;">
+                    <span>⚡ Kunci AI Crew</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 4 SUB-TABS NAVIGATION -->
+        <div class="sub-nav">
+            <button class="sub-tab-btn active" onclick="switchSubTab('tab-persona')">
+                <span>🎭</span> Karakter & Persona
+            </button>
+            <button class="sub-tab-btn" onclick="switchSubTab('tab-objection')">
+                <span>🛡️</span> Kamus Negosiasi & Keberatan
+            </button>
+            <button class="sub-tab-btn" onclick="switchSubTab('tab-eval')">
+                <span>📈</span> Evaluasi Belajar Harian
+            </button>
+            <button class="sub-tab-btn" onclick="switchSubTab('tab-simulator')">
+                <span>🧪</span> WhatsApp Simulator
+            </button>
+        </div>
+
+        <!-- ==================== SUB-TAB 1: KARAKTER & PERSONA ==================== -->
+        <div id="tab-persona" class="tab-panel active">
+            <!-- HOTLINE CARD -->
+            <div class="card" style="border-left: 4px solid var(--accent-green);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 48px; height: 48px; border-radius: 12px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                            📱
+                        </div>
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 2px;">
+                                Nomor WhatsApp CS AI (Mbak Hasna)
+                            </h3>
+                            <p style="font-size: 13px; color: #64748B; margin: 0;">
+                                Menerima pesan chat pelanggan dan otomatis dibalas oleh AI 24 jam nonstop via Fonnte Webhook.
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 2px;">
-                            Nomor WhatsApp CS AI (Mbak Hasna)
-                        </h3>
-                        <p style="font-size: 13px; color: #64748B; margin: 0;">
-                            Nomor WhatsApp ini menerima seluruh chat masuk dari calon penumpang dan otomatis dibalas oleh Mbak Hasna 24 jam nonstop.
-                        </p>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="text" id="hotlineWaInput" placeholder="6281234567891" style="height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 14px; font-size: 14px; font-weight: 800; width: 190px; outline: none; color: #0F172A;">
+                        <button onclick="saveAdminHotlineWa()" id="btnSaveHotlineWa" style="height: 42px; padding: 0 18px; background: #16A34A; color: #FFF; border: none; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                            <span>💾 Simpan</span>
+                        </button>
+                        <a id="btnTestWaHotline" href="https://wa.me/6281234567891" target="_blank" class="btn-view-proof" style="height: 42px;">
+                            <span>📲 Tes Hubungi</span>
+                        </a>
                     </div>
                 </div>
-                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="hotlineWaInput" placeholder="6281234567891" style="height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 14px; font-size: 14px; font-weight: 800; width: 190px; outline: none; color: #0F172A;">
-                    <button onclick="saveAdminHotlineWa()" id="btnSaveHotlineWa" style="height: 42px; padding: 0 18px; background: #16A34A; color: #FFF; border: none; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-                        <span>💾</span>
-                        <span>Simpan Nomor</span>
-                    </button>
-                    <a id="btnTestWaHotline" href="https://wa.me/6281234567891" target="_blank" style="height: 42px; padding: 0 14px; background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; border-radius: 10px; font-weight: 700; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
-                        <span>📲</span>
-                        <span>Tes Hubungi</span>
-                    </a>
+            </div>
+
+            <!-- PROMPT CARD -->
+            <div class="card" style="border-left: 4px solid var(--royal-blue);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+                    <div>
+                        <h2 style="font-size: 18px; font-weight: 800; color: #0F172A;">
+                            Instruksi Persona Utama (System Prompt)
+                        </h2>
+                        <p style="font-size: 13.5px; color: #64748B; margin-top: 4px;">
+                            Sesuaikan karakter berbicara, gaya bahasa, etika pelayanan, dan batasan operasional Mbak Hasna.
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <button type="button" onclick="resetHasnaPrompt()" class="btn-view-proof">
+                            <span>🔄 Standar</span>
+                        </button>
+                        <button type="button" onclick="saveHasnaPrompt()" id="btnSaveHasnaPrompt" style="height: 40px; padding: 0 20px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.3);">
+                            <span>💾 Simpan Prompt</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRESETS -->
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                    <span style="font-size: 13px; font-weight: 700; color: #334155;">⚡ Preset Cepat:</span>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" class="preset-btn" onclick="applyPresetPrompt('standard')">🌟 Ramah All-In</button>
+                        <button type="button" class="preset-btn" onclick="applyPresetPrompt('promo')" style="color: #B45309;">🏷️ Nego & Promo</button>
+                        <button type="button" class="preset-btn" onclick="applyPresetPrompt('airport')\" style="color: #0284C7;">✈️ Bandara 24 Jam</button>
+                        <button type="button" class="preset-btn" onclick="applyPresetPrompt('corporate')" style="color: #475569;">💼 VIP Korporat</button>
+                    </div>
+                </div>
+
+                <!-- TEXTAREA -->
+                <textarea id="hasnaPromptInput" rows="13" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 16px; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; line-height: 1.6; color: #0F172A; background: #FAFAFA; resize: vertical; outline: none; margin-bottom: 10px;" oninput="updateCharCount()"></textarea>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: #64748B;">
+                    <span>ℹ️ <em>Tarif resmi dari Pak Hendra otomatis diinjeksikan secara real-time ke konteks Mbak Hasna.</em></span>
+                    <span style="font-weight: 700; color: #334155;"><span id="promptCharCount">0</span> karakter</span>
                 </div>
             </div>
         </div>
 
-        <!-- RUANG TRAINING & INSTRUKSI CS AI (MBAK HASNA) -->
-        <div class="section-card" id="hasnaTrainingCard" style="border-left: 4px solid #2563EB;">
-            <!-- HEADER -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 52px; height: 52px; border-radius: 14px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 2px 8px rgba(37,99,235,0.15);">
-                        🧠
-                    </div>
+        <!-- ==================== SUB-TAB 2: KAMUS NEGOSIASI & KEBERATAN ==================== -->
+        <div id="tab-objection" class="tab-panel">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 20px;">
                     <div>
-                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <h2 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0;">
-                                Ruang Training &amp; Instruksi CS AI (Mbak Hasna)
-                            </h2>
-                            <span id="badgeActiveProv" style="background: #DBEAFE; color: #1E40AF; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 800;">
-                                Mesin: Google Gemini / Groq
-                            </span>
-                            <span id="badgePromptStatus" style="background: #DCFCE7; color: #166534; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">
-                                🟢 Siap Digunakan
-                            </span>
+                        <h2 style="font-size: 18px; font-weight: 800; color: #0F172A;">
+                            🛡️ Kamus Negosiasi & Atasi Keberatan (Objection Handling)
+                        </h2>
+                        <p style="font-size: 13.5px; color: #64748B; margin-top: 4px;">
+                            Kumpulan taktik cerdas saat calon tamu membandingkan harga, ragu DP 0%, atau minta potongan harga.
+                        </p>
+                    </div>
+                    <button onclick="openAddObjectionModal()" style="padding: 10px 18px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>➕ Tambah Taktik Baru</span>
+                    </button>
+                </div>
+
+                <div id="objectionsListContainer">
+                    <div style="text-align: center; padding: 40px; color: #94A3B8;">Memuat kamus keberatan...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SUB-TAB 3: EVALUASI & CATATAN HARIAN ==================== -->
+        <div id="tab-eval" class="tab-panel">
+            <div class="card">
+                <div style="margin-bottom: 20px;">
+                    <h2 style="font-size: 18px; font-weight: 800; color: #0F172A;">
+                        📈 Evaluasi & Catatan Harian (Continuous Learning dari Bos)
+                    </h2>
+                    <p style="font-size: 13.5px; color: #64748B; margin-top: 4px;">
+                        Setiap kali ada kejadian unik, komplain, atau arahan baru, tuliskan di sini. Mbak Hasna akan langsung mengingat dan menerapkannya di chat berikutnya!
+                    </p>
+                </div>
+
+                <!-- FORM TAMBAH EVALUASI -->
+                <div style="background: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                    <h4 style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        <span>✍️</span> Ajarkan Pelajaran / Aturan Baru Hari Ini:
+                    </h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <input type="text" id="evalTitleInput" placeholder="Judul Pelajaran (Contoh: Penegasan Tol Cisumdawu sudah All-In)" style="height: 42px; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0 14px; font-size: 13.5px; outline: none; background: #FFF;">
+                        <textarea id="evalInstructionInput" rows="3" placeholder="Tulis instruksi pelajaran konkret: Contoh: Mulai hari ini bila tamu menanyakan rute ke Sumedang/Majalengka via Tol Cisumdawu, jelaskan tegas bahwa saldo e-toll Cisumdawu sudah ditanggung penuh Traveego dan mobil langsung jemput depan gerbang rumah." style="width: 100%; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; font-size: 13.5px; outline: none; background: #FFF;"></textarea>
+                        <div style="text-align: right;">
+                            <button onclick="submitNewEvaluation()" id="btnSubmitEval" style="padding: 10px 22px; background: #16A34A; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>🧠 Ajarkan ke Mbak Hasna</span>
+                            </button>
                         </div>
-                        <p style="font-size: 13.5px; color: #64748B; margin: 4px 0 0 0;">
-                            Sesuaikan karakter berbicara, gaya negosiasi, promo diskon, pengetahuan armada, dan etika balasan chat WhatsApp &amp; Web secara bebas.
+                    </div>
+                </div>
+
+                <h3 style="font-size: 15px; font-weight: 800; color: #0F172A; margin-bottom: 14px;">
+                    Daftar Pelajaran yang Sudah Diingat Mbak Hasna:
+                </h3>
+                <div id="evaluationsListContainer">
+                    <div style="text-align: center; padding: 30px; color: #94A3B8;">Memuat riwayat pelajaran...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SUB-TAB 4: WHATSAPP SIMULATOR ==================== -->
+        <div id="tab-simulator" class="tab-panel">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px;">
+                    <div>
+                        <h2 style="font-size: 18px; font-weight: 800; color: #0F172A;">
+                            🧪 WhatsApp Simulator (Uji Respon Langsung)
+                        </h2>
+                        <p style="font-size: 13.5px; color: #64748B; margin-top: 4px;">
+                            Uji langsung bagaimana Mbak Hasna menjawab berbagai keberatan pelanggan sebelum merespons di WhatsApp asli.
                         </p>
                     </div>
                 </div>
 
-                <!-- TOMBOL SIMPAN & RESET -->
-                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                    <a href="/crew-ai" target="_blank" class="btn-view-proof" style="color: #2563EB; border-color: #BFDBFE; text-decoration: none;" title="Kelola API Key Gemini, Groq, dan Token Fonnte">
-                        <span>⚙️ Kelola API Key &amp; Token ↗</span>
-                    </a>
-                    <button type="button" onclick="resetHasnaPrompt()" class="btn-view-proof">
-                        <span>🔄</span>
-                        <span>Reset Standar</span>
-                    </button>
-                    <button type="button" onclick="saveHasnaPrompt()" id="btnSaveHasnaPrompt" style="height: 40px; padding: 0 20px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.3);">
-                        <span>💾</span>
-                        <span>Simpan Prompt Training</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRESET 1-KLIK (TEMPLATE CEPAT) -->
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #334155;">
-                    <span>⚡ Template Cepat Training:</span>
-                </div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <button type="button" class="preset-btn" onclick="applyPresetPrompt('standard')">
-                        🌟 Standar Ramah All-In
-                    </button>
-                    <button type="button" class="preset-btn" onclick="applyPresetPrompt('promo')" style="color: #B45309;">
-                        🏷️ Negosiasi &amp; Promo Diskon
-                    </button>
-                    <button type="button" class="preset-btn" onclick="applyPresetPrompt('airport')" style="color: #0284C7;">
-                        ✈️ Drop-Off Bandara &amp; Subuh
-                    </button>
-                    <button type="button" class="preset-btn" onclick="applyPresetPrompt('corporate')" style="color: #475569;">
-                        💼 Santun &amp; Korporat
-                    </button>
-                </div>
-            </div>
-
-            <!-- TEXTAREA EDITOR PROMPT -->
-            <div style="position: relative; margin-bottom: 10px;">
-                <textarea id="hasnaPromptInput" rows="14" placeholder="Tulis instruksi persona, karakter, pengetahuan tarif, dan panduan menjawab untuk Mbak Hasna di sini..." style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 16px; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; line-height: 1.6; color: #0F172A; background: #FAFAFA; resize: vertical; outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#2563EB'; this.style.background='#FFF'" onblur="this.style.borderColor='#CBD5E1'; this.style.background='#FAFAFA'" oninput="updateCharCount()"></textarea>
-            </div>
-
-            <!-- INFO FOOTER & CHARACTER COUNTER -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12.5px; color: #64748B; margin-bottom: 20px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span>ℹ️ <em>Matriks tarif resmi (Bandara, Dalam Kota, Bandung Raya) otomatis disuntikkan secara dinamis di bawah prompt ini.</em></span>
-                </div>
-                <div style="font-weight: 700; color: #334155;">
-                    <span id="promptCharCount">0</span> karakter
-                </div>
-            </div>
-
-            <!-- KOTAK SIMULASI TEST PLAYGROUND (LIVE CHAT UJI COBA) -->
-            <div style="background: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 12px; padding: 18px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 18px;">🧪</span>
-                        <b style="font-size: 14px; color: #0F172A;">Simulasi Interaktif (Uji Respon Mbak Hasna Langsung)</b>
+                <!-- SCENARIO BUTTONS -->
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                    <span style="font-size: 13px; font-weight: 700; color: #334155;">⚡ Skenario Cepat:</span>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" class="preset-btn" onclick="setSimScenario('Kenapa mahal banget ya? Di travel sebelah per orang cuma 150rb!')">🚌 Banding Travel</button>
+                        <button type="button" class="preset-btn" onclick="setSimScenario('Bisa nego gak mbak? Minta diskon dong 50rb saya langsung deal.')">🏷️ Minta Diskon</button>
+                        <button type="button" class="preset-btn" onclick="setSimScenario('Apakah beneran tanpa DP? Takutnya sopir gak dateng kalau gak transfer DP.')">🤝 Ragu DP 0%</button>
+                        <button type="button" class="preset-btn" onclick="setSimScenario('Bisa jemput jam 3 subuh di Antapani ke Bandara Soetta?')">✈️ Subuh Bandara</button>
                     </div>
-                    <span style="font-size: 12px; color: #64748B;">Tes bagaimana Mbak Hasna membalas sebelum pesan live ke pelanggan</span>
                 </div>
 
-                <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
-                    <input type="text" id="simUserInput" placeholder="Contoh: Mbak kalau sewa Avanza ke Bandara Soetta jam 4 pagi bisa jemput di rumah?" value="Mbak kalau sewa Avanza ke Bandara Soetta jam 4 pagi bisa jemput di rumah?" style="flex: 1; min-width: 280px; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 14px; font-size: 13.5px; outline: none; background: #FFF;">
-                    <button type="button" onclick="runHasnaSimulation()" id="btnRunSim" style="height: 42px; padding: 0 20px; background: #0F172A; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-                        <span>🚀</span>
-                        <span>Uji Balasan AI</span>
+                <div style="display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap;">
+                    <input type="text" id="simUserInput" placeholder="Ketik pertanyaan atau keberatan calon tamu..." value="Kenapa mahal banget ya? Di travel sebelah per orang cuma 150rb!" style="flex: 1; min-width: 280px; height: 44px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 14px; font-size: 13.5px; outline: none; background: #FFF;">
+                    <button type="button" onclick="runHasnaSimulation()" id="btnRunSim" style="height: 44px; padding: 0 24px; background: #0F172A; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>🚀 Uji Balasan AI</span>
                     </button>
                 </div>
 
-                <!-- HASIL PREVIEW BUBBLE WHATSAPP -->
-                <div id="simPreviewBox" style="display: none; background: #ECE5DD; border-radius: 12px; padding: 16px; position: relative; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-                    <div style="font-size: 11.5px; font-weight: 700; color: #64748B; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+                <!-- BUBBLE PREVIEW -->
+                <div id="simPreviewBox" style="display: none; background: #ECE5DD; border-radius: 14px; padding: 20px; position: relative; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                    <div style="font-size: 11.5px; font-weight: 700; color: #64748B; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
                         📱 Tampilan Balasan WhatsApp: <span id="simEngineBadge" style="background: #2563EB; color: #FFF; padding: 2px 8px; border-radius: 4px; font-size: 10.5px; margin-left: 6px;"></span>
                     </div>
 
-                    <!-- BUBBLE TAMU (HIJAU KANAN) -->
+                    <!-- GUEST BUBBLE -->
                     <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
                         <div style="background: #E7FFDB; border-radius: 12px 0 12px 12px; padding: 10px 14px; max-width: 80%; font-size: 13.5px; color: #111B21; box-shadow: 0 1px 2px rgba(0,0,0,0.1); line-height: 1.45;">
                             <div style="font-size: 11px; font-weight: 700; color: #16A34A; margin-bottom: 2px;">Calon Penumpang (Tamu)</div>
@@ -231,16 +440,52 @@
                         </div>
                     </div>
 
-                    <!-- BUBBLE HASNA (PUTIH KIRI) -->
+                    <!-- HASNA BUBBLE -->
                     <div style="display: flex; justify-content: flex-start;">
-                        <div style="background: #FFFFFF; border-radius: 0 12px 12px 12px; padding: 12px 16px; max-width: 85%; font-size: 13.5px; color: #111B21; box-shadow: 0 1px 2px rgba(0,0,0,0.1); line-height: 1.5; white-space: pre-wrap;" id="simHasnaReply">
-                            ...
-                        </div>
+                        <div style="background: #FFFFFF; border-radius: 0 12px 12px 12px; padding: 12px 16px; max-width: 85%; font-size: 13.5px; color: #111B21; box-shadow: 0 1px 2px rgba(0,0,0,0.1); line-height: 1.5; white-space: pre-wrap;" id="simHasnaReply">...</div>
                     </div>
                 </div>
             </div>
         </div>
 
+    </div>
+
+    <!-- MODAL TAMBAH KEBERATAN -->
+    <div id="modalAddObjection" class="modal-overlay">
+        <div class="modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="font-size: 16px; font-weight: 800; color: #0F172A;">➕ Tambah Taktik Keberatan / Nego Baru</h3>
+                <button onclick="closeAddObjectionModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #64748B;">✕</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                    <label style="display: block; font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 4px;">Kategori Keberatan:</label>
+                    <select id="objCategory" style="width: 100%; height: 40px; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0 10px; font-size: 13px;">
+                        <option value="Harga & Perbandingan">Harga & Perbandingan (Travel/Bus)</option>
+                        <option value="Diskon & Negosiasi">Diskon & Negosiasi Tarif</option>
+                        <option value="Keamanan & DP 0%">Keamanan & Kepercayaan DP 0%</option>
+                        <option value="Layanan & Waktu">Layanan & Waktu Jemput (Subuh/24 Jam)</option>
+                        <option value="Komplain & Kendala">Komplain Sopir / Keterlambatan</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 4px;">Kalimat Keberatan Tamu (Trigger):</label>
+                    <input type="text" id="objTrigger" placeholder="Contoh: Kenapa mahal banget dibanding bus?" style="width: 100%; height: 40px; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 4px;">Strategi / Formula Mengatasi:</label>
+                    <input type="text" id="objStrategy" placeholder="Contoh: Jelaskan privasi pintu ke pintu tanpa transit" style="width: 100%; height: 40px; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 4px;">Kunci Jawaban Mbak Hasna (Contoh Nyata):</label>
+                    <textarea id="objSampleResponse" rows="4" placeholder="Tulis contoh jawaban santun, solutif, dan meyakinkan khas Mbak Hasna..." style="width: 100%; border: 1px solid #CBD5E1; border-radius: 8px; padding: 10px 12px; font-size: 13px;"></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
+                    <button onclick="closeAddObjectionModal()" class="btn-view-proof">Batal</button>
+                    <button onclick="submitNewObjection()" id="btnSubmitObjection" style="padding: 10px 20px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer;">Simpan ke Memori AI</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -297,46 +542,75 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
   1. Unit kendaraan dijamin wangi, bersih, tahun muda, AC dingin maksimal, dan bebas asap rokok.
   2. Sopir berpakaian rapi, bersikap sopan, menguasai rute jalan tol terbaik, dan tidak ugal-ugalan.
   3. Faktur / kuitansi resmi bertanda tangan digital disediakan untuk kebutuhan reimburse kantor / operasional dinas.
-  4. Pembayaran All-In tanpa DP bisa transfer saat armada tiba di lokasi tujuan.
-- Closing: "Mohon informasikan kebutuhan tanggal penjemputan dan rute perjalanannya, agar kami siapkan penawaran serta unit armada terbaik untuk Bapak/Ibu."`
+  4. Pembayaran All-In tanpa DP bisa transfer saat armada tiba di lokasi tujuan.`
         };
 
+        function switchSubTab(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+            
+            const targetPanel = document.getElementById(tabId);
+            if (targetPanel) targetPanel.classList.add('active');
+
+            const btn = Array.from(document.querySelectorAll('.sub-tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+            if (btn) btn.classList.add('active');
+
+            if (tabId === 'tab-objection' || tabId === 'tab-eval') {
+                loadObjectionsAndEvals();
+            }
+        }
+
+        function setSimScenario(text) {
+            document.getElementById('simUserInput').value = text;
+            runHasnaSimulation();
+        }
+
         function updateCharCount() {
-            const ta = document.getElementById('hasnaPromptInput');
-            if (ta) {
-                document.getElementById('promptCharCount').innerText = ta.value.length.toLocaleString('id-ID');
-            }
+            const val = document.getElementById('hasnaPromptInput').value || '';
+            document.getElementById('promptCharCount').innerText = val.length.toLocaleString('id-ID');
         }
 
-        async function loadHasnaPrompt() {
-            try {
-                const res = await fetch('/api/admin.php?action=get_hasna_prompt');
-                const d = await res.json();
-                if (d.success) {
-                    const ta = document.getElementById('hasnaPromptInput');
-                    if (ta) {
-                        ta.value = d.prompt || d.default_prompt;
-                        updateCharCount();
-                    }
-                    if (d.active_provider) {
-                        const provName = d.active_provider === 'gemini' ? 'Google Gemini' : 'Groq Cloud';
-                        document.getElementById('badgeActiveProv').innerText = 'Mesin: ' + provName;
-                    }
+        function applyPresetPrompt(key) {
+            if (HASNA_PRESETS[key]) {
+                if (confirm('Terapkan template ' + key.toUpperCase() + '? Isi prompt saat ini akan digantikan.')) {
+                    document.getElementById('hasnaPromptInput').value = HASNA_PRESETS[key].trim();
+                    updateCharCount();
                 }
-            } catch(e) {
-                console.error('Gagal load prompt Hasna:', e);
             }
         }
 
-        async function saveHasnaPrompt() {
-            const ta = document.getElementById('hasnaPromptInput');
-            const promptVal = ta ? ta.value.trim() : '';
-            if (!promptVal) {
-                alert('Prompt training tidak boleh kosong.');
-                return;
-            }
+        function resetHasnaPrompt() {
+            applyPresetPrompt('standard');
+        }
 
+        // LOAD DATA UTAMA
+        async function loadHasnaData() {
+            try {
+                // 1. Ambil Prompt
+                const resPrompt = await fetch('/api/admin.php?action=get_hasna_prompt');
+                const dataPrompt = await resPrompt.json();
+                if (dataPrompt.success) {
+                    document.getElementById('hasnaPromptInput').value = dataPrompt.prompt || '';
+                    updateCharCount();
+                }
+
+                // 2. Ambil Hotline
+                const resSite = await fetch('/api/admin.php?action=get_site_content');
+                const dataSite = await resSite.json();
+                if (dataSite.success && dataSite.data) {
+                    const wa = dataSite.data.contact?.whatsapp || '6281234567891';
+                    document.getElementById('hotlineWaInput').value = wa;
+                    document.getElementById('btnTestWaHotline').href = 'https://wa.me/' + wa.replace(/\D/g, '');
+                }
+            } catch (e) {
+                console.error('Error loadHasnaData:', e);
+            }
+        }
+
+        // SIMPAN PROMPT
+        async function saveHasnaPrompt() {
             const btn = document.getElementById('btnSaveHasnaPrompt');
+            const prompt = document.getElementById('hasnaPromptInput').value.trim();
             btn.disabled = true;
             btn.innerHTML = '<span>⏳</span><span>Menyimpan...</span>';
 
@@ -344,136 +618,288 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
                 const res = await fetch('/api/admin.php?action=save_hasna_prompt', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: promptVal })
+                    body: JSON.stringify({ prompt: prompt })
                 });
-                const d = await res.json();
-                if (d.success) {
-                    alert('✅ ' + d.message);
-                    document.getElementById('badgePromptStatus').innerText = '🟢 Aktif (' + d.char_count + ' Karakter)';
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ BERHASIL: Prompt Instruksi Mbak Hasna telah disimpan!');
                 } else {
-                    alert('Gagal: ' + d.message);
+                    alert('❌ Gagal: ' + (data.message || 'Error'));
                 }
-            } catch(e) {
-                alert('Error: ' + e.message);
+            } catch (e) {
+                alert('❌ Error koneksi ke server.');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<span>💾</span><span>Simpan Prompt Training</span>';
+                btn.innerHTML = '<span>💾</span><span>Simpan Prompt</span>';
             }
         }
 
-        async function resetHasnaPrompt() {
-            if (!confirm('Kembalikan prompt training ke Standar Resmi Traveego? Perubahan kustom yang belum disimpan akan digantikan.')) return;
+        // SIMPAN NOMOR HOTLINE
+        async function saveAdminHotlineWa() {
+            const btn = document.getElementById('btnSaveHotlineWa');
+            const waRaw = document.getElementById('hotlineWaInput').value.trim();
+            const cleanWa = waRaw.replace(/\D/g, '');
+
+            if (!cleanWa || cleanWa.length < 9) {
+                alert('⚠️ Harap masukkan nomor WhatsApp yang valid (misal: 6281234567891)');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
 
             try {
-                const res = await fetch('/api/admin.php?action=reset_hasna_prompt');
-                const d = await res.json();
-                if (d.success) {
-                    document.getElementById('hasnaPromptInput').value = d.prompt;
-                    updateCharCount();
-                    alert('✅ ' + d.message);
+                const res = await fetch('/api/admin.php?action=save_site_content', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        section: 'contact',
+                        data: {
+                            whatsapp: cleanWa,
+                            phone: cleanWa,
+                            email: 'cs@dropoff.id',
+                            address: 'Bandung - Jakarta, Indonesia'
+                        }
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ Nomor CS Mbak Hasna BERHASIL diperbarui ke: ' + cleanWa);
+                    document.getElementById('btnTestWaHotline').href = 'https://wa.me/' + cleanWa;
+                } else {
+                    alert('❌ Gagal simpan: ' + (data.message || 'Error'));
                 }
-            } catch(e) {
-                alert('Error: ' + e.message);
+            } catch (e) {
+                alert('❌ Error menghubungi server.');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = '💾 Simpan';
             }
         }
 
-        function applyPresetPrompt(presetKey) {
-            const preset = HASNA_PRESETS[presetKey];
-            if (!preset) return;
+        // LOAD OBJECTIONS & EVALUATIONS
+        async function loadObjectionsAndEvals() {
+            try {
+                const res = await fetch('/api/admin.php?action=get_objections_and_evals');
+                const data = await res.json();
+                if (!data.success) return;
 
-            if (confirm('Terapkan template cepat ini ke kotak editor? Anda bisa mengedit dan menyimpannya setelah ini.')) {
-                const ta = document.getElementById('hasnaPromptInput');
-                ta.value = preset;
-                updateCharCount();
-                ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                ta.focus();
+                // Render Objections
+                const objContainer = document.getElementById('objectionsListContainer');
+                if (data.objections && data.objections.length > 0) {
+                    objContainer.innerHTML = data.objections.map(item => `
+                        <div class="item-card">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                                <span class="badge badge-price">${item.category || 'Umum'}</span>
+                                <button onclick="deleteObjection('${item.id}')" style="background: none; border: none; color: #DC2626; cursor: pointer; font-size: 12px; font-weight: 700;">🗑️ Hapus</button>
+                            </div>
+                            <div style="font-size: 14.5px; font-weight: 800; color: #0F172A; margin-bottom: 6px;">
+                                💬 "${item.trigger}"
+                            </div>
+                            <div style="font-size: 12.5px; color: #2563EB; font-weight: 700; margin-bottom: 8px;">
+                                🎯 Strategi: ${item.strategy || '-'}
+                            </div>
+                            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; font-size: 13px; color: #334155; line-height: 1.5; white-space: pre-wrap;">
+                                <b>Kunci Respon Mbak Hasna:</b><br>${item.sample_response}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    objContainer.innerHTML = '<div style="text-align: center; padding: 30px; color: #94A3B8;">Belum ada taktik keberatan tersimpan.</div>';
+                }
+
+                // Render Evaluations
+                const evalContainer = document.getElementById('evaluationsListContainer');
+                if (data.evaluations && data.evaluations.length > 0) {
+                    evalContainer.innerHTML = data.evaluations.map(ev => `
+                        <div class="item-card" style="border-left: 3px solid #16A34A;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <div style="font-weight: 800; font-size: 14px; color: #0F172A;">📌 ${ev.lesson_title}</div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 11.5px; color: #94A3B8;">${ev.created_at || ''}</span>
+                                    <button onclick="deleteEvaluation('${ev.id}')" style="background: none; border: none; color: #DC2626; cursor: pointer; font-size: 12px; font-weight: 700;">🗑️ Hapus</button>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; color: #334155; line-height: 1.5; background: #FFF; padding: 10px 12px; border-radius: 6px; border: 1px solid #E2E8F0;">
+                                ${ev.instruction}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    evalContainer.innerHTML = '<div style="text-align: center; padding: 30px; color: #94A3B8;">Belum ada catatan evaluasi dari Bos.</div>';
+                }
+
+            } catch (e) {
+                console.error('Error loadObjectionsAndEvals:', e);
             }
         }
 
+        // MODAL OBJECTION
+        function openAddObjectionModal() {
+            document.getElementById('modalAddObjection').style.display = 'flex';
+        }
+        function closeAddObjectionModal() {
+            document.getElementById('modalAddObjection').style.display = 'none';
+        }
+
+        async function submitNewObjection() {
+            const cat = document.getElementById('objCategory').value;
+            const trigger = document.getElementById('objTrigger').value.trim();
+            const strategy = document.getElementById('objStrategy').value.trim();
+            const resp = document.getElementById('objSampleResponse').value.trim();
+
+            if (!trigger || !resp) {
+                alert('Harap isi trigger kalimat dan contoh jawaban!');
+                return;
+            }
+
+            const btn = document.getElementById('btnSubmitObjection');
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+
+            try {
+                const res = await fetch('/api/admin.php?action=save_objection', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ category: cat, trigger: trigger, strategy: strategy, sample_response: resp })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ Taktik keberatan berhasil ditambahkan ke memori Mbak Hasna!');
+                    closeAddObjectionModal();
+                    document.getElementById('objTrigger').value = '';
+                    document.getElementById('objStrategy').value = '';
+                    document.getElementById('objSampleResponse').value = '';
+                    loadObjectionsAndEvals();
+                } else {
+                    alert('❌ Gagal: ' + (data.message || 'Error'));
+                }
+            } catch (e) {
+                alert('❌ Error koneksi.');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Simpan ke Memori AI';
+            }
+        }
+
+        async function deleteObjection(id) {
+            if (!confirm('Hapus taktik keberatan ini dari memori AI?')) return;
+            try {
+                await fetch('/api/admin.php?action=delete_objection', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: id })
+                });
+                loadObjectionsAndEvals();
+            } catch (e) {
+                alert('Gagal menghapus.');
+            }
+        }
+
+        // SUBMIT EVALUATION
+        async function submitNewEvaluation() {
+            const title = document.getElementById('evalTitleInput').value.trim();
+            const instruction = document.getElementById('evalInstructionInput').value.trim();
+
+            if (!instruction) {
+                alert('Tuliskan instruksi konkret pelajaran untuk Mbak Hasna!');
+                return;
+            }
+
+            const btn = document.getElementById('btnSubmitEval');
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+
+            try {
+                const res = await fetch('/api/admin.php?action=save_evaluation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lesson_title: title || 'Catatan Evaluasi Baru', instruction: instruction })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ Pelajaran berhasil diajarkan ke Mbak Hasna!');
+                    document.getElementById('evalTitleInput').value = '';
+                    document.getElementById('evalInstructionInput').value = '';
+                    loadObjectionsAndEvals();
+                } else {
+                    alert('❌ Gagal: ' + (data.message || 'Error'));
+                }
+            } catch (e) {
+                alert('❌ Error server.');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = '🧠 Ajarkan ke Mbak Hasna';
+            }
+        }
+
+        async function deleteEvaluation(id) {
+            if (!confirm('Hapus catatan evaluasi ini?')) return;
+            try {
+                await fetch('/api/admin.php?action=delete_evaluation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: id })
+                });
+                loadObjectionsAndEvals();
+            } catch (e) {
+                alert('Gagal menghapus.');
+            }
+        }
+
+        // SIMULATION
         async function runHasnaSimulation() {
-            const userMsg = document.getElementById('simUserInput').value.trim();
-            const promptVal = document.getElementById('hasnaPromptInput').value.trim();
-            if (!userMsg) {
-                alert('Ketik pertanyaan calon penumpang untuk disimulasikan.');
+            const input = document.getElementById('simUserInput');
+            const msg = input.value.trim();
+            if (!msg) {
+                alert('Masukkan pertanyaan atau skenario uji coba!');
                 return;
             }
 
             const btn = document.getElementById('btnRunSim');
-            btn.disabled = true;
-            btn.innerHTML = '<span>⏳</span><span>Menganalisis...</span>';
-
             const previewBox = document.getElementById('simPreviewBox');
+            const guestMsg = document.getElementById('simGuestMsg');
+            const replyMsg = document.getElementById('simHasnaReply');
+            const engineBadge = document.getElementById('simEngineBadge');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Mbak Hasna Mengetik...</span>';
+            guestMsg.innerText = msg;
+            replyMsg.innerText = 'Mbak Hasna sedang merangkai jawaban cerdas... ⏳';
             previewBox.style.display = 'block';
-            document.getElementById('simGuestMsg').innerText = userMsg;
-            document.getElementById('simHasnaReply').innerHTML = '<em>Mbak Hasna sedang merangkai balasan berdasarkan prompt training...</em>';
 
             try {
-                const res = await fetch('/api/admin.php?action=test_hasna_sim', {
+                const res = await fetch('/api/chat.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: userMsg, prompt: promptVal })
+                    body: JSON.stringify({
+                        message: msg,
+                        session_id: 'sim_' + Date.now(),
+                        channel: 'simulation_playground'
+                    })
                 });
-                const d = await res.json();
-                if (d.success) {
-                    document.getElementById('simHasnaReply').innerText = d.reply;
-                    document.getElementById('simEngineBadge').innerText = d.engine || 'AI Engine';
+
+                const data = await res.json();
+                if (data.success && data.reply) {
+                    replyMsg.innerText = data.reply;
+                    engineBadge.innerText = (data.engine || 'AI Engine').toUpperCase();
                 } else {
-                    document.getElementById('simHasnaReply').innerText = 'Gagal simulasi: ' + (d.message || 'Terjadi kesalahan');
+                    replyMsg.innerText = '❌ Gagal memuat respon: ' + (data.message || 'AI tidak merespon');
+                    engineBadge.innerText = 'OFFLINE';
                 }
-            } catch(e) {
-                document.getElementById('simHasnaReply').innerText = 'Error koneksi simulasi: ' + e.message;
+            } catch (e) {
+                replyMsg.innerText = '❌ Terjadi kendala saat menghubungi API Chat: ' + e.message;
+                engineBadge.innerText = 'ERROR';
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<span>🚀</span><span>Uji Balasan AI</span>';
             }
         }
 
-        async function loadAdminHotlineWa() {
-            try {
-                const res = await fetch('/api/admin.php?action=get_hotline_wa');
-                const d = await res.json();
-                if (d.success && d.hotline_wa) {
-                    document.getElementById('hotlineWaInput').value = d.hotline_wa;
-                    document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
-                }
-            } catch(e) {}
-        }
-
-        async function saveAdminHotlineWa() {
-            const val = document.getElementById('hotlineWaInput').value.trim();
-            if (!val) {
-                alert('Nomor WhatsApp tidak boleh kosong.');
-                return;
-            }
-            const btn = document.getElementById('btnSaveHotlineWa');
-            btn.disabled = true;
-            btn.innerText = 'Menyimpan...';
-
-            try {
-                const res = await fetch('/api/admin.php?action=save_hotline_wa', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ hotline_wa: val })
-                });
-                const d = await res.json();
-                if (d.success) {
-                    alert('✅ ' + d.message);
-                    document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
-                } else {
-                    alert('Gagal: ' + d.message);
-                }
-            } catch(e) {
-                alert('Error: ' + e.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<span>💾</span><span>Simpan Nomor</span>';
-            }
-        }
-
-        // Jalankan saat load
-        loadAdminHotlineWa();
-        loadHasnaPrompt();
+        // INISIALISASI
+        window.addEventListener('DOMContentLoaded', () => {
+            loadHasnaData();
+        });
     </script>
 </body>
 </html>
-

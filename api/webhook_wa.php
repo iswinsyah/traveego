@@ -185,9 +185,33 @@ if (!empty($geminiKey) || !empty($groqKey)) {
     $promptFile = __DIR__ . '/../data/hasna_prompt_training.txt';
     $customPrompt = file_exists($promptFile) ? trim(file_get_contents($promptFile)) : '';
 
+    // Ambil Memori Penanganan Keberatan (Objection Handling) & Evaluasi Pembelajaran Harian
+    $objectionsFile = __DIR__ . '/../data/hasna_objections.json';
+    $objectionData = file_exists($objectionsFile) ? json_decode(file_get_contents($objectionsFile), true) : [];
+    $objectionContext = "";
+    if (is_array($objectionData) && !empty($objectionData)) {
+        $objectionContext .= "\n\nPANDUAN RESMI MENGATASI KEBERATAN & NEGOSIASI HARGA (OBJECTION HANDLING):";
+        foreach ($objectionData as $ob) {
+            if ($ob['is_active'] ?? true) {
+                $objectionContext .= "\n- JIKA TAMU: \"" . $ob['trigger'] . "\"";
+                $objectionContext .= "\n  STRATEGI & CONTOH JAWABAN: " . ($ob['strategy'] ?? '') . " -> \"" . ($ob['sample_response'] ?? '') . "\"";
+            }
+        }
+    }
+
+    $evalsFile = __DIR__ . '/../data/hasna_evaluations.json';
+    $evalData = file_exists($evalsFile) ? json_decode(file_get_contents($evalsFile), true) : [];
+    $evalContext = "";
+    if (is_array($evalData) && !empty($evalData)) {
+        $evalContext .= "\n\nCATATAN EVALUASI & INSTRUKSI PEMBELAJARAN DARI BOS:";
+        foreach ($evalData as $ev) {
+            $evalContext .= "\n- " . ($ev['lesson_title'] ?? '') . ": " . ($ev['instruction'] ?? '');
+        }
+    }
+
     if (!empty($customPrompt)) {
         $systemContext = $customPrompt . "\n\n"
-            . "DATA MATRIKS TARIF RESMI PAK HENDRA (ACUAN REAL-TIME):\n"
+            . $objectionContext . $evalContext . "\n\nDATA MATRIKS TARIF RESMI PAK HENDRA (ACUAN REAL-TIME):\n"
             . "- Antar Jemput Bandara Soetta/Halim: Avanza $soettaAvanza, Innova $soettaInnova, HiAce $soettaHiace\n"
             . "- Dalam Kota Jabodetabek: Avanza $kotaAvanza, Innova $kotaInnova, HiAce $kotaHiace\n"
             . "- Jakarta / Jabodetabek ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"

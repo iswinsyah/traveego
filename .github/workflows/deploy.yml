@@ -1,4 +1,4 @@
-name: Deploy Otomatis ke Hostinger via FTP
+name: Deploy Traveego to Hostinger
 
 on:
   push:
@@ -6,22 +6,25 @@ on:
       - main
 
 jobs:
-  deploy:
-    name: 🚀 Upload ke Hostinger public_html
+  web-deploy:
+    name: 🎉 Deploy to Hostinger via FTP
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Checkout Kode Repository
+      - name: 🚚 Get latest code
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: 📂 Sinkronisasi File ke Hostinger public_html
+      - name: 📂 Sync files to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER || secrets.SERVER || secrets.FTP_HOST || secrets.HOST }}
-          username: ${{ secrets.FTP_USERNAME || secrets.USERNAME || secrets.FTP_USER || secrets.USER }}
-          password: ${{ secrets.FTP_PASSWORD || secrets.PASSWORD }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
           server-dir: ./
+          dangerous-clean-slate: false
           timeout: 600000
           exclude: |
             **/.git*

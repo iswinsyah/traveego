@@ -455,6 +455,126 @@ if ($action === 'test_hasna_sim') {
     ]);
 }
 
+// 5d. MANAJEMEN OBJECTION HANDLING & CONTINUOUS LEARNING EVALUATIONS
+$objectionsFile = __DIR__ . '/../data/hasna_objections.json';
+$evaluationsFile = __DIR__ . '/../data/hasna_evaluations.json';
+
+if ($action === 'get_objections_and_evals') {
+    $objections = file_exists($objectionsFile) ? json_decode(file_get_contents($objectionsFile), true) : [];
+    $evaluations = file_exists($evaluationsFile) ? json_decode(file_get_contents($evaluationsFile), true) : [];
+    
+    // Ambil riwayat chat terbaru dari data/leads.json untuk dianalisis/dievaluasi
+    $leadsFile = __DIR__ . '/../data/leads.json';
+    $leads = file_exists($leadsFile) ? json_decode(file_get_contents($leadsFile), true) : [];
+    if (!is_array($leads)) $leads = [];
+
+    sendJson([
+        'success' => true,
+        'objections' => $objections ?: [],
+        'evaluations' => $evaluations ?: [],
+        'recent_chats' => array_slice($leads, 0, 10)
+    ]);
+}
+
+if ($action === 'save_objection') {
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true) ?: $_POST;
+    
+    $category = trim($payload['category'] ?? 'Umum');
+    $trigger = trim($payload['trigger'] ?? '');
+    $strategy = trim($payload['strategy'] ?? '');
+    $sample_response = trim($payload['sample_response'] ?? '');
+
+    if (empty($trigger) || empty($sample_response)) {
+        sendJson(['success' => false, 'message' => 'Trigger keberatan dan Contoh Jawaban wajib diisi.'], 400);
+    }
+
+    $objections = file_exists($objectionsFile) ? json_decode(file_get_contents($objectionsFile), true) : [];
+    if (!is_array($objections)) $objections = [];
+
+    $newId = 'KB-' . date('ymd-His');
+    $newEntry = [
+        'id' => $newId,
+        'category' => $category,
+        'trigger' => $trigger,
+        'strategy' => $strategy,
+        'sample_response' => $sample_response,
+        'is_active' => true,
+        'created_at' => date('Y-m-d H:i:s')
+    ];
+
+    array_unshift($objections, $newEntry);
+    file_put_contents($objectionsFile, json_encode($objections, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+    sendJson([
+        'success' => true,
+        'message' => 'Taktik Menjawab Keberatan BERHASIL Disimpan ke Memori Mbak Hasna!',
+        'entry' => $newEntry
+    ]);
+}
+
+if ($action === 'delete_objection') {
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true) ?: $_POST;
+    $id = trim($payload['id'] ?? '');
+
+    $objections = file_exists($objectionsFile) ? json_decode(file_get_contents($objectionsFile), true) : [];
+    if (is_array($objections)) {
+        $filtered = array_filter($objections, function($item) use ($id) {
+            return ($item['id'] ?? '') !== $id;
+        });
+        file_put_contents($objectionsFile, json_encode(array_values($filtered), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    }
+    sendJson(['success' => true, 'message' => 'Taktik keberatan berhasil dihapus.']);
+}
+
+if ($action === 'save_evaluation') {
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true) ?: $_POST;
+
+    $title = trim($payload['lesson_title'] ?? 'Catatan Evaluasi Baru');
+    $instruction = trim($payload['instruction'] ?? '');
+
+    if (empty($instruction)) {
+        sendJson(['success' => false, 'message' => 'Pelajaran / instruksi evaluasi tidak boleh kosong.'], 400);
+    }
+
+    $evals = file_exists($evaluationsFile) ? json_decode(file_get_contents($evaluationsFile), true) : [];
+    if (!is_array($evals)) $evals = [];
+
+    $newId = 'EV-' . date('ymd-His');
+    $newEntry = [
+        'id' => $newId,
+        'lesson_title' => $title,
+        'instruction' => $instruction,
+        'created_at' => date('Y-m-d H:i:s')
+    ];
+
+    array_unshift($evals, $newEntry);
+    file_put_contents($evaluationsFile, json_encode($evals, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+    sendJson([
+        'success' => true,
+        'message' => 'Pelajaran baru berhasil diajarkan ke Mbak Hasna! Memori langsung terupdate.',
+        'entry' => $newEntry
+    ]);
+}
+
+if ($action === 'delete_evaluation') {
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true) ?: $_POST;
+    $id = trim($payload['id'] ?? '');
+
+    $evals = file_exists($evaluationsFile) ? json_decode(file_get_contents($evaluationsFile), true) : [];
+    if (is_array($evals)) {
+        $filtered = array_filter($evals, function($item) use ($id) {
+            return ($item['id'] ?? '') !== $id;
+        });
+        file_put_contents($evaluationsFile, json_encode(array_values($filtered), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    }
+    sendJson(['success' => true, 'message' => 'Catatan evaluasi berhasil dihapus.']);
+}
+
 // 6. SETUP / INISIALISASI DATABASE MYSQL (1-KLIK)
 if ($action === 'init_db') {
     try {

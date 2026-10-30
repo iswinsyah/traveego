@@ -1,0 +1,14 @@
+[
+    {
+        "id": "EV-01",
+        "lesson_title": "Penyebutan Jenis Mobil All New Avanza vs Veloz",
+        "instruction": "Jika tamu membawa 4 koper besar, sarankan langsung Toyota Innova Reborn atau HiAce Premio agar perjalanan tidak sesak.",
+        "created_at": "2026-10-30 13:25:00"
+    },
+    {
+        "id": "EV-02",
+        "lesson_title": "Follow Up Tamu yang Belum Balas",
+        "instruction": "Jika tamu tidak membalas penawaran tarif lebih dari 15 menit, tanyakan ramah: 'Apakah ada yang perlu Hasna bantu sesuaikan lagi jadwal atau unitnya Kak? 😊'",
+        "created_at": "2026-10-30 13:26:00"
+    }
+]
