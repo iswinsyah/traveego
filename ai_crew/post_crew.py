@@ -35,7 +35,7 @@ class PostCrew:
             # EKSEKUSI MENGGUNAKAN OTAK AI LOKAL (OLLAMA)
             # ==============================================================
             sys_prompt = (
-                "Anda adalah Mbak Maya, Content Writer & SEO Specialist Traveego Drop-Off. "
+                "Anda adalah Mbak Maya, Content Writer & SEO Specialist Dropoff.id Drop-Off. "
                 "Tugas: Tulis artikel blog mendalam (600 - 1000 kata) yang wajib memenuhi standar 🟢 HIJAU YOAST SEO dan 🟢 HIJAU KETERBACAAN (Readability).\n"
                 "PEDOMAN KETAT YOAST SEO & KETERBACAAN:\n"
                 "1. Tentukan satu 'focus_keyword' spesifik (contoh: 'Drop Off Jakarta ke Bandung').\n"
@@ -104,7 +104,7 @@ class PostCrew:
                 f"## 1. Rincian Tarif Tol {focus_kw}\n\n"
                 f"Untuk rute {origin} menuju {dest}, jalur utama yang dilalui adalah {route_data['toll_details']}. "
                 f"Estimasi total biaya tarif tol Golongan 1 saat ini adalah **{{{{tol_{r_slug}}}}}**.\n\n"
-                f"Selain itu, pengemudi Traveego siap memilihkan gerbang keluar paling strategis di kota tujuan. "
+                f"Selain itu, pengemudi Dropoff.id siap memilihkan gerbang keluar paling strategis di kota tujuan. "
                 f"Dengan demikian, waktu tempuh perjalanan Anda menjadi jauh lebih efisien.\n\n"
                 f"---\n\n"
                 f"## 2. Estimasi Konsumsi Bahan Bakar (BBM)\n\n"
@@ -113,8 +113,8 @@ class PostCrew:
                 f"Di sisi lain, menyetir sendiri selama berjam-jam sering kali menguras tenaga fisik. "
                 f"Bahkan, Anda masih harus memikirkan biaya perjalanan pulang jika membawa kendaraan sendiri.\n\n"
                 f"---\n\n"
-                f"## 3. Keunggulan Paket All-In Traveego Tanpa Uang Muka\n\n"
-                f"Daripada lelah menyetir di jalan tol, Traveego menyediakan layanan sewa mobil {focus_kw.lower()} privat:\n"
+                f"## 3. Keunggulan Paket All-In Dropoff.id Tanpa Uang Muka\n\n"
+                f"Daripada lelah menyetir di jalan tol, Dropoff.id menyediakan layanan sewa mobil {focus_kw.lower()} privat:\n"
                 f"- **Avanza All New**: Hanya **{{{{harga_avanza_{r_slug}}}}}** All-In.\n"
                 f"- **Innova Reborn**: Hanya **{{{{harga_innova_{r_slug}}}}}** All-In.\n\n"
                 f"Semua unit sudah mencakup mobil privat, sopir ramah, BBM, dan tol penuh tanpa biaya tambahan. "

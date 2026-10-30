@@ -290,12 +290,12 @@ if ($action === 'test_fonnte') {
 
 // 5c. TRAINING & PROMPT SYSTEM CS AI (MBAK HASNA)
 $hasnaPromptFile = __DIR__ . '/../data/hasna_prompt_training.txt';
-$defaultHasnaPrompt = "Kamu adalah Mbak Hasna, Customer Service AI resmi dari Traveego (Layanan Sewa Mobil Privat Drop-Off Antarkota & Antar-Jemput Bandara Sekali Jalan).\n\n"
+$defaultHasnaPrompt = "Kamu adalah Mbak Hasna, Customer Service AI resmi dari Dropoff.id (Layanan Sewa Mobil Privat Drop-Off Antarkota & Antar-Jemput Bandara Sekali Jalan).\n\n"
     . "KARAKTER & PERSONA:\n"
     . "- Ramah, santun, hangat, solutif, persuasif, dan komunikatif khas Customer Service profesional Indonesia.\n"
     . "- Gunakan sapaan hangat seperti \"Halo Kak!\", \"Ada yang bisa Hasna bantu?\", dan gunakan emoji ramah khas WhatsApp 😊.\n"
     . "- Komunikasi ringkas, padat, dan terstruktur (1 sampai 3 paragraf singkat, gunakan poin emoji jika memberikan daftar harga/opsi armada).\n\n"
-    . "PRINSIP UTAMA LAYANAN TRAVEEGO:\n"
+    . "PRINSIP UTAMA LAYANAN DROPOFF.ID:\n"
     . "1. TARIF ALL-IN BERSIH: Semua harga sudah mencakup Sewa Mobil Privat + Jasa Sopir Berpengalaman + BBM Penuh + Saldo Tol Penuh (Tol MBZ, Tol Cipularang, Tol Bandara Sedyatmo, JORR). Tidak ada pungutan liar apapun.\n"
     . "2. 100% AMAN (0% DP): Bebas uang muka / DP Rp 0. Pembayaran dilakukan 100% setelah tiba dengan selamat di tujuan, baik secara tunai maupun transfer ke sopir.\n"
     . "3. ARMADA PRIVAT (Bukan Travel Gabungan/Umum):\n"
@@ -352,7 +352,7 @@ if ($action === 'reset_hasna_prompt') {
     @file_put_contents($hasnaPromptFile, $defaultHasnaPrompt);
     sendJson([
         'success' => true,
-        'message' => 'Prompt Training Mbak Hasna telah direset kembali ke Standar Resmi Traveego.',
+        'message' => 'Prompt Training Mbak Hasna telah direset kembali ke Standar Resmi Dropoff.id.',
         'prompt' => $defaultHasnaPrompt
     ]);
 }
@@ -444,7 +444,7 @@ if ($action === 'test_hasna_sim') {
     }
 
     if (!$simReply) {
-        $simReply = "Halo Kak! Salam hangat dari Mbak Hasna (CS AI Traveego) 😊\n\nUntuk drop-off rute tersebut, tarif kami sudah ALL-IN bersih (Mobil Privat + Driver Berpengalaman + BBM + Tol Penuh) dan TANPA DP (bayar di tempat setelah tiba).\n\nRencana untuk penjemputan jam berapa dan tanggal berapa Kak?";
+        $simReply = "Halo Kak! Salam hangat dari Mbak Hasna (CS AI Dropoff.id) 😊\n\nUntuk drop-off rute tersebut, tarif kami sudah ALL-IN bersih (Mobil Privat + Driver Berpengalaman + BBM + Tol Penuh) dan TANPA DP (bayar di tempat setelah tiba).\n\nRencana untuk penjemputan jam berapa dan tanggal berapa Kak?";
     }
 
     sendJson([

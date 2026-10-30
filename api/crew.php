@@ -205,7 +205,7 @@ switch ($action) {
         $ch = curl_init($url);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_USERAGENT => 'TraveegoBot/1.0 (Windows NT 10.0; Win64; x64)',
+            CURLOPT_USERAGENT => 'Dropoff.idBot/1.0 (Windows NT 10.0; Win64; x64)',
             CURLOPT_TIMEOUT => 6,
             CURLOPT_SSL_VERIFYPEER => false
         ]);
@@ -499,7 +499,7 @@ switch ($action) {
         $now = date('Y-m-d H:i:s');
         $logLines = [];
         $logLines[] = "=================================================================";
-        $logLines[] = "      TRAVEEGO AI CREW ORCHESTRATOR (NDAN HERU PIPELINE)        ";
+        $logLines[] = "      DROPOFF.ID AI CREW ORCHESTRATOR (NDAN HERU PIPELINE)        ";
         $logLines[] = "      Jam Operasional Server: 06:00 s.d. 23:00 WIB";
         $logLines[] = "=================================================================";
         $logLines[] = "[STATUS WAKTU] " . $now . " WIB (Aktif)";

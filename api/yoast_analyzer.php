@@ -1,6 +1,6 @@
 <?php
 /**
- * TRAVEEGO YOAST SEO & READABILITY ANALYZER ENGINE
+ * DROPOFF.ID YOAST SEO & READABILITY ANALYZER ENGINE
  * Standar audit SEO on-page dan Keterbacaan teks ala Yoast SEO WordPress
  * Menghasilkan lampu indikator: 🟢 Good, 🟠 OK, 🔴 Needs Improvement
  */
@@ -53,7 +53,7 @@ class YoastSeoAnalyzer {
         // Google SERP Snippet
         $serpPreview = [
             'url' => 'https://dropoff.id/' . (isset($data['content_markdown']) ? 'blog/' : '') . $slug,
-            'title' => !empty($title) ? $title : 'Traveego Drop Off Layanan Sewa Mobil All In',
+            'title' => !empty($title) ? $title : 'Dropoff.id Drop Off Layanan Sewa Mobil All In',
             'meta_description' => !empty($metaDesc) ? $metaDesc : 'Layanan sewa mobil drop-off terpercaya dengan tarif pasti.',
             'displayed_url' => 'dropoff.id › ' . (isset($data['content_markdown']) ? 'blog › ' : '') . $slug
         ];
@@ -79,7 +79,7 @@ class YoastSeoAnalyzer {
         if (preg_match('/drop off (.*?)(?:terbaru|2026|\d{4}|$)/i', $title, $m)) {
             return trim('Drop Off ' . $m[1]);
         }
-        return 'Drop Off Traveego';
+        return 'Drop Off Dropoff.id';
     }
 
     /**
@@ -405,7 +405,7 @@ class YoastSeoAnalyzer {
                 'id' => 'internal_links',
                 'status' => 'good',
                 'title' => 'Internal links',
-                'message' => "Sangat baik! Terdapat {$internalCount} tautan internal ke rute atau artikel Traveego.",
+                'message' => "Sangat baik! Terdapat {$internalCount} tautan internal ke rute atau artikel Dropoff.id.",
                 'score' => 10
             ];
             $totalPoints += 10;

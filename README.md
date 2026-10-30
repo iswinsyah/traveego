@@ -1,4 +1,4 @@
-# 🌊 Traveego Drop-Off Platform
+# 🌊 Dropoff.id Drop-Off Platform
 
 > Platform sewa mobil khusus **Drop-Off Antarkota & Bandara** sekali jalan berbasis armada mitra sopir mandiri, lelang *real-time* PWA, dan sistem anti-bajak pelanggan.
 
@@ -30,7 +30,7 @@ Seluruh cetak biru sistem, model bisnis marketplace antarkota, skema database, s
    - Verifikasi bukti transfer komisi sopir dalam 1-klik (*"Konfirmasi Lunas"*).
 4. **Sistem Anti-Bajak Pelanggan (*Zero Disintermediation*):**
    - Nomor WhatsApp pelanggan hanya tersimpan di database admin (disensor di layar PWA sopir).
-   - Koordinasi penjemputan berjalan melalui *In-App Chat* internal Traveego.
+   - Koordinasi penjemputan berjalan melalui *In-App Chat* internal Dropoff.id.
 
 ---
 
@@ -38,8 +38,8 @@ Seluruh cetak biru sistem, model bisnis marketplace antarkota, skema database, s
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/iswinsyah/traveego.git
-cd traveego
+git clone https://github.com/iswinsyah/dropoff.id.git
+cd dropoff.id
 
 # 2. Install dependensi
 npm install

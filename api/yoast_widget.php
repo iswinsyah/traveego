@@ -1,6 +1,6 @@
 <?php
 /**
- * TRAVEEGO YOAST SEO FLOATING INDICATOR & INSPECTOR WIDGET
+ * DROPOFF.ID YOAST SEO FLOATING INDICATOR & INSPECTOR WIDGET
  * Menampilkan status SEO & Readability di setiap Halaman & Postingan
  */
 if (!isset($yoastAnalysis) || empty($yoastAnalysis)) {
@@ -394,7 +394,7 @@ $serp = $yoastAnalysis['serp_preview'] ?? [];
                     <div class="serp-header">
                         <div class="serp-fav">T</div>
                         <div>
-                            <div class="serp-brand">Traveego Indonesia</div>
+                            <div class="serp-brand">Dropoff.id Indonesia</div>
                             <div class="serp-url"><?= htmlspecialchars($serp['displayed_url'] ?? '') ?></div>
                         </div>
                     </div>

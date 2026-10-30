@@ -2,13 +2,13 @@
     "slug": "drop-off-bandara-halim",
     "generated_at": "2026-10-27 09:17:49",
     "route_key": "jakarta_bandara_halim",
-    "meta_title": "Sewa Mobil Drop Off Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) - Bandara Halim Perdanakusuma (HLP) All-In 0% DP | Traveego",
+    "meta_title": "Sewa Mobil Drop Off Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) - Bandara Halim Perdanakusuma (HLP) All-In 0% DP | Dropoff.id",
     "meta_description": "Jasa sewa mobil Drop-Off privat Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Halim Perdanakusuma (HLP). Tarif All-In mulai Rp 200.000 sudah termasuk Tol MBZ, BBM & Sopir. Bayar tunai di tujuan tanpa DP.",
     "hero": {
         "headline": "SEWA MOBIL DROP OFF BANDARA HALIM PERDANAKUSUMA (HLP)",
         "subheadline": "Perjalanan privat satu arah dari Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Halim Perdanakusuma (HLP) tanpa repot. 100% All-In Tol & BBM, 0% Uang Muka, bayar langsung ke sopir saat tiba.",
         "cta_button_text": "Pesan Unit Sekarang (0% DP)",
-        "wa_text": "Halo Traveego, saya mau pesan Drop-Off Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Halim Perdanakusuma (HLP)"
+        "wa_text": "Halo Dropoff.id, saya mau pesan Drop-Off Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi) ke Bandara Halim Perdanakusuma (HLP)"
     },
     "pricing_cards": [
         {
@@ -52,7 +52,7 @@
         "serviceType": "Car Rental Drop-Off",
         "provider": {
             "@type": "LocalBusiness",
-            "name": "Traveego Drop-Off"
+            "name": "Dropoff.id Drop-Off"
         },
         "areaServed": "Bandara Halim Perdanakusuma (HLP)",
         "offers": {

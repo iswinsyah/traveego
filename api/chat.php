@@ -35,7 +35,7 @@ $kotaHiace  = $jabodetabekPrices['hiace']['formatted_price'] ?? 'Rp 550.000';
 $fleetStatus = "🚐 **Status Armada Standby (Bang Jaka):** Unit Avanza, Innova Reborn, dan HiAce Premio sedang standby di pool terdekat se-Jabodetabek & Bandung. Sopir siap meluncur jemput tepat waktu (standby 30 menit sebelum jadwal).";
 
 if (empty($message)) {
-    sendJson(['reply' => "Halo Kak! Hasna (CS AI Traveego) siap membantu. Mau drop-off ke Bandara Soetta/Halim, Dalam Kota Jabodetabek, atau rute Jakarta - Bandung (Baraya)? 😊\n\n$fleetStatus"]);
+    sendJson(['reply' => "Halo Kak! Hasna (CS AI Dropoff.id) siap membantu. Mau drop-off ke Bandara Soetta/Halim, Dalam Kota Jabodetabek, atau rute Jakarta - Bandung (Baraya)? 😊\n\n$fleetStatus"]);
 }
 
 // ==============================================================
@@ -82,7 +82,7 @@ if (!empty($message) && ($geminiKey || $groqKey)) {
             . "- Jakarta ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
             . "INSTRUKSI GAYA BICARA (HEMAT TOKEN & ALAMI): Jawab langsung to-the-point dalam 1-3 kalimat singkat. Gunakan bahasa percakapan WhatsApp alami manusia biasa, ramah, sopan, dan wajar. DILARANG bertele-tele, DILARANG membuat paragraf panjang, dan DILARANG mengulang-ulang promosi/fasilitas yang tidak ditanyakan tamu.";
     } else {
-        $systemContext = "Kamu adalah Mbak Hasna, CS Traveego di WhatsApp.\n"
+        $systemContext = "Kamu adalah Mbak Hasna, CS Dropoff.id di WhatsApp.\n"
         . "Gaya Bicara: Alami seperti manusia ngobrol di WhatsApp, santun, ramah, to-the-point dalam 1-3 kalimat singkat. DILARANG bertele-tele atau mengulang promosi.\n"
         . "Tarif Acuan Resmi: Bandara Soetta/Halim Avanza $soettaAvanza, Innova $soettaInnova. Dalam kota Avanza $kotaAvanza. Bandung Avanza $barayaAvanza. Tarif All-in tol & bbm, 0% DP bayar di tujuan ke sopir.";
     }
@@ -193,20 +193,20 @@ if (preg_match('/(harga|tarif|biaya|berapa|ongkos)/', $message)) {
     } elseif (preg_match('/(baraya|bandung|cimahi|lembang|soreang)/', $message)) {
         $reply = "Untuk rute favorit **Jakarta / Jabodetabek ke Baraya (Bandung Raya)**:\n🚗 **Avanza/Veloz:** $barayaAvanza (All-In)\n✨ **Innova Reborn:** $barayaInnova (All-In)\n🚐 **HiAce Premio:** $barayaHiace (All-In)\n\nSemua paket sudah ALL-IN bersih mencakup Tol MBZ penuh, Tol Cipularang, BBM, dan Sopir! Tanpa DP sepeserpun, bayar ke sopir saat tiba.";
     } else {
-        $reply = "Saat ini Traveego melayani 3 fokus rute utama (Update Tarif Pak Hendra):\n1. ✈️ **Antar Jemput Bandara (Soetta & Halim)**: Mulai $soettaAvanza\n2. 🏙️ **Drop-Off Dalam Kota Jabodetabek**: Mulai $kotaAvanza\n3. 🛣️ **Jakarta &ndash; Baraya (Bandung Raya)**: Mulai $barayaAvanza\n\nSemua tarif berkonsep **ALL-IN MURNI** (Mobil + Sopir + BBM + Tol), tanpa DP, bayar langsung ke sopir saat tiba di tujuan!\n\n$fleetStatus";
+        $reply = "Saat ini Dropoff.id melayani 3 fokus rute utama (Update Tarif Pak Hendra):\n1. ✈️ **Antar Jemput Bandara (Soetta & Halim)**: Mulai $soettaAvanza\n2. 🏙️ **Drop-Off Dalam Kota Jabodetabek**: Mulai $kotaAvanza\n3. 🛣️ **Jakarta &ndash; Baraya (Bandung Raya)**: Mulai $barayaAvanza\n\nSemua tarif berkonsep **ALL-IN MURNI** (Mobil + Sopir + BBM + Tol), tanpa DP, bayar langsung ke sopir saat tiba di tujuan!\n\n$fleetStatus";
     }
 } elseif (preg_match('/(armada|mobil|avanza|innova|hiace|ready|standby|unit)/', $message)) {
     $reply = "Koordinasi Hasna langsung dengan **Bang Jaka (Dispatcher Armada)**:\n\n$fleetStatus\n\n📌 **Pilihan Armada:**\n1. **Toyota Avanza / Veloz** (3-4 Pax) – Nyaman, irit, lincah.\n2. **Toyota Innova Reborn** (4-5 Pax) – Suspensi empuk, bagasi luas, premium.\n3. **Toyota HiAce Premio** (8-10 Pax) – Kapasitas besar untuk rombongan & keluarga besar.\n\nSemua unit wangi, bersih, AC dingin, dan bebas asap rokok.";
 } elseif (preg_match('/(tol|bbm|bensin|all in|include|termasuk)/', $message)) {
-    $reply = "Betul sekali Kak! Semua tarif di Traveego berkonsep **ALL-IN MURNI** sesuai kalkulasi Pak Hendra:\n✅ Sewa Mobil Privat (Avanza / Innova / HiAce)\n✅ Jasa Sopir Profesional\n✅ BBM penuh\n✅ Saldo Tol penuh (Tol MBZ, Tol Cipularang, Tol Bandara Sedyatmo, JORR)\n\nTidak ada biaya tersembunyi. 0% DP, bayar tunai/transfer ke sopir setelah sampai tujuan.";
+    $reply = "Betul sekali Kak! Semua tarif di Dropoff.id berkonsep **ALL-IN MURNI** sesuai kalkulasi Pak Hendra:\n✅ Sewa Mobil Privat (Avanza / Innova / HiAce)\n✅ Jasa Sopir Profesional\n✅ BBM penuh\n✅ Saldo Tol penuh (Tol MBZ, Tol Cipularang, Tol Bandara Sedyatmo, JORR)\n\nTidak ada biaya tersembunyi. 0% DP, bayar tunai/transfer ke sopir setelah sampai tujuan.";
 } elseif (preg_match('/(bayar|pembayaran|cash|transfer|rekening|dp)/', $message)) {
-    $reply = "Sistem pembayaran Traveego 100% aman Kak! **TANPA UANG MUKA (0% DP)**. Kakak bayar **CASH ATAU TRANSFER LANGSUNG KE SOPIR** setelah kendaraan tiba dengan selamat di alamat tujuan Anda. Bebas rasa cemas dari penipuan!";
+    $reply = "Sistem pembayaran Dropoff.id 100% aman Kak! **TANPA UANG MUKA (0% DP)**. Kakak bayar **CASH ATAU TRANSFER LANGSUNG KE SOPIR** setelah kendaraan tiba dengan selamat di alamat tujuan Anda. Bebas rasa cemas dari penipuan!";
 } elseif (preg_match('/(bandara|soetta|cgk|cengkareng|halim)/', $message)) {
     $reply = "Kami melayani antar jemput dari **Bandara Soekarno-Hatta (Terminal 1, 2, atau 3)** serta **Bandara Halim Perdanakusuma** ke seluruh Jabodetabek dan Baraya (Bandung Raya). Bang Jaka memastikan sopir standby di pick-up zone memantau nomor penerbangan Kakak secara real-time!";
 } elseif (preg_match('/(semarang|surabaya|solo|jogja|luar kota)/', $message)) {
-    $reply = "Untuk saat ini, demi menjaga garansi armada prima dan ketepatan waktu penjemputan Bang Jaka, Traveego memfokuskan armada khusus pada koridor **Antar Jemput Bandara (Soetta & Halim)**, **Dalam Kota Jabodetabek**, dan **Jakarta &ndash; Baraya (Bandung Raya)** Kak. 😊";
+    $reply = "Untuk saat ini, demi menjaga garansi armada prima dan ketepatan waktu penjemputan Bang Jaka, Dropoff.id memfokuskan armada khusus pada koridor **Antar Jemput Bandara (Soetta & Halim)**, **Dalam Kota Jabodetabek**, dan **Jakarta &ndash; Baraya (Bandung Raya)** Kak. 😊";
 } else {
-    $reply = "Halo Kak! Hasna (CS AI Traveego) siap membantu. Kami melayani rute prioritas: ✈️ **Bandara (Soetta & Halim)**, 🏙️ **Dalam Kota Jabodetabek**, dan 🛣️ **Jakarta &ndash; Baraya (Bandung Raya)** dengan sistem All-In (Tol + BBM + Sopir) tanpa DP.\n\n$fleetStatus\n\nAda rute yang ingin Kakak tanyakan tarifnya?";
+    $reply = "Halo Kak! Hasna (CS AI Dropoff.id) siap membantu. Kami melayani rute prioritas: ✈️ **Bandara (Soetta & Halim)**, 🏙️ **Dalam Kota Jabodetabek**, dan 🛣️ **Jakarta &ndash; Baraya (Bandung Raya)** dengan sistem All-In (Tol + BBM + Sopir) tanpa DP.\n\n$fleetStatus\n\nAda rute yang ingin Kakak tanyakan tarifnya?";
 }
 
 sendJson(['success' => true, 'reply' => $reply]);

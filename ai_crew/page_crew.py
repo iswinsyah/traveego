@@ -42,7 +42,7 @@ class PageCrew:
             # EKSEKUSI MENGGUNAKAN OTAK AI LOKAL (OLLAMA)
             # ==============================================================
             sys_prompt = (
-                "Anda adalah Tim AI spesialis Landing Page Sewa Mobil Drop-Off Traveego. "
+                "Anda adalah Tim AI spesialis Landing Page Sewa Mobil Drop-Off Dropoff.id. "
                 "Tugas Anda: Menghasilkan struktur Landing Page Penjualan yang sangat persuasif, "
                 "berfokus pada konversi (0% DP, Bayar ke sopir, All-In Tol & BBM, Mobil Privat). "
                 "Output WAJIB dalam format JSON murni dengan kunci: "
@@ -86,13 +86,13 @@ class PageCrew:
             "slug": slug,
             "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "route_key": route_key,
-            "meta_title": f"Sewa Mobil Drop Off {origin} - {dest} All-In 0% DP | Traveego",
+            "meta_title": f"Sewa Mobil Drop Off {origin} - {dest} All-In 0% DP | Dropoff.id",
             "meta_description": f"Jasa sewa mobil Drop-Off privat {origin} ke {dest}. Tarif All-In mulai {avanza_price} sudah termasuk Tol MBZ, BBM & Sopir. Bayar tunai di tujuan tanpa DP.",
             "hero": {
                 "headline": f"SEWA MOBIL DROP OFF {dest.upper()}",
                 "subheadline": f"Perjalanan privat satu arah dari {origin} ke {dest} tanpa repot. 100% All-In Tol & BBM, 0% Uang Muka, bayar langsung ke sopir saat tiba.",
                 "cta_button_text": "Pesan Unit Sekarang (0% DP)",
-                "wa_text": f"Halo Traveego, saya mau pesan Drop-Off {origin} ke {dest}"
+                "wa_text": f"Halo Dropoff.id, saya mau pesan Drop-Off {origin} ke {dest}"
             },
             "pricing_cards": [
                 {
@@ -116,7 +116,7 @@ class PageCrew:
                 "@context": "https://schema.org",
                 "@type": "Service",
                 "serviceType": "Car Rental Drop-Off",
-                "provider": {"@type": "LocalBusiness", "name": "Traveego Drop-Off"},
+                "provider": {"@type": "LocalBusiness", "name": "Dropoff.id Drop-Off"},
                 "areaServed": dest,
                 "offers": {
                     "@type": "Offer",

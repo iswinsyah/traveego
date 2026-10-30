@@ -2,13 +2,13 @@
     "slug": "drop-off-dalam-kota-jabodetabek",
     "generated_at": "2026-10-27 09:17:49",
     "route_key": "jabodetabek_dalam_kota",
-    "meta_title": "Sewa Mobil Drop Off Kawasan Jabodetabek (Titik Jemput) - Kawasan Jabodetabek (Tujuan Point-to-Point) All-In 0% DP | Traveego",
+    "meta_title": "Sewa Mobil Drop Off Kawasan Jabodetabek (Titik Jemput) - Kawasan Jabodetabek (Tujuan Point-to-Point) All-In 0% DP | Dropoff.id",
     "meta_description": "Jasa sewa mobil Drop-Off privat Kawasan Jabodetabek (Titik Jemput) ke Kawasan Jabodetabek (Tujuan Point-to-Point). Tarif All-In mulai Rp 225.000 sudah termasuk Tol MBZ, BBM & Sopir. Bayar tunai di tujuan tanpa DP.",
     "hero": {
         "headline": "SEWA MOBIL DROP OFF KAWASAN JABODETABEK (TUJUAN POINT-TO-POINT)",
         "subheadline": "Perjalanan privat satu arah dari Kawasan Jabodetabek (Titik Jemput) ke Kawasan Jabodetabek (Tujuan Point-to-Point) tanpa repot. 100% All-In Tol & BBM, 0% Uang Muka, bayar langsung ke sopir saat tiba.",
         "cta_button_text": "Pesan Unit Sekarang (0% DP)",
-        "wa_text": "Halo Traveego, saya mau pesan Drop-Off Kawasan Jabodetabek (Titik Jemput) ke Kawasan Jabodetabek (Tujuan Point-to-Point)"
+        "wa_text": "Halo Dropoff.id, saya mau pesan Drop-Off Kawasan Jabodetabek (Titik Jemput) ke Kawasan Jabodetabek (Tujuan Point-to-Point)"
     },
     "pricing_cards": [
         {
@@ -52,7 +52,7 @@
         "serviceType": "Car Rental Drop-Off",
         "provider": {
             "@type": "LocalBusiness",
-            "name": "Traveego Drop-Off"
+            "name": "Dropoff.id Drop-Off"
         },
         "areaServed": "Kawasan Jabodetabek (Tujuan Point-to-Point)",
         "offers": {

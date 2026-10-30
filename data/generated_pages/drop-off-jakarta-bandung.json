@@ -2,13 +2,13 @@
     "slug": "drop-off-jakarta-bandung",
     "generated_at": "2026-10-27 09:17:49",
     "route_key": "jakarta_bandung",
-    "meta_title": "Sewa Mobil Drop Off Jakarta (Jabodetabek) - Bandung (Kota / Lembang / Cimahi) All-In 0% DP | Traveego",
+    "meta_title": "Sewa Mobil Drop Off Jakarta (Jabodetabek) - Bandung (Kota / Lembang / Cimahi) All-In 0% DP | Dropoff.id",
     "meta_description": "Jasa sewa mobil Drop-Off privat Jakarta (Jabodetabek) ke Bandung (Kota / Lembang / Cimahi). Tarif All-In mulai Rp 500.000 sudah termasuk Tol MBZ, BBM & Sopir. Bayar tunai di tujuan tanpa DP.",
     "hero": {
         "headline": "SEWA MOBIL DROP OFF BANDUNG (KOTA / LEMBANG / CIMAHI)",
         "subheadline": "Perjalanan privat satu arah dari Jakarta (Jabodetabek) ke Bandung (Kota / Lembang / Cimahi) tanpa repot. 100% All-In Tol & BBM, 0% Uang Muka, bayar langsung ke sopir saat tiba.",
         "cta_button_text": "Pesan Unit Sekarang (0% DP)",
-        "wa_text": "Halo Traveego, saya mau pesan Drop-Off Jakarta (Jabodetabek) ke Bandung (Kota / Lembang / Cimahi)"
+        "wa_text": "Halo Dropoff.id, saya mau pesan Drop-Off Jakarta (Jabodetabek) ke Bandung (Kota / Lembang / Cimahi)"
     },
     "pricing_cards": [
         {
@@ -52,7 +52,7 @@
         "serviceType": "Car Rental Drop-Off",
         "provider": {
             "@type": "LocalBusiness",
-            "name": "Traveego Drop-Off"
+            "name": "Dropoff.id Drop-Off"
         },
         "areaServed": "Bandung (Kota / Lembang / Cimahi)",
         "offers": {

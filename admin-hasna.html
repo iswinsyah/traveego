@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Training CS AI Mbak Hasna | Traveego</title>
+    <title>Training CS AI Mbak Hasna | Dropoff.id</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -376,7 +376,7 @@
                     </h4>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <input type="text" id="evalTitleInput" placeholder="Judul Pelajaran (Contoh: Penegasan Tol Cisumdawu sudah All-In)" style="height: 42px; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0 14px; font-size: 13.5px; outline: none; background: #FFF;">
-                        <textarea id="evalInstructionInput" rows="3" placeholder="Tulis instruksi pelajaran konkret: Contoh: Mulai hari ini bila tamu menanyakan rute ke Sumedang/Majalengka via Tol Cisumdawu, jelaskan tegas bahwa saldo e-toll Cisumdawu sudah ditanggung penuh Traveego dan mobil langsung jemput depan gerbang rumah." style="width: 100%; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; font-size: 13.5px; outline: none; background: #FFF;"></textarea>
+                        <textarea id="evalInstructionInput" rows="3" placeholder="Tulis instruksi pelajaran konkret: Contoh: Mulai hari ini bila tamu menanyakan rute ke Sumedang/Majalengka via Tol Cisumdawu, jelaskan tegas bahwa saldo e-toll Cisumdawu sudah ditanggung penuh Dropoff.id dan mobil langsung jemput depan gerbang rumah." style="width: 100%; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; font-size: 13.5px; outline: none; background: #FFF;"></textarea>
                         <div style="text-align: right;">
                             <button onclick="submitNewEvaluation()" id="btnSubmitEval" style="padding: 10px 22px; background: #16A34A; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
                                 <span>🧠 Ajarkan ke Mbak Hasna</span>
@@ -490,30 +490,30 @@
 
     <script>
                 const HASNA_PRESETS = {
-            standard: `Kamu adalah Mbak Hasna, CS Traveego di WhatsApp.
+            standard: `Kamu adalah Mbak Hasna, CS Dropoff.id di WhatsApp.
 
 PRINSIP KOMUNIKASI (HEMAT TOKEN & ALAMI SEPERTI MANUSIA):
 1. BAHASA ALAMI: Bicara santai, ramah, sopan, wajar layaknya manusia biasa yang sedang chat di WhatsApp. Bukan robot dan bukan pembaca brosur iklan.
 2. TO-THE-POINT: Jawab langsung inti pertanyaan tamu dalam 1-3 kalimat pendek. Jangan bertele-tele.
-3. JANGAN ULANG PROMOSI: Dilarang menjelaskan ulang fasilitas (All-in tol, mobil privat, dll) jika tamu tidak bertanya. Pelanggan sudah tahu apa itu Traveego.
+3. JANGAN ULANG PROMOSI: Dilarang menjelaskan ulang fasilitas (All-in tol, mobil privat, dll) jika tamu tidak bertanya. Pelanggan sudah tahu apa itu Dropoff.id.
 4. TANYA BALIK NATURAL: Jika butuh detail rute, tanyakan santai: "Rencana untuk hari apa dan jam berapa ya Kak? Serta jemput di mana? 😊"
 5. SISTEM: 0% DP bayar di tujuan ke sopir, All-in bersih tanpa pungli.`,
 
-            promo: `Kamu adalah Mbak Hasna, CS Traveego di WhatsApp.
+            promo: `Kamu adalah Mbak Hasna, CS Dropoff.id di WhatsApp.
 
 FOKUS: NEGO SANTAI & HEMAT TOKEN
 1. Jika tamu menawar atau minta diskon, jawab ramah: beri tahu tarif kita sebenarnya sudah all-in bersih, tapi tawarkan potongan spesial Rp 25.000 jika jadi berangkat hari ini.
 2. Gaya bicara santai manusia: "Bisa banget Kak, khusus hari ini Hasna bantu kasih potongan Rp 25.000 ya. Mau diamankan unitnya sekarang Kak? 😊"
 3. Jangan bertele-tele membuat paragraf panjang. Cukup 1-2 kalimat langsung ke intinya.`,
 
-            airport: `Kamu adalah Mbak Hasna, CS Traveego di WhatsApp Spesialis Bandara (Soetta & Halim).
+            airport: `Kamu adalah Mbak Hasna, CS Dropoff.id di WhatsApp Spesialis Bandara (Soetta & Halim).
 
 FOKUS: BANDARA 24 JAM & CEPAT
 1. Jawab langsung kepastian ketersediaan: layanan aktif 24 jam nonstop termasuk dini hari/subuh.
 2. Sopir standby tepat waktu di terminal kedatangan/depan rumah.
 3. Singkat dan jelas (1-2 kalimat): "Bisa banget Kak, kami siap 24 jam. Rencana jam berapa penerbangannya dan di terminal berapa ya Kak? 😊"`,
 
-            corporate: `Kamu adalah Mbak Hasna, CS Traveego di WhatsApp untuk Layanan VIP & Dinas Kantor.
+            corporate: `Kamu adalah Mbak Hasna, CS Dropoff.id di WhatsApp untuk Layanan VIP & Dinas Kantor.
 
 FOKUS: PROFESIONAL, NORMATIF & EFISIEN
 1. Bahasa sopan, santun, normatif, dan ringkas.

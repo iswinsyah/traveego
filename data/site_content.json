@@ -1,8 +1,8 @@
 {
   "head": {
-    "title": "Traveego Drop-Off Privat | Sewa Mobil Sekali Jalan Jakarta Bandung & Surabaya",
+    "title": "Dropoff.id Drop-Off Privat | Sewa Mobil Sekali Jalan Jakarta Bandung & Surabaya",
     "meta_description": "Layanan sewa mobil privat sekali jalan tanpa DP. Tarif All-In Tol MBZ, BBM & Sopir rute Jakarta, Bandung, Bandara Soekarno-Hatta & Surabaya.",
-    "brand_name": "TRAVEEGO",
+    "brand_name": "DROPOFF.ID",
     "logo_icon": "🚗",
     "hotline_wa": "6281234567891"
   },
@@ -21,7 +21,7 @@
     "subtitle": "Layanan antar jemput sekali jalan rute Jakarta, Bandung, Bandara Soetta & Surabaya. 100% mobil privat tanpa orang asing, All-In BBM & Tol MBZ.",
     "cta_text": "Pesan Cepat",
     "wa_number": "6281234567891",
-    "wa_message": "Halo Traveego, saya mau pesan sewa mobil Drop-Off",
+    "wa_message": "Halo Dropoff.id, saya mau pesan sewa mobil Drop-Off",
     "cars": [
       {
         "name": "Toyota Avanza / Veloz",
@@ -39,7 +39,7 @@
   },
   "how_it_works": {
     "kicker": "Tanpa Ribet",
-    "headline": "Cara Kerja Pemesanan Traveego",
+    "headline": "Cara Kerja Pemesanan Dropoff.id",
     "description": "Nikmati kemudahan sewa mobil sekali jalan tanpa harus download aplikasi atau transfer DP di muka.",
     "steps": [
       {
@@ -52,7 +52,7 @@
         "num": "2",
         "icon": "🚖",
         "title": "Sopir Jemput di Pintu",
-        "text": "Mitra sopir terdekat di radar langsung meluncur. Pantau posisi mobil secara real-time via Magic Link peta Traveego."
+        "text": "Mitra sopir terdekat di radar langsung meluncur. Pantau posisi mobil secara real-time via Magic Link peta Dropoff.id."
       },
       {
         "num": "3",
@@ -64,7 +64,7 @@
   },
   "fleet": {
     "kicker": "Standar Kenyamanan Tinggi",
-    "headline": "Pilihan Armada Traveego",
+    "headline": "Pilihan Armada Dropoff.id",
     "description": "Seluruh armada dirawat rutin, bersih, wangi, dan dikemudikan oleh sopir profesional berstandar etika tinggi.",
     "cars": [
       {
@@ -82,7 +82,7 @@
         "fare_label": "Tarif Mulai",
         "fare_num": "Rp 750.000",
         "btn_text": "Pesan Mobil",
-        "wa_message": "Halo Traveego, saya mau sewa Avanza Drop-Off"
+        "wa_message": "Halo Dropoff.id, saya mau sewa Avanza Drop-Off"
       },
       {
         "id": "innova",
@@ -99,7 +99,7 @@
         "fare_label": "Tarif Mulai",
         "fare_num": "Rp 1.050.000",
         "btn_text": "Pesan Mobil",
-        "wa_message": "Halo Traveego, saya mau sewa Innova Reborn Drop-Off"
+        "wa_message": "Halo Dropoff.id, saya mau sewa Innova Reborn Drop-Off"
       },
       {
         "id": "hiace",
@@ -116,7 +116,7 @@
         "fare_label": "Tarif Mulai",
         "fare_num": "Rp 1.700.000",
         "btn_text": "Pesan Mobil",
-        "wa_message": "Halo Traveego, saya mau sewa HiAce Premio Drop-Off"
+        "wa_message": "Halo Dropoff.id, saya mau sewa HiAce Premio Drop-Off"
       }
     ]
   },
@@ -147,36 +147,36 @@
   },
   "comparison": {
     "kicker": "Transparansi Layanan",
-    "headline": "Bandingkan Efisiensi Traveego",
+    "headline": "Bandingkan Efisiensi Dropoff.id",
     "description": "Mengapa sewa mobil drop-off sekali jalan jauh lebih menguntungkan dibanding travel umum atau sewa lepas kunci.",
     "rows": [
       {
         "parameter": "Titik Penjemputan",
-        "traveego": "Depan pintu rumah / terminal bandara",
+        "dropoff.id": "Depan pintu rumah / terminal bandara",
         "shuttle": "Harus ke pool / ngetem keliling jemput orang lain",
         "rental": "Ambil mobil sendiri di garasi rental"
       },
       {
         "parameter": "Privasi Mobil",
-        "traveego": "100% Privat untuk keluarga / rombongan Anda",
+        "dropoff.id": "100% Privat untuk keluarga / rombongan Anda",
         "shuttle": "Bercampur penumpang asing",
         "rental": "Privat tapi Anda lelah menyetir sendiri"
       },
       {
         "parameter": "BBM & Tol MBZ / Cipularang",
-        "traveego": "ALL-IN TERMASUK",
+        "dropoff.id": "ALL-IN TERMASUK",
         "shuttle": "Harga per kursi",
         "rental": "Bensin & e-toll isi sendiri"
       },
       {
         "parameter": "Sistem Pembayaran",
-        "traveego": "0% DP, bayar cash ke sopir di tujuan",
+        "dropoff.id": "0% DP, bayar cash ke sopir di tujuan",
         "shuttle": "Wajib lunas transfer di muka",
         "rental": "Deposit jutaan rupiah + survei rumah"
       },
       {
         "parameter": "Waktu Keberangkatan",
-        "traveego": "Fleksibel 24 Jam bebas tentukan sendiri",
+        "dropoff.id": "Fleksibel 24 Jam bebas tentukan sendiri",
         "shuttle": "Terikat jadwal jam pool tetap",
         "rental": "Terikat durasi hitungan 24 jam"
       }
@@ -201,7 +201,7 @@
       },
       {
         "q": "Apakah saya bisa meminta sopir berhenti istirahat di Rest Area?",
-        "a": "Tentu saja bisa! Karena layanan Traveego adalah 100% sewa mobil privat, Anda bebas meminta sopir mampir ke Rest Area untuk sholat, ke toilet, ataupun makan tanpa terburu-buru."
+        "a": "Tentu saja bisa! Karena layanan Dropoff.id adalah 100% sewa mobil privat, Anda bebas meminta sopir mampir ke Rest Area untuk sholat, ke toilet, ataupun makan tanpa terburu-buru."
       },
       {
         "q": "Bagaimana cara mengetahui lokasi sopir setelah memesan?",
@@ -210,14 +210,14 @@
     ]
   },
   "footer": {
-    "brand_name": "TRAVEEGO DROP-OFF",
+    "brand_name": "DROPOFF.ID DROP-OFF",
     "about_text": "Platform sewa mobil privat sekali jalan antarkota berbasis radar lelang tercepat di Indonesia. Melayani rute Jabodetabek, Bandung, Bandara Soekarno-Hatta, dan Surabaya dengan tarif All-In transparan.",
-    "copyright": "© 2026 Traveego Mobilitas Indonesia. Hak cipta dilindungi.",
+    "copyright": "© 2026 Dropoff.id Mobilitas Indonesia. Hak cipta dilindungi.",
     "popular_routes": [
-      { "label": "Jakarta ➔ Bandung PP", "wa_text": "Halo Traveego, saya mau tanya rute Jakarta-Bandung" },
-      { "label": "Bandara Soetta ➔ Bandung", "wa_text": "Halo Traveego, saya mau tanya rute Soetta-Bandung" },
-      { "label": "Bandung ➔ Bandara Soetta", "wa_text": "Halo Traveego, saya mau tanya rute Bandung-Soetta" },
-      { "label": "Surabaya ➔ Malang / Batu", "wa_text": "Halo Traveego, saya mau tanya rute Surabaya-Malang" }
+      { "label": "Jakarta ➔ Bandung PP", "wa_text": "Halo Dropoff.id, saya mau tanya rute Jakarta-Bandung" },
+      { "label": "Bandara Soetta ➔ Bandung", "wa_text": "Halo Dropoff.id, saya mau tanya rute Soetta-Bandung" },
+      { "label": "Bandung ➔ Bandara Soetta", "wa_text": "Halo Dropoff.id, saya mau tanya rute Bandung-Soetta" },
+      { "label": "Surabaya ➔ Malang / Batu", "wa_text": "Halo Dropoff.id, saya mau tanya rute Surabaya-Malang" }
     ],
     "contact_wa": "6281234567891"
   }

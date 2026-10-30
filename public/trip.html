@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Live Tracking Perjalanan | Traveego Drop-Off</title>
+    <title>Live Tracking Perjalanan | Dropoff.id Drop-Off</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -328,7 +328,7 @@
     <div class="container">
         <!-- HEADER -->
         <div class="header-card">
-            <a href="/" class="brand-logo">🌊 Traveego</a>
+            <a href="/" class="brand-logo">🌊 Dropoff.id</a>
             <div class="code-badge" id="trackingCodeDisplay">TRX-....</div>
         </div>
 
@@ -531,14 +531,14 @@
                 } else if (order.status === 'IN_TRIP') {
                     statusIcon.innerText = '🛣️';
                     statusTitle.innerText = 'Sedang Dalam Perjalanan';
-                    statusDesc.innerText = 'Selamat menikmati perjalanan aman dan nyaman bersama mitra sopir Traveego.';
+                    statusDesc.innerText = 'Selamat menikmati perjalanan aman dan nyaman bersama mitra sopir Dropoff.id.';
                     document.getElementById('step1').className = 'step-item step-done';
                     document.getElementById('step2').className = 'step-item step-done';
                     document.getElementById('step3').className = 'step-item step-active';
                 } else if (order.status === 'COMPLETED') {
                     statusIcon.innerText = '✅';
                     statusTitle.innerText = 'Perjalanan Selesai!';
-                    statusDesc.innerText = 'Terima kasih telah menggunakan jasa Traveego Drop-Off. Semoga perjalanan Anda menyenangkan.';
+                    statusDesc.innerText = 'Terima kasih telah menggunakan jasa Dropoff.id Drop-Off. Semoga perjalanan Anda menyenangkan.';
                     ['step1', 'step2', 'step3', 'step4'].forEach(id => document.getElementById(id).className = 'step-item step-done');
                 }
             }

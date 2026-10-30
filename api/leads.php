@@ -1,6 +1,6 @@
 <?php
 /**
- * API LEADS & CLOSING ENGINE TRAVEEGO (FLAT-FILE JSON STORAGE)
+ * API LEADS & CLOSING ENGINE DROPOFF.ID (FLAT-FILE JSON STORAGE)
  * Aman, mandiri di Hostinger, tanpa ketergantungan MySQL lokal.
  */
 require_once __DIR__ . '/../config.php';
@@ -165,7 +165,7 @@ switch ($action) {
         $formattedPrice = 'Rp ' . number_format($price, 0, ',', '.');
 
         // Susun Ringkasan Closing Resmi Mbak Hasna
-        $summaryText = "📄 *BUKTI KONFIRMASI PEMESANAN TRAVEEGO*\n"
+        $summaryText = "📄 *BUKTI KONFIRMASI PEMESANAN DROPOFF.ID*\n"
             . "*Kode Booking:* `#" . $trackingCode . "`\n"
             . "━━━━━━━━━━━━━━━━━━━━\n"
             . "👤 *Nama Pelanggan:* " . $custName . "\n"
@@ -180,7 +180,7 @@ switch ($action) {
             . "🚘 *Mitra Sopir:* " . $driverName . " (" . $carPlate . ")\n"
             . "📲 *Link Pantau Armada & Chat Sopir:*\n"
             . "👉 " . $magicLink . "\n\n"
-            . "*(SOP Traveego: Kami akan mengirimkan reminder posisi armada H-1 malam dan H-2 jam sebelum penjemputan)*";
+            . "*(SOP Dropoff.id: Kami akan mengirimkan reminder posisi armada H-1 malam dan H-2 jam sebelum penjemputan)*";
 
         $closingData = [
             'tracking_code' => $trackingCode,

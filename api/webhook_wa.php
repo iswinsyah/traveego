@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $geminiSet = !empty($cfg['gemini_api_key']) ? 'YES' : 'NO';
         $groqSet = !empty($cfg['groq_api_key']) ? 'YES' : 'NO';
 
-        echo "=== STATUS LIVE KONFIGURASI TRAVEEGO WA ===\n";
+        echo "=== STATUS LIVE KONFIGURASI DROPOFF.ID WA ===\n";
         echo "Fonnte Token : $maskedToken\n";
         echo "Gemini Key   : $geminiSet (Model: " . ($cfg['gemini_model'] ?? 'gemini-3.8-flash') . ")\n";
         echo "Groq Key     : $groqSet (Model: " . ($cfg['groq_model'] ?? 'qwen/qwen3.8-27b') . ")\n";
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo file_exists($logFile) ? file_get_contents($logFile) : "(Belum ada request dari Fonnte)\n";
         exit;
     }
-    sendJson(['status' => true, 'message' => 'Traveego WhatsApp Webhook CS AI Hasna siap menerima pesan!']);
+    sendJson(['status' => true, 'message' => 'Dropoff.id WhatsApp Webhook CS AI Hasna siap menerima pesan!']);
 }
 
 // 0.1 HANDLER INJEKSI KONFIGURASI AMAN (RUNTIME SETUP)
@@ -217,9 +217,9 @@ if (!empty($geminiKey) || !empty($groqKey)) {
             . "- Jakarta / Jabodetabek ke Bandung (Baraya): Avanza $barayaAvanza, Innova $barayaInnova, HiAce $barayaHiace\n"
             . "INSTRUKSI GAYA BICARA WHATSAPP (HEMAT TOKEN & ALAMI SEPERTI MANUSIA): Jawab langsung to-the-point dalam 1-3 kalimat pendek. Gunakan bahasa percakapan santai, wajar, dan sopan seperti admin WhatsApp manusia biasa. DILARANG bertele-tele, DILARANG membuat paragraf panjang, dan JANGAN mengulang-ulang promosi/fasilitas kecuali jika tamu bertanya.";
     } else {
-        $systemContext = "Kamu adalah Mbak Hasna, Customer Service AI resmi dari Traveego (layanan sewa mobil privat drop-off sekali jalan antarkota).\n"
+        $systemContext = "Kamu adalah Mbak Hasna, Customer Service AI resmi dari Dropoff.id (layanan sewa mobil privat drop-off sekali jalan antarkota).\n"
             . "Karakter: Ramah, santun, hangat, solutif, persuasif, memakai sapaan khas ('Halo Kak!', 'Ada yang bisa Hasna bantu?').\n"
-            . "Prinsip Utama Layanan Traveego:\n"
+            . "Prinsip Utama Layanan Dropoff.id:\n"
             . "1. TARIF ALL-IN BERSIH: Sudah mencakup Sewa Mobil Privat (bukan travel umum/gabungan) + Jasa Sopir Berpengalaman + BBM + Saldo Tol Penuh (Tol MBZ, Cipularang, Sedyatmo Bandara, JORR). Tidak ada pungutan liar apapun.\n"
             . "2. PEMBAYARAN AMAN (0% DP): Tidak ada uang muka. Pembayaran 100% dibayarkan via cash atau transfer langsung ke sopir setelah tiba dengan selamat di tujuan.\n"
             . "3. ARMADA & KOORDINASI (BANG JAKA): Pilihan armada: Avanza/Veloz (1-4 penumpang), Innova Reborn (1-5 penumpang), Toyota HiAce Premio (8-14 penumpang). Sopir standby 30 menit sebelum jadwal penjemputan door-to-door.\n"
@@ -346,14 +346,14 @@ if (!$aiReply) {
     $msgLower = strtolower($incomingMsg);
     if (preg_match('/(harga|tarif|biaya|berapa|ongkos)/', $msgLower)) {
         if (preg_match('/(bandara|soetta|halim|cgk)/', $msgLower)) {
-            $aiReply = "Halo Kak! Salam hangat dari Mbak Hasna (CS Traveego) 😊\n\nUntuk antar-jemput Bandara (Soetta & Halim):\n🚗 Avanza/Veloz: $soettaAvanza (All-In)\n✨ Innova Reborn: $soettaInnova (All-In)\n🚐 HiAce Premio: $soettaHiace (All-In)\n\nSemua tarif sudah ALL-IN (Mobil privat + Sopir + Tol Bandara + BBM). 0% DP bayar di tujuan!\n\nRencana untuk penerbangan jam berapa dan tanggal berapa Kak?";
+            $aiReply = "Halo Kak! Salam hangat dari Mbak Hasna (CS Dropoff.id) 😊\n\nUntuk antar-jemput Bandara (Soetta & Halim):\n🚗 Avanza/Veloz: $soettaAvanza (All-In)\n✨ Innova Reborn: $soettaInnova (All-In)\n🚐 HiAce Premio: $soettaHiace (All-In)\n\nSemua tarif sudah ALL-IN (Mobil privat + Sopir + Tol Bandara + BBM). 0% DP bayar di tujuan!\n\nRencana untuk penerbangan jam berapa dan tanggal berapa Kak?";
         } elseif (preg_match('/(baraya|bandung|cimahi)/', $msgLower)) {
             $aiReply = "Halo Kak! Hasna siap bantu drop-off rute favorit Jakarta &ndash; Bandung (Baraya) PP:\n🚗 Avanza: $barayaAvanza (All-In)\n✨ Innova Reborn: $barayaInnova (All-In)\n🚐 HiAce Premio: $barayaHiace (All-In)\n\nSudah termasuk Tol MBZ, Tol Cipularang, BBM, dan Sopir. Tanpa DP sepeserpun!\n\nUntuk penjemputan tanggal berapa dan titik jemputnya di mana Kak?";
         } else {
             $aiReply = "Halo Kak! Hasna siap bantu layanan sewa mobil privat drop-off sekali jalan:\n✈️ Bandara Soetta: Mulai $soettaAvanza\n🏙️ Dalam Kota: Mulai $kotaAvanza\n🛣️ Jakarta &ndash; Bandung: Mulai $barayaAvanza\n\nTarif sudah ALL-IN Bersih (Mobil + BBM + Tol + Sopir), bayar saat tiba di tujuan. Mau rute yang mana Kak?";
         }
     } else {
-        $aiReply = "Halo Kak! Terima kasih sudah menghubungi Traveego. Saya Mbak Hasna, CS AI resmi Traveego 😊\n\nKami melayani sewa mobil privat drop-off antarkota (Bandara Soetta/Halim, Jabodetabek, dan Bandung Raya) dengan sistem ALL-IN (sudah termasuk Mobil + Sopir + BBM + Tol Penuh) dan TANPA DP (bayar tunai/transfer saat tiba di tujuan).\n\nAda rute perjalanan yang bisa Hasna siapkan armadanya untuk Kakak?";
+        $aiReply = "Halo Kak! Terima kasih sudah menghubungi Dropoff.id. Saya Mbak Hasna, CS AI resmi Dropoff.id 😊\n\nKami melayani sewa mobil privat drop-off antarkota (Bandara Soetta/Halim, Jabodetabek, dan Bandung Raya) dengan sistem ALL-IN (sudah termasuk Mobil + Sopir + BBM + Tol Penuh) dan TANPA DP (bayar tunai/transfer saat tiba di tujuan).\n\nAda rute perjalanan yang bisa Hasna siapkan armadanya untuk Kakak?";
     }
 }
 

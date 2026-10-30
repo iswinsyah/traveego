@@ -1,6 +1,6 @@
 <?php
 /**
- * TRAVEEGO DYNAMIC BLOG POST RENDERER
+ * DROPOFF.ID DYNAMIC BLOG POST RENDERER
  * Menampilkan Artikel Blog SEO hasil karya Mbak Maya (Post Crew)
  * Mendukung Auto-Scheduled sesuai Kalender Konten Mbak Dinda.
  */
@@ -20,7 +20,7 @@ if (empty($slug)) {
 $postFile = __DIR__ . '/data/generated_posts/' . $slug . '.json';
 if (!file_exists($postFile)) {
     http_response_code(404);
-    echo "<!DOCTYPE html><html lang='id'><head><meta charset='utf-8'><title>404 Artikel Tidak Ditemukan | Traveego Blog</title><meta name='viewport' content='width=device-width, initial-scale=1'><style>body{font-family:sans-serif; text-align:center; padding:50px; background:#F8FAFC; color:#0F172A;} a{color:#0B4FD8; text-decoration:none; font-weight:700;}</style></head><body><h1>404</h1><p>Artikel blog yang Anda cari belum tersedia.</p><a href='/'>← Kembali ke Beranda Traveego</a></body></html>";
+    echo "<!DOCTYPE html><html lang='id'><head><meta charset='utf-8'><title>404 Artikel Tidak Ditemukan | Dropoff.id Blog</title><meta name='viewport' content='width=device-width, initial-scale=1'><style>body{font-family:sans-serif; text-align:center; padding:50px; background:#F8FAFC; color:#0F172A;} a{color:#0B4FD8; text-decoration:none; font-weight:700;}</style></head><body><h1>404</h1><p>Artikel blog yang Anda cari belum tersedia.</p><a href='/'>← Kembali ke Beranda Dropoff.id</a></body></html>";
     exit;
 }
 
@@ -63,7 +63,7 @@ if ($isScheduled && !$canPreview) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Terjadwal: <?= htmlspecialchars($postData['title'] ?? 'Artikel Blog Traveego') ?></title>
+        <title>Terjadwal: <?= htmlspecialchars($postData['title'] ?? 'Artikel Blog Dropoff.id') ?></title>
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
         <style>
             body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; color: #0F172A; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 24px; box-sizing: border-box; text-align: center; }
@@ -188,7 +188,7 @@ function markdownToHtml($md) {
 }
 
 $articleHtml = markdownToHtml($rawMarkdown);
-$title = htmlspecialchars($postData['title'] ?? 'Panduan Tarif Drop Off Traveego');
+$title = htmlspecialchars($postData['title'] ?? 'Panduan Tarif Drop Off Dropoff.id');
 $metaDesc = htmlspecialchars($postData['meta_description'] ?? 'Panduan sewa mobil drop-off tarif all in tol dan bbm.');
 $category = htmlspecialchars($postData['category'] ?? 'Info Tarif & Tol');
 $publishedDate = date('d F Y', strtotime($publishAt ?: 'now'));
@@ -199,7 +199,7 @@ $featuredImage = $postData['featured_image'] ?? '';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?> | Traveego Blog</title>
+    <title><?= $title ?> | Dropoff.id Blog</title>
     <meta name="description" content="<?= $metaDesc ?>">
     <?php if (!empty($featuredImage)): ?><meta property="og:image" content="<?= htmlspecialchars($featuredImage) ?>"><?php endif; ?>
     <link rel="canonical" href="https://dropoff.id/blog/<?= htmlspecialchars($slug) ?>">
@@ -217,11 +217,11 @@ $featuredImage = $postData['featured_image'] ?? '';
       "description": "<?= addslashes($metaDesc) ?>",
       "publisher": {
         "@type": "Organization",
-        "name": "Traveego Indonesia"
+        "name": "Dropoff.id Indonesia"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "Traveego Indonesia"
+        "name": "Dropoff.id Indonesia"
       },
       "datePublished": "<?= date('c', strtotime($publishAt ?: 'now')) ?>",
       "dateModified": "<?= date('c', strtotime($publishAt ?: 'now')) ?>"
@@ -462,7 +462,7 @@ $featuredImage = $postData['featured_image'] ?? '';
 <header class="topbar">
     <a href="/" class="topbar-brand">
         <span style="font-size:24px;">🚐</span>
-        <span>TRAVEEGO BLOG</span>
+        <span>DROPOFF.ID BLOG</span>
     </a>
     <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= urlencode('Halo Mbak Hasna, saya sedang membaca artikel: ' . $title) ?>" class="btn-topbar-wa" target="_blank" rel="noopener">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; flex-shrink: 0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
@@ -479,7 +479,7 @@ $featuredImage = $postData['featured_image'] ?? '';
         <span>&bull;</span>
         <span>⏱️ 4 Menit Baca</span>
         <span>&bull;</span>
-        <span>🛡️ Panduan Resmi Traveego</span>
+        <span>🛡️ Panduan Resmi Dropoff.id</span>
     </div>
 
     <?php if (!empty($featuredImage)): ?>
@@ -494,7 +494,7 @@ $featuredImage = $postData['featured_image'] ?? '';
         <div class="cta-box">
             <div class="cta-badge-tag">⚡ Layanan Siaga 24 Jam &bull; 0% Uang Muka</div>
             <h3>Mau Bepergian Tanpa Capek Menyetir?</h3>
-            <p>Nikmati layanan sewa mobil Drop-Off privat Traveego. Tarif All-In (Tol + BBM + Sopir) murni tanpa uang muka (0% DP), bayar langsung di lokasi tujuan!</p>
+            <p>Nikmati layanan sewa mobil Drop-Off privat Dropoff.id. Tarif All-In (Tol + BBM + Sopir) murni tanpa uang muka (0% DP), bayar langsung di lokasi tujuan!</p>
             <a href="https://wa.me/<?= $csAiPhone ?>?text=<?= urlencode('Halo Mbak Hasna, saya sedang membaca artikel ' . $title . '. Mau tanya rute dan booking drop-off') ?>" class="btn-cta-wa" target="_blank" rel="noopener">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; flex-shrink: 0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 <span>Hubungi Customer Service</span>
@@ -504,7 +504,7 @@ $featuredImage = $postData['featured_image'] ?? '';
 </main>
 
 <footer class="footer">
-    <p>&copy; <?= date('Y') ?> Traveego Indonesia &bull; Panduan Tarif &amp; Edukasi Perjalanan Drop-Off</p>
+    <p>&copy; <?= date('Y') ?> Dropoff.id Indonesia &bull; Panduan Tarif &amp; Edukasi Perjalanan Drop-Off</p>
 </footer>
 
 <?php require __DIR__ . '/api/yoast_widget.php'; ?>

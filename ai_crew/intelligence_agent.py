@@ -11,7 +11,7 @@ from ai_crew.config import COST_MATRIX_FILE, ensure_directories
 from ai_crew.llm_client import LocalLLMClient
 
 # ==============================================================
-# DATA STANDAR DASAR BIAYA OPERASIONAL TRAVEEGO (BASE BENCHMARK)
+# DATA STANDAR DASAR BIAYA OPERASIONAL DROPOFF.ID (BASE BENCHMARK)
 # ==============================================================
 DEFAULT_COST_DATA = {
     "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -100,7 +100,7 @@ class IntelligenceAgent:
     def calculate_prices(self, cost_data=None):
         """
         Menghitung tarif All-In untuk semua mobil di setiap rute:
-        Rumus: Biaya BBM + Tol + Jasa Sopir + Margin Traveego
+        Rumus: Biaya BBM + Tol + Jasa Sopir + Margin Dropoff.id
         """
         data = cost_data or DEFAULT_COST_DATA.copy()
         fuel_prices = data["fuel_prices_per_liter"]

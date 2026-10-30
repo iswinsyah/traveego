@@ -1,4 +1,4 @@
-# CETAK BIRU ARSITEKTUR PLATFORM TRAVEEGO DROP-OFF
+# CETAK BIRU ARSITEKTUR PLATFORM DROPOFF.ID DROP-OFF
 > **Dokumen Resmi Arsitektur Sistem, Model Bisnis, Skema Database, dan SOP Deployment VPS**  
 > *Versi: 1.0.0 &bull; Pembaruan Terakhir: Oktober 2026*  
 > *Repositori GitHub:* [https://github.com/iswinsyah/traveego](https://github.com/iswinsyah/traveego)
@@ -8,12 +8,12 @@
 ## 1. RINGKASAN EKSEKUTIF & MODEL BISNIS
 
 ### 1.1. Konsep Bisnis: Asset-Light On-Demand Marketplace
-Traveego bertransformasi dari rental mobil konvensional (titipan mobil investor) menjadi **marketplace transportasi antarkota berbasis armada mandiri** (seperti Grab/GoCar/InDrive untuk rute luar kota dan bandara).
+Dropoff.id bertransformasi dari rental mobil konvensional (titipan mobil investor) menjadi **marketplace transportasi antarkota berbasis armada mandiri** (seperti Grab/GoCar/InDrive untuk rute luar kota dan bandara).
 * **Mitra Sopir Mandiri:** Sopir mengemudikan kendaraan milik mereka sendiri (Avanza, Innova Reborn, Hiace).
 * **Bebas Biaya Perawatan Unit:** Perawatan, bahan bakar, depresiasi, dan risiko armada 100% berada pada mitra. Platform fokus pada akuisisi pelanggan (SEO/Google Rank 1) dan sistem operasional lelang.
 * **Model Pendapatan (Komisi Bagi Hasil):**
   - Pelanggan membayar **100% Cash** ke sopir setelah perjalanan selesai.
-  - Sopir menyetorkan komisi bagi hasil admin (rata-rata **10%**) ke rekening bank admin Traveego via transfer.
+  - Sopir menyetorkan komisi bagi hasil admin (rata-rata **10%**) ke rekening bank admin Dropoff.id via transfer.
   - Didukung sistem konfirmasi pasca-bayar (*post-paid settlement*) dengan upload foto struk m-banking.
 
 ### 1.2. Hub Operasional Geografis
@@ -48,7 +48,7 @@ Traveego bertransformasi dari rental mobil konvensional (titipan mobil investor)
 
 Kekhawatiran terbesar dalam bisnis transportasi perantara adalah **sopir membajak nomor kontak pelanggan untuk transaksi di luar aplikasi (*bypassing*)**.
 
-### Solusi Proteksi Traveego:
+### Solusi Proteksi Dropoff.id:
 1. **Formulir Web Menangkap Nomor WhatsApp Pelanggan:**
    - Nomor WhatsApp pelanggan **HANYA TERSIMPAN DI DATABASE ADMIN**.
    - Digunakan untuk arsip CRM, rekam jejak, dan broadcast promo resmi perusahaan.
@@ -57,7 +57,7 @@ Kekhawatiran terbesar dalam bisnis transportasi perantara adalah **sopir membaja
    - Ditampilkan dengan sensor: `Ibu Maya Lestari (0819-****-4321)`.
    - Sopir tidak memiliki akses link direct WhatsApp ke tamu.
 3. **Koordinasi Wajib via In-App Live Chat (Di Dalam Web/PWA):**
-   - Koordinasi penjemputan (*"Pak saya sudah di lobi"*) berjalan melalui **WebSocket Traveego** secara internal.
+   - Koordinasi penjemputan (*"Pak saya sudah di lobi"*) berjalan melalui **WebSocket Dropoff.id** secara internal.
    - Tidak ada pertukaran kontak pribadi.
 4. **Audit Trail Admin:**
    - Seluruh percakapan tercatat di sistem agar admin bisa memantau dan memberi sanksi tegas jika ada sopir yang mengajak transaksi di luar platform.
@@ -246,7 +246,7 @@ mysql -u root
 Ketik perintah SQL berikut di dalam MySQL:
 ```sql
 CREATE DATABASE traveego_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'traveego_user'@'localhost' IDENTIFIED BY 'PasswordKuatTraveego2026!';
+CREATE USER 'traveego_user'@'localhost' IDENTIFIED BY 'PasswordKuatDropoff.id2026!';
 GRANT ALL PRIVILEGES ON traveego_db.* TO 'traveego_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
@@ -275,12 +275,12 @@ NODE_ENV=production
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=traveego_user
-DB_PASSWORD=PasswordKuatTraveego2026!
+DB_PASSWORD=PasswordKuatDropoff.id2026!
 DB_NAME=traveego_db
 
 ADMIN_BANK_NAME=BCA
 ADMIN_BANK_ACCOUNT=1234567890
-ADMIN_BANK_HOLDER=Traveego Operasional
+ADMIN_BANK_HOLDER=Dropoff.id Operasional
 
 BASE_URL=https://dropoff.id
 ```
@@ -335,7 +335,7 @@ apt install -y certbot python3-certbot-nginx
 certbot --nginx -d dropoff.id -d www.dropoff.id
 ```
 
-**Selesai!** Platform Traveego Drop-Off resmi aktif di internet, dilindungi HTTPS, dan berjalan 24 jam nonstop di VPS Helipod Indonesia.
+**Selesai!** Platform Dropoff.id Drop-Off resmi aktif di internet, dilindungi HTTPS, dan berjalan 24 jam nonstop di VPS Helipod Indonesia.
 
 ---
 
@@ -371,4 +371,4 @@ traveego/
 ```
 
 ---
-*Dokumen ini dibuat secara otomatis sebagai panduan standar arsitektur dan kelangsungan operasional platform Traveego.*
+*Dokumen ini dibuat secara otomatis sebagai panduan standar arsitektur dan kelangsungan operasional platform Dropoff.id.*

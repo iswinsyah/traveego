@@ -1,6 +1,6 @@
 <?php
 /**
- * KONFIGURASI DATABASE & APLIKASI TRAVEEGO (PHP VERSION)
+ * KONFIGURASI DATABASE & APLIKASI DROPOFF.ID (PHP VERSION)
  * Siap upload langsung ke Hostinger Shared Hosting (public_html)
  */
 
@@ -15,7 +15,7 @@ define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
 
 // 2. KREDENSIAL LOGIN ADMIN PANEL (/admin)
 define('ADMIN_USERNAME', 'admin');
-define('ADMIN_PASSWORD', 'admin@traveego');
+define('ADMIN_PASSWORD', 'admin@dropoff.id');
 
 // 2b. KREDENSIAL LOGIN CREW AI PANEL (/crew-ai)
 define('CREW_USERNAME', 'winsyah');
@@ -55,7 +55,7 @@ function requireCrewAuth() {
 // 3. REKENING ADMIN UNTUK SETORAN KOMISI SOPIR (PASCA-BAYAR)
 define('ADMIN_BANK_NAME', 'BCA');
 define('ADMIN_BANK_ACCOUNT', '1234567890');
-define('ADMIN_BANK_HOLDER', 'Traveego Operasional');
+define('ADMIN_BANK_HOLDER', 'Dropoff.id Operasional');
 
 // 4. KONEKSI PDO DENGAN ERROR HANDLING
 function getDB() {

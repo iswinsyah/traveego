@@ -1,6 +1,6 @@
 <?php
 /**
- * TRAVEEGO API: DAFTAR ARTIKEL PUBLIKASI (BLOG POSTS)
+ * DROPOFF.ID API: DAFTAR ARTIKEL PUBLIKASI (BLOG POSTS)
  * Menyajikan artikel terbaru untuk ditampilkan di Homepage dan Blog Archive.
  */
 header('Content-Type: application/json; charset=utf-8');

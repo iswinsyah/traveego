@@ -1,7 +1,7 @@
 {
-  "name": "Traveego Driver - Mitra Drop Off",
-  "short_name": "Traveego Mitra",
-  "description": "Aplikasi Lelang & Orderan Khusus Mitra Sopir Mandiri Traveego",
+  "name": "Dropoff.id Driver - Mitra Drop Off",
+  "short_name": "Dropoff.id Mitra",
+  "description": "Aplikasi Lelang & Orderan Khusus Mitra Sopir Mandiri Dropoff.id",
   "start_url": "/driver",
   "display": "standalone",
   "background_color": "#0F4C81",

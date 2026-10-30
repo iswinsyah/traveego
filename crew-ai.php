@@ -34,7 +34,7 @@ $isLoggedIn = isCrewLoggedIn();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $isLoggedIn ? 'Traveego Crew AI &ndash; Portal Kontrol Agen' : 'Masuk ke Traveego Crew AI' ?></title>
+    <title><?= $isLoggedIn ? 'Dropoff.id Crew AI &ndash; Portal Kontrol Agen' : 'Masuk ke Dropoff.id Crew AI' ?></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -1826,10 +1826,10 @@ $isLoggedIn = isCrewLoggedIn();
         <div class="login-header">
             <div class="login-badge">
                 <span>🤖</span>
-                <span>TRAVEEGO AI CREW</span>
+                <span>DROPOFF.ID AI CREW</span>
             </div>
             <h1 class="login-title">Control Center</h1>
-            <p class="login-sub">Masuk untuk memantau 5 AI Agent Traveego, Cost Matrix, dan Otomatisasi Konten SEO.</p>
+            <p class="login-sub">Masuk untuk memantau 5 AI Agent Dropoff.id, Cost Matrix, dan Otomatisasi Konten SEO.</p>
         </div>
 
         <?php if (!empty($loginError)): ?>
@@ -1908,7 +1908,7 @@ $isLoggedIn = isCrewLoggedIn();
         <a href="/crew-ai" class="sidebar-brand">
             <div class="brand-logo-icon">🤖</div>
             <div>
-                <div class="brand-name">TRAVEEGO AI CREW</div>
+                <div class="brand-name">DROPOFF.ID AI CREW</div>
                 <div class="brand-tagline">Autonomous Multi-Agent</div>
             </div>
         </a>
@@ -1985,7 +1985,7 @@ $isLoggedIn = isCrewLoggedIn();
                 <!-- Brand Icon di HP -->
                 <div class="topbar-brand-mobile">
                     <div class="brand-logo-icon" style="width: 36px; height: 36px; font-size: 18px; border-radius: 10px;">🤖</div>
-                    <span style="font-weight: 800; font-size: 15px; color: var(--text-title);">TRAVEEGO AI</span>
+                    <span style="font-weight: 800; font-size: 15px; color: var(--text-title);">DROPOFF.ID AI</span>
                 </div>
                 <!-- Title di PC -->
                 <div class="topbar-title" id="activeAgentHeaderTitle">Overview Control Hub</div>
@@ -2017,7 +2017,7 @@ $isLoggedIn = isCrewLoggedIn();
                             <div class="hero-online-dot"></div>
                         </div>
                         <div class="hero-banner-text">
-                            <h2>Traveego AI Crew Control Center</h2>
+                            <h2>Dropoff.id AI Crew Control Center</h2>
                             <p>Selamat datang, Mas Winsyah! Sentuh atau klik kartu AI Agent di bawah untuk melihat wujud visual dan mengontrol ruang kerja masing-masing agen secara langsung.</p>
                         </div>
                     </div>
@@ -2270,7 +2270,7 @@ $isLoggedIn = isCrewLoggedIn();
                         <div class="android-title-group">
                             <h3>
                                 <span>🤖</span>
-                                <span>Tim AI Agent Traveego</span>
+                                <span>Tim AI Agent Dropoff.id</span>
                             </h3>
                             <p>Sentuh atau klik ikon agen untuk membuka ruang kerja dan data operasionalnya.</p>
                         </div>
@@ -2431,7 +2431,7 @@ $isLoggedIn = isCrewLoggedIn();
                                 <h4 class="wf-step-title">Pak Hendra &ndash; Riset Tarif</h4>
                                 <div class="wf-step-role">Tariff &amp; Cost Intelligence Agent</div>
                                 <p class="wf-step-desc">
-                                    Riset sepekan sekali memantau tarif tol gerbang-ke-gerbang (Cipularang, MBZ, Sedyatmo), harga BBM Pertamina resmi, jasa sopir, dan harga pasaran drop off kompetitor. Menjamin Traveego selalu untung dan kompetitif.
+                                    Riset sepekan sekali memantau tarif tol gerbang-ke-gerbang (Cipularang, MBZ, Sedyatmo), harga BBM Pertamina resmi, jasa sopir, dan harga pasaran drop off kompetitor. Menjamin Dropoff.id selalu untung dan kompetitif.
                                 </p>
                                 <div class="wf-step-output">
                                     <span>📊 Hasil Kerja:</span> <strong>Tabel Update Tol, BBM &amp; Pasaran</strong>
@@ -2476,7 +2476,7 @@ $isLoggedIn = isCrewLoggedIn();
                             <div class="wf-step-card">
                                 <div class="wf-step-num">Frontliner Pelanggan 24/7</div>
                                 <div class="wf-step-avatar" style="background: linear-gradient(135deg, #FDF2F8, #FCE7F3); border: 2px solid #FBCFE8; color: #DB2777;">👩‍💼</div>
-                                <h4 class="wf-step-title">Mbak Hasna &ndash; CS AI Traveego</h4>
+                                <h4 class="wf-step-title">Mbak Hasna &ndash; CS AI Dropoff.id</h4>
                                 <div class="wf-step-role">AI Frontliner (Homepage, Landing Page &amp; WhatsApp)</div>
                                 <p class="wf-step-desc">
                                     Menjawab telpon, chat web, dan WhatsApp customer dengan ramah dan akurat. Menjelaskan keunggulan All-In (Tol + BBM + Sopir), penjemputan door-to-door, dan opsi aman bayar di tempat (0% DP).
@@ -2584,7 +2584,7 @@ $isLoggedIn = isCrewLoggedIn();
                     <div class="content-card-header">
                         <h3 class="card-title">
                             <span>🛣️</span>
-                            <span>Tarif 4 Koridor Fokus Traveego (All-In Tol & BBM)</span>
+                            <span>Tarif 4 Koridor Fokus Dropoff.id (All-In Tol & BBM)</span>
                         </h3>
                         <span class="pill-badge pill-green">Single Source of Truth</span>
                     </div>
@@ -2627,7 +2627,7 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                         <div class="hero-banner-text">
                             <h2>Pak Hendra &ndash; Tariff & Cost Intelligence Agent</h2>
-                            <p><strong>"Tarif yang akurat adalah kunci margin profit dan kepercayaan pelanggan."</strong> Saya memantau harga BBM resmi Pertamina, menghitung biaya tol gerbang-ke-gerbang (Cipularang, MBZ, JORR, Sedyatmo), serta mengalokasikan jasa sopir harian untuk memastikan Traveego selalu untung tanpa kemahalan.</p>
+                            <p><strong>"Tarif yang akurat adalah kunci margin profit dan kepercayaan pelanggan."</strong> Saya memantau harga BBM resmi Pertamina, menghitung biaya tol gerbang-ke-gerbang (Cipularang, MBZ, JORR, Sedyatmo), serta mengalokasikan jasa sopir harian untuk memastikan Dropoff.id selalu untung tanpa kemahalan.</p>
                         </div>
                     </div>
                     <div class="hero-banner-actions">
@@ -2942,7 +2942,7 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                         <div class="hero-banner-text">
                             <h2>Ndan Heru &ndash; Komandan Crew AI & Tailscale Host</h2>
-                            <p><strong>"Koordinasi terpadu antara server hosting Hostinger dan PC Server AI Anda."</strong> Saya mematuhi jam kerja 06.00-23.00 WIB, menjaga jalur Tailscale IP ke endpoint Ollama, dan memandu eksekusi bertahap tim AI Traveego.</p>
+                            <p><strong>"Koordinasi terpadu antara server hosting Hostinger dan PC Server AI Anda."</strong> Saya mematuhi jam kerja 06.00-23.00 WIB, menjaga jalur Tailscale IP ke endpoint Ollama, dan memandu eksekusi bertahap tim AI Dropoff.id.</p>
                         </div>
                     </div>
                     <div class="hero-banner-actions">
@@ -3082,7 +3082,7 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                         <div class="hero-banner-text">
                             <h2>Mbak Dinda &ndash; Content Strategist & Weekly Editorial Planner</h2>
-                            <p><strong>"Konsistensi publikasi adalah kunci mendominasi halaman #1 Google."</strong> Saya merancang dan mengunci jadwal kalender konten 7 hari (Senin &ndash; Minggu) untuk Traveego berbasis riset seed <em>"Drop Off"</em> dari Mas Bayu, mendistribusikan penugasan ke Bung Kevin (Landing Page) & Mbak Maya (Artikel SEO), serta memonitor jadwal tayang otomatis.</p>
+                            <p><strong>"Konsistensi publikasi adalah kunci mendominasi halaman #1 Google."</strong> Saya merancang dan mengunci jadwal kalender konten 7 hari (Senin &ndash; Minggu) untuk Dropoff.id berbasis riset seed <em>"Drop Off"</em> dari Mas Bayu, mendistribusikan penugasan ke Bung Kevin (Landing Page) & Mbak Maya (Artikel SEO), serta memonitor jadwal tayang otomatis.</p>
                         </div>
                     </div>
                     <div class="hero-banner-actions">
@@ -3132,7 +3132,7 @@ $isLoggedIn = isCrewLoggedIn();
                     <div class="content-card-header">
                         <h3 class="card-title">
                             <span>🗓️</span>
-                            <span>Kalender Konten Pekanan (Senin &ndash; Minggu) &bull; Traveego Drop Off</span>
+                            <span>Kalender Konten Pekanan (Senin &ndash; Minggu) &bull; Dropoff.id Drop Off</span>
                         </h3>
                         <span class="pill-badge pill-blue" id="dindaActiveWeekBadge">Pekan Berjalan: 27 Okt &ndash; 2 Nov 2026</span>
                     </div>
@@ -3248,12 +3248,12 @@ $isLoggedIn = isCrewLoggedIn();
                                     </td>
                                     <td><span class="tag-dynamic">Trust & Security</span></td>
                                     <td>
-                                        <strong>SOP Keamanan Drop Off Traveego: Bayar Sopir di Tempat Tanpa DP</strong><br>
+                                        <strong>SOP Keamanan Drop Off Dropoff.id: Bayar Sopir di Tempat Tanpa DP</strong><br>
                                         <span style="font-size: 11.5px; color: var(--text-muted);">Seed: drop off bayar tujuan aman</span>
                                     </td>
                                     <td><span class="sw-pill pill-active">Commercial</span></td>
                                     <td>🚐 Jaka x ✍️ Maya</td>
-                                    <td><code>Blog: /garansi-0-persen-dp-traveego</code></td>
+                                    <td><code>Blog: /garansi-0-persen-dp-dropoff.id</code></td>
                                     <td><span class="sw-pill pill-active">🟢 Terjadwal</span></td>
                                 </tr>
                             </tbody>
@@ -3373,7 +3373,7 @@ $isLoggedIn = isCrewLoggedIn();
                     <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
                         <div style="width:28px; height:28px; border-radius:50%; background:#0B4FD8; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;">T</div>
                         <div>
-                            <div style="font-size:13px; font-weight:700; color:#202124;">Traveego Indonesia</div>
+                            <div style="font-size:13px; font-weight:700; color:#202124;">Dropoff.id Indonesia</div>
                             <div id="serpPreviewUrl" style="font-size:11.5px; color:#4D5156; word-break:break-all;"></div>
                         </div>
                     </div>
@@ -3707,7 +3707,7 @@ $isLoggedIn = isCrewLoggedIn();
                         <td style="font-weight: 700;">Rp ${Number(r.base_driver_fee).toLocaleString('id-ID')}</td>
                         <td>
                             <span style="color:#DC2626; text-decoration:line-through; font-size:12px;">${pasaranText}</span><br>
-                            <span style="color:#16A34A; font-size:11px; font-weight:700;">Traveego Lebih Hemat</span>
+                            <span style="color:#16A34A; font-size:11px; font-weight:700;">Dropoff.id Lebih Hemat</span>
                         </td>
                         <td><span class="badge-price">${p.avanza ? p.avanza.formatted_price : '-'}</span></td>
                         <td><span class="badge-price" style="background:#EFF6FF; color:#1D4ED8; border-color:#BFDBFE;">${p.innova ? p.innova.formatted_price : '-'}</span></td>
@@ -4571,7 +4571,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         // SERP Preview
         const serp = data.serp_preview || {};
         document.getElementById('serpPreviewUrl').innerText = serp.displayed_url || 'dropoff.id';
-        document.getElementById('serpPreviewTitle').innerText = serp.title || 'Traveego Drop Off';
+        document.getElementById('serpPreviewTitle').innerText = serp.title || 'Dropoff.id Drop Off';
         document.getElementById('serpPreviewDesc').innerText = serp.meta_description || '-';
 
         // Reset to first tab

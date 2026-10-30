@@ -1,4 +1,4 @@
-const CACHE_NAME = 'traveego-driver-v1';
+const CACHE_NAME = 'dropoff.id-driver-v1';
 const urlsToCache = [
   '/driver',
   '/manifest.json'

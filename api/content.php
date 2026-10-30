@@ -1,6 +1,6 @@
 <?php
 /**
- * TRAVEEGO FRONT-END CONTENT API
+ * DROPOFF.ID FRONT-END CONTENT API
  * Menyajikan data konfigurasi landing page (Head, Hero, Armada, FAQ, Footer, dll)
  * untuk ditampilkan secara dinamis di index.html.
  */
