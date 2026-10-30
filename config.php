@@ -75,9 +75,10 @@ define('ADMIN_BANK_ACCOUNT', '1234567890');
 define('ADMIN_BANK_HOLDER', 'Dropoff.id Operasional');
 
 // 4. KONEKSI PDO DENGAN ERROR HANDLING
-function getDB() {
+function getDB($exitOnError = true) {
     static $pdo = null;
-    if ($pdo === null) {
+    static $connectFailed = false;
+    if ($pdo === null && !$connectFailed) {
         try {
             $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
             $options = [
@@ -87,12 +88,16 @@ function getDB() {
             ];
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode([
-                'success' => false,
-                'message' => 'Gagal koneksi ke database: ' . $e->getMessage()
-            ]);
-            exit;
+            $pdo = null;
+            $connectFailed = true;
+            if ($exitOnError) {
+                http_response_code(500);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Gagal koneksi ke database: ' . $e->getMessage()
+                ]);
+                exit;
+            }
         }
     }
     return $pdo;

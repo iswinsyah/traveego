@@ -1,0 +1,44 @@
+{
+    "999": {
+        "id": 999,
+        "name": "Winsyah (Super Admin)",
+        "phone": "winsyah",
+        "pin": "khilafet@1924",
+        "car_model": "Toyota HiAce Premio Luxury",
+        "car_plate": "B 1924 WIN",
+        "car_color": "Hitam Metalik",
+        "rating": 5.0,
+        "total_trips": 999,
+        "current_lat": -6.175392,
+        "current_lng": 106.827153,
+        "is_super_admin": true
+    },
+    "1": {
+        "id": 1,
+        "name": "Pak Budi Santoso",
+        "phone": "081234567891",
+        "pin": "1234",
+        "car_model": "Toyota Avanza Veloz",
+        "car_plate": "B 1823 KBC",
+        "car_color": "Putih",
+        "rating": 4.9,
+        "total_trips": 142,
+        "current_lat": -6.917464,
+        "current_lng": 107.619122,
+        "is_super_admin": false
+    },
+    "2": {
+        "id": 2,
+        "name": "Kang Asep Supriatna",
+        "phone": "081234567892",
+        "pin": "1234",
+        "car_model": "Toyota Innova Reborn",
+        "car_plate": "D 1422 AC",
+        "car_color": "Hitam",
+        "rating": 5.0,
+        "total_trips": 218,
+        "current_lat": -6.90389,
+        "current_lng": 107.61861,
+        "is_super_admin": false
+    }
+}

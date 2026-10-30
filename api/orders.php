@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
-$pdo = getDB();
+$pdo = getDB(false);
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
 // Helper generator kode tracking TRX-XXXX
@@ -17,16 +17,40 @@ function generateTrackingCode() {
 // 1. DAFTAR ORDER LELANG TERBUKA (UNTUK RADAR PWA SOPIR)
 if ($action === 'auction' || ($_SERVER['REQUEST_METHOD'] === 'GET' && empty($action))) {
     try {
-        $stmt = $pdo->query("
-            SELECT o.*, c1.name AS origin_city, c2.name AS destination_city
-            FROM orders o
-            LEFT JOIN routes r ON o.route_id = r.id
-            LEFT JOIN cities c1 ON r.origin_city_id = c1.id
-            LEFT JOIN cities c2 ON r.destination_city_id = c2.id
-            WHERE o.status = 'AUCTION'
-            ORDER BY o.created_at DESC
-        ");
-        $orders = $stmt->fetchAll();
+        $orders = [];
+        if ($pdo) {
+            $stmt = $pdo->query("
+                SELECT o.*, c1.name AS origin_city, c2.name AS destination_city
+                FROM orders o
+                LEFT JOIN routes r ON o.route_id = r.id
+                LEFT JOIN cities c1 ON r.origin_city_id = c1.id
+                LEFT JOIN cities c2 ON r.destination_city_id = c2.id
+                WHERE o.status = 'AUCTION'
+                ORDER BY o.created_at DESC
+            ");
+            $orders = $stmt->fetchAll();
+        } else {
+            // Fallback flat-file orders_store.json
+            $f = __DIR__ . '/../data/orders_store.json';
+            if (file_exists($f)) {
+                $store = json_decode(file_get_contents($f), true) ?: [];
+                foreach ($store as $k => $ord) {
+                    $orders[] = [
+                        'id' => $ord['id'] ?? 1,
+                        'tracking_code' => $ord['tracking_code'] ?? $k,
+                        'customer_name' => $ord['customer_name'] ?? 'Tamu Dropoff.id',
+                        'customer_phone' => $ord['customer_phone'] ?? '0812-****-7890',
+                        'pickup_address' => $ord['pickup_address'] ?? 'Bandara Soetta T3',
+                        'destination_address' => $ord['destination_address'] ?? 'Bandung Kota',
+                        'car_type' => $ord['car_type'] ?? 'Toyota Innova Reborn',
+                        'total_fare' => $ord['total_fare'] ?? 1050000,
+                        'admin_commission' => $ord['admin_commission'] ?? 105000,
+                        'status' => 'AUCTION',
+                        'created_at' => $ord['created_at'] ?? date('Y-m-d H:i:s')
+                    ];
+                }
+            }
+        }
         sendJson(['success' => true, 'data' => $orders]);
     } catch (Exception $e) {
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);

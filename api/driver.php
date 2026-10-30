@@ -1,8 +1,20 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
-$pdo = getDB();
+// Gunakan getDB(false) agar tidak melempar 500 jika MySQL di Hostinger belum terkonfigurasi
+$pdo = getDB(false);
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
+
+// Helper load & save driver flat-file store
+function getDriversStore() {
+    $f = __DIR__ . '/../data/drivers_store.json';
+    return file_exists($f) ? (json_decode(file_get_contents($f), true) ?: []) : [];
+}
+
+function saveDriversStore($data) {
+    $f = __DIR__ . '/../data/drivers_store.json';
+    @file_put_contents($f, json_encode($data, JSON_PRETTY_PRINT));
+}
 
 // 1. LOGIN MITRA SOPIR & SUPER ADMIN
 if ($action === 'login') {
@@ -38,9 +50,9 @@ if ($action === 'login') {
                 @file_put_contents($throttleFile, json_encode($throttle, JSON_PRETTY_PRINT));
             }
 
-            // Pastikan record Super Admin ada di tabel drivers (ID 999)
-            try {
-                if (isset($pdo) && $pdo) {
+            // Pastikan record Super Admin ada di tabel MySQL jika aktif
+            if ($pdo) {
+                try {
                     $stmtCheck = $pdo->prepare("SELECT id FROM drivers WHERE id = 999 OR phone = 'winsyah'");
                     $stmtCheck->execute();
                     $adminDriver = $stmtCheck->fetch();
@@ -51,8 +63,8 @@ if ($action === 'login') {
                         ");
                         $insStmt->execute();
                     }
-                }
-            } catch (Exception $e) {}
+                } catch (Exception $e) {}
+            }
 
             startAdminSession();
             $_SESSION['driver_logged_in'] = true;
@@ -60,23 +72,24 @@ if ($action === 'login') {
             $_SESSION['driver_id'] = 999;
             $_SESSION['admin_user'] = 'winsyah';
 
-            // Ambil order aktif jika ada
             $activeOrder = null;
-            if (isset($pdo) && $pdo) {
-                $orderStmt = $pdo->prepare("
-                    SELECT o.*, cs.status AS settlement_status, cs.proof_image
-                    FROM orders o
-                    LEFT JOIN commission_settlements cs ON o.id = cs.order_id
-                    WHERE o.driver_id = 999 AND o.status NOT IN ('CANCELLED')
-                    ORDER BY o.id DESC LIMIT 1
-                ");
-                $orderStmt->execute();
-                $activeOrder = $orderStmt->fetch();
+            if ($pdo) {
+                try {
+                    $orderStmt = $pdo->prepare("
+                        SELECT o.*, cs.status AS settlement_status, cs.proof_image
+                        FROM orders o
+                        LEFT JOIN commission_settlements cs ON o.id = cs.order_id
+                        WHERE o.driver_id = 999 AND o.status NOT IN ('CANCELLED')
+                        ORDER BY o.id DESC LIMIT 1
+                    ");
+                    $orderStmt->execute();
+                    $activeOrder = $orderStmt->fetch();
+                } catch (Exception $e) {}
+            }
 
-                if ($activeOrder && !empty($activeOrder['customer_phone'])) {
-                    $p = $activeOrder['customer_phone'];
-                    $activeOrder['customer_phone_masked'] = substr($p, 0, 4) . '-****-' . substr($p, -4);
-                }
+            if ($activeOrder && !empty($activeOrder['customer_phone'])) {
+                $p = $activeOrder['customer_phone'];
+                $activeOrder['customer_phone_masked'] = substr($p, 0, 4) . '-****-' . substr($p, -4);
             }
 
             sendJson([
@@ -98,10 +111,21 @@ if ($action === 'login') {
             ]);
         }
 
-        // B. JALUR MITRA SOPIR REGULER (DARI DATABASE)
-        $stmt = $pdo->prepare("SELECT * FROM drivers WHERE phone = ?");
-        $stmt->execute([$phone]);
-        $driver = $stmt->fetch();
+        // B. JALUR MITRA SOPIR REGULER (DARI DATABASE ATAU FLAT-FILE FALLBACK)
+        $driver = null;
+        if ($pdo) {
+            $stmt = $pdo->prepare("SELECT * FROM drivers WHERE phone = ?");
+            $stmt->execute([$phone]);
+            $driver = $stmt->fetch();
+        } else {
+            $store = getDriversStore();
+            foreach ($store as $d) {
+                if ($d['phone'] === $phone) {
+                    $driver = $d;
+                    break;
+                }
+            }
+        }
 
         if (!$driver || $driver['pin'] !== $pin) {
             // Catat kegagalan ke throttle
@@ -120,16 +144,20 @@ if ($action === 'login') {
             @file_put_contents($throttleFile, json_encode($throttle, JSON_PRETTY_PRINT));
         }
 
-        // Cari order aktif yang sedang dipegang sopir ini
-        $orderStmt = $pdo->prepare("
-            SELECT o.*, cs.status AS settlement_status, cs.proof_image
-            FROM orders o
-            LEFT JOIN commission_settlements cs ON o.id = cs.order_id
-            WHERE o.driver_id = ? AND o.status NOT IN ('CANCELLED')
-            ORDER BY o.id DESC LIMIT 1
-        ");
-        $orderStmt->execute([$driver['id']]);
-        $activeOrder = $orderStmt->fetch();
+        $activeOrder = null;
+        if ($pdo) {
+            try {
+                $orderStmt = $pdo->prepare("
+                    SELECT o.*, cs.status AS settlement_status, cs.proof_image
+                    FROM orders o
+                    LEFT JOIN commission_settlements cs ON o.id = cs.order_id
+                    WHERE o.driver_id = ? AND o.status NOT IN ('CANCELLED')
+                    ORDER BY o.id DESC LIMIT 1
+                ");
+                $orderStmt->execute([$driver['id']]);
+                $activeOrder = $orderStmt->fetch();
+            } catch (Exception $e) {}
+        }
 
         if ($activeOrder && !empty($activeOrder['customer_phone'])) {
             $p = $activeOrder['customer_phone'];
@@ -169,12 +197,22 @@ if ($action === 'location') {
     }
 
     try {
-        $stmt = $pdo->prepare("
-            UPDATE drivers 
-            SET current_lat = ?, current_lng = ?, last_location_update = NOW() 
-            WHERE id = ?
-        ");
-        $stmt->execute([$lat, $lng, $driverId]);
+        if ($pdo) {
+            $stmt = $pdo->prepare("
+                UPDATE drivers 
+                SET current_lat = ?, current_lng = ?, last_location_update = NOW() 
+                WHERE id = ?
+            ");
+            $stmt->execute([$lat, $lng, $driverId]);
+        } else {
+            $store = getDriversStore();
+            if (isset($store[(string)$driverId])) {
+                $store[(string)$driverId]['current_lat'] = $lat;
+                $store[(string)$driverId]['current_lng'] = $lng;
+                $store[(string)$driverId]['last_location_update'] = date('Y-m-d H:i:s');
+                saveDriversStore($store);
+            }
+        }
 
         sendJson(['success' => true, 'message' => 'Lokasi GPS sopir berhasil diperbarui']);
     } catch (Exception $e) {
@@ -186,22 +224,41 @@ if ($action === 'location') {
 if ($action === 'history') {
     $driverId = intval($_GET['driver_id'] ?? 0);
     try {
-        $stmt = $pdo->prepare("
-            SELECT o.*, cs.status AS settlement_status, cs.proof_image
-            FROM orders o
-            LEFT JOIN commission_settlements cs ON o.id = cs.order_id
-            WHERE o.driver_id = ?
-            ORDER BY o.id DESC LIMIT 20
-        ");
-        $stmt->execute([$driverId]);
-        $history = $stmt->fetchAll();
+        $history = [];
+        if ($pdo) {
+            $stmt = $pdo->prepare("
+                SELECT o.*, cs.status AS settlement_status, cs.proof_image
+                FROM orders o
+                LEFT JOIN commission_settlements cs ON o.id = cs.order_id
+                WHERE o.driver_id = ?
+                ORDER BY o.id DESC LIMIT 20
+            ");
+            $stmt->execute([$driverId]);
+            $history = $stmt->fetchAll();
+        } else {
+            // Contoh riwayat simulasi untuk flat-file
+            $history = [
+                [
+                    'id' => 101,
+                    'tracking_code' => 'TRX-9982',
+                    'customer_name' => 'Bpk. Ridwan',
+                    'pickup_address' => 'Bandara Soetta T3',
+                    'destination_address' => 'Jl. Dago, Bandung',
+                    'car_type' => 'Toyota HiAce Premio',
+                    'total_fare' => 1750000,
+                    'admin_commission' => 175000,
+                    'status' => 'COMPLETED',
+                    'settlement_status' => 'APPROVED',
+                    'completed_at' => date('Y-m-d H:i:s', strtotime('-1 day'))
+                ]
+            ];
+        }
 
         sendJson(['success' => true, 'data' => $history]);
     } catch (Exception $e) {
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);
     }
 }
-
 
 // 4. TOGGLE STATUS ONLINE / OFFLINE SOPIR
 if ($action === 'toggle_online') {
@@ -214,8 +271,10 @@ if ($action === 'toggle_online') {
     }
 
     try {
-        $stmt = $pdo->prepare("UPDATE drivers SET is_online = ? WHERE id = ?");
-        $stmt->execute([$isOnline, $driverId]);
+        if ($pdo) {
+            $stmt = $pdo->prepare("UPDATE drivers SET is_online = ? WHERE id = ?");
+            $stmt->execute([$isOnline, $driverId]);
+        }
         sendJson(['success' => true, 'is_online' => (bool)$isOnline]);
     } catch (Exception $e) {
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);
