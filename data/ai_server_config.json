@@ -4,10 +4,10 @@
   "model": "qwen2.5-coder:7b",
   "tailscale_ip": "100.85.151.80",
   "gemini_api_key": "",
-  "gemini_model": "gemini-1.5-flash",
+  "gemini_model": "gemini-3.8-flash",
   "groq_api_key": "",
-  "groq_model": "llama-3.1-8b-instant",
+  "groq_model": "qwen/qwen3.8-27b",
   "active_cloud_provider": "gemini",
-  "fonnte_token": "aufEKuL2tFVWbKUDiA2w",
+  "fonnte_token": "",
   "note": "PC Server Ollama (Agen Lokal) + Dual Cloud API (Mbak Hasna & Bang Jaka) + Fonnte WA Gateway"
 }

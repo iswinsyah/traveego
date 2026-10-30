@@ -162,11 +162,9 @@ switch ($action) {
         if (!is_array($existing)) $existing = [];
 
         if (isset($payload['gemini_api_key'])) $existing['gemini_api_key'] = trim($payload['gemini_api_key']);
-        if (isset($payload['gemini_model'])) $existing['gemini_model'] = trim($payload['gemini_model']) ?: 'gemini-1.5-flash';
-        if (($existing['gemini_model'] ?? '') === 'gemini-2.5-flash') $existing['gemini_model'] = 'gemini-1.5-flash';
+        if (isset($payload['gemini_model'])) $existing['gemini_model'] = trim($payload['gemini_model']) ?: 'gemini-3.8-flash';
         if (isset($payload['groq_api_key'])) $existing['groq_api_key'] = trim($payload['groq_api_key']);
-        if (isset($payload['groq_model'])) $existing['groq_model'] = trim($payload['groq_model']) ?: 'llama-3.1-8b-instant';
-        if (($existing['groq_model'] ?? '') === 'llama-3.3-70b-versatile') $existing['groq_model'] = 'llama-3.1-8b-instant';
+        if (isset($payload['groq_model'])) $existing['groq_model'] = trim($payload['groq_model']) ?: 'qwen/qwen3.8-27b';
         if (isset($payload['active_cloud_provider'])) $existing['active_cloud_provider'] = trim($payload['active_cloud_provider']) ?: 'gemini';
         if (isset($payload['fonnte_token'])) $existing['fonnte_token'] = trim($payload['fonnte_token']);
         $existing['updated_at'] = date('Y-m-d H:i:s');

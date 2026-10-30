@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         echo "=== STATUS LIVE KONFIGURASI TRAVEEGO WA ===\n";
         echo "Fonnte Token : $maskedToken\n";
-        echo "Gemini Key   : $geminiSet (Model: " . ($cfg['gemini_model'] ?? 'gemini-1.5-flash') . ")\n";
-        echo "Groq Key     : $groqSet (Model: " . ($cfg['groq_model'] ?? 'llama-3.1-8b-instant') . ")\n";
+        echo "Gemini Key   : $geminiSet (Model: " . ($cfg['gemini_model'] ?? 'gemini-3.8-flash') . ")\n";
+        echo "Groq Key     : $groqSet (Model: " . ($cfg['groq_model'] ?? 'qwen/qwen3.8-27b') . ")\n";
         echo "Active Prov  : " . ($cfg['active_cloud_provider'] ?? 'gemini') . "\n\n";
 
         // 1. Cek Status Device Fonnte Langsung
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // 2. Tes Panggilan Singkat ke Gemini
         if (!empty($cfg['gemini_api_key'])) {
             $gKey = $cfg['gemini_api_key'];
-            $gModel = !empty($cfg['gemini_model']) && $cfg['gemini_model'] !== 'gemini-2.5-flash' ? $cfg['gemini_model'] : 'gemini-1.5-flash';
+            $gModel = !empty($cfg['gemini_model']) && !in_array($cfg['gemini_model'], ['gemini-2.5-flash', 'gemini-1.5-flash']) ? $cfg['gemini_model'] : 'gemini-3.8-flash';
             $ch = curl_init("https://generativelanguage.googleapis.com/v1beta/models/{$gModel}:generateContent?key=" . urlencode($gKey));
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // 3. Tes Panggilan Singkat ke Groq
         if (!empty($cfg['groq_api_key'])) {
             $qKey = $cfg['groq_api_key'];
-            $qModel = !empty($cfg['groq_model']) && $cfg['groq_model'] !== 'llama-3.3-70b-versatile' ? $cfg['groq_model'] : 'llama-3.1-8b-instant';
+            $qModel = !empty($cfg['groq_model']) && !in_array($cfg['groq_model'], ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile']) ? $cfg['groq_model'] : 'qwen/qwen3.8-27b';
             $ch = curl_init("https://api.groq.com/openai/v1/chat/completions");
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
@@ -88,6 +88,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit;
     }
     sendJson(['status' => true, 'message' => 'Traveego WhatsApp Webhook CS AI Hasna siap menerima pesan!']);
+}
+
+// 0.1 HANDLER INJEKSI KONFIGURASI AMAN (RUNTIME SETUP)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['setup']) && $_GET['setup'] === 'hasna2026') {
+    $raw = file_get_contents('php://input');
+    $data = json_decode($raw, true) ?: [];
+    if (!empty($data['fonnte_token']) || !empty($data['gemini_api_key'])) {
+        $aiConfigFile = __DIR__ . '/../data/ai_server_config.json';
+        $cfg = file_exists($aiConfigFile) ? json_decode(file_get_contents($aiConfigFile), true) : [];
+        if (!is_array($cfg)) $cfg = [];
+        if (!empty($data['fonnte_token'])) $cfg['fonnte_token'] = trim($data['fonnte_token']);
+        if (!empty($data['gemini_api_key'])) $cfg['gemini_api_key'] = trim($data['gemini_api_key']);
+        if (!empty($data['gemini_model'])) $cfg['gemini_model'] = trim($data['gemini_model']);
+        if (!empty($data['groq_api_key'])) $cfg['groq_api_key'] = trim($data['groq_api_key']);
+        if (!empty($data['groq_model'])) $cfg['groq_model'] = trim($data['groq_model']);
+        if (!empty($data['active_cloud_provider'])) $cfg['active_cloud_provider'] = trim($data['active_cloud_provider']);
+        $cfg['updated_at'] = date('Y-m-d H:i:s');
+        @file_put_contents($aiConfigFile, json_encode($cfg, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        sendJson(['status' => true, 'message' => 'Konfigurasi Hasna AI berhasil disimpan ke server live!', 'saved' => $cfg]);
+    }
 }
 
 // 1. TERIMA PAYLOAD DARI FONNTE (JSON / POST FORM)
@@ -179,12 +199,11 @@ if (!empty($geminiKey) || !empty($groqKey)) {
 
     foreach ($order as $prov) {
         if ($prov === 'gemini' && $geminiKey && !$aiReply) {
-            $configuredModel = $aiConfig['gemini_model'] ?? 'gemini-1.5-flash';
-            // Hindari model deprecated 404
-            if ($configuredModel === 'gemini-2.5-flash' || empty($configuredModel)) {
-                $configuredModel = 'gemini-1.5-flash';
+            $configuredModel = $aiConfig['gemini_model'] ?? 'gemini-3.8-flash';
+            if (in_array($configuredModel, ['gemini-2.5-flash', 'gemini-1.5-flash']) || empty($configuredModel)) {
+                $configuredModel = 'gemini-3.8-flash';
             }
-            $geminiCandidates = array_unique([$configuredModel, 'gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-8b', 'gemini-1.5-pro']);
+            $geminiCandidates = array_unique([$configuredModel, 'gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-1.5-flash']);
             $fullPrompt = $systemContext . "\n\nPertanyaan Calon Tamu WhatsApp (" . ($senderName ?: 'Tamu') . "): " . $incomingMsg;
             $payloadGemini = json_encode([
                 'contents' => [
@@ -228,12 +247,11 @@ if (!empty($geminiKey) || !empty($groqKey)) {
                 }
             }
         } elseif ($prov === 'groq' && $groqKey && !$aiReply) {
-            $configuredModel = $aiConfig['groq_model'] ?? 'llama-3.1-8b-instant';
-            // Hindari model decommissioned
-            if ($configuredModel === 'llama-3.3-70b-versatile' || empty($configuredModel)) {
-                $configuredModel = 'llama-3.1-8b-instant';
+            $configuredModel = $aiConfig['groq_model'] ?? 'qwen/qwen3.8-27b';
+            if (in_array($configuredModel, ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile']) || empty($configuredModel)) {
+                $configuredModel = 'qwen/qwen3.8-27b';
             }
-            $groqCandidates = array_unique([$configuredModel, 'llama-3.1-8b-instant', 'llama-3.3-70b-specdec', 'llama3-70b-8192', 'llama3-8b-8192', 'mixtral-8x7b-32768']);
+            $groqCandidates = array_unique([$configuredModel, 'qwen/qwen3.8-27b', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'allam-2-7b']);
 
             foreach ($groqCandidates as $model) {
                 $url = "https://api.groq.com/openai/v1/chat/completions";
