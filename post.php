@@ -5,6 +5,7 @@
  * Mendukung Auto-Scheduled sesuai Kalender Konten Mbak Dinda.
  */
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/api/yoast_analyzer.php';
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -24,6 +25,7 @@ if (!file_exists($postFile)) {
 }
 
 $postData = json_decode(file_get_contents($postFile), true) ?: [];
+$yoastAnalysis = YoastSeoAnalyzer::analyze($postData);
 
 // Load Data Kalender Mbak Dinda untuk validasi Auto-Scheduled
 $calFile = __DIR__ . '/data/content_calendar.json';
@@ -440,6 +442,8 @@ $featuredImage = $postData['featured_image'] ?? '';
 <footer class="footer">
     <p>&copy; <?= date('Y') ?> Traveego Indonesia &bull; Panduan Tarif &amp; Edukasi Perjalanan Drop-Off</p>
 </footer>
+
+<?php require __DIR__ . '/api/yoast_widget.php'; ?>
 
 </body>
 </html>

@@ -1749,7 +1749,71 @@ $isLoggedIn = isCrewLoggedIn();
                 flex-direction: column !important;
             }
         }
-    </style>
+    
+/* YOAST SEO BADGES & MODAL STYLES */
+.yoast-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+}
+.bg-yoast-good { background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+.bg-yoast-ok { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+.bg-yoast-poor { background: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
+
+.yoast-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.yoast-dot.dot-good { background: #10B981; box-shadow: 0 0 6px #10B981; }
+.yoast-dot.dot-ok { background: #F59E0B; box-shadow: 0 0 6px #F59E0B; }
+.yoast-dot.dot-poor { background: #EF4444; box-shadow: 0 0 6px #EF4444; }
+
+.btn-yoast-mini {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #0F172A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.btn-yoast-mini:hover { background: #0B4FD8; }
+
+.modal-yoast-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.modal-yoast-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.45;
+    font-size: 13px;
+}
+.modal-yoast-bullet {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+</style>
 </head>
 <body>
 
@@ -1828,6 +1892,9 @@ $isLoggedIn = isCrewLoggedIn();
             toggleBtn.title = "Lihat password";
         }
     });
+
+
+
 </script>
 
 <?php else: ?>
@@ -3240,6 +3307,88 @@ $isLoggedIn = isCrewLoggedIn();
 <!-- ==============================================================
      MODAL PENGATURAN TAILSCALE PC SERVER (LIGHT MODE)
      ============================================================== -->
+
+<!-- ==============================================================
+     MODAL YOAST SEO & READABILITY AUDIT INSPECTOR
+     ============================================================== -->
+<div id="yoastAuditModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.65); backdrop-filter:blur(6px); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:24px; width:100%; max-width:620px; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 25px 60px rgba(0,0,0,0.2); overflow:hidden;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 24px; background:#F8FAFC; border-bottom:1px solid #E2E8F0;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:22px;">🌿</span>
+                <div>
+                    <h3 style="margin:0; font-size:16px; font-weight:800; color:var(--text-title);">Yoast SEO Real-Time Audit</h3>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Standar Kepatuhan Konten E-E-A-T & Google Search Essentials</div>
+                </div>
+            </div>
+            <button type="button" onclick="closeYoastAuditModal()" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">&times;</button>
+        </div>
+
+        <div style="padding:14px 24px; background:#F1F5F9; border-bottom:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div>
+                <span style="font-size:11px; color:#64748B; font-weight:700; text-transform:uppercase;">Kata Kunci Fokus:</span>
+                <span id="yoastModalKeyphrase" style="font-weight:800; color:#0B4FD8; font-size:13.5px; margin-left:6px;"></span>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <span id="yoastModalSeoBadge" class="yoast-badge-pill"></span>
+                <span id="yoastModalReadBadge" class="yoast-badge-pill"></span>
+            </div>
+        </div>
+
+        <div style="display:flex; background:#FFFFFF; border-bottom:1px solid #E2E8F0; padding:0 24px; gap:8px;">
+            <button type="button" class="btn-tab-yoast active" id="btnModalSeo" onclick="switchYoastModalTab('mTabSeo', this)" style="padding:12px 14px; background:none; border:none; border-bottom:2px solid #0B4FD8; font-weight:800; font-size:13px; color:#0B4FD8; cursor:pointer;">
+                🎯 Analisis SEO
+            </button>
+            <button type="button" class="btn-tab-yoast" id="btnModalRead" onclick="switchYoastModalTab('mTabRead', this)" style="padding:12px 14px; background:none; border:none; border-bottom:2px solid transparent; font-weight:700; font-size:13px; color:#64748B; cursor:pointer;">
+                📖 Keterbacaan (Readability)
+            </button>
+            <button type="button" class="btn-tab-yoast" id="btnModalSerp" onclick="switchYoastModalTab('mTabSerp', this)" style="padding:12px 14px; background:none; border:none; border-bottom:2px solid transparent; font-weight:700; font-size:13px; color:#64748B; cursor:pointer;">
+                🔍 Google SERP Preview
+            </button>
+        </div>
+
+        <div style="padding:20px 24px; overflow-y:auto; flex:1;">
+            <!-- TAB 1: SEO CHECKS -->
+            <div id="mTabSeo" class="yoast-modal-pane">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px dashed #E2E8F0;">
+                    <strong style="font-size:13px; color:#0F172A;">Checklist Parameter SEO:</strong>
+                    <span id="yoastModalWordCount" style="font-size:12px; color:#64748B; font-weight:700;"></span>
+                </div>
+                <ul class="modal-yoast-checklist" id="yoastModalSeoList"></ul>
+            </div>
+
+            <!-- TAB 2: READABILITY CHECKS -->
+            <div id="mTabRead" class="yoast-modal-pane" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px dashed #E2E8F0;">
+                    <strong style="font-size:13px; color:#0F172A;">Checklist Kemudahan Membaca:</strong>
+                    <span id="yoastModalFleschScore" style="font-size:12px; color:#64748B; font-weight:700;"></span>
+                </div>
+                <ul class="modal-yoast-checklist" id="yoastModalReadList"></ul>
+            </div>
+
+            <!-- TAB 3: SERP PREVIEW -->
+            <div id="mTabSerp" class="yoast-modal-pane" style="display:none;">
+                <p style="font-size:12px; color:#64748B; margin-top:0; margin-bottom:12px;">Simulasi cuplikan hasil pencarian Google di smartphone dan desktop:</p>
+                <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:14px; padding:16px; box-shadow:0 4px 12px rgba(0,0,0,0.04);">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                        <div style="width:28px; height:28px; border-radius:50%; background:#0B4FD8; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;">T</div>
+                        <div>
+                            <div style="font-size:13px; font-weight:700; color:#202124;">Traveego Indonesia</div>
+                            <div id="serpPreviewUrl" style="font-size:11.5px; color:#4D5156; word-break:break-all;"></div>
+                        </div>
+                    </div>
+                    <div id="serpPreviewTitle" style="font-size:16px; font-weight:600; color:#1A0DAB; margin-bottom:6px; line-height:1.35; cursor:pointer;"></div>
+                    <p id="serpPreviewDesc" style="font-size:13px; color:#4D5156; line-height:1.55; margin:0;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding:14px 24px; background:#F8FAFC; border-top:1px solid #E2E8F0; display:flex; justify-content:flex-end;">
+            <button type="button" onclick="closeYoastAuditModal()" class="btn-brand-primary" style="padding:8px 20px;">Tutup Inspector</button>
+        </div>
+    </div>
+</div>
+
 <div id="serverConfigModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); backdrop-filter:blur(6px); z-index:999; align-items:center; justify-content:center; padding:20px;">
     <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:24px; width:100%; max-width:480px; padding:32px; box-shadow:0 20px 50px rgba(0,0,0,0.15);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -3592,6 +3741,14 @@ $isLoggedIn = isCrewLoggedIn();
                 const statusBadge = page.is_live 
                     ? '<span class="sw-pill pill-active">🟢 LIVE</span>' 
                     : '<span class="sw-pill pill-sleep">' + (page.status_label || '⏳ Terjadwal') + '</span>';
+                
+                const yoast = page.yoast || {};
+                const seoScore = yoast.seo ? yoast.seo.score : 95;
+                const seoStatus = yoast.seo ? yoast.seo.status : 'good';
+                const readScore = yoast.readability ? yoast.readability.score : 90;
+                const readStatus = yoast.readability ? yoast.readability.status : 'good';
+                const yoastEnc = encodeURIComponent(JSON.stringify(yoast));
+
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 card.innerHTML = `
@@ -3602,6 +3759,19 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                         <h4 class="item-title">${page.meta_title || p.file}</h4>
                         <p class="item-desc">${page.meta_description || '-'}</p>
+                        <div style="display: flex; align-items: center; gap: 8px; margin: 12px 0 6px; flex-wrap: wrap;">
+                            <span class="yoast-badge-pill ${seoStatus === 'good' ? 'bg-yoast-good' : (seoStatus === 'ok' ? 'bg-yoast-ok' : 'bg-yoast-poor')}">
+                                <span class="yoast-dot dot-${seoStatus}"></span>
+                                SEO: ${seoScore}/100
+                            </span>
+                            <span class="yoast-badge-pill ${readStatus === 'good' ? 'bg-yoast-good' : (readStatus === 'ok' ? 'bg-yoast-ok' : 'bg-yoast-poor')}">
+                                <span class="yoast-dot dot-${readStatus}"></span>
+                                Keterbacaan: ${readScore}/100
+                            </span>
+                            <button type="button" class="btn-yoast-mini" onclick="openYoastAuditModalFromEncoded('${yoastEnc}')">
+                                🌿 Audit Yoast
+                            </button>
+                        </div>
                     </div>
                     <div class="item-meta" style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
                         <span>URL: <code>${page.public_url || ('/' + (page.slug || p.file))}</code></span>
@@ -3635,6 +3805,14 @@ $isLoggedIn = isCrewLoggedIn();
                 const statusBadge = post.is_live 
                     ? '<span class="sw-pill pill-active">🟢 LIVE</span>' 
                     : '<span class="sw-pill pill-sleep">' + (post.status_label || '⏳ Terjadwal') + '</span>';
+                
+                const yoast = post.yoast || {};
+                const seoScore = yoast.seo ? yoast.seo.score : 100;
+                const seoStatus = yoast.seo ? yoast.seo.status : 'good';
+                const readScore = yoast.readability ? yoast.readability.score : 100;
+                const readStatus = yoast.readability ? yoast.readability.status : 'good';
+                const yoastEnc = encodeURIComponent(JSON.stringify(yoast));
+
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 card.innerHTML = `
@@ -3645,6 +3823,19 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                         <h4 class="item-title">${post.title || p.file}</h4>
                         <p class="item-desc">${post.meta_description || '-'}</p>
+                        <div style="display: flex; align-items: center; gap: 8px; margin: 12px 0 6px; flex-wrap: wrap;">
+                            <span class="yoast-badge-pill ${seoStatus === 'good' ? 'bg-yoast-good' : (seoStatus === 'ok' ? 'bg-yoast-ok' : 'bg-yoast-poor')}">
+                                <span class="yoast-dot dot-${seoStatus}"></span>
+                                SEO: ${seoScore}/100
+                            </span>
+                            <span class="yoast-badge-pill ${readStatus === 'good' ? 'bg-yoast-good' : (readStatus === 'ok' ? 'bg-yoast-ok' : 'bg-yoast-poor')}">
+                                <span class="yoast-dot dot-${readStatus}"></span>
+                                Keterbacaan: ${readScore}/100
+                            </span>
+                            <button type="button" class="btn-yoast-mini" onclick="openYoastAuditModalFromEncoded('${yoastEnc}')">
+                                🌿 Audit Yoast
+                            </button>
+                        </div>
                     </div>
                     <div class="item-meta" style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
                         <span>URL: <code>${post.public_url || ('/blog/' + post.slug)}</code></span>
@@ -4305,6 +4496,109 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         loadPosts();
         loadHasnaLeads();
         loadCloudConfig();
+    }
+
+    // ==========================================
+    // YOAST SEO INSPECTOR MODAL HANDLER
+    // ==========================================
+    function openYoastAuditModalFromEncoded(encodedStr) {
+        try {
+            const data = JSON.parse(decodeURIComponent(encodedStr));
+            renderYoastAuditModal(data);
+        } catch(e) {
+            console.error('Error parsing Yoast data:', e);
+        }
+    }
+
+    function renderYoastAuditModal(data) {
+        if (!data || !data.seo) return;
+        const modal = document.getElementById('yoastAuditModal');
+        if (!modal) return;
+
+        // Keyphrase
+        document.getElementById('yoastModalKeyphrase').innerText = `"${data.focus_keyphrase || 'Drop Off'}"`;
+
+        // Badges
+        const seoStatus = data.seo.status || 'ok';
+        const seoScore = data.seo.score || 0;
+        const readStatus = data.readability.status || 'ok';
+        const readScore = data.readability.score || 0;
+
+        const seoBadgeEl = document.getElementById('yoastModalSeoBadge');
+        seoBadgeEl.className = 'yoast-badge-pill ' + (seoStatus === 'good' ? 'bg-yoast-good' : (seoStatus === 'ok' ? 'bg-yoast-ok' : 'bg-yoast-poor'));
+        seoBadgeEl.innerHTML = `<span class="yoast-dot dot-${seoStatus}"></span> SEO: ${seoScore}/100 (${seoStatus.toUpperCase()})`;
+
+        const readBadgeEl = document.getElementById('yoastModalReadBadge');
+        readBadgeEl.className = 'yoast-badge-pill ' + (readStatus === 'good' ? 'bg-yoast-good' : (readStatus === 'ok' ? 'bg-yoast-ok' : 'bg-yoast-poor'));
+        readBadgeEl.innerHTML = `<span class="yoast-dot dot-${readStatus}"></span> Keterbacaan: ${readScore}/100 (${readStatus.toUpperCase()})`;
+
+        // Word count & Flesch
+        document.getElementById('yoastModalWordCount').innerText = `${data.seo.word_count || 0} Total Kata`;
+        document.getElementById('yoastModalFleschScore').innerText = `Skor Flesch: ${data.readability.flesch_score || 0}/100`;
+
+        // SEO Checks List
+        const seoListEl = document.getElementById('yoastModalSeoList');
+        seoListEl.innerHTML = '';
+        (data.seo.checks || []).forEach(c => {
+            const li = document.createElement('li');
+            li.className = 'modal-yoast-item';
+            li.innerHTML = `
+                <span class="modal-yoast-bullet dot-${c.status}"></span>
+                <div>
+                    <strong style="color:#0F172A;">${c.title}:</strong>
+                    <span style="color:#334155;">${c.message}</span>
+                </div>
+            `;
+            seoListEl.appendChild(li);
+        });
+
+        // Readability Checks List
+        const readListEl = document.getElementById('yoastModalReadList');
+        readListEl.innerHTML = '';
+        (data.readability.checks || []).forEach(c => {
+            const li = document.createElement('li');
+            li.className = 'modal-yoast-item';
+            li.innerHTML = `
+                <span class="modal-yoast-bullet dot-${c.status}"></span>
+                <div>
+                    <strong style="color:#0F172A;">${c.title}:</strong>
+                    <span style="color:#334155;">${c.message}</span>
+                </div>
+            `;
+            readListEl.appendChild(li);
+        });
+
+        // SERP Preview
+        const serp = data.serp_preview || {};
+        document.getElementById('serpPreviewUrl').innerText = serp.displayed_url || 'dropoff.id';
+        document.getElementById('serpPreviewTitle').innerText = serp.title || 'Traveego Drop Off';
+        document.getElementById('serpPreviewDesc').innerText = serp.meta_description || '-';
+
+        // Reset to first tab
+        switchYoastModalTab('mTabSeo', document.getElementById('btnModalSeo'));
+
+        modal.style.display = 'flex';
+    }
+
+    function switchYoastModalTab(tabId, btn) {
+        document.querySelectorAll('.yoast-modal-pane').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('.btn-tab-yoast').forEach(b => {
+            b.classList.remove('active');
+            b.style.borderBottomColor = 'transparent';
+            b.style.color = '#64748B';
+        });
+        const target = document.getElementById(tabId);
+        if (target) target.style.display = 'block';
+        if (btn) {
+            btn.classList.add('active');
+            btn.style.borderBottomColor = '#0B4FD8';
+            btn.style.color = '#0B4FD8';
+        }
+    }
+
+    function closeYoastAuditModal() {
+        const modal = document.getElementById('yoastAuditModal');
+        if (modal) modal.style.display = 'none';
     }
 
     // Initial load

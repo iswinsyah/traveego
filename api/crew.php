@@ -4,6 +4,7 @@
  * Deploy v1.2: Dual Cloud AI Gemini & Groq Manager
  */
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/yoast_analyzer.php';
 
 requireCrewAuth();
 
@@ -397,6 +398,7 @@ switch ($action) {
                     $content['is_live'] = $isLive;
                     $content['status_label'] = $isLive ? '🟢 LIVE (Tayang)' : '⏳ TERJADWAL (' . date('d M H:i', strtotime($publishAt)) . ' WIB)';
                     $content['public_url'] = '/' . $slug;
+                    $content['yoast'] = YoastSeoAnalyzer::analyze($content);
 
                     $pages[] = [
                         'file' => basename($f),
@@ -438,6 +440,7 @@ switch ($action) {
                     $content['is_live'] = $isLive;
                     $content['status_label'] = $isLive ? '🟢 LIVE (Tayang)' : '⏳ TERJADWAL (' . date('d M H:i', strtotime($publishAt)) . ' WIB)';
                     $content['public_url'] = '/blog/' . $slug;
+                    $content['yoast'] = YoastSeoAnalyzer::analyze($content);
 
                     $posts[] = [
                         'file' => basename($f),
@@ -447,6 +450,22 @@ switch ($action) {
             }
         }
         sendJson(['success' => true, 'posts' => $posts]);
+        break;
+
+    case 'analyze_yoast':
+         = trim(['slug'] ?? '');
+         = trim(['type'] ?? 'post');
+         = isset(['keyphrase']) ? trim(['keyphrase']) : null;
+         = ( === 'page') 
+            ?  . '/' . preg_replace('/[^a-zA-Z0-9\-_]/', '', ) . '.json'
+            :  . '/' . preg_replace('/[^a-zA-Z0-9\-_]/', '', ) . '.json';
+        
+        if (!file_exists()) {
+            sendJson(['success' => false, 'message' => 'Dokumen tidak ditemukan'], 404);
+        }
+         = json_decode(file_get_contents(), true) ?: [];
+         = YoastSeoAnalyzer::analyze(, );
+        sendJson(['success' => true, 'slug' => , 'type' => , 'analysis' => ]);
         break;
 
     case 'run_pipeline':

@@ -5,6 +5,7 @@
  * Mendukung Auto-Scheduled sesuai Kalender Konten Mbak Dinda.
  */
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/api/yoast_analyzer.php';
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -24,6 +25,7 @@ if (!file_exists($pageFile)) {
 }
 
 $pageData = json_decode(file_get_contents($pageFile), true) ?: [];
+$yoastAnalysis = YoastSeoAnalyzer::analyze($pageData);
 
 // Load Data Kalender Mbak Dinda untuk validasi Auto-Scheduled
 $calFile = __DIR__ . '/data/content_calendar.json';
@@ -503,6 +505,8 @@ $waText = urlencode($hero['wa_text'] ?? "Halo Traveego, saya ingin pesan layanan
 <footer class="footer">
     <p>&copy; <?= date('Y') ?> Traveego Indonesia &bull; Layanan Drop Off Privat Door to Door All-In Tol &amp; BBM</p>
 </footer>
+
+<?php require __DIR__ . '/api/yoast_widget.php'; ?>
 
 </body>
 </html>

@@ -35,13 +35,23 @@ class PostCrew:
             # EKSEKUSI MENGGUNAKAN OTAK AI LOKAL (OLLAMA)
             # ==============================================================
             sys_prompt = (
-                "Anda adalah Tim Penulis Konten SEO Traveego Drop-Off. "
-                "Tugas: Tulis artikel blog mendalam (800 - 1200 kata) yang sangat informatif, ramah, "
-                "dan menjawab pertanyaan pengguna di Google. "
-                "PENTING: Jangan tulis angka tarif mati! Gunakan tag variabel dinamis seperti: "
-                "{{tol_jakarta_bandung}}, {{harga_avanza_bandung}}, {{harga_innova_bandung}}. "
-                "Sertakan ajakan memesan dan link ke halaman rute Traveego di tengah dan akhir tulisan. "
-                "Output dalam format JSON: {title, slug, meta_description, category, content_html, faq_schema}"
+                "Anda adalah Mbak Maya, Content Writer & SEO Specialist Traveego Drop-Off. "
+                "Tugas: Tulis artikel blog mendalam (600 - 1000 kata) yang wajib memenuhi standar 🟢 HIJAU YOAST SEO dan 🟢 HIJAU KETERBACAAN (Readability).\n"
+                "PEDOMAN KETAT YOAST SEO & KETERBACAAN:\n"
+                "1. Tentukan satu 'focus_keyword' spesifik (contoh: 'Drop Off Jakarta ke Bandung').\n"
+                "2. Judul SEO (title): 40-70 karakter, wajib memuat 'focus_keyword' di bagian awal.\n"
+                "3. Meta Description: 120-160 karakter, wajib memuat 'focus_keyword'.\n"
+                "4. Slug: huruf kecil pemisah tanda hubung, memuat 'focus_keyword'.\n"
+                "5. Paragraf 1 (Pembuka): Wajib memuat 'focus_keyword' dan 2 Outbound Link ke situs otoritas (Wikipedia Indonesia https://id.wikipedia.org/... dan Situs Pemerintah/BUMN https://bpjt.pu.go.id atau https://dephub.go.id).\n"
+                "6. Paragraf Terakhir (Penutup): Wajib memuat 2 Internal Link (halaman layanan rute /... dan artikel terkait /blog/...).\n"
+                "7. Kepadatan Kata Kunci: Muncul 3-5 kali secara alami di seluruh isi teks.\n"
+                "8. Sub-heading: Minimal 3-4 heading H2, dengan salah satu H2 memuat 'focus_keyword'.\n"
+                "9. KETERBACAAN (READABILITY YOAST):\n"
+                "   - Kalimat pendek dan padat (maksimal 20 kata per kalimat, hindari kalimat bertele-tele).\n"
+                "   - Paragraf ringkas (maksimal 80-100 kata per paragraf).\n"
+                "   - Wajib kaya kata transisi/penghubung (minimal 25% dari total kalimat menggunakan kata seperti: 'namun', 'oleh karena itu', 'selain itu', 'sehingga', 'dengan demikian', 'terlebih', 'bahkan', 'sebagai contoh', 'di sisi lain').\n"
+                "10. Variabel Dinamis: Gunakan tag harga seperti {{tol_...}}, {{harga_avanza_...}}, {{harga_innova_...}}.\n"
+                "Output WAJIB JSON: {title, slug, focus_keyword, category, meta_description, featured_image, content_markdown}"
             )
 
             user_prompt = f"Topik Artikel: {topic}\nRute Terkait: {route_data['origin']} ke {route_data['destination']}."
@@ -70,33 +80,50 @@ class PostCrew:
         slug = f"panduan-tarif-drop-off-{origin_clean}-ke-{dest_clean}"
         dest = route_data["destination"]
         origin = route_data["origin"]
+        r_slug = route_data["slug"].replace('-', '_')
+        focus_kw = f"Drop Off {origin} ke {dest}"
 
         return {
-            "title": f"Rincian Biaya & Tarif Tol Drop Off {origin} ke {dest} Terbaru 2026",
+            "title": f"Panduan Biaya & Tarif Tol Drop Off {origin} ke {dest} 2026",
             "slug": slug,
+            "focus_keyword": focus_kw,
             "category": "Info Tarif & Tol",
             "published_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "target_route_slug": route_data["slug"],
-            "meta_description": f"Panduan lengkap estimasi biaya sewa mobil drop-off {origin} ke {dest}. Termasuk rincian tarif Tol MBZ, BBM, dan paket All-In tanpa DP.",
+            "featured_image": "https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=1200&q=80",
+            "meta_description": f"Panduan lengkap rincian biaya sewa mobil drop off {origin} ke {dest} All-In. Termasuk estimasi tarif tol, BBM, dan jaminan tanpa uang muka 0% DP.",
             "content_markdown": (
-                f"# Panduan Lengkap Perjalanan & Tarif Tol {origin} ke {dest}\n\n"
-                f"Bepergian dari {origin} ke {dest} kini semakin nyaman berkat tersambungnya jalan tol bebas hambatan. "
-                f"Namun, banyak keluarga atau pelancong bisnis yang masih bingung memperhitungkan total biaya jika "
-                f"harus menyetir sendiri dibanding menyewa mobil drop-off privat.\n\n"
-                f"## 1. Rincian Tarif Tol Terkini\n"
+                f"# Panduan Lengkap Perjalanan & Tarif Tol Drop Off {origin} ke {dest}\n\n"
+                f"Bepergian antar kota dari {origin} ke {dest} kini semakin praktis dan nyaman. "
+                f"Layanan sewa mobil **{focus_kw.lower()}** menjadi pilihan utama pelancong bisnis dan keluarga. "
+                f"Hal ini didukung oleh infrastruktur jalan tol [Jalan Tol Trans Jawa](https://id.wikipedia.org/wiki/Jalan_Tol_Trans-Jawa) "
+                f"serta pemeliharaan keselamatan dari [Badan Pengatur Jalan Tol (BPJT) PUPR](https://bpjt.pu.go.id/).\n\n"
+                f"Namun, banyak calon penumpang masih bingung memperhitungkan anggaran perjalanan. "
+                f"Oleh karena itu, kami menyajikan rincian tarif tol dan perbandingan biaya secara transparan.\n\n"
+                f"---\n\n"
+                f"## 1. Rincian Tarif Tol {focus_kw}\n\n"
                 f"Untuk rute {origin} menuju {dest}, jalur utama yang dilalui adalah {route_data['toll_details']}. "
-                f"Estimasi total biaya tarif tol Golongan 1 saat ini adalah **{{{{tol_{route_data['slug'].replace('-', '_')}}}}}**.\n\n"
-                f"## 2. Estimasi Konsumsi Bahan Bakar (BBM)\n"
-                f"Dengan jarak tempuh sekitar {route_data['distance_km']} km, rata-rata konsumsi bensin mobil keluarga (Avanza) "
-                f"membutuhkan biaya sekitar **{{{{bbm_avanza_{route_data['slug'].replace('-', '_')}}}}}**.\n\n"
-                f"## 3. Solusi Hemat & Anti Ribet: Paket All-In Traveego\n"
-                f"Daripada lelah menyetir di jalan tol dan membayar bensin serta tol secara terpisah, "
-                f"Traveego menyediakan layanan sewa mobil Drop-Off privat khusus satu arah dengan tarif All-In:\n"
-                f"- **Avanza All New**: Hanya **{{{{harga_avanza_{route_data['slug'].replace('-', '_')}}}}}**\n"
-                f"- **Innova Reborn**: Hanya **{{{{harga_innova_{route_data['slug'].replace('-', '_')}}}}}**\n\n"
-                f"Semua unit sudah mencakup mobil privat, sopir berpengalaman, BBM, dan Tol MBZ penuh tanpa ada biaya tersembunyi.\n\n"
-                f"> **Mau langsung pesan atau konsultasi rute?**\n"
-                f"> Anda bisa langsung mengecek detail rute kami di [Halaman Layanan Drop Off {dest}](/{route_data['slug']}) "
-                f"atau langsung chat WhatsApp ke admin Traveego tanpa uang muka (0% DP)."
+                f"Estimasi total biaya tarif tol Golongan 1 saat ini adalah **{{{{tol_{r_slug}}}}}**.\n\n"
+                f"Selain itu, pengemudi Traveego siap memilihkan gerbang keluar paling strategis di kota tujuan. "
+                f"Dengan demikian, waktu tempuh perjalanan Anda menjadi jauh lebih efisien.\n\n"
+                f"---\n\n"
+                f"## 2. Estimasi Konsumsi Bahan Bakar (BBM)\n\n"
+                f"Jarak tempuh rute ini tercatat sekitar {route_data['distance_km']} km. "
+                f"Rata-rata konsumsi bensin mobil keluarga (Avanza) membutuhkan biaya sekitar **{{{{bbm_avanza_{r_slug}}}}}**.\n\n"
+                f"Di sisi lain, menyetir sendiri selama berjam-jam sering kali menguras tenaga fisik. "
+                f"Bahkan, Anda masih harus memikirkan biaya perjalanan pulang jika membawa kendaraan sendiri.\n\n"
+                f"---\n\n"
+                f"## 3. Keunggulan Paket All-In Traveego Tanpa Uang Muka\n\n"
+                f"Daripada lelah menyetir di jalan tol, Traveego menyediakan layanan sewa mobil {focus_kw.lower()} privat:\n"
+                f"- **Avanza All New**: Hanya **{{{{harga_avanza_{r_slug}}}}}** All-In.\n"
+                f"- **Innova Reborn**: Hanya **{{{{harga_innova_{r_slug}}}}}** All-In.\n\n"
+                f"Semua unit sudah mencakup mobil privat, sopir ramah, BBM, dan tol penuh tanpa biaya tambahan. "
+                f"Terlebih lagi, sistem pemesanan kami bebas uang muka (0% DP). Pembayaran dilakukan tunai di lokasi tujuan.\n\n"
+                f"---\n\n"
+                f"## 4. Tips Jadwal Keberangkatan Fleksibel\n\n"
+                f"Sebelum bepergian, pastikan Anda menentukan jam penjemputan di luar jam macet. "
+                f"Sebagai contoh, berangkat di pagi hari sebelum pukul 06.00 WIB sangat disarankan untuk perjalanan santai.\n\n"
+                f"Untuk konsultasi rute dan pemesanan unit, Anda dapat membuka [Halaman Layanan Drop Off {dest}](/{route_data['slug']}) "
+                f"atau membaca [Panduan Perjalanan Drop Off Lainnya](/blog/panduan-tarif-drop-off-jakarta-ke-bandung) untuk info mobilitas lengkap."
             )
         }
