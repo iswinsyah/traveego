@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training CS AI Mbak Hasna | Traveego Admin</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0F4C81;
+            --primary-dark: #0A3258;
+            --primary-light: #EBF4FC;
+            --accent-green: #16A34A;
+            --royal-blue: #2563EB;
+            --bg-body: #F8FAFC;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+
+        .section-card {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 14px rgba(37,99,235,0.06);
+        }
+
+        .btn-view-proof {
+            background: #F1F5F9;
+            color: #475569;
+            border: 1px solid #CBD5E1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-view-proof:hover {
+            background: #E2E8F0;
+            color: #0F172A;
+        }
+
+        .preset-btn {
+            background: #FFF;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #0F172A;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .preset-btn:hover {
+            border-color: var(--royal-blue);
+            color: var(--royal-blue);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- KOTAK HOTLINE WHATSAPP -->
+        <div class="section-card" style="border-left: 4px solid #16A34A; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                        📱
+                    </div>
+                    <div>
+                        <h3 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 2px;">
+                            Nomor WhatsApp CS AI (Mbak Hasna)
+                        </h3>
+                        <p style="font-size: 13px; color: #64748B; margin: 0;">
+                            Nomor WhatsApp ini menerima seluruh chat masuk dari calon penumpang dan otomatis dibalas oleh Mbak Hasna 24 jam nonstop.
+                        </p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="hotlineWaInput" placeholder="6281234567891" style="height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 14px; font-size: 14px; font-weight: 800; width: 190px; outline: none; color: #0F172A;">
+                    <button onclick="saveAdminHotlineWa()" id="btnSaveHotlineWa" style="height: 42px; padding: 0 18px; background: #16A34A; color: #FFF; border: none; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>💾</span>
+                        <span>Simpan Nomor</span>
+                    </button>
+                    <a id="btnTestWaHotline" href="https://wa.me/6281234567891" target="_blank" style="height: 42px; padding: 0 14px; background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; border-radius: 10px; font-weight: 700; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>📲</span>
+                        <span>Tes Hubungi</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- RUANG TRAINING & INSTRUKSI CS AI (MBAK HASNA) -->
+        <div class="section-card" id="hasnaTrainingCard" style="border-left: 4px solid #2563EB;">
+            <!-- HEADER -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 52px; height: 52px; border-radius: 14px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 2px 8px rgba(37,99,235,0.15);">
+                        🧠
+                    </div>
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <h2 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0;">
+                                Ruang Training &amp; Instruksi CS AI (Mbak Hasna)
+                            </h2>
+                            <span id="badgeActiveProv" style="background: #DBEAFE; color: #1E40AF; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 800;">
+                                Mesin: Google Gemini / Groq
+                            </span>
+                            <span id="badgePromptStatus" style="background: #DCFCE7; color: #166534; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                                🟢 Siap Digunakan
+                            </span>
+                        </div>
+                        <p style="font-size: 13.5px; color: #64748B; margin: 4px 0 0 0;">
+                            Sesuaikan karakter berbicara, gaya negosiasi, promo diskon, pengetahuan armada, dan etika balasan chat WhatsApp &amp; Web secara bebas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- TOMBOL SIMPAN & RESET -->
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <a href="/crew-ai" target="_blank" class="btn-view-proof" style="color: #2563EB; border-color: #BFDBFE; text-decoration: none;" title="Kelola API Key Gemini, Groq, dan Token Fonnte">
+                        <span>⚙️ Kelola API Key &amp; Token ↗</span>
+                    </a>
+                    <button type="button" onclick="resetHasnaPrompt()" class="btn-view-proof">
+                        <span>🔄</span>
+                        <span>Reset Standar</span>
+                    </button>
+                    <button type="button" onclick="saveHasnaPrompt()" id="btnSaveHasnaPrompt" style="height: 40px; padding: 0 20px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.3);">
+                        <span>💾</span>
+                        <span>Simpan Prompt Training</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PRESET 1-KLIK (TEMPLATE CEPAT) -->
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #334155;">
+                    <span>⚡ Template Cepat Training:</span>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" class="preset-btn" onclick="applyPresetPrompt('standard')">
+                        🌟 Standar Ramah All-In
+                    </button>
+                    <button type="button" class="preset-btn" onclick="applyPresetPrompt('promo')" style="color: #B45309;">
+                        🏷️ Negosiasi &amp; Promo Diskon
+                    </button>
+                    <button type="button" class="preset-btn" onclick="applyPresetPrompt('airport')" style="color: #0284C7;">
+                        ✈️ Drop-Off Bandara &amp; Subuh
+                    </button>
+                    <button type="button" class="preset-btn" onclick="applyPresetPrompt('corporate')" style="color: #475569;">
+                        💼 Santun &amp; Korporat
+                    </button>
+                </div>
+            </div>
+
+            <!-- TEXTAREA EDITOR PROMPT -->
+            <div style="position: relative; margin-bottom: 10px;">
+                <textarea id="hasnaPromptInput" rows="14" placeholder="Tulis instruksi persona, karakter, pengetahuan tarif, dan panduan menjawab untuk Mbak Hasna di sini..." style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 16px; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; line-height: 1.6; color: #0F172A; background: #FAFAFA; resize: vertical; outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#2563EB'; this.style.background='#FFF'" onblur="this.style.borderColor='#CBD5E1'; this.style.background='#FAFAFA'" oninput="updateCharCount()"></textarea>
+            </div>
+
+            <!-- INFO FOOTER & CHARACTER COUNTER -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12.5px; color: #64748B; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span>ℹ️ <em>Matriks tarif resmi (Bandara, Dalam Kota, Bandung Raya) otomatis disuntikkan secara dinamis di bawah prompt ini.</em></span>
+                </div>
+                <div style="font-weight: 700; color: #334155;">
+                    <span id="promptCharCount">0</span> karakter
+                </div>
+            </div>
+
+            <!-- KOTAK SIMULASI TEST PLAYGROUND (LIVE CHAT UJI COBA) -->
+            <div style="background: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 12px; padding: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 18px;">🧪</span>
+                        <b style="font-size: 14px; color: #0F172A;">Simulasi Interaktif (Uji Respon Mbak Hasna Langsung)</b>
+                    </div>
+                    <span style="font-size: 12px; color: #64748B;">Tes bagaimana Mbak Hasna membalas sebelum pesan live ke pelanggan</span>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
+                    <input type="text" id="simUserInput" placeholder="Contoh: Mbak kalau sewa Avanza ke Bandara Soetta jam 4 pagi bisa jemput di rumah?" value="Mbak kalau sewa Avanza ke Bandara Soetta jam 4 pagi bisa jemput di rumah?" style="flex: 1; min-width: 280px; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 14px; font-size: 13.5px; outline: none; background: #FFF;">
+                    <button type="button" onclick="runHasnaSimulation()" id="btnRunSim" style="height: 42px; padding: 0 20px; background: #0F172A; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>🚀</span>
+                        <span>Uji Balasan AI</span>
+                    </button>
+                </div>
+
+                <!-- HASIL PREVIEW BUBBLE WHATSAPP -->
+                <div id="simPreviewBox" style="display: none; background: #ECE5DD; border-radius: 12px; padding: 16px; position: relative; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                    <div style="font-size: 11.5px; font-weight: 700; color: #64748B; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        📱 Tampilan Balasan WhatsApp: <span id="simEngineBadge" style="background: #2563EB; color: #FFF; padding: 2px 8px; border-radius: 4px; font-size: 10.5px; margin-left: 6px;"></span>
+                    </div>
+
+                    <!-- BUBBLE TAMU (HIJAU KANAN) -->
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+                        <div style="background: #E7FFDB; border-radius: 12px 0 12px 12px; padding: 10px 14px; max-width: 80%; font-size: 13.5px; color: #111B21; box-shadow: 0 1px 2px rgba(0,0,0,0.1); line-height: 1.45;">
+                            <div style="font-size: 11px; font-weight: 700; color: #16A34A; margin-bottom: 2px;">Calon Penumpang (Tamu)</div>
+                            <span id="simGuestMsg"></span>
+                        </div>
+                    </div>
+
+                    <!-- BUBBLE HASNA (PUTIH KIRI) -->
+                    <div style="display: flex; justify-content: flex-start;">
+                        <div style="background: #FFFFFF; border-radius: 0 12px 12px 12px; padding: 12px 16px; max-width: 85%; font-size: 13.5px; color: #111B21; box-shadow: 0 1px 2px rgba(0,0,0,0.1); line-height: 1.5; white-space: pre-wrap;" id="simHasnaReply">
+                            ...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const HASNA_PRESETS = {
+            standard: `Kamu adalah Mbak Hasna, Customer Service AI resmi dari Traveego (Layanan Sewa Mobil Privat Drop-Off Antarkota & Antar-Jemput Bandara Sekali Jalan).
+
+KARAKTER & PERSONA:
+- Ramah, santun, hangat, solutif, persuasif, dan komunikatif khas Customer Service profesional Indonesia.
+- Gunakan sapaan hangat seperti "Halo Kak!", "Ada yang bisa Hasna bantu?", dan gunakan emoji ramah khas WhatsApp 😊.
+- Komunikasi ringkas, padat, dan terstruktur (1 sampai 3 paragraf singkat, gunakan poin emoji jika memberikan daftar harga/opsi armada).
+
+PRINSIP UTAMA LAYANAN TRAVEEGO:
+1. TARIF ALL-IN BERSIH: Semua harga sudah mencakup Sewa Mobil Privat + Jasa Sopir Berpengalaman + BBM Penuh + Saldo Tol Penuh (Tol MBZ, Tol Cipularang, Tol Bandara Sedyatmo, JORR). Tidak ada pungutan liar apapun.
+2. 100% AMAN (0% DP): Bebas uang muka / DP Rp 0. Pembayaran dilakukan 100% setelah tiba dengan selamat di tujuan, baik secara tunai maupun transfer ke sopir.
+3. ARMADA PRIVAT (Bukan Travel Gabungan/Umum):
+   - Toyota Avanza / Veloz (1-4 penumpang)
+   - Toyota Innova Reborn (1-5 penumpang)
+   - Toyota HiAce Premio (8-14 penumpang)
+   Sopir standby 30 menit sebelum jadwal penjemputan door-to-door.
+
+GAYA MENJAWAB & CLOSING PERCAKAPAN:
+- Jawab langsung pertanyaan calon tamu mengenai ketersediaan armada, kenyamanan, atau estimasi harga.
+- Jelaskan bahwa pemesanan adalah sewa mobil privat (1 mobil khusus untuk rombongan pemesan).
+- Di akhir balasan, selalu tanyakan: "Rencana perjalanannya untuk tanggal dan jam berapa Kak? Serta titik jemput dan tujuannya ke mana agar Hasna siapkan armada terbaiknya 😊".`,
+
+            promo: `Kamu adalah Mbak Hasna, Customer Service AI resmi dari Traveego (Layanan Sewa Mobil Privat Drop-Off Antarkota).
+
+FOKUS TRAINING: NEGOSIASI CERDAS & PROMO TERBATAS
+- Sikap: Sangat persuasif, antusias, namun tetap elegan dan transparan.
+- Jika calon penumpang menanyakan diskon atau menawar harga:
+  1. Berikan apresiasi ("Terima kasih sudah mempertimbangkan Traveego ya Kak!").
+  2. Jelaskan nilai unggul All-In kami (Sudah termasuk tol penuh & bbm, mobil privat bukan travel umum).
+  3. Berikan penawaran spesial / voucher potongan hingga Rp 25.000 - Rp 50.000 untuk keberangkatan terdekat: "Khusus pemesanan hari ini, Hasna bisa bantu ajukan potongan spesial Rp 25.000 langsung dari tarif resmi ya Kak!".
+  4. Ingatkan bahwa sistem kami 0% DP (Bayar di tempat tanpa risiko penipuan).
+- Closing: "Boleh Hasna amankan jadwal unitnya sekarang sebelum kehabisan slot armada prima hari ini Kak? 😊"`,
+
+            airport: `Kamu adalah Mbak Hasna, Customer Service AI resmi dari Traveego Spesialis Antar-Jemput Bandara (Soekarno-Hatta & Halim Perdanakusuma).
+
+FOKUS TRAINING: DROP-OFF & PENJEMPUTAN BANDARA 24 JAM
+- Sikap: Cepat tanggap, presisi waktu (punctual), meyakinkan.
+- Poin Kunci Layanan Bandara:
+  1. Antar-Jemput 24 Jam nonstop, termasuk keberangkatan subuh (pukul 02:00 - 05:00 pagi) selalu standby tepat waktu.
+  2. Bebas Biaya Tol Bandara (Tol Prof. Sedyatmo sudah All-In).
+  3. Sopir menjemput di depan lobi terminal kedatangan (Terminal 1, 2, atau 3 Soetta) dengan name board bila diperlukan.
+  4. Ruang bagasi luas (Avanza untuk 2-3 koper besar, Innova/HiAce untuk rombongan & koper banyak).
+  5. Sistem 0% DP: Bayar di tempat setelah tiba di bandara atau rumah.
+- Closing: "Penerbangannya jam berapa dan Terminal berapa Kak? Biar Hasna jadwalkan sopir standby 30 menit sebelum jam jemput 😊."`,
+
+            corporate: `Kamu adalah Mbak Hasna, Executive Customer Service Traveego untuk Layanan Perjalanan Bisnis & Keluarga.
+
+FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
+- Gaya Bahasa: Santun tingkat tinggi, profesional, terstruktur, cocok untuk instansi, perusahaan, atau tamu VIP.
+- Poin Kunci Layanan:
+  1. Unit kendaraan dijamin wangi, bersih, tahun muda, AC dingin maksimal, dan bebas asap rokok.
+  2. Sopir berpakaian rapi, bersikap sopan, menguasai rute jalan tol terbaik, dan tidak ugal-ugalan.
+  3. Faktur / kuitansi resmi bertanda tangan digital disediakan untuk kebutuhan reimburse kantor / operasional dinas.
+  4. Pembayaran All-In tanpa DP bisa transfer saat armada tiba di lokasi tujuan.
+- Closing: "Mohon informasikan kebutuhan tanggal penjemputan dan rute perjalanannya, agar kami siapkan penawaran serta unit armada terbaik untuk Bapak/Ibu."`
+        };
+
+        function updateCharCount() {
+            const ta = document.getElementById('hasnaPromptInput');
+            if (ta) {
+                document.getElementById('promptCharCount').innerText = ta.value.length.toLocaleString('id-ID');
+            }
+        }
+
+        async function loadHasnaPrompt() {
+            try {
+                const res = await fetch('/api/admin.php?action=get_hasna_prompt');
+                const d = await res.json();
+                if (d.success) {
+                    const ta = document.getElementById('hasnaPromptInput');
+                    if (ta) {
+                        ta.value = d.prompt || d.default_prompt;
+                        updateCharCount();
+                    }
+                    if (d.active_provider) {
+                        const provName = d.active_provider === 'gemini' ? 'Google Gemini' : 'Groq Cloud';
+                        document.getElementById('badgeActiveProv').innerText = 'Mesin: ' + provName;
+                    }
+                }
+            } catch(e) {
+                console.error('Gagal load prompt Hasna:', e);
+            }
+        }
+
+        async function saveHasnaPrompt() {
+            const ta = document.getElementById('hasnaPromptInput');
+            const promptVal = ta ? ta.value.trim() : '';
+            if (!promptVal) {
+                alert('Prompt training tidak boleh kosong.');
+                return;
+            }
+
+            const btn = document.getElementById('btnSaveHasnaPrompt');
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Menyimpan...</span>';
+
+            try {
+                const res = await fetch('/api/admin.php?action=save_hasna_prompt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: promptVal })
+                });
+                const d = await res.json();
+                if (d.success) {
+                    alert('✅ ' + d.message);
+                    document.getElementById('badgePromptStatus').innerText = '🟢 Aktif (' + d.char_count + ' Karakter)';
+                } else {
+                    alert('Gagal: ' + d.message);
+                }
+            } catch(e) {
+                alert('Error: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>💾</span><span>Simpan Prompt Training</span>';
+            }
+        }
+
+        async function resetHasnaPrompt() {
+            if (!confirm('Kembalikan prompt training ke Standar Resmi Traveego? Perubahan kustom yang belum disimpan akan digantikan.')) return;
+
+            try {
+                const res = await fetch('/api/admin.php?action=reset_hasna_prompt');
+                const d = await res.json();
+                if (d.success) {
+                    document.getElementById('hasnaPromptInput').value = d.prompt;
+                    updateCharCount();
+                    alert('✅ ' + d.message);
+                }
+            } catch(e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        function applyPresetPrompt(presetKey) {
+            const preset = HASNA_PRESETS[presetKey];
+            if (!preset) return;
+
+            if (confirm('Terapkan template cepat ini ke kotak editor? Anda bisa mengedit dan menyimpannya setelah ini.')) {
+                const ta = document.getElementById('hasnaPromptInput');
+                ta.value = preset;
+                updateCharCount();
+                ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                ta.focus();
+            }
+        }
+
+        async function runHasnaSimulation() {
+            const userMsg = document.getElementById('simUserInput').value.trim();
+            const promptVal = document.getElementById('hasnaPromptInput').value.trim();
+            if (!userMsg) {
+                alert('Ketik pertanyaan calon penumpang untuk disimulasikan.');
+                return;
+            }
+
+            const btn = document.getElementById('btnRunSim');
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Menganalisis...</span>';
+
+            const previewBox = document.getElementById('simPreviewBox');
+            previewBox.style.display = 'block';
+            document.getElementById('simGuestMsg').innerText = userMsg;
+            document.getElementById('simHasnaReply').innerHTML = '<em>Mbak Hasna sedang merangkai balasan berdasarkan prompt training...</em>';
+
+            try {
+                const res = await fetch('/api/admin.php?action=test_hasna_sim', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userMsg, prompt: promptVal })
+                });
+                const d = await res.json();
+                if (d.success) {
+                    document.getElementById('simHasnaReply').innerText = d.reply;
+                    document.getElementById('simEngineBadge').innerText = d.engine || 'AI Engine';
+                } else {
+                    document.getElementById('simHasnaReply').innerText = 'Gagal simulasi: ' + (d.message || 'Terjadi kesalahan');
+                }
+            } catch(e) {
+                document.getElementById('simHasnaReply').innerText = 'Error koneksi simulasi: ' + e.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>🚀</span><span>Uji Balasan AI</span>';
+            }
+        }
+
+        async function loadAdminHotlineWa() {
+            try {
+                const res = await fetch('/api/admin.php?action=get_hotline_wa');
+                const d = await res.json();
+                if (d.success && d.hotline_wa) {
+                    document.getElementById('hotlineWaInput').value = d.hotline_wa;
+                    document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
+                }
+            } catch(e) {}
+        }
+
+        async function saveAdminHotlineWa() {
+            const val = document.getElementById('hotlineWaInput').value.trim();
+            if (!val) {
+                alert('Nomor WhatsApp tidak boleh kosong.');
+                return;
+            }
+            const btn = document.getElementById('btnSaveHotlineWa');
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+
+            try {
+                const res = await fetch('/api/admin.php?action=save_hotline_wa', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ hotline_wa: val })
+                });
+                const d = await res.json();
+                if (d.success) {
+                    alert('✅ ' + d.message);
+                    document.getElementById('btnTestWaHotline').href = `https://wa.me/${d.hotline_wa}`;
+                } else {
+                    alert('Gagal: ' + d.message);
+                }
+            } catch(e) {
+                alert('Error: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>💾</span><span>Simpan Nomor</span>';
+            }
+        }
+
+        // Jalankan saat load
+        loadAdminHotlineWa();
+        loadHasnaPrompt();
+    </script>
+</body>
+</html>
