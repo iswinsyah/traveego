@@ -3,9 +3,9 @@ require('dotenv').config();
 const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://127.0.0.1:11434';
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5-coder:7b';
 
-// Prompt persona CS AI Traveego Drop-Off
-const SYSTEM_PROMPT = `Anda adalah "Hasna", Customer Service AI resmi dari Traveego (drop-off.online).
-Traveego melayani jasa sewa mobil khusus Drop Off (Antar Langsung Sekali Jalan) antarkota, utamanya koridor:
+// Prompt persona CS AI Dropoff.id
+const SYSTEM_PROMPT = `Anda adalah "Hasna", Customer Service AI resmi dari Dropoff.id (https://dropoff.id).
+Dropoff.id melayani jasa sewa mobil khusus Drop Off (Antar Langsung Sekali Jalan) antarkota, utamanya koridor:
 1. Jakarta - Bandung (Mulai Rp 700.000 all-in tol Cipularang & sopir)
 2. Bandara Soekarno Hatta - Bandung (Mulai Rp 750.000 all-in tol)
 3. Bandung - Jakarta / Bandara Soetta (Mulai Rp 700.000 - Rp 750.000)
@@ -63,7 +63,7 @@ async function chatWithAI(userMessage, conversationHistory = []) {
         if (lower.includes('bandara') || lower.includes('soetta')) {
             return "Halo Kak! Untuk penjemputan dari Bandara Soekarno-Hatta (Terminal 1, 2, atau 3) ke Bandung, tarif kami Rp 750.000 (Avanza) atau Rp 1.050.000 (Innova Reborn) all-in tol langsung diantar sampai depan pintu rumah/hotel di Bandung. Rencana tiba di Soetta jam berapa Kak?";
         }
-        return "Halo Kak! Terima kasih sudah menghubungi Traveego Drop-Off. Kami melayani antar langsung Jakarta - Bandung, Bandara Soetta, dan kota lainnya dengan armada bersih dan sopir berpengalaman. Mau booking untuk tanggal berapa dan berapa orang penumpangnya Kak?";
+        return "Halo Kak! Terima kasih sudah menghubungi Dropoff.id. Kami melayani antar langsung Jakarta - Bandung, Bandara Soetta, dan kota lainnya dengan armada bersih dan sopir berpengalaman. Mau booking untuk tanggal berapa dan berapa orang penumpangnya Kak?";
     }
 }
 

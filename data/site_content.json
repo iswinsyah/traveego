@@ -21,7 +21,7 @@
     "subtitle": "Layanan antar jemput sekali jalan rute Jakarta, Bandung, Bandara Soetta & Surabaya. 100% mobil privat tanpa orang asing, All-In BBM & Tol MBZ.",
     "cta_text": "Pesan Cepat",
     "wa_number": "6281234567891",
-    "wa_message": "Halo Dropoff.id, saya mau pesan sewa mobil Drop-Off",
+    "wa_message": "Halo Admin Dropoff.id, saya mau pesan sewa mobil Drop-Off",
     "cars": [
       {
         "name": "Toyota Avanza / Veloz",
@@ -82,7 +82,7 @@
         "fare_label": "Tarif Mulai",
         "fare_num": "Rp 750.000",
         "btn_text": "Pesan Mobil",
-        "wa_message": "Halo Dropoff.id, saya mau sewa Avanza Drop-Off"
+        "wa_message": "Halo Admin Dropoff.id, saya mau sewa Avanza Drop-Off"
       },
       {
         "id": "innova",
@@ -99,7 +99,7 @@
         "fare_label": "Tarif Mulai",
         "fare_num": "Rp 1.050.000",
         "btn_text": "Pesan Mobil",
-        "wa_message": "Halo Dropoff.id, saya mau sewa Innova Reborn Drop-Off"
+        "wa_message": "Halo Admin Dropoff.id, saya mau sewa Innova Reborn Drop-Off"
       },
       {
         "id": "hiace",
@@ -116,7 +116,7 @@
         "fare_label": "Tarif Mulai",
         "fare_num": "Rp 1.700.000",
         "btn_text": "Pesan Mobil",
-        "wa_message": "Halo Dropoff.id, saya mau sewa HiAce Premio Drop-Off"
+        "wa_message": "Halo Admin Dropoff.id, saya mau sewa HiAce Premio Drop-Off"
       }
     ]
   },
@@ -214,10 +214,10 @@
     "about_text": "Platform sewa mobil privat sekali jalan antarkota berbasis radar lelang tercepat di Indonesia. Melayani rute Jabodetabek, Bandung, Bandara Soekarno-Hatta, dan Surabaya dengan tarif All-In transparan.",
     "copyright": "© 2026 Dropoff.id Mobilitas Indonesia. Hak cipta dilindungi.",
     "popular_routes": [
-      { "label": "Jakarta ➔ Bandung PP", "wa_text": "Halo Dropoff.id, saya mau tanya rute Jakarta-Bandung" },
-      { "label": "Bandara Soetta ➔ Bandung", "wa_text": "Halo Dropoff.id, saya mau tanya rute Soetta-Bandung" },
-      { "label": "Bandung ➔ Bandara Soetta", "wa_text": "Halo Dropoff.id, saya mau tanya rute Bandung-Soetta" },
-      { "label": "Surabaya ➔ Malang / Batu", "wa_text": "Halo Dropoff.id, saya mau tanya rute Surabaya-Malang" }
+      { "label": "Jakarta ➔ Bandung PP", "wa_text": "Halo Admin Dropoff.id, saya mau tanya rute Jakarta-Bandung" },
+      { "label": "Bandara Soetta ➔ Bandung", "wa_text": "Halo Admin Dropoff.id, saya mau tanya rute Soetta-Bandung" },
+      { "label": "Bandung ➔ Bandara Soetta", "wa_text": "Halo Admin Dropoff.id, saya mau tanya rute Bandung-Soetta" },
+      { "label": "Surabaya ➔ Malang / Batu", "wa_text": "Halo Admin Dropoff.id, saya mau tanya rute Surabaya-Malang" }
     ],
     "contact_wa": "6281234567891"
   }

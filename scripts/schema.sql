@@ -1,4 +1,5 @@
--- SCHEMA DATABASE TRAVEEGO / DROP-OFF.ONLINE
+-- SCHEMA DATABASE DROPOFF.ID
+-- Default database name: traveego_db (dipertahankan untuk kompatibilitas server produksi)
 -- Engine: MySQL / MariaDB (InnoDB for ACID Transactions & Row-level Locking)
 
 CREATE DATABASE IF NOT EXISTS traveego_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

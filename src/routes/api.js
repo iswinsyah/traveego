@@ -39,7 +39,7 @@ module.exports = function(io) {
             adminBank: {
                 bank: process.env.ADMIN_BANK_NAME || 'BCA',
                 account: process.env.ADMIN_BANK_ACCOUNT || '1234567890',
-                holder: process.env.ADMIN_BANK_HOLDER || 'Traveego Operasional'
+                holder: process.env.ADMIN_BANK_HOLDER || 'Dropoff.id Operasional'
             }
         });
     });

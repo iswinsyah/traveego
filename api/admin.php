@@ -360,7 +360,7 @@ if ($action === 'reset_hasna_prompt') {
 if ($action === 'test_hasna_sim') {
     $raw = file_get_contents('php://input');
     $payload = json_decode($raw, true) ?: $_POST;
-    $userMsg = trim($payload['message'] ?? 'Halo Mbak Hasna, sewa Avanza drop-off ke Depok Sukmajaya berapa ya?');
+    $userMsg = trim($payload['message'] ?? 'Halo Admin Dropoff.id, sewa Avanza drop-off ke Depok Sukmajaya berapa ya?');
     $customPrompt = trim($payload['prompt'] ?? '');
     if (empty($customPrompt)) {
         $customPrompt = file_exists($hasnaPromptFile) ? trim(file_get_contents($hasnaPromptFile)) : $defaultHasnaPrompt;

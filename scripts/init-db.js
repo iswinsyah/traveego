@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 async function initDatabase() {
-    console.log('🔄 Memulai inisialisasi database Traveego...');
+    console.log('🔄 Memulai inisialisasi database Dropoff.id...');
     
     // 1. Koneksi awal ke server MySQL (tanpa memilih database dulu)
     let connection;

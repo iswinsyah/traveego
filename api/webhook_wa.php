@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => json_encode(['contents' => [['parts' => [['text' => 'Halo Hasna']]]]]),
+                CURLOPT_POSTFIELDS => json_encode(['contents' => [['parts' => [['text' => 'Halo Admin Dropoff.id']]]]]),
                 CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
                 CURLOPT_TIMEOUT => 8,
                 CURLOPT_SSL_VERIFYPEER => false
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => json_encode([
                     'model' => $qModel,
-                    'messages' => [['role' => 'user', 'content' => 'Halo Hasna']],
+                    'messages' => [['role' => 'user', 'content' => 'Halo Admin Dropoff.id']],
                     'max_tokens' => 50
                 ]),
                 CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer $qKey"],

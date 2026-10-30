@@ -9,7 +9,7 @@
     "init-db": "node scripts/init-db.js"
   },
   "keywords": ["rental-mobil", "drop-off", "pwa", "realtime", "ai-agent"],
-  "author": "Traveego Team",
+  "author": "Dropoff.id Team",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",

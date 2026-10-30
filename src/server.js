@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
     console.log(`
 =====================================================
-🚀 TRAVEEGO PLATFORM BERJALAN DENGAN SUKSES!
+🚀 DROPOFF.ID PLATFORM BERJALAN DENGAN SUKSES!
 =====================================================
 🌐 Portal Web Pelanggan : http://localhost:${PORT}/
 🚘 PWA Mitra Sopir      : http://localhost:${PORT}/driver
