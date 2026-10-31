@@ -524,19 +524,19 @@ switch ($action) {
         break;
 
     case 'analyze_yoast':
-         = trim(['slug'] ?? '');
-         = trim(['type'] ?? 'post');
-         = isset(['keyphrase']) ? trim(['keyphrase']) : null;
-         = ( === 'page') 
-            ?  . '/' . preg_replace('/[^a-zA-Z0-9\-_]/', '', ) . '.json'
-            :  . '/' . preg_replace('/[^a-zA-Z0-9\-_]/', '', ) . '.json';
+        $slug = trim($_GET['slug'] ?? $_POST['slug'] ?? '');
+        $type = trim($_GET['type'] ?? $_POST['type'] ?? 'post');
+        $keyphrase = isset($_GET['keyphrase']) ? trim($_GET['keyphrase']) : (isset($_POST['keyphrase']) ? trim($_POST['keyphrase']) : null);
+        $docFile = ($type === 'page') 
+            ? $pagesDir . '/' . preg_replace('/[^a-zA-Z0-9\-_]/', '', $slug) . '.json'
+            : $postsDir . '/' . preg_replace('/[^a-zA-Z0-9\-_]/', '', $slug) . '.json';
         
-        if (!file_exists()) {
+        if (!file_exists($docFile)) {
             sendJson(['success' => false, 'message' => 'Dokumen tidak ditemukan'], 404);
         }
-         = json_decode(file_get_contents(), true) ?: [];
-         = YoastSeoAnalyzer::analyze(, );
-        sendJson(['success' => true, 'slug' => , 'type' => , 'analysis' => ]);
+        $doc = json_decode(file_get_contents($docFile), true) ?: [];
+        $analysis = YoastSeoAnalyzer::analyze($doc, $keyphrase);
+        sendJson(['success' => true, 'slug' => $slug, 'type' => $type, 'analysis' => $analysis]);
         break;
 
     case 'run_pipeline':
