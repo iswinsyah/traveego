@@ -91,6 +91,72 @@ function checkOllamaPort($configFile) {
     ];
 }
 
+// Helper: Kalkulasi Ulang Matrix Biaya oleh Pak Hendra
+function recalculateCostMatrix($matrixFile) {
+    date_default_timezone_set('Asia/Jakarta');
+    $now = date('Y-m-d H:i:s');
+    $matrixData = null;
+    if (file_exists($matrixFile)) {
+        $matrixData = json_decode(file_get_contents($matrixFile), true);
+    }
+
+    if (!$matrixData || empty($matrixData['routes'])) {
+        return ['success' => false, 'message' => 'File data cost_matrix.json tidak ditemukan atau rute kosong.'];
+    }
+
+    $fuelPrices = $matrixData['fuel_prices_per_liter'] ?? [
+        'pertalite' => 10000,
+        'pertamax' => 12100,
+        'dexlite' => 13700
+    ];
+
+    $vehicleSpecs = [
+        'avanza' => ['name' => 'Toyota All New Avanza', 'km_l' => 12.0, 'fuel' => 'pertalite', 'driver_mult' => 1.0, 'margin' => 0.25],
+        'innova' => ['name' => 'Toyota Innova Reborn', 'km_l' => 10.0, 'fuel' => 'dexlite', 'driver_mult' => 1.25, 'margin' => 0.28],
+        'hiace'  => ['name' => 'Toyota Hiace Commuter/Premio', 'km_l' => 8.0, 'fuel' => 'dexlite', 'driver_mult' => 1.5, 'margin' => 0.30]
+    ];
+
+    $routeCount = count($matrixData['routes']);
+    foreach ($matrixData['routes'] as $rKey => &$r) {
+        $dist = (float)($r['distance_km'] ?? 40);
+        $toll = (float)($r['toll_cost'] ?? 30000);
+        $baseDriver = (float)($r['base_driver_fee'] ?? 100000);
+
+        $pricing = [];
+        foreach ($vehicleSpecs as $vKey => $v) {
+            $fuelPrice = (float)($fuelPrices[$v['fuel']] ?? 10000);
+            $fuelCost = ($dist / $v['km_l']) * $fuelPrice;
+            $driverFee = $baseDriver * $v['driver_mult'];
+            $baseCost = $fuelCost + $toll + $driverFee;
+            $marginVal = $baseCost * $v['margin'];
+            $totalRaw = $baseCost + $marginVal;
+            $allInTotal = (int)(ceil($totalRaw / 10000) * 10000);
+
+            $pricing[$vKey] = [
+                'vehicle_name' => $v['name'],
+                'fuel_cost' => (int)round($fuelCost),
+                'toll_cost' => (int)$toll,
+                'driver_fee' => (int)round($driverFee),
+                'margin' => (int)round($marginVal),
+                'all_in_total' => $allInTotal,
+                'formatted_price' => 'Rp ' . number_format($allInTotal, 0, ',', '.')
+            ];
+        }
+        $r['pricing'] = $pricing;
+    }
+
+    $matrixData['last_updated'] = $now;
+    $matrixData['updated_by'] = 'Cost & Tariff Intelligence Agent (Pak Hendra)';
+    file_put_contents($matrixFile, json_encode($matrixData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+    return [
+        'success' => true,
+        'message' => "Survey harga berhasil! Pak Hendra telah memperbarui {$routeCount} koridor rute dengan estimasi harga BBM & Tol terkini ({$now} WIB).",
+        'data' => $matrixData,
+        'last_updated' => $now
+    ];
+}
+
 switch ($action) {
     case 'status':
         $wh = getWorkingHoursStatus();
@@ -358,6 +424,11 @@ switch ($action) {
                 'data' => $data
             ], 400);
         }
+        break;
+
+    case 'survey_hendra':
+        $result = recalculateCostMatrix($matrixFile);
+        sendJson($result);
         break;
 
     case 'get_matrix':

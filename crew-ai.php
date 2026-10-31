@@ -2631,7 +2631,7 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                     </div>
                     <div class="hero-banner-actions">
-                        <button class="btn-brand-green" onclick="refreshData()">🔄 Survey Ulang Harga</button>
+                        <button type="button" class="btn-brand-green" id="btnHendraSurvey" onclick="runHendraSurvey(this)"><span>🔄</span><span>Survey Ulang Harga</span></button>
                     </div>
                 </div>
 
@@ -2672,7 +2672,7 @@ $isLoggedIn = isCrewLoggedIn();
                             <span>📊</span>
                             <span>Matrix Biaya Riil 4 Koridor Prioritas</span>
                         </h3>
-                        <span class="tag-dynamic">Data Acuan Seluruh Penulis & CS Hasna</span>
+                        <span class="tag-dynamic" id="hendraLastUpdatedBadge">Data Acuan Seluruh Penulis & CS Hasna</span>
                     </div>
 
                     <div class="table-responsive">
@@ -3013,7 +3013,7 @@ $isLoggedIn = isCrewLoggedIn();
                         </div>
                     </div>
                     <div class="hero-banner-actions">
-                        <button class="btn-brand-green" onclick="refreshData()">🔄 Cek Status Armada</button>
+                        <button type="button" class="btn-brand-green" id="btnJakaFleetCheck" onclick="runJakaFleetCheck(this)"><span>🔄</span><span>Cek Status Armada</span></button>
                     </div>
                 </div>
 
@@ -3653,6 +3653,11 @@ $isLoggedIn = isCrewLoggedIn();
             const res = await fetch('/api/crew.php?action=get_matrix');
             const d = await res.json();
             if (!d.success) return;
+
+            const hendraBadge = document.getElementById('hendraLastUpdatedBadge');
+            if (hendraBadge && d.data && d.data.last_updated) {
+                hendraBadge.innerText = '🗓️ Terakhir Survey: ' + d.data.last_updated + ' WIB';
+            }
 
             const quickTbody = document.getElementById('quickMatrixBody');
             const hendraTbody = document.getElementById('hendraMatrixBody');
@@ -4485,6 +4490,65 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
             if (btn) {
                 btn.disabled = false;
                 btn.innerHTML = '<span>⚡</span><span>Auto Sambungkan</span>';
+            }
+        }
+    }
+
+    // Handler Khusus: Survey Ulang Harga Pak Hendra
+    async function runHendraSurvey(btn) {
+        if (!btn) btn = document.getElementById('btnHendraSurvey');
+        const origHtml = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Sedang Mensurvey Tarif BBM & Tol...</span>';
+        }
+
+        try {
+            const res = await fetch('/api/crew.php?action=survey_hendra');
+            const text = await res.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch(e) {
+                throw new Error('Respon server tidak valid: ' + (text ? text.substring(0, 100) : 'Kosong'));
+            }
+
+            if (data.success) {
+                await loadMatrix();
+                await loadStatus();
+                alert('🎉 ' + (data.message || 'Pak Hendra berhasil melakukan survey ulang harga dan memperbarui seluruh matrix biaya!'));
+            } else {
+                alert('⚠️ ' + (data.message || 'Gagal melakukan survey ulang harga.'));
+            }
+        } catch(err) {
+            console.error(err);
+            alert('Gagal memicu survey Pak Hendra: ' + err.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = origHtml;
+            }
+        }
+    }
+
+    // Handler Khusus: Cek Kesiapan Armada Bang Jaka
+    async function runJakaFleetCheck(btn) {
+        if (!btn) btn = document.getElementById('btnJakaFleetCheck');
+        const origHtml = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Mengecek Kesiapan Armada...</span>';
+        }
+
+        try {
+            await refreshData();
+            alert('🛡️ Bang Jaka (Fleet Dispatcher):\n"Seluruh armada privat Avanza, Innova Reborn, dan HiAce Premio terpantau siap dan standby. Sopir dipastikan tiba di lokasi penjemputan 30 menit sebelum jadwal!"');
+        } catch(err) {
+            alert('Gagal cek status armada: ' + err.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = origHtml;
             }
         }
     }

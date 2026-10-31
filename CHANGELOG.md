@@ -79,3 +79,4 @@ Seluruh modul inti platform **Dropoff.id** telah berhasil dibangun, distandarisa
 - [x] **GitHub Actions Auto-Deploy via FTP**:
   - Setiap commit ke branch `main` langsung diverifikasi dan ditransfer secara otomatis ke direktori `public_html` Hostinger.
   - Struktur direktori `server-dir: ./\` terjaga aman guna mencegah insiden *nested public_html*.
+
