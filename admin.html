@@ -1234,11 +1234,29 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
             }
         }
 
+        // Auto scroll ke seksi Pak Hendra jika dipanggil via tab hendra / hash
+        function checkScrollToHendra() {
+            if (window.location.hash === '#hendraSurveySection') {
+                setTimeout(() => {
+                    const el = document.getElementById('hendraSurveySection');
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        el.style.transition = 'all 0.5s ease';
+                        el.style.boxShadow = '0 0 0 4px #16A34A, 0 10px 25px rgba(22,163,74,0.2)';
+                        setTimeout(() => { el.style.boxShadow = ''; }, 3500);
+                    }
+                }, 400);
+            }
+        }
+        window.addEventListener('hashchange', checkScrollToHendra);
+        window.addEventListener('load', checkScrollToHendra);
+
         // Jalankan saat load
         loadAdminData();
         loadFleetMap();
         loadAdminHotlineWa();
         loadHasnaPrompt();
+        checkScrollToHendra();
         setInterval(loadAdminData, 15000);
         setInterval(loadFleetMap, 20000);
     </script>

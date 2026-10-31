@@ -1054,6 +1054,11 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 <span>Konsol Ops &amp; Radar</span>
             </button>
 
+            <button type="button" class="sidebar-btn <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="sideBtnHendra" onclick="switchAdminTab('hendra')">
+                <span class="btn-icon">👔</span>
+                <span>Matrix Tarif Pak Hendra</span>
+            </button>
+
             <button type="button" class="sidebar-btn <?= $activeTab === 'training' ? 'active' : '' ?>" id="sideBtnTraining" onclick="switchAdminTab('training')">
                 <span class="btn-icon">🧠</span>
                 <span>Training CS AI Hasna</span>
@@ -1122,6 +1127,9 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
 
             <!-- FRAME 3: DEDICATED RUANG TRAINING CS AI HASNA -->
             <iframe src="/admin-hasna.html" class="tab-frame <?= $activeTab === 'training' ? 'active' : '' ?>" id="frameTraining"></iframe>
+
+            <!-- FRAME 4: MATRIX TARIF PAK HENDRA -->
+            <iframe src="/admin.html#hendraSurveySection" class="tab-frame <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="frameHendra"></iframe>
         </main>
     </div>
 
@@ -1135,6 +1143,11 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
         <button type="button" class="bottom-nav-item <?= $activeTab === 'ops' ? 'active' : '' ?>" id="bottomBtnOps" onclick="switchAdminTab('ops')">
             <span class="b-icon">⚙️</span>
             <span>Operasional</span>
+        </button>
+
+        <button type="button" class="bottom-nav-item <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="bottomBtnHendra" onclick="switchAdminTab('hendra')">
+            <span class="b-icon">👔</span>
+            <span>Tarif Hendra</span>
         </button>
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'training' ? 'active' : '' ?>" id="bottomBtnTraining" onclick="switchAdminTab('training')">
@@ -1153,29 +1166,35 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             // Sidebar buttons (Desktop)
             const sideCms = document.getElementById('sideBtnCms');
             const sideOps = document.getElementById('sideBtnOps');
+            const sideHendra = document.getElementById('sideBtnHendra');
             const sideTraining = document.getElementById('sideBtnTraining');
 
             // Bottom bar buttons (Mobile)
             const bCms = document.getElementById('bottomBtnCms');
             const bOps = document.getElementById('bottomBtnOps');
+            const bHendra = document.getElementById('bottomBtnHendra');
             const bTraining = document.getElementById('bottomBtnTraining');
 
             // Frames
             const frameCms = document.getElementById('frameCms');
             const frameOps = document.getElementById('frameOps');
+            const frameHendra = document.getElementById('frameHendra');
             const frameTraining = document.getElementById('frameTraining');
 
             // Reset all active classes
             if (sideCms) sideCms.classList.remove('active');
             if (sideOps) sideOps.classList.remove('active');
+            if (sideHendra) sideHendra.classList.remove('active');
             if (sideTraining) sideTraining.classList.remove('active');
 
             if (bCms) bCms.classList.remove('active');
             if (bOps) bOps.classList.remove('active');
+            if (bHendra) bHendra.classList.remove('active');
             if (bTraining) bTraining.classList.remove('active');
 
             if (frameCms) frameCms.classList.remove('active');
             if (frameOps) frameOps.classList.remove('active');
+            if (frameHendra) frameHendra.classList.remove('active');
             if (frameTraining) frameTraining.classList.remove('active');
 
             // Activate chosen tab
@@ -1184,6 +1203,18 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 if (bCms) bCms.classList.add('active');
                 if (frameCms) frameCms.classList.add('active');
                 window.history.replaceState(null, '', '/admin?tab=cms');
+            } else if (tabName === 'hendra') {
+                if (sideHendra) sideHendra.classList.add('active');
+                if (bHendra) bHendra.classList.add('active');
+                if (frameHendra) {
+                    frameHendra.classList.add('active');
+                    try {
+                        const iDoc = frameHendra.contentDocument || frameHendra.contentWindow.document;
+                        const el = iDoc.getElementById('hendraSurveySection');
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } catch(e) {}
+                }
+                window.history.replaceState(null, '', '/admin?tab=hendra');
             } else if (tabName === 'training') {
                 if (sideTraining) sideTraining.classList.add('active');
                 if (bTraining) bTraining.classList.add('active');

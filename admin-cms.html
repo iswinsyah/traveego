@@ -489,8 +489,11 @@
             <a href="/" target="_blank" class="wp-link">
                 <span>🌐 Kunjungi Situs ↗</span>
             </a>
-            <a href="/admin.html" class="wp-link">
+            <a href="javascript:void(0)" onclick="if(window.parent && window.parent.switchAdminTab){window.parent.switchAdminTab('ops')}else{window.location.href='/admin?tab=ops'}" class="wp-link">
                 <span>⚙️ Konsol Operasional</span>
+            </a>
+            <a href="javascript:void(0)" onclick="if(window.parent && window.parent.switchAdminTab){window.parent.switchAdminTab('hendra')}else{window.location.href='/admin?tab=hendra'}" class="wp-link" style="color: #6ee7b7; font-weight: 700; background: rgba(16,185,129,0.18); border-radius: 6px; padding: 4px 10px;">
+                <span>👔 Survey Tarif Pak Hendra</span>
             </a>
         </div>
 
