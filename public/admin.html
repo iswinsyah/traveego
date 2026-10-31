@@ -228,7 +228,10 @@
         <a href="/admin" class="brand">
             <span>👑 Dropoff.id Ops Console</span>
         </a>
-        <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+            <a href="#hendraSurveySection" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #0F172A; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: all 0.2s;">
+                <span>👔 Matrix Tarif Pak Hendra</span>
+            </a>
             <a href="/admin-cms.html" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #2271B1; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(34,113,177,0.3);">
                 <span>🎨 Penyesuai Tampilan (CMS ala WP)</span>
             </a>
@@ -496,6 +499,89 @@
             </div>
         </div>
 
+        <!-- SEKSI HASIL SURVEY MATRIX TARIF PAK HENDRA -->
+        <div class="section-card" id="hendraSurveySection" style="border-left: 4px solid #0F172A;">
+            <div class="section-header" style="flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #0F172A; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+                        👔
+                    </div>
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <h2 style="margin: 0; font-size: 17px; font-weight: 800; color: #0F172A;">
+                                Hasil Survey Tarif &amp; Matrix Biaya Riil (Pak Hendra)
+                            </h2>
+                            <span id="adminHendraLastUpdated" style="background: #E2E8F0; color: #1E293B; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
+                                🗓️ Terakhir Survey: -
+                            </span>
+                        </div>
+                        <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 3px;">
+                            Acuan resmi tarif All-In Dropoff.id (BBM, Tol Gerbang-ke-Gerbang, Sopir &amp; Margin Laba) yang digunakan secara real-time oleh CS AI Mbak Hasna &amp; Website.
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <button type="button" id="btnAdminSurveyHendra" onclick="runAdminHendraSurvey(this)" style="padding: 8px 16px; background: #16A34A; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25); transition: all 0.2s;">
+                        <span>🔄</span>
+                        <span>Survey Ulang Tarif Sekarang</span>
+                    </button>
+                    <a href="/crew-ai" target="_blank" style="padding: 7px 12px; background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; font-size: 12.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                        <span>⚙️</span>
+                        <span>Buka Crew AI Console ↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ACUAN HARGA BBM RESMI PERTAMINA -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px;">
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 14px;">
+                    <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">BBM Pertalite (RON 90)</div>
+                    <div style="font-size: 16px; font-weight: 800; color: #0F172A; margin: 4px 0 2px;" id="adminBbmPertalite">Rp 10.000 / L</div>
+                    <div style="font-size: 11px; color: #16A34A; font-weight: 700;">Acuan Avanza (12 KM/Liter)</div>
+                </div>
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 14px;">
+                    <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">BBM Pertamax (RON 92)</div>
+                    <div style="font-size: 16px; font-weight: 800; color: #0F172A; margin: 4px 0 2px;" id="adminBbmPertamax">Rp 12.100 / L</div>
+                    <div style="font-size: 11px; color: #2563EB; font-weight: 700;">Acuan Cadangan Bensin</div>
+                </div>
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 14px;">
+                    <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">BBM Dexlite (CN 51)</div>
+                    <div style="font-size: 16px; font-weight: 800; color: #0F172A; margin: 4px 0 2px;" id="adminBbmDexlite">Rp 13.700 / L</div>
+                    <div style="font-size: 11px; color: #D97706; font-weight: 700;">Acuan Innova &amp; HiAce Diesel</div>
+                </div>
+            </div>
+
+            <!-- TABEL MATRIX 4 KORIDOR RUTE -->
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rute &amp; Koridor</th>
+                            <th>Jarak</th>
+                            <th>Rincian Biaya Tol</th>
+                            <th>Jasa Sopir</th>
+                            <th>Pasaran Drop-off</th>
+                            <th>Toyota Avanza</th>
+                            <th>Innova Reborn</th>
+                            <th>HiAce Premio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminHendraMatrixBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                Memuat data matrix tarif Pak Hendra...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed #E2E8F0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--text-muted);">
+                <span>💡 <em>Tarif di atas sudah ALL-IN (Tol + BBM + Driver Bersih + Margin Laba). Tidak ada biaya tersembunyi bagi pelanggan.</em></span>
+                <span style="font-weight: 700; color: #16A34A;">🟢 Terhubung Otomatis ke Jawaban Chat Mbak Hasna</span>
+            </div>
+        </div>
+
         <!-- 2. DAFTAR PESANAN OPERASIONAL -->
         <div class="section-card">
             <div class="section-header">
@@ -596,6 +682,11 @@
                     renderStats(data.stats);
                     renderSettlements(data.pendingSettlements);
                     renderOrders(data.latestOrders);
+                    if (data.costMatrix) {
+                        renderHendraMatrix(data.costMatrix);
+                    } else {
+                        loadAdminHendraMatrix();
+                    }
                     if (data.pendingDrivers) {
                         renderPendingDrivers(data.pendingDrivers);
                     } else {
@@ -604,6 +695,106 @@
                 }
             } catch (err) {
                 console.error(err);
+            }
+        }
+
+        // RENDER HASIL SURVEY MATRIX TARIF PAK HENDRA
+        function renderHendraMatrix(matrix) {
+            if (!matrix || !matrix.routes) return;
+            const badge = document.getElementById('adminHendraLastUpdated');
+            if (badge && matrix.last_updated) {
+                badge.innerText = '🗓️ Terakhir Survey: ' + matrix.last_updated + ' WIB';
+            }
+
+            // Update Fuel
+            const fuel = matrix.fuel_prices_per_liter || {};
+            if (fuel.pertalite && document.getElementById('adminBbmPertalite')) {
+                document.getElementById('adminBbmPertalite').innerText = 'Rp ' + Number(fuel.pertalite).toLocaleString('id-ID') + ' / L';
+            }
+            if (fuel.pertamax && document.getElementById('adminBbmPertamax')) {
+                document.getElementById('adminBbmPertamax').innerText = 'Rp ' + Number(fuel.pertamax).toLocaleString('id-ID') + ' / L';
+            }
+            if (fuel.dexlite && document.getElementById('adminBbmDexlite')) {
+                document.getElementById('adminBbmDexlite').innerText = 'Rp ' + Number(fuel.dexlite).toLocaleString('id-ID') + ' / L';
+            }
+
+            const tbody = document.getElementById('adminHendraMatrixBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const routes = matrix.routes;
+            const marketPrices = {
+                'jakarta_bandara_soetta': 'Rp 325.000',
+                'jakarta_bandara_halim': 'Rp 280.000',
+                'jabodetabek_dalam_kota': 'Rp 350.000',
+                'jakarta_baraya': 'Rp 650.000'
+            };
+
+            for (const key in routes) {
+                const r = routes[key];
+                const p = r.pricing || {};
+                const pasaranText = marketPrices[key] || 'Rp 350.000';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <strong style="color: #0F172A; font-size: 13.5px;">${r.origin} ➔ ${r.destination}</strong><br>
+                        <span style="background: #F1F5F9; color: #475569; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-family: monospace;">/${r.slug}</span>
+                    </td>
+                    <td><span style="background: #EFF6FF; color: #1E40AF; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700;">${r.distance_km} KM</span></td>
+                    <td style="font-size: 12px; max-width: 220px;">
+                        <strong style="color: #0F172A;">Rp ${Number(r.toll_cost).toLocaleString('id-ID')}</strong><br>
+                        <span style="color: var(--text-muted); font-size: 11px;">${r.toll_details || '-'}</span>
+                    </td>
+                    <td style="font-weight: 700; font-size: 12.5px;">Rp ${Number(r.base_driver_fee).toLocaleString('id-ID')}</td>
+                    <td>
+                        <span style="color: #DC2626; text-decoration: line-through; font-size: 11.5px;">${pasaranText}</span><br>
+                        <span style="color: #16A34A; font-size: 11px; font-weight: 700;">Lebih Murah &amp; All-In</span>
+                    </td>
+                    <td><span style="background: #DCFCE7; color: #166534; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 12.5px;">${p.avanza ? p.avanza.formatted_price : '-'}</span></td>
+                    <td><span style="background: #EFF6FF; color: #1D4ED8; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 12.5px;">${p.innova ? p.innova.formatted_price : '-'}</span></td>
+                    <td><span style="background: #FEF3C7; color: #B45309; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 12.5px;">${p.hiace ? p.hiace.formatted_price : '-'}</span></td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        async function loadAdminHendraMatrix() {
+            try {
+                const res = await fetch('/api/admin.php?action=get_hendra_matrix');
+                const data = await res.json();
+                if (data.success && data.data) {
+                    renderHendraMatrix(data.data);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function runAdminHendraSurvey(btn) {
+            if (!btn) btn = document.getElementById('btnAdminSurveyHendra');
+            const origHtml = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span><span>Sedang Mensurvey BBM &amp; Tol...</span>';
+            }
+
+            try {
+                const res = await fetch('/api/admin.php?action=survey_hendra');
+                const data = await res.json();
+                if (data.success) {
+                    renderHendraMatrix(data.data);
+                    alert('🎉 ' + (data.message || 'Pak Hendra berhasil melakukan survey ulang harga dan memperbarui seluruh matrix biaya!'));
+                } else {
+                    alert('⚠️ ' + (data.message || 'Gagal melakukan survey ulang harga.'));
+                }
+            } catch (err) {
+                alert('Gagal memicu survey Pak Hendra: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = origHtml;
+                }
             }
         }
 

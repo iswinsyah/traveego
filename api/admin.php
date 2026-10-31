@@ -160,6 +160,10 @@ if ($action === 'stats') {
         });
         $pendingDriversCount = count($pendingDrivers);
 
+        // Ambil data survey matrix tarif Pak Hendra
+        $matrixFile = __DIR__ . '/../data/cost_matrix.json';
+        $costMatrix = file_exists($matrixFile) ? json_decode(file_get_contents($matrixFile), true) : null;
+
         sendJson([
             'success' => true,
             'stats' => [
@@ -173,6 +177,7 @@ if ($action === 'stats') {
             'latestOrders' => $latestOrders,
             'pendingSettlements' => $pendingSettlements,
             'pendingDrivers' => array_values($pendingDrivers),
+            'costMatrix' => $costMatrix,
             'adminBank' => [
                 'bank' => ADMIN_BANK_NAME,
                 'account' => ADMIN_BANK_ACCOUNT,
@@ -258,6 +263,79 @@ if ($action === 'activate_driver') {
         'success' => true,
         'message' => "Mitra sopir '{$reg['name']}' ({$reg['phone']}) BERHASIL DIAKTIVASI! Sopir sekarang dapat langsung login dan narik orderan.",
         'driver' => $driversStore[(string)$newId]
+    ]);
+}
+
+// 1e. HASIL SURVEY MATRIX TARIF PAK HENDRA
+if ($action === 'get_hendra_matrix') {
+    $matrixFile = __DIR__ . '/../data/cost_matrix.json';
+    if (!file_exists($matrixFile)) {
+        sendJson(['success' => false, 'message' => 'File cost_matrix.json belum ada.'], 404);
+    }
+    $data = json_decode(file_get_contents($matrixFile), true);
+    sendJson(['success' => true, 'data' => $data]);
+}
+
+if ($action === 'survey_hendra') {
+    $matrixFile = __DIR__ . '/../data/cost_matrix.json';
+    date_default_timezone_set('Asia/Jakarta');
+    $now = date('Y-m-d H:i:s');
+    $matrixData = file_exists($matrixFile) ? json_decode(file_get_contents($matrixFile), true) : null;
+
+    if (!$matrixData || empty($matrixData['routes'])) {
+        sendJson(['success' => false, 'message' => 'File data cost_matrix.json tidak ditemukan atau rute kosong.'], 404);
+    }
+
+    $fuelPrices = $matrixData['fuel_prices_per_liter'] ?? [
+        'pertalite' => 10000,
+        'pertamax' => 12100,
+        'dexlite' => 13700
+    ];
+
+    $vehicleSpecs = [
+        'avanza' => ['name' => 'Toyota All New Avanza', 'km_l' => 12.0, 'fuel' => 'pertalite', 'driver_mult' => 1.0, 'margin' => 0.25],
+        'innova' => ['name' => 'Toyota Innova Reborn', 'km_l' => 10.0, 'fuel' => 'dexlite', 'driver_mult' => 1.25, 'margin' => 0.28],
+        'hiace'  => ['name' => 'Toyota Hiace Commuter/Premio', 'km_l' => 8.0, 'fuel' => 'dexlite', 'driver_mult' => 1.5, 'margin' => 0.30]
+    ];
+
+    $routeCount = count($matrixData['routes']);
+    foreach ($matrixData['routes'] as $rKey => &$r) {
+        $dist = (float)($r['distance_km'] ?? 40);
+        $toll = (float)($r['toll_cost'] ?? 30000);
+        $baseDriver = (float)($r['base_driver_fee'] ?? 100000);
+
+        $pricing = [];
+        foreach ($vehicleSpecs as $vKey => $v) {
+            $fuelPrice = (float)($fuelPrices[$v['fuel']] ?? 10000);
+            $fuelCost = ($dist / $v['km_l']) * $fuelPrice;
+            $driverFee = $baseDriver * $v['driver_mult'];
+            $baseCost = $fuelCost + $toll + $driverFee;
+            $marginVal = $baseCost * $v['margin'];
+            $totalRaw = $baseCost + $marginVal;
+            $allInTotal = (int)(ceil($totalRaw / 10000) * 10000);
+
+            $pricing[$vKey] = [
+                'vehicle_name' => $v['name'],
+                'fuel_cost' => (int)round($fuelCost),
+                'toll_cost' => (int)$toll,
+                'driver_fee' => (int)round($driverFee),
+                'margin' => (int)round($marginVal),
+                'all_in_total' => $allInTotal,
+                'formatted_price' => 'Rp ' . number_format($allInTotal, 0, ',', '.')
+            ];
+        }
+        $r['pricing'] = $pricing;
+    }
+
+    $matrixData['last_updated'] = $now;
+    $matrixData['updated_by'] = 'Cost & Tariff Intelligence Agent (Pak Hendra)';
+    file_put_contents($matrixFile, json_encode($matrixData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+    sendJson([
+        'success' => true,
+        'message' => "Survey ulang harga berhasil! Pak Hendra telah memperbarui {$routeCount} koridor rute dengan estimasi harga BBM & Tol terkini ({$now} WIB).",
+        'data' => $matrixData,
+        'last_updated' => $now
     ]);
 }
 
