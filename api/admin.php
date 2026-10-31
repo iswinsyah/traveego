@@ -58,37 +58,107 @@ if ($action !== 'fleet') {
     requireAdminAuth();
 }
 
+// 0b. HELPER PENDAFTARAN & POOL SOPIR
+function getAdminDriverRegistrations() {
+    $f = __DIR__ . '/../data/driver_registrations.json';
+    return file_exists($f) ? (json_decode(file_get_contents($f), true) ?: []) : [];
+}
+
+function saveAdminDriverRegistrations($data) {
+    $f = __DIR__ . '/../data/driver_registrations.json';
+    $dir = dirname($f);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0755, true);
+    }
+    @file_put_contents($f, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+}
+
+function getAdminDriversStore() {
+    $f = __DIR__ . '/../data/drivers_store.json';
+    return file_exists($f) ? (json_decode(file_get_contents($f), true) ?: []) : [];
+}
+
+function saveAdminDriversStore($data) {
+    $f = __DIR__ . '/../data/drivers_store.json';
+    $dir = dirname($f);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0755, true);
+    }
+    @file_put_contents($f, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+}
+
 // 1. STATISTIK OPERASIONAL & DAFTAR TRANSAKSI
 if ($action === 'stats') {
     try {
-        $pdo = getDB();
-        $ordersTotal = $pdo->query("SELECT COUNT(*) AS total FROM orders")->fetch()['total'];
-        $auctionCount = $pdo->query("SELECT COUNT(*) AS total FROM orders WHERE status = 'AUCTION'")->fetch()['total'];
-        $completedCount = $pdo->query("SELECT COUNT(*) AS total FROM orders WHERE status = 'COMPLETED'")->fetch()['total'];
-        $driversCount = $pdo->query("SELECT COUNT(*) AS total FROM drivers")->fetch()['total'];
+        $pdo = getDB(false);
+        $ordersTotal = 0;
+        $auctionCount = 0;
+        $completedCount = 0;
+        $driversCount = 0;
+        $commissions = 0;
+        $latestOrders = [];
+        $pendingSettlements = [];
 
-        $commissions = $pdo->query("
-            SELECT SUM(amount) AS total 
-            FROM commission_settlements 
-            WHERE status = 'VERIFIED_PAID'
-        ")->fetch()['total'] ?? 0;
+        if ($pdo) {
+            $ordersTotal = $pdo->query("SELECT COUNT(*) AS total FROM orders")->fetch()['total'] ?? 0;
+            $auctionCount = $pdo->query("SELECT COUNT(*) AS total FROM orders WHERE status = 'AUCTION'")->fetch()['total'] ?? 0;
+            $completedCount = $pdo->query("SELECT COUNT(*) AS total FROM orders WHERE status = 'COMPLETED'")->fetch()['total'] ?? 0;
+            $driversCount = $pdo->query("SELECT COUNT(*) AS total FROM drivers")->fetch()['total'] ?? 0;
 
-        $latestOrders = $pdo->query("
-            SELECT o.*, d.name AS driver_name, cs.status AS settlement_status
-            FROM orders o
-            LEFT JOIN drivers d ON o.driver_id = d.id
-            LEFT JOIN commission_settlements cs ON o.id = cs.order_id
-            ORDER BY o.id DESC LIMIT 15
-        ")->fetchAll();
+            $commissions = $pdo->query("
+                SELECT SUM(amount) AS total 
+                FROM commission_settlements 
+                WHERE status = 'VERIFIED_PAID'
+            ")->fetch()['total'] ?? 0;
 
-        $pendingSettlements = $pdo->query("
-            SELECT cs.*, o.tracking_code, o.total_fare, d.name AS driver_name, d.phone AS driver_phone
-            FROM commission_settlements cs
-            JOIN orders o ON cs.order_id = o.id
-            JOIN drivers d ON cs.driver_id = d.id
-            WHERE cs.status = 'WAITING_CONFIRMATION'
-            ORDER BY cs.created_at DESC
-        ")->fetchAll();
+            $latestOrders = $pdo->query("
+                SELECT o.*, d.name AS driver_name, cs.status AS settlement_status
+                FROM orders o
+                LEFT JOIN drivers d ON o.driver_id = d.id
+                LEFT JOIN commission_settlements cs ON o.id = cs.order_id
+                ORDER BY o.id DESC LIMIT 15
+            ")->fetchAll() ?: [];
+
+            $pendingSettlements = $pdo->query("
+                SELECT cs.*, o.tracking_code, o.total_fare, d.name AS driver_name, d.phone AS driver_phone
+                FROM commission_settlements cs
+                JOIN orders o ON cs.order_id = o.id
+                JOIN drivers d ON cs.driver_id = d.id
+                WHERE cs.status = 'WAITING_CONFIRMATION'
+                ORDER BY cs.created_at DESC
+            ")->fetchAll() ?: [];
+        } else {
+            // Flat store stats
+            $ordersStoreFile = __DIR__ . '/../data/orders_store.json';
+            $store = file_exists($ordersStoreFile) ? json_decode(file_get_contents($ordersStoreFile), true) : [];
+            if (is_array($store)) {
+                $ordersTotal = count($store);
+                foreach ($store as $ord) {
+                    if (($ord['status'] ?? '') === 'AUCTION') $auctionCount++;
+                    if (($ord['status'] ?? '') === 'COMPLETED') $completedCount++;
+                    $latestOrders[] = [
+                        'id' => $ord['id'] ?? 1,
+                        'tracking_code' => $ord['tracking_code'] ?? 'TRX-XXXX',
+                        'customer_name' => $ord['customer_name'] ?? 'Tamu',
+                        'pickup_address' => $ord['pickup_address'] ?? '-',
+                        'destination_address' => $ord['destination_address'] ?? '-',
+                        'car_type' => $ord['car_type'] ?? 'Avanza',
+                        'total_fare' => $ord['total_fare'] ?? 0,
+                        'status' => $ord['status'] ?? 'AUCTION',
+                        'driver_name' => $ord['driver_name'] ?? null
+                    ];
+                }
+            }
+            $driversStore = getAdminDriversStore();
+            $driversCount = count($driversStore);
+        }
+
+        // Hitung pendaftaran mitra sopir pending aktivasi
+        $registrations = getAdminDriverRegistrations();
+        $pendingDrivers = array_filter($registrations, function($r) {
+            return ($r['status'] ?? '') === 'PENDING_ACTIVATION';
+        });
+        $pendingDriversCount = count($pendingDrivers);
 
         sendJson([
             'success' => true,
@@ -97,19 +167,120 @@ if ($action === 'stats') {
                 'activeAuctions' => intval($auctionCount),
                 'completedOrders' => intval($completedCount),
                 'totalDrivers' => intval($driversCount),
-                'totalCommissionPaid' => floatval($commissions)
+                'totalCommissionPaid' => floatval($commissions),
+                'pendingDriversCount' => intval($pendingDriversCount)
             ],
             'latestOrders' => $latestOrders,
             'pendingSettlements' => $pendingSettlements,
+            'pendingDrivers' => array_values($pendingDrivers),
             'adminBank' => [
                 'bank' => ADMIN_BANK_NAME,
                 'account' => ADMIN_BANK_ACCOUNT,
                 'holder' => ADMIN_BANK_HOLDER
             ]
         ]);
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);
     }
+}
+
+// 1b. DAFTAR CALON MITRA SOPIR (PENDING, AKTIF, DITOLAK)
+if ($action === 'pending_drivers') {
+    $registrations = getAdminDriverRegistrations();
+    $list = array_values($registrations);
+    usort($list, function($a, $b) {
+        return strcmp($b['created_at'] ?? '', $a['created_at'] ?? '');
+    });
+    sendJson(['success' => true, 'data' => $list]);
+}
+
+// 1c. AKTIVASI MITRA SOPIR OLEH ADMIN (1-KLIK)
+if ($action === 'activate_driver') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $regId = trim($input['reg_id'] ?? '');
+
+    if (empty($regId)) {
+        sendJson(['success' => false, 'message' => 'reg_id wajib disertakan.'], 400);
+    }
+
+    $registrations = getAdminDriverRegistrations();
+    if (!isset($registrations[$regId])) {
+        sendJson(['success' => false, 'message' => 'Pendaftaran sopir tidak ditemukan.'], 404);
+    }
+
+    $reg = $registrations[$regId];
+    $reg['status'] = 'ACTIVE';
+    $reg['activated_at'] = date('Y-m-d H:i:s');
+    $registrations[$regId] = $reg;
+    saveAdminDriverRegistrations($registrations);
+
+    // Masukkan ke pool sopir aktif (drivers_store.json)
+    $driversStore = getAdminDriversStore();
+    $newId = time();
+    $driversStore[(string)$newId] = [
+        'id' => $newId,
+        'name' => $reg['name'],
+        'username' => $reg['username'],
+        'phone' => $reg['phone'],
+        'pin' => $reg['password'],
+        'nik_sim' => $reg['nik_sim'] ?? '',
+        'car_model' => $reg['car_model'],
+        'car_plate' => $reg['car_plate'],
+        'car_color' => 'Hitam',
+        'rating' => 5.0,
+        'total_trips' => 0,
+        'photo_url' => $reg['photo_car'] ?? '/assets/driver-avatar.png',
+        'photo_ktp' => $reg['photo_ktp'] ?? '',
+        'photo_sim' => $reg['photo_sim'] ?? '',
+        'current_lat' => -6.2088,
+        'current_lng' => 106.8456,
+        'is_online' => true,
+        'is_trusted' => true,
+        'is_super_admin' => false,
+        'status' => 'ACTIVE'
+    ];
+    saveAdminDriversStore($driversStore);
+
+    // Sync juga ke database MySQL jika terhubung
+    $pdo = getDB(false);
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("
+                INSERT INTO drivers (name, phone, pin, city_id, car_model, car_plate, car_color, is_online, is_trusted, rating, total_trips)
+                VALUES (?, ?, ?, 1, ?, ?, 'Hitam', 1, 1, 5.0, 0)
+                ON DUPLICATE KEY UPDATE pin = VALUES(pin), car_model = VALUES(car_model), car_plate = VALUES(car_plate)
+            ");
+            $stmt->execute([$reg['name'], $reg['phone'], $reg['password'], $reg['car_model'], $reg['car_plate']]);
+        } catch (Throwable $e) {}
+    }
+
+    sendJson([
+        'success' => true,
+        'message' => "Mitra sopir '{$reg['name']}' ({$reg['phone']}) BERHASIL DIAKTIVASI! Sopir sekarang dapat langsung login dan narik orderan.",
+        'driver' => $driversStore[(string)$newId]
+    ]);
+}
+
+// 1d. TOLAK PENDAFTARAN MITRA SOPIR
+if ($action === 'reject_driver') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $regId = trim($input['reg_id'] ?? '');
+    $reason = trim($input['reason'] ?? 'Dokumen foto tidak lengkap / tidak jelas.');
+
+    $registrations = getAdminDriverRegistrations();
+    if (!isset($registrations[$regId])) {
+        sendJson(['success' => false, 'message' => 'Pendaftaran tidak ditemukan.'], 404);
+    }
+
+    $registrations[$regId]['status'] = 'REJECTED';
+    $registrations[$regId]['reject_reason'] = $reason;
+    $registrations[$regId]['rejected_at'] = date('Y-m-d H:i:s');
+    saveAdminDriverRegistrations($registrations);
+
+    sendJson([
+        'success' => true,
+        'message' => 'Pendaftaran mitra sopir ditolak.'
+    ]);
 }
 
 // 2. VERIFIKASI SETORAN KOMISI 1-KLIK OLEH ADMIN

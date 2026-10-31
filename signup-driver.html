@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pendaftaran Mitra Sopir • Dropoff.id</title>
+    <meta name="description" content="Gabung jadi mitra pengemudi resmi Dropoff.id. Orderan rutin antar kota, tanpa potongan membingungkan, sistem transparan langsung cair.">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --royal-blue: #1E40AF;
+            --accent-blue: #2563EB;
+            --accent-green: #16A34A;
+            --accent-green-bg: #DCFCE7;
+            --accent-green-text: #166534;
+            --warning-amber: #D97706;
+            --bg-light: #F8FAFC;
+            --surface-white: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --border-subtle: #E2E8F0;
+            --border-active: #3B82F6;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg-light);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 40px;
+        }
+
+        /* HEADER */
+        .header {
+            background: var(--primary-navy);
+            color: #FFF;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .header-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #FFF;
+            font-weight: 800;
+            font-size: 17px;
+        }
+        .brand-badge {
+            background: #2563EB;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+        .btn-header-login {
+            color: #93C5FD;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(147, 197, 253, 0.3);
+            transition: all 0.2s;
+        }
+        .btn-header-login:hover {
+            background: rgba(255,255,255,0.1);
+            color: #FFF;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 640px;
+            width: 100%;
+            margin: 20px auto 0;
+            padding: 0 16px;
+        }
+
+        /* HERO CARD */
+        .hero-banner {
+            background: linear-gradient(135deg, #1E40AF 0%, #1E293B 100%);
+            color: #FFF;
+            padding: 22px 20px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-banner::after {
+            content: "🚘";
+            position: absolute;
+            right: 15px;
+            bottom: -10px;
+            font-size: 72px;
+            opacity: 0.18;
+            pointer-events: none;
+        }
+        .hero-banner h1 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .hero-banner p {
+            font-size: 13px;
+            color: #CBD5E1;
+            line-height: 1.5;
+        }
+
+        /* FORM CARD */
+        .form-card {
+            background: var(--surface-white);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--royal-blue);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1.5px solid #EEF2F6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+        .form-group label .required {
+            color: #EF4444;
+            margin-left: 2px;
+        }
+        .form-group .hint {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+        .form-control {
+            width: 100%;
+            height: 46px;
+            border: 1.5px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 0 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            background: #FAFAFC;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--border-active);
+            background: #FFF;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .toggle-pwd {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text-muted);
+            padding: 4px;
+        }
+
+        .alert-box {
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            color: #1E40AF;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            font-size: 12.5px;
+            line-height: 1.45;
+            margin-bottom: 18px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .alert-warning {
+            background: #FEF3C7;
+            border-color: #FDE68A;
+            color: #92400E;
+        }
+
+        /* UPLOAD FIELD STYLING */
+        .upload-card {
+            border: 2px dashed #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+            background: #F8FAFC;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .upload-card:hover {
+            border-color: var(--accent-blue);
+            background: #F0F7FF;
+        }
+        .upload-card.has-file {
+            border-style: solid;
+            border-color: var(--accent-green);
+            background: #F0FDF4;
+        }
+        .upload-icon {
+            font-size: 28px;
+            margin-bottom: 4px;
+        }
+        .upload-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1E293B;
+        }
+        .upload-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .file-input-hidden {
+            display: none;
+        }
+        .upload-preview {
+            max-width: 100%;
+            max-height: 160px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+            object-fit: cover;
+            border: 1px solid #CBD5E1;
+        }
+        .upload-badge-ok {
+            display: none;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--accent-green);
+            margin-top: 6px;
+        }
+
+        /* BUTTON SUBMIT */
+        .btn-submit {
+            width: 100%;
+            height: 52px;
+            background: #16A34A;
+            color: #FFF;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+            transition: all 0.2s;
+            margin-top: 24px;
+        }
+        .btn-submit:hover:not(:disabled) {
+            background: #15803D;
+            transform: translateY(-1px);
+        }
+        .btn-submit:disabled {
+            background: #94A3B8;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* SUCCESS STATE CARD */
+        .success-card {
+            display: none;
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-subtle);
+        }
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--accent-green-bg);
+            color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 16px;
+        }
+        .success-card h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+        .success-card p {
+            font-size: 13.5px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .reg-details-box {
+            background: #F8FAFC;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            text-align: left;
+            margin-bottom: 20px;
+            font-size: 12.5px;
+        }
+        .reg-details-box div {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px dashed #E2E8F0;
+        }
+        .reg-details-box div:last-child {
+            border-bottom: none;
+        }
+        .reg-details-box b {
+            color: #0F172A;
+        }
+
+        .btn-action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn-wa-admin {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #25D366;
+            color: #FFF;
+            text-decoration: none;
+            padding: 13px;
+            border-radius: var(--radius-md);
+            font-weight: 800;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+        }
+        .btn-back-login {
+            display: block;
+            text-decoration: none;
+            color: var(--royal-blue);
+            background: #EFF6FF;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 13px;
+            border: 1px solid #BFDBFE;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER PORTAL -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="/" class="brand">
+                <span>Dropoff.id</span>
+                <span class="brand-badge">MITRA DRIVER</span>
+            </a>
+            <a href="/driver" class="btn-header-login">Sudah Punya Akun? Masuk</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. FORM PENDAFTARAN MITRA SOPIR -->
+        <div id="signupFormSection">
+            <div class="hero-banner">
+                <h1>Pendaftaran Mitra Sopir Resmi</h1>
+                <p>Jadilah mitra pengemudi Dropoff.id! Nikmati orderan perjalanan privat antar kota dengan komisi ringan dan tanpa potongan rumit.</p>
+            </div>
+
+            <div class="form-card">
+                <form id="driverSignupForm" onsubmit="event.preventDefault(); submitDriverRegistration();">
+
+                    <!-- SEKSI 1: IDENTITAS DIRI -->
+                    <div class="section-title">
+                        <span>👤</span>
+                        <span>1. Identitas Akun Pengemudi</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap Sesuai KTP <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Contoh: Budi Santoso" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username Akun <span class="required">*</span></label>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Contoh: budi_trans (huruf kecil & angka)" pattern="[a-zA-Z0-9_]{3,25}" required>
+                        <div class="hint">Gunakan 3-25 karakter (huruf, angka, tanpa spasi). Digunakan untuk login ke aplikasi sopir.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Kata Sandi / PIN <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan kata sandi yang aman" required minlength="4">
+                            <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('password')">👁️</button>
+                        </div>
+                        <div class="hint">Minimal 4 karakter (angka/huruf). Ingat sandi ini untuk masuk ke aplikasi.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nik_sim">Nomor NIK KTP / No. SIM <span class="required">*</span></label>
+                        <input type="text" id="nik_sim" name="nik_sim" class="form-control" placeholder="Contoh: 3201234567890001" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Nomor WhatsApp Aktif <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Contoh: 081234567890" required>
+                        <div class="alert-box alert-warning" style="margin-top: 8px;">
+                            <span>⚠️</span>
+                            <div>
+                                <b>PENTING: Gunakan Nomor WhatsApp Pribadi (Bukan WA Bisnis / Bot)</b>.<br>
+                                Nomor ini wajib aktif karena Admin Dropoff.id akan menghubungi Anda langsung via panggilan/chat WhatsApp untuk proses aktivasi akun.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SEKSI 2: INFORMASI KENDARAAN -->
+                    <div class="section-title" style="margin-top: 24px;">
+                        <span>🚗</span>
+                        <span>2. Informasi Armada / Mobil</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="car_model">Merk & Tipe Mobil <span class="required">*</span></label>
+                        <input type="text" id="car_model" name="car_model" list="carModelList" class="form-control" placeholder="Contoh: Toyota Innova Reborn / Avanza" required>
+                        <datalist id="carModelList">
+                            <option value="Toyota Avanza">
+                            <option value="Toyota Veloz">
+                            <option value="Toyota Innova Reborn">
+                            <option value="Toyota Innova Zenix">
+                            <option value="Toyota HiAce Commuter">
+                            <option value="Toyota HiAce Premio">
+                            <option value="Mitsubishi Xpander">
+                            <option value="Daihatsu Xenia">
+                            <option value="Suzuki Ertiga">
+                            <option value="Hyundai Stargazer">
+                        </datalist>
+                        <div class="hint">Ketik atau pilih dari daftar rekomendasi armada Dropoff.id.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="car_plate">Nomor Plat Polisi <span class="required">*</span></label>
+                        <input type="text" id="car_plate" name="car_plate" class="form-control" placeholder="Contoh: B 1823 KBC" style="text-transform: uppercase;" required>
+                    </div>
+
+                    <!-- SEKSI 3: UPLOAD DOKUMEN PERSYARATAN -->
+                    <div class="section-title" style="margin-top: 24px;">
+                        <span>📄</span>
+                        <span>3. Berkas & Foto Persyaratan</span>
+                    </div>
+
+                    <!-- 1. FOTO KTP -->
+                    <div class="form-group">
+                        <label>Foto KTP Asli <span class="required">*</span></label>
+                        <div class="upload-card" id="cardKtp" onclick="document.getElementById('photo_ktp').click()">
+                            <div class="upload-icon">🪪</div>
+                            <div class="upload-title" id="titleKtp">Pilih / Ambil Foto KTP</div>
+                            <div class="upload-sub">Format JPG/PNG/WEBP, pastikan NIK dan nama jelas terbaca.</div>
+                            <input type="file" id="photo_ktp" name="photo_ktp" accept="image/*" class="file-input-hidden" onchange="previewUpload(this, 'cardKtp', 'previewKtp', 'titleKtp', 'badgeKtp')" required>
+                            <img id="previewKtp" class="upload-preview" alt="Preview KTP">
+                            <div class="upload-badge-ok" id="badgeKtp">✅ Foto KTP Berhasil Dipilih</div>
+                        </div>
+                    </div>
+
+                    <!-- 2. FOTO SIM -->
+                    <div class="form-group">
+                        <label>Foto SIM A / B1 Aktif <span class="required">*</span></label>
+                        <div class="upload-card" id="cardSim" onclick="document.getElementById('photo_sim').click()">
+                            <div class="upload-icon">💳</div>
+                            <div class="upload-title" id="titleSim">Pilih / Ambil Foto SIM</div>
+                            <div class="upload-sub">Pastikan masa berlaku SIM masih aktif.</div>
+                            <input type="file" id="photo_sim" name="photo_sim" accept="image/*" class="file-input-hidden" onchange="previewUpload(this, 'cardSim', 'previewSim', 'titleSim', 'badgeSim')" required>
+                            <img id="previewSim" class="upload-preview" alt="Preview SIM">
+                            <div class="upload-badge-ok" id="badgeSim">✅ Foto SIM Berhasil Dipilih</div>
+                        </div>
+                    </div>
+
+                    <!-- 3. FOTO MOBIL -->
+                    <div class="form-group">
+                        <label>Foto Mobil (Tampak Depan / Serong Bersama Plat) <span class="required">*</span></label>
+                        <div class="upload-card" id="cardCar" onclick="document.getElementById('photo_car').click()">
+                            <div class="upload-icon">🚘</div>
+                            <div class="upload-title" id="titleCar">Pilih / Ambil Foto Mobil</div>
+                            <div class="upload-sub">Pastikan tampilan mobil bersih dan nomor plat terlihat jelas.</div>
+                            <input type="file" id="photo_car" name="photo_car" accept="image/*" class="file-input-hidden" onchange="previewUpload(this, 'cardCar', 'previewCar', 'titleCar', 'badgeCar')" required>
+                            <img id="previewCar" class="upload-preview" alt="Preview Mobil">
+                            <div class="upload-badge-ok" id="badgeCar">✅ Foto Mobil Berhasil Dipilih</div>
+                        </div>
+                    </div>
+
+                    <!-- KOTAK PERSETUJUAN -->
+                    <div class="alert-box" style="margin-top: 20px;">
+                        <span>ℹ️</span>
+                        <div>
+                            <b>Kebijakan Aktivasi Dropoff.id:</b><br>
+                            Setelah pendaftaran dikirim, nomor WhatsApp dan seluruh dokumen Anda akan diverifikasi oleh Admin. Akun akan <b>diaktivasi oleh Admin</b> sebelum dapat login dan mengambil orderan lelang.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btnSubmitReg">
+                        <span>🚀</span>
+                        <span>DAFTAR JADI MITRA SEKARANG</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 2. KARTU SUKSES (SETELAH PENDAFTARAN BERHASIL) -->
+        <div id="signupSuccessSection" class="success-card">
+            <div class="success-icon">🎉</div>
+            <h2>Pendaftaran Berhasil Dikirim!</h2>
+            <p>Terima kasih telah mendaftar menjadi mitra pengemudi Dropoff.id. Dokumen pendaftaran Anda telah tersimpan dengan aman di sistem kami.</p>
+
+            <div class="reg-details-box">
+                <div><span>Kode Registrasi:</span> <b id="resRegId">-</b></div>
+                <div><span>Nama Sopir:</span> <b id="resName">-</b></div>
+                <div><span>Username:</span> <b id="resUsername">-</b></div>
+                <div><span>WhatsApp:</span> <b id="resPhone">-</b></div>
+                <div><span>Armada / Mobil:</span> <b id="resCar">-</b></div>
+                <div><span>Nomor Plat:</span> <b id="resPlate">-</b></div>
+                <div><span>Status Akun:</span> <b style="color: #D97706;">MENUNGGU AKTIVASI ADMIN ⏳</b></div>
+            </div>
+
+            <div class="alert-box alert-warning" style="text-align: left;">
+                <span>📲</span>
+                <div>
+                    <b>Langkah Selanjutnya:</b><br>
+                    Nomor WhatsApp Anda akan dihubungi oleh Admin Dropoff.id untuk proses aktivasi. Anda juga dapat menghubungi Admin secara langsung lewat WhatsApp untuk proses aktivasi instan tanpa menunggu.
+                </div>
+            </div>
+
+            <div class="btn-action-group">
+                <a href="javascript:void(0)" id="btnWaAdminFast" class="btn-wa-admin" target="_blank">
+                    <span>💬</span>
+                    <span>Hubungi Admin WhatsApp untuk Aktivasi Cepat</span>
+                </a>
+                <a href="/driver" class="btn-back-login">
+                    <span>🔐</span>
+                    <span>Kembali ke Halaman Masuk Sopir</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
+            }
+        }
+
+        function previewUpload(input, cardId, previewId, titleId, badgeId) {
+            const file = input.files[0];
+            if (file) {
+                const card = document.getElementById(cardId);
+                const preview = document.getElementById(previewId);
+                const title = document.getElementById(titleId);
+                const badge = document.getElementById(badgeId);
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    card.classList.add('has-file');
+                    title.innerText = file.name;
+                    badge.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function submitDriverRegistration() {
+            const btn = document.getElementById('btnSubmitReg');
+            const fileKtp = document.getElementById('photo_ktp').files[0];
+            const fileSim = document.getElementById('photo_sim').files[0];
+            const fileCar = document.getElementById('photo_car').files[0];
+
+            if (!fileKtp || !fileSim || !fileCar) {
+                alert('⚠️ Mohon lengkapi 3 foto persyaratan (Foto KTP, Foto SIM, dan Foto Mobil)!');
+                return;
+            }
+
+            const formData = new FormData(document.getElementById('driverSignupForm'));
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Mengunggah Berkas & Mendaftar...</span>';
+
+            try {
+                const res = await fetch('/api/driver.php?action=register', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const rawText = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (e) {
+                    console.error('Invalid server response:', rawText);
+                    alert('⚠️ Terjadi respon tak terduga dari server: ' + (rawText.substring(0, 150) || 'Status ' + res.status));
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>🚀</span><span>DAFTAR JADI MITRA SEKARANG</span>';
+                    return;
+                }
+
+                if (data.success) {
+                    // Tampilkan kartu sukses
+                    document.getElementById('signupFormSection').style.display = 'none';
+                    document.getElementById('signupSuccessSection').style.display = 'block';
+
+                    const d = data.data;
+                    document.getElementById('resRegId').innerText = d.reg_id;
+                    document.getElementById('resName').innerText = d.name;
+                    document.getElementById('resUsername').innerText = d.username;
+                    document.getElementById('resPhone').innerText = d.phone;
+                    document.getElementById('resCar').innerText = d.car_model;
+                    document.getElementById('resPlate').innerText = d.car_plate;
+
+                    // Siapkan template chat WA ke Admin
+                    const waMsg = `Halo Admin Dropoff.id, saya baru saja mendaftar sebagai Mitra Sopir dengan rincian:%0A%0A` +
+                                  `• Nama: ${encodeURIComponent(d.name)}%0A` +
+                                  `• No. Registrasi: ${encodeURIComponent(d.reg_id)}%0A` +
+                                  `• No. WhatsApp: ${encodeURIComponent(d.phone)}%0A` +
+                                  `• Mobil: ${encodeURIComponent(d.car_model)} (${encodeURIComponent(d.car_plate)})%0A%0A` +
+                                  `Mohon bantuan verifikasi dan aktivasi akun saya agar dapat segera mengambil orderan lelang. Terima kasih!`;
+                    
+                    document.getElementById('btnWaAdminFast').href = `https://wa.me/6281234567891?text=${waMsg}`;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    alert('⚠️ ' + data.message);
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>🚀</span><span>DAFTAR JADI MITRA SEKARANG</span>';
+                }
+            } catch (err) {
+                alert('Gagal mengirim pendaftaran: ' + err.message);
+                btn.disabled = false;
+                btn.innerHTML = '<span>🚀</span><span>DAFTAR JADI MITRA SEKARANG</span>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -409,6 +409,10 @@
                 <div class="metric-title">KOMISI ADMIN LUNAS</div>
                 <div class="metric-value" style="color: var(--primary-blue);" id="statCommission">Rp 0</div>
             </div>
+            <div class="metric-card" style="border-left: 4px solid #2563EB;">
+                <div class="metric-title">CALON MITRA MENUNGGU AKTIVASI</div>
+                <div class="metric-value" style="color: #2563EB;" id="statPendingDrivers">0</div>
+            </div>
         </div>
 
         <!-- RADAR FLEET SEBARAN ARMADA (OPENSTREETMAP LEAFLET) -->
@@ -423,6 +427,43 @@
                 </button>
             </div>
             <div id="fleetMap"></div>
+        </div>
+
+        <!-- 0. PENDAFTARAN MITRA SOPIR (MENUNGGU AKTIVASI ADMIN) -->
+        <div class="section-card" id="pendingDriversCard" style="border-left: 4px solid #2563EB;">
+            <div class="section-header">
+                <div>
+                    <h2>📋 Pendaftaran Calon Mitra Sopir (Menunggu Verifikasi & Aktivasi)</h2>
+                    <div style="font-size: 13px; color: var(--text-muted);">Verifikasi kelengkapan KTP, SIM, dan foto mobil sebelum mengaktifkan akun sopir</div>
+                </div>
+                <button onclick="loadPendingDrivers()" style="padding: 6px 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                    🔄 Refresh Pendaftaran
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Waktu Daftar</th>
+                            <th>Nama Sopir</th>
+                            <th>Username</th>
+                            <th>No. WhatsApp</th>
+                            <th>NIK / SIM</th>
+                            <th>Armada & Plat</th>
+                            <th>Berkas Foto</th>
+                            <th>Status Akun</th>
+                            <th>Aksi Aktivasi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingDriversTableBody">
+                        <tr>
+                            <td colspan="9" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                Belum ada pendaftaran calon mitra baru.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- 1. SETORAN KOMISI MENUNGGU VERIFIKASI ADMIN (PASCA-BAYAR) -->
@@ -555,6 +596,11 @@
                     renderStats(data.stats);
                     renderSettlements(data.pendingSettlements);
                     renderOrders(data.latestOrders);
+                    if (data.pendingDrivers) {
+                        renderPendingDrivers(data.pendingDrivers);
+                    } else {
+                        loadPendingDrivers();
+                    }
                 }
             } catch (err) {
                 console.error(err);
@@ -566,6 +612,119 @@
             document.getElementById('statAuctions').innerText = s.activeAuctions;
             document.getElementById('statCompleted').innerText = s.completedOrders;
             document.getElementById('statCommission').innerText = 'Rp ' + parseFloat(s.totalCommissionPaid).toLocaleString('id-ID');
+            if (document.getElementById('statPendingDrivers')) {
+                document.getElementById('statPendingDrivers').innerText = s.pendingDriversCount || 0;
+            }
+        }
+
+        async function loadPendingDrivers() {
+            try {
+                const res = await fetch('/api/admin.php?action=pending_drivers');
+                const data = await res.json();
+                if (data.success) {
+                    renderPendingDrivers(data.data);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderPendingDrivers(list) {
+            const tbody = document.getElementById('pendingDriversTableBody');
+            if (!tbody) return;
+            if (!list || list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 25px;">Belum ada calon mitra sopir yang mendaftar saat ini.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            list.forEach(d => {
+                const tr = document.createElement('tr');
+                const isPending = (d.status === 'PENDING_ACTIVATION');
+                const statusBadge = isPending 
+                    ? '<span style="background: #FEF3C7; color: #92400E; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 800;">⏳ MENUNGGU AKTIVASI</span>'
+                    : (d.status === 'ACTIVE' 
+                        ? '<span style="background: #DCFCE7; color: #166534; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 800;">✅ AKTIF</span>'
+                        : '<span style="background: #FEE2E2; color: #991B1B; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 800;">❌ DITOLAK</span>');
+
+                tr.innerHTML = `
+                    <td><span style="font-size: 12px; color: var(--text-muted);">${d.created_at || '-'}</span></td>
+                    <td><b>${d.name}</b></td>
+                    <td><code>${d.username || '-'}</code></td>
+                    <td>
+                        <a href="https://wa.me/${d.phone.replace(/[^0-9]/g, '')}" target="_blank" style="color: #16A34A; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                            <span>💬 ${d.phone}</span>
+                        </a>
+                    </td>
+                    <td><span style="font-size: 12px;">${d.nik_sim || '-'}</span></td>
+                    <td>
+                        <b>${d.car_model || '-'}</b><br>
+                        <span style="background: #1E293B; color: #FFF; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">${d.car_plate || '-'}</span>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+                            ${d.photo_ktp ? `<button class="btn-view-proof" style="padding: 3px 8px; font-size: 11px;" onclick="viewProof('${d.photo_ktp}')">🪪 KTP</button>` : ''}
+                            ${d.photo_sim ? `<button class="btn-view-proof" style="padding: 3px 8px; font-size: 11px;" onclick="viewProof('${d.photo_sim}')">💳 SIM</button>` : ''}
+                            ${d.photo_car ? `<button class="btn-view-proof" style="padding: 3px 8px; font-size: 11px;" onclick="viewProof('${d.photo_car}')">🚘 Mobil</button>` : ''}
+                        </div>
+                    </td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        ${isPending ? `
+                            <div style="display: flex; gap: 6px;">
+                                <button onclick="activateDriver('${d.reg_id}', '${d.name}')" style="background: #16A34A; color: #FFF; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer;">
+                                    ✅ AKTIFKAN
+                                </button>
+                                <button onclick="rejectDriver('${d.reg_id}')" style="background: #EF4444; color: #FFF; border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">
+                                    ❌ Tolak
+                                </button>
+                            </div>
+                        ` : '<span style="font-size: 12px; color: var(--text-muted);">-</span>'}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function activateDriver(regId, name) {
+            if (!confirm(`Yakin ingin mengaktifkan akun sopir "${name}"? Setelah aktif, nomor sopir ini langsung dapat login dan mengambil orderan lelang.`)) return;
+            try {
+                const res = await fetch('/api/admin.php?action=activate_driver', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reg_id: regId })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('🎉 ' + data.message);
+                    loadPendingDrivers();
+                    loadAdminData();
+                } else {
+                    alert('⚠️ ' + data.message);
+                }
+            } catch (e) {
+                alert('Gagal aktivasi: ' + e.message);
+            }
+        }
+
+        async function rejectDriver(regId) {
+            const reason = prompt('Masukkan alasan penolakan pendaftaran (misal: Foto KTP buram / SIM kedaluwarsa):', 'Dokumen foto tidak lengkap / tidak jelas.');
+            if (!reason) return;
+            try {
+                const res = await fetch('/api/admin.php?action=reject_driver', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reg_id: regId, reason })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Pendaftaran ditolak.');
+                    loadPendingDrivers();
+                } else {
+                    alert(data.message);
+                }
+            } catch (e) {
+                alert(e.message);
+            }
         }
 
         function renderSettlements(list) {
