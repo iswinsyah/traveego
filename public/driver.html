@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Dropoff.id Mitra | PWA Sopir Mandiri</title>
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0A192F">
@@ -529,22 +532,21 @@
         <!-- 1. TAMPILAN LOGIN MITRA SOPIR & SUPER ADMIN -->
         <div id="loginScreen" class="login-card">
             <div class="login-logo">👋</div>
-            <h2 class="login-title">Login Mitra Sopir</h2>
-            <p class="login-subtitle">Masukkan No. WhatsApp mitra atau Username Super Admin untuk masuk ke radar Dropoff.id.</p>
+            <h2 class="login-title">Masuk ke Sistem Dropoff.id</h2>
+            <p class="login-subtitle">Silakan masukkan Nomor WhatsApp atau Username akun Anda.</p>
 
-            <div class="form-group">
-                <label>Nomor WhatsApp atau Username</label>
-                <input type="text" id="loginPhone" class="form-control" placeholder="No. WA (0812...) atau Username Admin" value="winsyah" autocomplete="username">
-            </div>
-            <div class="form-group">
-                <label>PIN atau Password</label>
-                <input type="password" id="loginPin" class="form-control" placeholder="PIN Mitra atau Password Admin" value="khilafet@1924" autocomplete="current-password">
-            </div>
+            <form onsubmit="event.preventDefault(); doDriverLogin();">
+                <div class="form-group">
+                    <label>Nomor WhatsApp / Username</label>
+                    <input type="text" id="loginPhone" class="form-control" placeholder="Masukkan No. WA atau Username" value="" autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label>PIN / Kata Sandi</label>
+                    <input type="password" id="loginPin" class="form-control" placeholder="Masukkan PIN atau Kata Sandi" value="" autocomplete="current-password" required>
+                </div>
 
-            <button type="button" class="btn-primary" onclick="doDriverLogin()">Masuk ke Sistem</button>
-            <div style="font-size: 12px; color: var(--text-muted); margin-top: 14px;">
-                *Login Super Admin: <b>winsyah</b> &bull; Mitra Demo: <b>081234567891</b> (PIN: <b>1234</b>)
-            </div>
+                <button type="submit" class="btn-primary" id="btnSubmitLogin">Masuk ke Sistem</button>
+            </form>
         </div>
 
         <!-- 2. DASHBOARD MITRA SOPIR (4 TAB) -->
@@ -876,16 +878,25 @@
         }
 
         async function doDriverLogin() {
-            const phone = document.getElementById('loginPhone').value.trim();
-            const pin = document.getElementById('loginPin').value.trim();
+            const phoneInput = document.getElementById('loginPhone');
+            const pinInput = document.getElementById('loginPin');
+            const btnSubmit = document.getElementById('btnSubmitLogin') || document.querySelector('#loginScreen .btn-primary');
+
+            const phone = phoneInput ? phoneInput.value.trim() : '';
+            const pin = pinInput ? pinInput.value.trim() : '';
 
             if (!phone || !pin) {
-                alert('Silakan masukkan No. WA dan PIN');
+                alert('Silakan masukkan Nomor WhatsApp / Username dan PIN / Kata Sandi');
                 return;
             }
 
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.innerText = '⏳ Memverifikasi Kredensial...';
+            }
+
             try {
-                const res = await fetch('/api/driver.php?action=login', {
+                const res = await fetch('/api/driver.php?action=login&_nocache=' + Date.now(), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone, pin })
@@ -897,10 +908,15 @@
                     localStorage.setItem('dropoff_driver', JSON.stringify(currentDriver));
                     showDashboard();
                 } else {
-                    alert(data.message);
+                    alert(data.message || 'Login gagal. Periksa kembali username dan kata sandi Anda.');
                 }
             } catch (err) {
-                alert('Gagal login: ' + err.message);
+                alert('Gagal terhubung ke server: ' + err.message);
+            } finally {
+                if (btnSubmit) {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerText = 'Masuk ke Sistem';
+                }
             }
         }
 
@@ -1029,8 +1045,7 @@
 
                 const data = await res.json();
                 if (data.success) {
-                    alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini!
-Silakan segera meluncur ke titik penjemputan.');
+                    alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini! Silakan segera meluncur ke titik penjemputan.');
                     activeOrder = data.data;
                     renderActiveTrip();
                     loadAuctionOrders();
