@@ -1007,7 +1007,7 @@
                                     <div class="fare-commission">Rp ${parseFloat(order.admin_commission).toLocaleString('id-ID')}</div>
                                 </div>
                             </div>
-                            <button class="btn-take-order" onclick="takeOrder(${order.id})">
+                            <button class="btn-take-order" onclick="takeOrder('${order.id || order.tracking_code}')">
                                 <span>⚡ AMBIL ORDER INI</span>
                             </button>
                         `;
@@ -1043,7 +1043,15 @@
                     })
                 });
 
-                const data = await res.json();
+                const rawText = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (parseErr) {
+                    console.error('Invalid server response:', rawText);
+                    alert('⚠️ Terjadi respon tak terduga dari server: ' + (rawText.substring(0, 150) || 'Status ' + res.status));
+                    return;
+                }
                 if (data.success) {
                     alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini! Silakan segera meluncur ke titik penjemputan.');
                     activeOrder = data.data;
@@ -1139,12 +1147,19 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        order_id: activeOrder.id,
+                        order_id: activeOrder.id || activeOrder.tracking_code,
                         status: nextStatus,
                         driver_id: currentDriver.id
                     })
                 });
-                const data = await res.json();
+                const rawText = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (pe) {
+                    alert('Gagal update status: ' + (rawText.substring(0, 150) || 'Status ' + res.status));
+                    return;
+                }
                 if (data.success) {
                     activeOrder.status = nextStatus;
                     renderActiveTrip();
@@ -1182,7 +1197,14 @@
                     method: 'POST',
                     body: formData
                 });
-                const data = await res.json();
+                const rawText = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (pe) {
+                    alert('Gagal mengirim setoran: ' + (rawText.substring(0, 150) || 'Status ' + res.status));
+                    return;
+                }
                 if (data.success) {
                     alert('🎉 Terima kasih! Konfirmasi setoran berhasil dikirim. Admin akan segera memverifikasi struk Anda.');
                     activeOrder = null;

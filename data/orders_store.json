@@ -1,20 +1,50 @@
 {
-    "TRX-8D79DA": {
-        "tracking_code": "TRX-8D79DA",
-        "customer_name": "Ibu Maya Lestari",
-        "customer_phone": "0812-****-7890",
-        "pickup_address": "Apartemen Mediterania Jakarta",
-        "destination_address": "Bandara Soetta T3",
-        "pickup_datetime": "2026-10-31 05:00",
-        "car_type": "Toyota Innova Reborn",
-        "car_model": "Toyota Innova Reborn",
-        "car_plate": "B 1421 KAZ",
-        "car_color": "Hitam / Silver",
-        "driver_name": "Pak Budi Santoso (Mitra Terpilih)",
-        "total_fare": 320000,
-        "status": "ACCEPTED",
-        "current_lat": -6.2088,
-        "current_lng": 106.8456,
-        "created_at": "2026-10-28 05:22:28"
-    }
+  "TRX-8821": {
+    "id": 1,
+    "tracking_code": "TRX-8821",
+    "customer_name": "Ibu Maya Lestari",
+    "customer_phone": "081987654321",
+    "customer_phone_masked": "0819-****-4321",
+    "pickup_address": "Terminal 3 Kedatangan Internasional Bandara Soetta",
+    "destination_address": "Jl. Dago No. 120, Coblong, Kota Bandung",
+    "pickup_datetime": "2026-10-31 09:30:00",
+    "car_type": "Toyota Innova Reborn",
+    "passenger_count": 3,
+    "total_fare": 1050000,
+    "admin_commission": 105000,
+    "status": "AUCTION",
+    "created_at": "2026-10-31 07:00:00"
+  },
+  "TRX-7712": {
+    "id": 2,
+    "tracking_code": "TRX-7712",
+    "customer_name": "Bpk. Handoko",
+    "customer_phone": "081233445566",
+    "customer_phone_masked": "0812-****-5566",
+    "pickup_address": "Kuningan City Mall, Jakarta Selatan",
+    "destination_address": "Jl. Pasteur No. 25, Sukajadi, Bandung",
+    "pickup_datetime": "2026-10-31 11:00:00",
+    "car_type": "Toyota All New Avanza",
+    "passenger_count": 2,
+    "total_fare": 700000,
+    "admin_commission": 70000,
+    "status": "AUCTION",
+    "created_at": "2026-10-31 07:05:00"
+  },
+  "TRX-9903": {
+    "id": 3,
+    "tracking_code": "TRX-9903",
+    "customer_name": "Ibu Dr. Ratna",
+    "customer_phone": "081399887766",
+    "customer_phone_masked": "0813-****-7766",
+    "pickup_address": "Halim Perdanakusuma Airport (HLP)",
+    "destination_address": "Ciumbuleuit, Cidadap, Kota Bandung",
+    "pickup_datetime": "2026-10-31 13:00:00",
+    "car_type": "Toyota HiAce Premio",
+    "passenger_count": 6,
+    "total_fare": 1600000,
+    "admin_commission": 160000,
+    "status": "AUCTION",
+    "created_at": "2026-10-31 07:10:00"
+  }
 }
