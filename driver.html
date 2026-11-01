@@ -294,17 +294,31 @@
             margin: 0 auto 10px;
         }
         .status-lbl {
-            font-size: 14px;
+            font-size: 14.5px;
             font-weight: 800;
             color: #64748B;
             cursor: pointer;
             transition: all 0.2s ease;
             user-select: none;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+        .status-lbl:hover {
+            color: #0F172A;
         }
         .status-lbl.active {
             color: #0F172A;
             font-weight: 900;
-            transform: scale(1.06);
+            transform: scale(1.08);
+        }
+        #lblService.active {
+            color: #2563EB;
+        }
+        #lblStandby.active {
+            color: #16A34A;
+        }
+        #lblOffline.active {
+            color: #64748B;
         }
         .status-track {
             width: 240px;
@@ -1015,7 +1029,7 @@
                         <span class="status-lbl active" id="lblStandby" onclick="setDriverStatusMode('standby')">Standby</span>
                         <span class="status-lbl" id="lblOffline" onclick="setDriverStatusMode('offline')">Offline</span>
                     </div>
-                    <div class="status-track" id="statusTrack" onclick="cycleDriverStatus()">
+                    <div class="status-track" id="statusTrack" onclick="handleTrackClick(event)" ontouchstart="handleTrackClick(event)">
                         <div class="status-knob" id="statusKnob"></div>
                     </div>
                     <div class="status-indicator-text" id="statusIndicatorText">🟢 Siaga Menerima Orderan (Standby)</div>
@@ -1273,15 +1287,16 @@
                 if (lblService) lblService.classList.add('active');
                 if (knob) {
                     knob.style.left = '4px';
-                    knob.style.background = '#3B82F6';
+                    knob.style.background = '#2563EB';
                 }
                 if (indText) {
-                    indText.innerText = '🔵 Sedang Bertugas (Service)';
+                    indText.innerText = '🔵 Status: Sedang Bertugas Melayani Penumpang (Service)';
                     indText.style.color = '#2563EB';
                 }
                 isOnlineState = true;
                 if (offlineNotice) offlineNotice.style.display = 'none';
 
+                // Jika ada order aktif, arahkan ke tab trip
                 if (activeOrder) {
                     switchDriverTab('trip');
                 }
@@ -1292,17 +1307,12 @@
                     knob.style.background = '#F59E0B';
                 }
                 if (indText) {
-                    indText.innerText = '🟢 Siaga Menerima Orderan (Standby)';
+                    indText.innerText = '🟢 Status: Siaga Menerima Orderan (Standby)';
                     indText.style.color = '#16A34A';
                 }
                 isOnlineState = true;
                 if (offlineNotice) offlineNotice.style.display = 'none';
                 loadAuctionOrders();
-            loadDriverArticles();
-            if (currentDriver && currentDriver.name) {
-                const avatarIcon = document.getElementById('headerAvatarIcon');
-                if (avatarIcon) avatarIcon.innerText = currentDriver.name.charAt(0).toUpperCase();
-            }
             } else if (mode === 'offline') {
                 if (lblOffline) lblOffline.classList.add('active');
                 if (knob) {
@@ -1310,7 +1320,7 @@
                     knob.style.background = '#94A3B8';
                 }
                 if (indText) {
-                    indText.innerText = '⚪ Mode Istirahat (Offline)';
+                    indText.innerText = '⚪ Status: Mode Istirahat / Off (Offline)';
                     indText.style.color = '#64748B';
                 }
                 isOnlineState = false;
@@ -1323,9 +1333,27 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         driver_id: currentDriver.id,
-                        is_online: mode === 'offline' ? 0 : 1
+                        is_online: mode === 'offline' ? 0 : 1,
+                        mode: mode
                     })
                 }).catch(console.warn);
+            }
+        }
+
+        function handleTrackClick(event) {
+            const track = document.getElementById('statusTrack');
+            if (!track) return;
+            const rect = track.getBoundingClientRect();
+            const clientX = event.clientX || (event.touches && event.touches[0] ? event.touches[0].clientX : 0);
+            const clickX = clientX - rect.left;
+            const width = rect.width;
+
+            if (clickX < width * 0.35) {
+                setDriverStatusMode('service');
+            } else if (clickX > width * 0.65) {
+                setDriverStatusMode('offline');
+            } else {
+                setDriverStatusMode('standby');
             }
         }
 
@@ -1335,7 +1363,7 @@
             } else if (driverMode === 'standby') {
                 setDriverStatusMode('offline');
             } else {
-                setDriverStatusMode('standby');
+                setDriverStatusMode('service');
             }
         }
 
