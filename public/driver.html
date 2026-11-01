@@ -17,18 +17,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-navy: #0A192F;
+            --primary-navy: #062145;
+            --navy-darker: #03142B;
             --royal-blue: #0B4FD8;
             --royal-blue-hover: #1D4ED8;
             --accent-green: #16A34A;
             --accent-green-hover: #15803D;
             --accent-gold: #F59E0B;
-            --bg-body: #F1F5F9;
+            --bg-body: #062145;
             --text-main: #0F172A;
             --text-muted: #64748B;
             --border-subtle: #E2E8F0;
             --radius-md: 12px;
-            --radius-lg: 16px;
+            --radius-lg: 18px;
+            --radius-xl: 32px;
         }
 
         * {
@@ -43,88 +45,317 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 90px;
+            padding-bottom: 96px;
         }
 
-        /* HEADER PWA */
-        .app-header {
-            background: linear-gradient(135deg, var(--primary-navy) 0%, #0F284E 100%);
-            color: #FFF;
-            padding: 14px 18px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        /* HEADER PWA (MATCHING DESIGN) */
+        .app-header-custom {
+            background: #062145;
+            color: #FFFFFF;
+            padding: 22px 20px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .app-title {
-            font-size: 16px;
-            font-weight: 800;
+        .brand-title-wrap {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: -0.3px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* TOGGLE STATUS SIAGA */
-        .status-toggle-btn {
-            display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 800;
+        }
+
+        .brand-text-logo {
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+        }
+
+        .btn-account-header {
+            background: none;
             border: none;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        .status-online {
-            background: #16A34A;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 0;
             color: #FFFFFF;
-            box-shadow: 0 0 12px rgba(22, 163, 74, 0.4);
+            transition: transform 0.2s;
         }
-        .status-offline {
-            background: #475569;
-            color: #E2E8F0;
+        .btn-account-header:active {
+            transform: scale(0.92);
+        }
+
+        .account-avatar-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.9);
+            color: #062145;
+        }
+
+        .account-label {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: 0.3px;
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
-            padding: 14px;
+            padding: 0 14px 20px;
+        }
+
+        /* WHITE COCKPIT CARD (ROUNDED SURFACE) */
+        .driver-cockpit-card {
+            background: #FFFFFF;
+            border-radius: var(--radius-xl);
+            padding: 24px 18px 24px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* 3 SQUIRCLE ACTION BUTTONS */
+        .squircle-grid {
+            display: flex;
+            justify-content: space-around;
+            max-width: 330px;
+            margin: 4px auto 26px;
+        }
+        .squircle-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.15s ease;
+        }
+        .squircle-item:active {
+            transform: scale(0.92);
+        }
+        .squircle-box {
+            width: 66px;
+            height: 66px;
+            border-radius: 18px;
+            background: #062145;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #FFFFFF;
+            box-shadow: 0 6px 18px rgba(6,33,69,0.32);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .squircle-box:hover {
+            background: #092C5A;
+            box-shadow: 0 8px 22px rgba(6,33,69,0.4);
+        }
+        .squircle-label {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0F172A;
+            margin-top: 8px;
+            letter-spacing: -0.2px;
+        }
+
+        /* ARTIKEL & TIPS SECTION */
+        .articles-header-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: #0F172A;
+            text-align: center;
+            margin-bottom: 14px;
+            letter-spacing: -0.2px;
+        }
+        .driver-articles-scroll {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+        .driver-articles-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        @media (max-width: 440px) {
+            .driver-articles-scroll {
+                grid-template-columns: repeat(3, 142px);
+            }
+        }
+        .driver-article-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(15,23,42,0.04);
+            transition: transform 0.2s;
+        }
+        .driver-article-card:active {
+            transform: scale(0.98);
+        }
+        .driver-article-thumb-wrap {
+            position: relative;
+            width: 100%;
+            height: 74px;
+            background: #E2E8F0;
+            overflow: hidden;
+        }
+        .driver-article-thumb-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .driver-article-badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: rgba(15,23,42,0.85);
+            color: #FFFFFF;
+            font-size: 7px;
+            font-weight: 800;
+            padding: 2px 5px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .driver-article-body {
+            padding: 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .driver-article-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #0F172A;
+            line-height: 1.35;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .driver-article-desc {
+            font-size: 8px;
+            color: #64748B;
+            line-height: 1.3;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .driver-article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8px;
+            padding-top: 4px;
+            border-top: 1px dashed #F1F5F9;
+        }
+        .driver-article-date {
+            color: #94A3B8;
+        }
+        .driver-article-link {
+            color: #0B4FD8;
+            font-weight: 800;
+        }
+
+        /* STATUS SLIDER: Service | Standby | Offline */
+        .status-slider-container {
+            text-align: center;
+            padding-top: 2px;
+        }
+        .status-labels-row {
+            display: flex;
+            justify-content: space-between;
+            width: 240px;
+            margin: 0 auto 10px;
+        }
+        .status-lbl {
+            font-size: 14px;
+            font-weight: 800;
+            color: #64748B;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .status-lbl.active {
+            color: #0F172A;
+            font-weight: 900;
+            transform: scale(1.06);
+        }
+        .status-track {
+            width: 240px;
+            height: 44px;
+            background: #062145;
+            border-radius: 22px;
+            margin: 0 auto 8px;
+            position: relative;
+            cursor: pointer;
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+        }
+        .status-knob {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #F59E0B;
+            position: absolute;
+            top: 3px;
+            left: calc(50% - 19px); /* Standby (Center) */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+            transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+        }
+        .status-indicator-text {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #16A34A;
+            margin-top: 4px;
         }
 
         /* LOGIN SCREEN */
         .login-card {
-            background: #FFF;
+            background: #FFFFFF;
             padding: 32px 24px;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-            margin-top: 36px;
+            border-radius: var(--radius-xl);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+            margin-top: 24px;
             text-align: center;
-            border: 1px solid var(--border-subtle);
+            border: 1px solid rgba(255,255,255,0.2);
         }
         .login-logo { font-size: 42px; margin-bottom: 12px; }
-        .login-title { font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 6px; }
+        .login-title { font-size: 20px; font-weight: 800; color: #062145; margin-bottom: 6px; }
         .login-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
         .form-group { text-align: left; margin-bottom: 16px; }
         .form-group label { font-size: 12px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 6px; }
-        .form-control { width: 100%; padding: 12px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 15px; outline: none; transition: border-color 0.2s; }
+        .form-control { width: 100%; padding: 12px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 15px; outline: none; transition: border-color 0.2s; background: #FFF; }
         .form-control:focus { border-color: var(--royal-blue); }
         .btn-primary {
             width: 100%;
-            background: linear-gradient(135deg, var(--royal-blue), #1E40AF);
+            background: linear-gradient(135deg, #0B4FD8, #062145);
             color: #FFF;
             padding: 14px;
             border-radius: 12px;
@@ -144,13 +375,17 @@
             align-items: center;
             justify-content: space-between;
             margin: 14px 0 10px;
+            background: rgba(255,255,255,0.08);
+            padding: 10px 14px;
+            border-radius: 12px;
         }
         .radar-title {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 8px;
+            color: #FFFFFF;
         }
         .radar-pulse {
             width: 10px;
@@ -248,8 +483,6 @@
             margin-bottom: 12px;
             letter-spacing: 0.3px;
         }
-
-        /* NAVIGATION BUTTONS (GOOGLE MAPS & WAZE 100% GRATIS) */
         .nav-btn-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -297,7 +530,6 @@
             gap: 8px;
             margin-bottom: 12px;
         }
-
         .btn-status-flow {
             width: 100%;
             background: var(--royal-blue);
@@ -345,12 +577,13 @@
 
         /* RIWAYAT & DOMPET */
         .wallet-card {
-            background: linear-gradient(135deg, var(--primary-navy) 0%, #1E3A8A 100%);
+            background: linear-gradient(135deg, #062145 0%, #1E3A8A 100%);
             color: #FFF;
             border-radius: var(--radius-lg);
             padding: 20px;
             margin-bottom: 18px;
             box-shadow: 0 10px 25px rgba(10, 25, 47, 0.2);
+            border: 1px solid rgba(255,255,255,0.12);
         }
         .wallet-stat-row {
             display: flex;
@@ -389,6 +622,78 @@
             border: 3px solid var(--royal-blue);
         }
 
+        /* BOTTOM DOCK (DEEP NAVY THEME) */
+        .pwa-bottom-dock {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #062145;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 10px 14px;
+            z-index: 99;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+        }
+        .dock-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #94A3B8;
+            background: none;
+            border: none;
+            font-size: 10.5px;
+            font-weight: 700;
+            gap: 3px;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .dock-btn.active {
+            color: #38BDF8; /* Cyan Highlight */
+        }
+        .dock-badge-dot {
+            position: absolute;
+            top: 2px;
+            right: 14px;
+            width: 8px;
+            height: 8px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: none;
+        }
+
+        /* MODAL POPUPS */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            backdrop-filter: blur(3px);
+        }
+        .modal-card-popup {
+            background: #FFFFFF;
+            border-radius: 24px;
+            max-width: 400px;
+            width: 100%;
+            padding: 26px 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         /* IN-APP CHAT MODAL */
         .chat-modal-overlay {
             display: none;
@@ -412,7 +717,7 @@
         }
         .chat-header {
             padding: 14px 18px;
-            background: var(--primary-navy);
+            background: #062145;
             color: #FFF;
             display: flex;
             justify-content: space-between;
@@ -456,51 +761,6 @@
             gap: 8px;
         }
 
-        /* BOTTOM NAVIGATION PWA */
-        .pwa-bottom-dock {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--primary-navy);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 10px 14px;
-            z-index: 99;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
-        }
-        .dock-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #94A3B8;
-            background: none;
-            border: none;
-            font-size: 10.5px;
-            font-weight: 700;
-            gap: 3px;
-            cursor: pointer;
-            padding: 4px 10px;
-            border-radius: 12px;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .dock-btn.active {
-            color: #38BDF8;
-        }
-        .dock-badge-dot {
-            position: absolute;
-            top: 2px;
-            right: 14px;
-            width: 8px;
-            height: 8px;
-            background: #EF4444;
-            border-radius: 50%;
-            display: none;
-        }
-
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -514,17 +774,17 @@
 </head>
 <body>
 
-    <!-- HEADER APLIKASI -->
-    <header class="app-header">
-        <div class="app-title">
-            <span>🚘 Dropoff.id Mitra</span>
+    <!-- HEADER APLIKASI (DEEP NAVY) -->
+    <header class="app-header-custom">
+        <div class="brand-title-wrap">
+            <span class="brand-text-logo">DROPOFF.ID</span>
         </div>
-        <div class="header-actions">
-            <button class="status-toggle-btn status-online" id="btnStatusToggle" onclick="toggleDriverOnlineStatus()">
-                <span class="radar-pulse" style="width:7px; height:7px; background:#FFF;"></span>
-                <span id="txtStatusToggle">SIAP NARIK</span>
-            </button>
-        </div>
+        <button type="button" class="btn-account-header" onclick="switchDriverTab('profile')" title="Buka Profil Akun">
+            <div class="account-avatar-circle">
+                <span id="headerAvatarIcon">👤</span>
+            </div>
+            <span class="account-label">Akun</span>
+        </button>
     </header>
 
     <div class="container">
@@ -558,6 +818,100 @@
 
         <!-- 2. DASHBOARD MITRA SOPIR (4 TAB) -->
         <div id="mainDashboard" style="display: none;">
+
+            <!-- WHITE COCKPIT CARD (MATCHING USER SCREENSHOT) -->
+            <div class="driver-cockpit-card">
+                
+                <!-- 3 SQUIRCLE ACTION BUTTONS: TOP UP | SALDO | RIWAYAT -->
+                <div class="squircle-grid">
+                    <div class="squircle-item" onclick="openTopUpModal()">
+                        <div class="squircle-box">
+                            <span>💳</span>
+                        </div>
+                        <span class="squircle-label">Top Up</span>
+                    </div>
+
+                    <div class="squircle-item" onclick="openSaldoModal()">
+                        <div class="squircle-box">
+                            <span>💰</span>
+                        </div>
+                        <span class="squircle-label">Saldo</span>
+                    </div>
+
+                    <div class="squircle-item" onclick="switchDriverTab('history')">
+                        <div class="squircle-box">
+                            <span>📊</span>
+                        </div>
+                        <span class="squircle-label">Riwayat</span>
+                    </div>
+                </div>
+
+                <!-- ARTIKEL & TIPS SECTION -->
+                <div class="articles-header-title">Artikel &amp; Tips</div>
+                <div class="driver-articles-scroll" id="driverArticlesContainer">
+                    <!-- CARD 1 (FALLBACK + LIVE SYNC) -->
+                    <a href="/blog/tips-memilih-layanan-drop-off-privat-antar-kota-terbaik" target="_blank" class="driver-article-card">
+                        <div class="driver-article-thumb-wrap">
+                            <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=400&q=80" alt="Tips Memilih Layanan Drop Off Privat" loading="lazy">
+                            <span class="driver-article-badge">PANDUAN &amp; TIPS</span>
+                        </div>
+                        <div class="driver-article-body">
+                            <div class="driver-article-title">Tips Memilih Layanan Drop Off Privat Antar Kota Terbaik &amp; Amanah 2026</div>
+                            <div class="driver-article-desc">Panduan cerdas memilih vendor sewa drop off privat antar kota All-In BBM &amp; Tol.</div>
+                            <div class="driver-article-footer">
+                                <span class="driver-article-date">📅 02 Nov 2026</span>
+                                <span class="driver-article-link">Baca Panduan &rarr;</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- CARD 2 (FALLBACK + LIVE SYNC) -->
+                    <a href="/blog/panduan-tarif-drop-off-jabodetabek-ke-bandara-internasional-soekarno-hatta" target="_blank" class="driver-article-card">
+                        <div class="driver-article-thumb-wrap">
+                            <img src="https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=400&q=80" alt="Panduan Tarif Drop Off Bandara Soetta" loading="lazy">
+                            <span class="driver-article-badge">INFO BANDARA &amp; PENERBANGAN</span>
+                        </div>
+                        <div class="driver-article-body">
+                            <div class="driver-article-title">Panduan Tarif Sewa Drop Off ke Bandara Soekarno Hatta 2026</div>
+                            <div class="driver-article-desc">Estimasi tarif sewa drop off ke Bandara Soekarno Hatta All-In Tol bebas repot.</div>
+                            <div class="driver-article-footer">
+                                <span class="driver-article-date">📅 01 Nov 2026</span>
+                                <span class="driver-article-link">Baca Panduan &rarr;</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- CARD 3 (FALLBACK + LIVE SYNC) -->
+                    <a href="/blog/carter-drop-off-jakarta-ke-bandung-liburan-akhir-pekan" target="_blank" class="driver-article-card">
+                        <div class="driver-article-thumb-wrap">
+                            <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80" alt="Carter Drop Off Jakarta Bandung" loading="lazy">
+                            <span class="driver-article-badge">WISATA &amp; RUTE</span>
+                        </div>
+                        <div class="driver-article-body">
+                            <div class="driver-article-title">Carter Drop Off Jakarta ke Bandung: Solusi Liburan Akhir Pekan Bebas Ribet 2026</div>
+                            <div class="driver-article-desc">Layanan carter drop off Jakarta ke Bandung privat akhir pekan via Tol MBZ All-In.</div>
+                            <div class="driver-article-footer">
+                                <span class="driver-article-date">📅 31 Okt 2026</span>
+                                <span class="driver-article-link">Baca Panduan &rarr;</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 3-WAY STATUS SLIDER: Service | Standby | Offline -->
+                <div class="status-slider-container">
+                    <div class="status-labels-row">
+                        <span class="status-lbl" id="lblService" onclick="setDriverStatusMode('service')">Service</span>
+                        <span class="status-lbl active" id="lblStandby" onclick="setDriverStatusMode('standby')">Standby</span>
+                        <span class="status-lbl" id="lblOffline" onclick="setDriverStatusMode('offline')">Offline</span>
+                    </div>
+                    <div class="status-track" id="statusTrack" onclick="cycleDriverStatus()">
+                        <div class="status-knob" id="statusKnob"></div>
+                    </div>
+                    <div class="status-indicator-text" id="statusIndicatorText">🟢 Siaga Menerima Orderan (Standby)</div>
+                </div>
+
+            </div>
 
             <!-- TAB 1: RADAR LELANG PESANAN -->
             <div id="tabRadarSection">
@@ -786,6 +1140,153 @@
     <audio id="audioAlert" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <script>
+
+        let driverMode = 'standby'; // 'service' | 'standby' | 'offline'
+
+        function setDriverStatusMode(mode) {
+            driverMode = mode;
+            const knob = document.getElementById('statusKnob');
+            const lblService = document.getElementById('lblService');
+            const lblStandby = document.getElementById('lblStandby');
+            const lblOffline = document.getElementById('lblOffline');
+            const indText = document.getElementById('statusIndicatorText');
+            const offlineNotice = document.getElementById('offlineNotice');
+
+            [lblService, lblStandby, lblOffline].forEach(l => l && l.classList.remove('active'));
+
+            if (mode === 'service') {
+                if (lblService) lblService.classList.add('active');
+                if (knob) {
+                    knob.style.left = '4px';
+                    knob.style.background = '#3B82F6';
+                }
+                if (indText) {
+                    indText.innerText = '🔵 Sedang Bertugas (Service)';
+                    indText.style.color = '#2563EB';
+                }
+                isOnlineState = true;
+                if (offlineNotice) offlineNotice.style.display = 'none';
+
+                if (activeOrder) {
+                    switchDriverTab('trip');
+                }
+            } else if (mode === 'standby') {
+                if (lblStandby) lblStandby.classList.add('active');
+                if (knob) {
+                    knob.style.left = 'calc(50% - 19px)';
+                    knob.style.background = '#F59E0B';
+                }
+                if (indText) {
+                    indText.innerText = '🟢 Siaga Menerima Orderan (Standby)';
+                    indText.style.color = '#16A34A';
+                }
+                isOnlineState = true;
+                if (offlineNotice) offlineNotice.style.display = 'none';
+                loadAuctionOrders();
+            loadDriverArticles();
+            if (currentDriver && currentDriver.name) {
+                const avatarIcon = document.getElementById('headerAvatarIcon');
+                if (avatarIcon) avatarIcon.innerText = currentDriver.name.charAt(0).toUpperCase();
+            }
+            } else if (mode === 'offline') {
+                if (lblOffline) lblOffline.classList.add('active');
+                if (knob) {
+                    knob.style.left = 'calc(100% - 42px)';
+                    knob.style.background = '#94A3B8';
+                }
+                if (indText) {
+                    indText.innerText = '⚪ Mode Istirahat (Offline)';
+                    indText.style.color = '#64748B';
+                }
+                isOnlineState = false;
+                if (offlineNotice) offlineNotice.style.display = 'block';
+            }
+
+            if (currentDriver) {
+                fetch('/api/driver.php?action=toggle_online', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        driver_id: currentDriver.id,
+                        is_online: mode === 'offline' ? 0 : 1
+                    })
+                }).catch(console.warn);
+            }
+        }
+
+        function cycleDriverStatus() {
+            if (driverMode === 'service') {
+                setDriverStatusMode('standby');
+            } else if (driverMode === 'standby') {
+                setDriverStatusMode('offline');
+            } else {
+                setDriverStatusMode('standby');
+            }
+        }
+
+        // MODAL HANDLERS
+        function openTopUpModal() {
+            const m = document.getElementById('topUpModal');
+            if (m) m.style.display = 'flex';
+        }
+        function closeTopUpModal(e) {
+            if (!e || e.target.id === 'topUpModal') {
+                const m = document.getElementById('topUpModal');
+                if (m) m.style.display = 'none';
+            }
+        }
+        function copyTopUpAccount() {
+            navigator.clipboard.writeText('1234567890');
+            alert('✅ Nomor rekening BCA Operasional (1234567890) berhasil disalin!');
+        }
+
+        function openSaldoModal() {
+            const m = document.getElementById('saldoModal');
+            if (m) {
+                const bal = document.getElementById('walletTotalNet')?.innerText || 'Rp 0';
+                const el = document.getElementById('modalNetBalance');
+                if (el) el.innerText = bal;
+                m.style.display = 'flex';
+            }
+        }
+        function closeSaldoModal(e) {
+            if (!e || e.target.id === 'saldoModal') {
+                const m = document.getElementById('saldoModal');
+                if (m) m.style.display = 'none';
+            }
+        }
+
+        // LOAD DYNAMIC ARTICLES
+        async function loadDriverArticles() {
+            try {
+                const res = await fetch('/api/articles.php?limit=3');
+                const data = await res.json();
+                if (data.success && Array.isArray(data.articles) && data.articles.length > 0) {
+                    const container = document.getElementById('driverArticlesContainer');
+                    if (!container) return;
+                    container.innerHTML = data.articles.map(art => {
+                        const dateStr = art.published_at ? new Date(art.published_at).toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'}) : '02 Nov 2026';
+                        return `
+                            <a href="${art.url}" target="_blank" class="driver-article-card">
+                                <div class="driver-article-thumb-wrap">
+                                    <img src="${art.featured_image || 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=400&q=80'}" alt="${art.title}" loading="lazy">
+                                    <span class="driver-article-badge">${art.category || 'Panduan'}</span>
+                                </div>
+                                <div class="driver-article-body">
+                                    <div class="driver-article-title">${art.title}</div>
+                                    <div class="driver-article-desc">${art.meta_description || ''}</div>
+                                    <div class="driver-article-footer">
+                                        <span class="driver-article-date">📅 ${dateStr}</span>
+                                        <span class="driver-article-link">Baca Panduan &rarr;</span>
+                                    </div>
+                                </div>
+                            </a>
+                        `;
+                    }).join('');
+                }
+            } catch(e) {}
+        }
+
         let currentDriver = null;
         let activeOrder = null;
         let lastAuctionCount = 0;
@@ -838,6 +1339,10 @@
 
         // TAB SWITCHER
         function switchDriverTab(tab) {
+            const cockpit = document.querySelector('.driver-cockpit-card');
+            if (cockpit) {
+                cockpit.style.display = tab === 'radar' ? 'block' : 'none';
+            }
             document.getElementById('tabRadarSection').style.display = tab === 'radar' ? 'block' : 'none';
             document.getElementById('tabTripSection').style.display = tab === 'trip' ? 'block' : 'none';
             document.getElementById('tabHistorySection').style.display = tab === 'history' ? 'block' : 'none';
@@ -1352,5 +1857,47 @@
             }
         }
     </script>
+
+    <!-- MODAL TOP UP KOMISI -->
+    <div class="modal-overlay" id="topUpModal" onclick="closeTopUpModal(event)">
+        <div class="modal-card-popup" onclick="event.stopPropagation()">
+            <div style="font-size: 32px; margin-bottom: 8px;">💳</div>
+            <h3 style="font-size: 17px; font-weight: 800; color: #062145; margin-bottom: 6px;">Top Up / Setoran Komisi</h3>
+            <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                Dropoff.id menggunakan skema <b>Pasca-Bayar (0% Potongan di Awal)</b>. Sopir menerima cash penuh dari tamu, lalu menyetorkan komisi platform ke rekening operasional:
+            </p>
+            <div style="background: #F0FDF4; border: 1.5px dashed #16A34A; border-radius: 12px; padding: 14px; text-align: left; margin-bottom: 16px;">
+                <div style="font-size: 11px; font-weight: 800; color: #16A34A; text-transform: uppercase;">Rekening Resmi Dropoff.id</div>
+                <div style="font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: 1px; margin: 4px 0;">BCA: 1234567890</div>
+                <div style="font-size: 12px; color: #64748B;">a/n Dropoff.id Operasional</div>
+            </div>
+            <button type="button" class="btn-primary" style="background: #16A34A; margin-bottom: 8px;" onclick="copyTopUpAccount()">
+                📋 Salin Nomor Rekening BCA
+            </button>
+            <button type="button" class="btn-primary" style="background: #E2E8F0; color: #0F172A; box-shadow: none;" onclick="closeTopUpModal()">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL SALDO DOMPET -->
+    <div class="modal-overlay" id="saldoModal" onclick="closeSaldoModal(event)">
+        <div class="modal-card-popup" onclick="event.stopPropagation()">
+            <div style="font-size: 32px; margin-bottom: 8px;">💰</div>
+            <h3 style="font-size: 17px; font-weight: 800; color: #062145; margin-bottom: 6px;">Dompet Saldo Mitra</h3>
+            <div style="background: #062145; color: #FFF; border-radius: 16px; padding: 20px; text-align: center; margin: 16px 0;">
+                <div style="font-size: 12px; opacity: 0.8;">Total Penghasilan Bersih Anda</div>
+                <div style="font-size: 26px; font-weight: 900; margin-top: 6px; color: #38BDF8;" id="modalNetBalance">Rp 0</div>
+                <div style="font-size: 11.5px; opacity: 0.8; margin-top: 4px;">100% Cash Langsung di Tangan Anda</div>
+            </div>
+            <button type="button" class="btn-primary" onclick="closeSaldoModal(); switchDriverTab('history');">
+                📊 Buka Riwayat Lengkap &rarr;
+            </button>
+            <button type="button" class="btn-primary" style="background: #E2E8F0; color: #0F172A; box-shadow: none; margin-top: 8px;" onclick="closeSaldoModal()">
+                Tutup
+            </button>
+        </div>
+    </div>
+
 </body>
 </html>
