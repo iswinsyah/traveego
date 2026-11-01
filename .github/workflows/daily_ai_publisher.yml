@@ -1,0 +1,16 @@
+name: Daily AI Content Publisher Ping
+
+on:
+  schedule:
+    # Berjalan setiap hari pukul 00:00 UTC (07:00 WIB)
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-publisher:
+    name: 🤖 Trigger Autonomous Daily Article Publisher
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🌐 Ping Dropoff.id Daily Article Web-Cron
+        run: |
+          curl -s -k "https://dropoff.id/api/articles.php?cron_trigger=1" || true
