@@ -770,6 +770,114 @@
             border: 1px dashed #CBD5E1;
             margin-top: 10px;
         }
+    
+        /* ZONA TINGGI PERMINTAAN (DEMAND RADAR CHIPS) */
+        .demand-zones-wrap {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px dashed #E2E8F0;
+            text-align: left;
+        }
+        .demand-zones-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 9px;
+            padding: 0 2px;
+        }
+        .demand-header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .demand-flame {
+            font-size: 14px;
+            animation: flamePulse 1.2s infinite alternate ease-in-out;
+        }
+        @keyframes flamePulse {
+            0% { transform: scale(0.9); }
+            100% { transform: scale(1.2); }
+        }
+        .demand-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #475569;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+        .demand-sub-badge {
+            font-size: 9px;
+            font-weight: 700;
+            color: #16A34A;
+            background: #DCFCE7;
+            padding: 2px 7px;
+            border-radius: 10px;
+        }
+        .demand-chips-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .demand-chips-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .demand-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 7px 11px;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+        .demand-chip:active {
+            transform: scale(0.96);
+        }
+        .demand-chip:hover {
+            border-color: #CBD5E1;
+            background: #F1F5F9;
+        }
+        .chip-icon {
+            font-size: 16px;
+        }
+        .chip-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .chip-name {
+            font-size: 11px;
+            font-weight: 800;
+            color: #0F172A;
+            white-space: nowrap;
+        }
+        .chip-badge {
+            font-size: 8.5px;
+            font-weight: 800;
+            margin-top: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .chip-badge.red {
+            color: #DC2626;
+        }
+        .chip-badge.orange {
+            color: #D97706;
+        }
+        .chip-badge.blue {
+            color: #2563EB;
+        }
+        .chip-badge.green {
+            color: #16A34A;
+        }
+    
     </style>
 </head>
 <body>
@@ -1140,6 +1248,11 @@
     <audio id="audioAlert" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <script>
+
+        function showDemandTip(loc, tip) {
+            alert('📍 Info Zona: ' + loc + '\n\n💡 Rekomendasi Radar:\n' + tip);
+        }
+    
 
         let driverMode = 'standby'; // 'service' | 'standby' | 'offline'
 
