@@ -14,3 +14,4 @@ jobs:
       - name: 🌐 Ping Dropoff.id Daily Article Web-Cron
         run: |
           curl -s -k "https://dropoff.id/api/articles.php?cron_trigger=1" || true
+
