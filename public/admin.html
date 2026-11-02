@@ -277,7 +277,55 @@
             </div>
         </div>
 
-                <!-- MENU TRAINING & PROMPT SYSTEM CS AI (MBAK HASNA) -->
+        <!-- KOTAK PENGATURAN REKENING BANK RESMI PLATFORM (TOP UP & SETORAN KOMISI) -->
+        <div class="section-card" id="bankSettingCard" style="border-left: 4px solid #0284C7; background: #FFFFFF; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: #E0F2FE; color: #0284C7; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                        🏦
+                    </div>
+                    <div>
+                        <h3 style="font-size: 16px; font-weight: 800; color: #0F172A; margin: 0 0 3px 0;">
+                            Pengaturan Rekening Bank Resmi Platform
+                        </h3>
+                        <p style="font-size: 12.5px; color: #64748B; margin: 0;">
+                            Rekening ini otomatis ditampilkan ke mitra sopir untuk <strong>Top Up Saldo Deposit</strong> &amp; <strong>Setoran Komisi Pasca-Bayar</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <button type="button" onclick="saveAdminBankSettings()" id="btnSaveBankConfig" style="height: 42px; padding: 0 20px; background: #0284C7; color: #FFF; border: none; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2,132,199,0.3);">
+                        <span>💾</span>
+                        <span>Simpan Rekening Bank</span>
+                    </button>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #F1F5F9;">
+                <div>
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">Nama Bank:</label>
+                    <input type="text" id="adminBankNameInput" placeholder="Contoh: BCA / Mandiri / BRI" style="width: 100%; box-sizing: border-box; height: 40px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13.5px; font-weight: 700; color: #0F172A;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">Nomor Rekening:</label>
+                    <input type="text" id="adminBankAccountInput" placeholder="Contoh: 1234567890" style="width: 100%; box-sizing: border-box; height: 40px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 14px; font-weight: 800; color: #0F172A; letter-spacing: 0.5px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">Atas Nama (Pemilik Rekening):</label>
+                    <input type="text" id="adminBankHolderInput" placeholder="Contoh: Dropoff.id Operasional" style="width: 100%; box-sizing: border-box; height: 40px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13.5px; font-weight: 700; color: #0F172A;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">Instruksi Tambahan (Opsional):</label>
+                    <input type="text" id="adminBankNotesInput" placeholder="Contoh: Berita transfer no HP / ID driver" style="width: 100%; box-sizing: border-box; height: 40px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13px; color: #475569;">
+                </div>
+            </div>
+            <div id="bankConfigSaveAlert" style="display: none; margin-top: 10px; font-size: 12px; font-weight: 700; color: #16A34A;">
+                ✅ Rekening bank berhasil disimpan dan langsung aktif di PWA Driver!
+            </div>
+        </div>
+
+        <!-- MENU TRAINING & PROMPT SYSTEM CS AI (MBAK HASNA) -->
         <div class="section-card" id="hasnaTrainingCard" style="border-left: 4px solid #2563EB; background: #FFFFFF; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(37,99,235,0.06);">
             <!-- HEADER -->
             <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
@@ -727,6 +775,9 @@
                     renderSettlements(data.pendingSettlements);
                     renderTopups(data.pendingTopups);
                     renderOrders(data.latestOrders);
+                    if (data.adminBank) {
+                        populateAdminBankInputs(data.adminBank);
+                    }
                     if (data.costMatrix) {
                         renderHendraMatrix(data.costMatrix);
                     } else {
@@ -1390,6 +1441,64 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<span>💾</span><span>Simpan Nomor</span>';
+            }
+        }
+
+        // PENGATURAN REKENING BANK RESMI PLATFORM
+        function populateAdminBankInputs(bank) {
+            if (!bank) return;
+            const nameEl = document.getElementById('adminBankNameInput');
+            const accEl = document.getElementById('adminBankAccountInput');
+            const holderEl = document.getElementById('adminBankHolderInput');
+            const notesEl = document.getElementById('adminBankNotesInput');
+            if (nameEl && document.activeElement !== nameEl) nameEl.value = bank.bank || '';
+            if (accEl && document.activeElement !== accEl) accEl.value = bank.account || '';
+            if (holderEl && document.activeElement !== holderEl) holderEl.value = bank.holder || '';
+            if (notesEl && document.activeElement !== notesEl) notesEl.value = bank.instructions || '';
+        }
+
+        async function saveAdminBankSettings() {
+            const bank = document.getElementById('adminBankNameInput')?.value.trim();
+            const account = document.getElementById('adminBankAccountInput')?.value.trim();
+            const holder = document.getElementById('adminBankHolderInput')?.value.trim();
+            const instructions = document.getElementById('adminBankNotesInput')?.value.trim() || '';
+
+            if (!bank || !account || !holder) {
+                alert('Mohon isi Nama Bank, Nomor Rekening, dan Atas Nama dengan lengkap!');
+                return;
+            }
+
+            const btn = document.getElementById('btnSaveBankConfig');
+            const oldText = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span><span>Menyimpan...</span>';
+            }
+
+            try {
+                const res = await fetch('/api/admin.php?action=save_bank_config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bank, account, holder, instructions })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const alertBox = document.getElementById('bankConfigSaveAlert');
+                    if (alertBox) {
+                        alertBox.style.display = 'block';
+                        setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
+                    }
+                    alert('🎉 ' + data.message);
+                } else {
+                    alert('⚠️ ' + data.message);
+                }
+            } catch (e) {
+                alert('Gagal menyimpan rekening bank: ' + e.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = oldText;
+                }
             }
         }
 

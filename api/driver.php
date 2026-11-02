@@ -582,4 +582,12 @@ if ($action === 'topup_history') {
     }
 }
 
+// 7. INFORMASI REKENING RESMI PLATFORM UNTUK TOP UP & SETORAN
+if ($action === 'bank_info') {
+    sendJson([
+        'success' => true,
+        'data' => getAdminBankInfo()
+    ]);
+}
+
 sendJson(['success' => false, 'message' => 'Action tidak dikenali'], 404);

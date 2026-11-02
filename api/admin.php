@@ -205,11 +205,7 @@ if ($action === 'stats') {
             'pendingTopups' => $pendingTopups,
             'pendingDrivers' => array_values($pendingDrivers),
             'costMatrix' => $costMatrix,
-            'adminBank' => [
-                'bank' => ADMIN_BANK_NAME,
-                'account' => ADMIN_BANK_ACCOUNT,
-                'holder' => ADMIN_BANK_HOLDER
-            ]
+            'adminBank' => getAdminBankInfo()
         ]);
     } catch (Throwable $e) {
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);
@@ -474,6 +470,30 @@ if ($action === 'verify_topup') {
             $pdo->rollBack();
         }
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
+// 2c. SIMPAN PENGATURAN REKENING BANK PLATFORM
+if ($action === 'save_bank_config') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $bank = trim($input['bank'] ?? '');
+    $account = trim($input['account'] ?? '');
+    $holder = trim($input['holder'] ?? '');
+    $instructions = trim($input['instructions'] ?? '');
+
+    if (empty($bank) || empty($account) || empty($holder)) {
+        sendJson(['success' => false, 'message' => 'Nama Bank, Nomor Rekening, dan Atas Nama wajib diisi lengkap!'], 400);
+    }
+
+    $saved = saveAdminBankInfo($bank, $account, $holder, $instructions);
+    if ($saved !== false) {
+        sendJson([
+            'success' => true,
+            'message' => 'Pengaturan rekening bank resmi platform berhasil disimpan dan langsung aktif!',
+            'data' => getAdminBankInfo()
+        ]);
+    } else {
+        sendJson(['success' => false, 'message' => 'Gagal menyimpan pengaturan rekening bank.'], 500);
     }
 }
 

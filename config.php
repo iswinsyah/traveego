@@ -72,6 +72,43 @@ define('ADMIN_BANK_NAME', 'BCA');
 define('ADMIN_BANK_ACCOUNT', '1234567890');
 define('ADMIN_BANK_HOLDER', 'Dropoff.id Operasional');
 
+function getAdminBankInfo() {
+    $file = __DIR__ . '/data/bank_config.json';
+    if (file_exists($file)) {
+        $data = json_decode(file_get_contents($file), true);
+        if (is_array($data) && !empty($data['account'])) {
+            return [
+                'bank' => $data['bank'] ?? 'BCA',
+                'account' => $data['account'] ?? '1234567890',
+                'holder' => $data['holder'] ?? 'Dropoff.id Operasional',
+                'instructions' => $data['instructions'] ?? ''
+            ];
+        }
+    }
+    return [
+        'bank' => defined('ADMIN_BANK_NAME') ? ADMIN_BANK_NAME : 'BCA',
+        'account' => defined('ADMIN_BANK_ACCOUNT') ? ADMIN_BANK_ACCOUNT : '1234567890',
+        'holder' => defined('ADMIN_BANK_HOLDER') ? ADMIN_BANK_HOLDER : 'Dropoff.id Operasional',
+        'instructions' => ''
+    ];
+}
+
+function saveAdminBankInfo($bank, $account, $holder, $instructions = '') {
+    $file = __DIR__ . '/data/bank_config.json';
+    $dir = dirname($file);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0755, true);
+    }
+    $payload = [
+        'bank' => trim($bank),
+        'account' => trim($account),
+        'holder' => trim($holder),
+        'instructions' => trim($instructions),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+    return file_put_contents($file, json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+}
+
 // 4. KONEKSI PDO DENGAN ERROR HANDLING
 function getDB($exitOnError = true) {
     static $pdo = null;

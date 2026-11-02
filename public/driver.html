@@ -1588,11 +1588,47 @@
             }
         }
 
-        // MODAL HANDLERS
+        // MODAL HANDLERS & PLATFORM BANK SETTINGS
+        let currentPlatformBank = {
+            bank: 'BCA',
+            account: '1234567890',
+            holder: 'Dropoff.id Operasional'
+        };
+
+        async function loadPlatformBankInfo() {
+            try {
+                const res = await fetch('/api/driver.php?action=bank_info');
+                const data = await res.json();
+                if (data.success && data.data) {
+                    currentPlatformBank = data.data;
+                    updateBankDisplays();
+                }
+            } catch (e) {
+                console.warn('Gagal memuat info rekening platform:', e.message);
+            }
+        }
+
+        function updateBankDisplays() {
+            // 1. Settlement section
+            const nameEl = document.getElementById('bankNameDisplay');
+            const accEl = document.getElementById('bankAccountDisplay');
+            const holderEl = document.getElementById('bankHolderDisplay');
+            if (nameEl) nameEl.innerText = `${currentPlatformBank.bank} (Operasional)`;
+            if (accEl) accEl.innerText = currentPlatformBank.account;
+            if (holderEl) holderEl.innerText = `a/n ${currentPlatformBank.holder}`;
+
+            // 2. Top Up Modal
+            const topupAcc = document.getElementById('topupBankAccountDisplay');
+            const topupHolder = document.getElementById('topupBankHolderDisplay');
+            if (topupAcc) topupAcc.innerText = `${currentPlatformBank.bank}: ${currentPlatformBank.account}`;
+            if (topupHolder) topupHolder.innerText = `a/n ${currentPlatformBank.holder}`;
+        }
+
         function openTopUpModal() {
             const m = document.getElementById('topUpModal');
             if (m) {
                 m.style.display = 'flex';
+                loadPlatformBankInfo();
                 loadDriverTopupHistory();
             }
         }
@@ -1603,8 +1639,10 @@
             }
         }
         function copyTopUpAccount() {
-            navigator.clipboard.writeText('1234567890');
-            alert('✅ Nomor rekening BCA Operasional (1234567890) berhasil disalin!');
+            const acc = currentPlatformBank.account || '1234567890';
+            const bank = currentPlatformBank.bank || 'BCA';
+            navigator.clipboard.writeText(acc);
+            alert(`✅ Nomor rekening ${bank} (${acc}) berhasil disalin!`);
         }
 
         function setTopupAmount(val) {
@@ -1799,6 +1837,9 @@
             navigator.serviceWorker.register('/sw.js').catch(console.error);
         }
 
+        // Load informasi rekening bank resmi platform
+        loadPlatformBankInfo();
+
         // Cek LocalStorage untuk login otomatis
         const savedDriver = localStorage.getItem('dropoff_driver');
         if (savedDriver) {
@@ -1973,6 +2014,7 @@
             loadAuctionOrders();
             renderActiveTrip();
             startGpsTracking();
+            loadPlatformBankInfo();
             
             // Polling lelang & cek status order setiap 6 detik
             setInterval(() => {
@@ -1999,9 +2041,10 @@
         }
 
         function copyBankAccount() {
-            const acc = document.getElementById('bankAccountDisplay').innerText;
+            const acc = currentPlatformBank.account || document.getElementById('bankAccountDisplay')?.innerText || '1234567890';
+            const bank = currentPlatformBank.bank || 'Bank Platform';
             navigator.clipboard.writeText(acc);
-            alert('✅ Nomor rekening disalin: ' + acc);
+            alert(`✅ Nomor rekening ${bank} (${acc}) berhasil disalin!`);
         }
 
         let previewMap = null;
@@ -2676,8 +2719,8 @@
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
                         <div style="font-size: 10.5px; font-weight: 800; color: #16A34A; text-transform: uppercase;">Rekening Resmi Dropoff.id</div>
-                        <div style="font-size: 16px; font-weight: 900; color: #0F172A; letter-spacing: 0.5px; margin: 2px 0;">BCA: 1234567890</div>
-                        <div style="font-size: 11.5px; color: #64748B;">a/n Dropoff.id Operasional</div>
+                        <div style="font-size: 16px; font-weight: 900; color: #0F172A; letter-spacing: 0.5px; margin: 2px 0;" id="topupBankAccountDisplay">BCA: 1234567890</div>
+                        <div style="font-size: 11.5px; color: #64748B;" id="topupBankHolderDisplay">a/n Dropoff.id Operasional</div>
                     </div>
                     <button type="button" onclick="copyTopUpAccount()" style="background: #16A34A; color: #FFF; border: none; border-radius: 8px; padding: 6px 12px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
                         <span>📋 Salin</span>
