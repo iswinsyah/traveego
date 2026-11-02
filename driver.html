@@ -1591,7 +1591,10 @@
         // MODAL HANDLERS
         function openTopUpModal() {
             const m = document.getElementById('topUpModal');
-            if (m) m.style.display = 'flex';
+            if (m) {
+                m.style.display = 'flex';
+                loadDriverTopupHistory();
+            }
         }
         function closeTopUpModal(e) {
             if (!e || e.target.id === 'topUpModal') {
@@ -1602,6 +1605,140 @@
         function copyTopUpAccount() {
             navigator.clipboard.writeText('1234567890');
             alert('✅ Nomor rekening BCA Operasional (1234567890) berhasil disalin!');
+        }
+
+        function setTopupAmount(val) {
+            const input = document.getElementById('topupAmount');
+            if (input) input.value = val;
+        }
+
+        function previewTopupReceipt(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('topupImagePreview');
+                    const dropContent = document.getElementById('topupDropzoneContent');
+                    if (preview) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    if (dropContent) {
+                        const name = file.name.length > 20 ? file.name.substring(0, 18) + '...' : file.name;
+                        dropContent.innerHTML = '<span style="font-size: 16px;">✅</span> <span style="font-size: 12px; font-weight: 700; color: #16A34A;">Foto Terpilih (' + name + ') - Klik untuk ganti</span>';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function submitTopupConfirmation(e) {
+            e.preventDefault();
+            if (!currentDriver || !currentDriver.id) {
+                alert('Silakan login driver terlebih dahulu!');
+                return;
+            }
+
+            const amount = document.getElementById('topupAmount')?.value;
+            const bankSender = document.getElementById('topupBankSender')?.value;
+            const senderName = document.getElementById('topupSenderName')?.value;
+            const fileInput = document.getElementById('topupProofFile');
+
+            if (!amount || parseFloat(amount) < 10000) {
+                alert('Nominal minimal top up adalah Rp 10.000');
+                return;
+            }
+            if (!bankSender || !senderName) {
+                alert('Mohon isi bank pengirim dan nama pemilik rekening pengirim!');
+                return;
+            }
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('Wajib mengunggah foto bukti transfer struk / m-banking!');
+                return;
+            }
+
+            const btn = document.getElementById('btnSubmitTopup');
+            const oldBtnText = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '⏳ Sedang Mengirim Bukti...';
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append('driver_id', currentDriver.id);
+                formData.append('amount', amount);
+                formData.append('bank_sender', bankSender);
+                formData.append('sender_name', senderName);
+                formData.append('proof_image', fileInput.files[0]);
+
+                const res = await fetch('/api/driver.php?action=topup', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert('🎉 ' + data.message);
+                    document.getElementById('topupForm')?.reset();
+                    const preview = document.getElementById('topupImagePreview');
+                    if (preview) {
+                        preview.src = '';
+                        preview.style.display = 'none';
+                    }
+                    const dropContent = document.getElementById('topupDropzoneContent');
+                    if (dropContent) {
+                        dropContent.innerHTML = '<span style="font-size: 24px;">📸</span><div style="font-size: 12.5px; font-weight: 700; color: #2563EB; margin-top: 4px;">Pilih Foto Bukti Transfer</div><div style="font-size: 11px; color: #64748B;">Format JPG, PNG, atau Screenshot M-Banking</div>';
+                    }
+                    loadDriverTopupHistory();
+                } else {
+                    alert('⚠️ Gagal konfirmasi: ' + (data.message || 'Terjadi kesalahan sistem'));
+                }
+            } catch (err) {
+                alert('Terjadi kesalahan koneksi: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = oldBtnText;
+                }
+            }
+        }
+
+        async function loadDriverTopupHistory() {
+            const container = document.getElementById('topupHistoryList');
+            if (!container || !currentDriver || !currentDriver.id) return;
+
+            try {
+                const res = await fetch(`/api/driver.php?action=topup_history&driver_id=${currentDriver.id}`);
+                const data = await res.json();
+                if (data.success && data.data && data.data.length > 0) {
+                    container.innerHTML = data.data.map(item => {
+                        let badge = '<span style="background: #FEF3C7; color: #92400E; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800;">⏳ MENUNGGU</span>';
+                        if (item.status === 'APPROVED') {
+                            badge = '<span style="background: #DCFCE7; color: #166534; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800;">✅ DISETUJUI</span>';
+                        } else if (item.status === 'REJECTED') {
+                            badge = '<span style="background: #FEE2E2; color: #991B1B; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800;">❌ DITOLAK</span>';
+                        }
+                        const dateStr = item.created_at ? new Date(item.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'}) : '-';
+                        return `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; margin-bottom: 6px;">
+                                <div>
+                                    <div style="font-weight: 800; color: #0F172A; font-size: 12.5px;">Rp ${parseFloat(item.amount).toLocaleString('id-ID')}</div>
+                                    <div style="color: #64748B; font-size: 10.5px;">${item.bank_sender} &bull; ${dateStr}</div>
+                                    ${item.notes ? `<div style="font-size: 10.5px; color: #DC2626; margin-top: 2px;">Catatan: ${item.notes}</div>` : ''}
+                                </div>
+                                <div style="text-align: right;">
+                                    ${badge}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    container.innerHTML = '<div style="text-align: center; color: #94A3B8; padding: 10px;">Belum ada riwayat permintaan top up.</div>';
+                }
+            } catch (e) {
+                container.innerHTML = '<div style="text-align: center; color: #EF4444; padding: 10px;">Gagal memuat riwayat.</div>';
+            }
         }
 
         function openSaldoModal() {
@@ -2520,24 +2657,107 @@
         }
     </script>
 
-    <!-- MODAL TOP UP KOMISI -->
+    <!-- MODAL TOP UP KOMISI & SALDO DEPOSIT -->
     <div class="modal-overlay" id="topUpModal" onclick="closeTopUpModal(event)">
-        <div class="modal-card-popup" onclick="event.stopPropagation()">
-            <div style="font-size: 32px; margin-bottom: 8px;">💳</div>
-            <h3 style="font-size: 17px; font-weight: 800; color: #062145; margin-bottom: 6px;">Top Up / Setoran Komisi</h3>
-            <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
-                Dropoff.id menggunakan skema <b>Pasca-Bayar (0% Potongan di Awal)</b>. Sopir menerima cash penuh dari tamu, lalu menyetorkan komisi platform ke rekening operasional:
-            </p>
-            <div style="background: #F0FDF4; border: 1.5px dashed #16A34A; border-radius: 12px; padding: 14px; text-align: left; margin-bottom: 16px;">
-                <div style="font-size: 11px; font-weight: 800; color: #16A34A; text-transform: uppercase;">Rekening Resmi Dropoff.id</div>
-                <div style="font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: 1px; margin: 4px 0;">BCA: 1234567890</div>
-                <div style="font-size: 12px; color: #64748B;">a/n Dropoff.id Operasional</div>
+        <div class="modal-card-popup" onclick="event.stopPropagation()" style="max-height: 88vh; overflow-y: auto; text-align: left; padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #E2E8F0; padding-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="font-size: 26px;">💳</div>
+                    <div>
+                        <h3 style="font-size: 16px; font-weight: 800; color: #062145; margin: 0;">Konfirmasi Top Up Saldo</h3>
+                        <p style="font-size: 11.5px; color: #64748B; margin: 2px 0 0 0;">Upload bukti transfer untuk menambah saldo deposit</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeTopUpModal()" style="background: #F1F5F9; border: none; font-size: 18px; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; color: #64748B; display: flex; align-items: center; justify-content: center;">&times;</button>
             </div>
-            <button type="button" class="btn-primary" style="background: #16A34A; margin-bottom: 8px;" onclick="copyTopUpAccount()">
-                📋 Salin Nomor Rekening BCA
-            </button>
-            <button type="button" class="btn-primary" style="background: #E2E8F0; color: #0F172A; box-shadow: none;" onclick="closeTopUpModal()">
-                Tutup
+
+            <!-- REKENING TUJUAN RESMI -->
+            <div style="background: #F0FDF4; border: 1.5px dashed #16A34A; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 10.5px; font-weight: 800; color: #16A34A; text-transform: uppercase;">Rekening Resmi Dropoff.id</div>
+                        <div style="font-size: 16px; font-weight: 900; color: #0F172A; letter-spacing: 0.5px; margin: 2px 0;">BCA: 1234567890</div>
+                        <div style="font-size: 11.5px; color: #64748B;">a/n Dropoff.id Operasional</div>
+                    </div>
+                    <button type="button" onclick="copyTopUpAccount()" style="background: #16A34A; color: #FFF; border: none; border-radius: 8px; padding: 6px 12px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                        <span>📋 Salin</span>
+                    </button>
+                </div>
+            </div>
+
+            <form id="topupForm" onsubmit="submitTopupConfirmation(event)">
+                <!-- NOMINAL TOP UP -->
+                <div style="margin-bottom: 14px;">
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 6px;">Pilih Nominal Cepat (Rp):</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px;">
+                        <button type="button" class="btn-topup-chip" onclick="setTopupAmount(50000)" style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 8px 4px; font-size: 12px; font-weight: 700; cursor: pointer; color: #0F172A;">50.000</button>
+                        <button type="button" class="btn-topup-chip" onclick="setTopupAmount(100000)" style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 8px 4px; font-size: 12px; font-weight: 700; cursor: pointer; color: #0F172A;">100.000</button>
+                        <button type="button" class="btn-topup-chip" onclick="setTopupAmount(200000)" style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 8px 4px; font-size: 12px; font-weight: 700; cursor: pointer; color: #0F172A;">200.000</button>
+                        <button type="button" class="btn-topup-chip" onclick="setTopupAmount(500000)" style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 8px 4px; font-size: 12px; font-weight: 700; cursor: pointer; color: #0F172A;">500.000</button>
+                        <button type="button" class="btn-topup-chip" onclick="setTopupAmount(1000000)" style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 8px 4px; font-size: 12px; font-weight: 700; cursor: pointer; color: #0F172A;">1.000.000</button>
+                        <button type="button" class="btn-topup-chip" onclick="document.getElementById('topupAmount').focus()" style="background: #F8FAFC; border: 1px dashed #94A3B8; border-radius: 8px; padding: 8px 4px; font-size: 12px; font-weight: 700; cursor: pointer; color: #475569;">Lainnya...</button>
+                    </div>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 12px; top: 10px; font-weight: 800; color: #64748B; font-size: 14px;">Rp</span>
+                        <input type="number" id="topupAmount" required min="10000" step="5000" placeholder="100000" style="width: 100%; box-sizing: border-box; padding: 10px 12px 10px 38px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 15px; font-weight: 800; color: #0F172A; outline: none;">
+                    </div>
+                </div>
+
+                <!-- DATA PENGIRIM -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                    <div>
+                        <label style="display: block; font-size: 11.5px; font-weight: 700; color: #334155; margin-bottom: 4px;">Bank Pengirim:</label>
+                        <select id="topupBankSender" required style="width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 13px; font-weight: 600; background: #FFF;">
+                            <option value="BCA">BCA</option>
+                            <option value="Mandiri">Bank Mandiri</option>
+                            <option value="BRI">BRI</option>
+                            <option value="BNI">BNI</option>
+                            <option value="BSI">BSI (Syariah)</option>
+                            <option value="CIMB Niaga">CIMB Niaga</option>
+                            <option value="Bank Jago">Bank Jago</option>
+                            <option value="SeaBank">SeaBank</option>
+                            <option value="Dana / OVO / Gopay">E-Wallet (Dana/OVO/Gopay)</option>
+                            <option value="Lainnya">Bank Lainnya</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 11.5px; font-weight: 700; color: #334155; margin-bottom: 4px;">Nama Pemilik Rekening:</label>
+                        <input type="text" id="topupSenderName" required placeholder="Sesuai m-banking" style="width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 13px; font-weight: 600;">
+                    </div>
+                </div>
+
+                <!-- UPLOAD BUKTI TRANSFER -->
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">Upload Bukti Struk / M-Banking (Wajib):</label>
+                    <input type="file" id="topupProofFile" accept="image/*" required onchange="previewTopupReceipt(this)" style="display: none;">
+                    <div id="topupDropzone" onclick="document.getElementById('topupProofFile').click()" style="border: 2px dashed #94A3B8; border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; background: #F8FAFC; transition: all 0.2s;">
+                        <div id="topupDropzoneContent">
+                            <span style="font-size: 24px;">📸</span>
+                            <div style="font-size: 12.5px; font-weight: 700; color: #2563EB; margin-top: 4px;">Pilih Foto Bukti Transfer</div>
+                            <div style="font-size: 11px; color: #64748B;">Format JPG, PNG, atau Screenshot M-Banking</div>
+                        </div>
+                        <img id="topupImagePreview" src="" alt="Bukti Transfer" style="display: none; max-width: 100%; max-height: 180px; border-radius: 8px; margin: 6px auto 0 auto; object-fit: contain;">
+                    </div>
+                </div>
+
+                <button type="submit" id="btnSubmitTopup" class="btn-primary" style="background: #2563EB; font-size: 14px; padding: 12px; width: 100%; border-radius: 10px; font-weight: 800; cursor: pointer;">
+                    🚀 Kirim Bukti Transfer Top Up
+                </button>
+            </form>
+
+            <!-- RIWAYAT TOP UP TERAKHIR -->
+            <div style="margin-top: 18px; border-top: 1px solid #E2E8F0; padding-top: 12px;">
+                <div style="font-size: 12.5px; font-weight: 800; color: #0F172A; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <span>Riwayat Top Up Terakhir:</span>
+                    <button type="button" onclick="loadDriverTopupHistory()" style="background: none; border: none; color: #2563EB; font-size: 11px; font-weight: 700; cursor: pointer;">🔄 Segarkan</button>
+                </div>
+                <div id="topupHistoryList" style="max-height: 140px; overflow-y: auto; font-size: 12px;">
+                    <div style="text-align: center; color: #94A3B8; padding: 10px;">Memuat riwayat...</div>
+                </div>
+            </div>
+            
+            <button type="button" class="btn-primary" style="background: #F1F5F9; color: #475569; box-shadow: none; margin-top: 12px; padding: 9px; font-size: 13px;" onclick="closeTopUpModal()">
+                Tutup Jendela
             </button>
         </div>
     </div>

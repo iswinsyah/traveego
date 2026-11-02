@@ -445,4 +445,141 @@ if ($action === 'toggle_online') {
     }
 }
 
+// Helper upload bukti transfer top up saldo sopir
+function uploadTopupProof($fileKey) {
+    if (!isset($_FILES[$fileKey]) || $_FILES[$fileKey]['error'] !== UPLOAD_ERR_OK) {
+        return null;
+    }
+    $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+    $ext = strtolower(pathinfo($_FILES[$fileKey]['name'], PATHINFO_EXTENSION));
+    if (!in_array($ext, $allowed)) {
+        $ext = 'jpg';
+    }
+    $uploadDir = __DIR__ . '/../uploads/topups/';
+    if (!is_dir($uploadDir)) {
+        @mkdir($uploadDir, 0755, true);
+    }
+    $filename = 'topup-' . time() . '-' . rand(1000, 9999) . '.' . $ext;
+    $targetPath = $uploadDir . $filename;
+    if (move_uploaded_file($_FILES[$fileKey]['tmp_name'], $targetPath)) {
+        return '/uploads/topups/' . $filename;
+    }
+    return null;
+}
+
+// 5. KONFIRMASI TOP UP SALDO / DEPOSIT DENGAN BUKTI TRANSFER
+if ($action === 'topup') {
+    $driverId = intval($_POST['driver_id'] ?? 0);
+    $amount = floatval($_POST['amount'] ?? 0);
+    $bankSender = trim($_POST['bank_sender'] ?? '');
+    $senderName = trim($_POST['sender_name'] ?? '');
+
+    if ($driverId <= 0 || $amount < 10000 || empty($bankSender) || empty($senderName)) {
+        sendJson(['success' => false, 'message' => 'Mohon isi nominal top up (minimal Rp 10.000), bank pengirim, dan nama rekening pengirim dengan lengkap!'], 400);
+    }
+
+    $proofImage = uploadTopupProof('proof_image');
+    if (!$proofImage) {
+        sendJson(['success' => false, 'message' => 'Wajib mengunggah foto bukti transfer struk / m-banking!'], 400);
+    }
+
+    try {
+        if ($pdo) {
+            // Self-healing table check
+            try {
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS `topup_requests` (
+                        `id` INT AUTO_INCREMENT PRIMARY KEY,
+                        `driver_id` INT NOT NULL,
+                        `amount` DECIMAL(12,2) NOT NULL,
+                        `bank_sender` VARCHAR(50) NOT NULL,
+                        `sender_name` VARCHAR(100) NOT NULL,
+                        `proof_image` VARCHAR(255) NULL,
+                        `status` ENUM('PENDING', 'APPROVED', 'REJECTED') DEFAULT 'PENDING',
+                        `notes` TEXT NULL,
+                        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        `verified_at` DATETIME NULL,
+                        INDEX (`driver_id`),
+                        INDEX (`status`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                ");
+                $pdo->exec("ALTER TABLE `drivers` ADD COLUMN IF NOT EXISTS `balance` DECIMAL(12,2) DEFAULT 0.00");
+            } catch (Throwable $tblErr) {}
+
+            $stmt = $pdo->prepare("
+                INSERT INTO topup_requests (driver_id, amount, bank_sender, sender_name, proof_image, status)
+                VALUES (?, ?, ?, ?, ?, 'PENDING')
+            ");
+            $stmt->execute([$driverId, $amount, $bankSender, $senderName, $proofImage]);
+            $topupId = $pdo->lastInsertId();
+
+            sendJson([
+                'success' => true,
+                'message' => 'Konfirmasi top up berhasil dikirim! Admin akan segera memeriksa bukti transfer dan menyetujui penambahan saldo Anda.',
+                'data' => [
+                    'id' => $topupId,
+                    'amount' => $amount,
+                    'status' => 'PENDING',
+                    'proof_image' => $proofImage
+                ]
+            ]);
+        } else {
+            // Flat store fallback
+            $topupStoreFile = __DIR__ . '/../data/topup_requests.json';
+            $topups = file_exists($topupStoreFile) ? (json_decode(file_get_contents($topupStoreFile), true) ?: []) : [];
+            $newTopup = [
+                'id' => time(),
+                'driver_id' => $driverId,
+                'amount' => $amount,
+                'bank_sender' => $bankSender,
+                'sender_name' => $senderName,
+                'proof_image' => $proofImage,
+                'status' => 'PENDING',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            $topups[] = $newTopup;
+            @file_put_contents($topupStoreFile, json_encode($topups, JSON_PRETTY_PRINT));
+
+            sendJson([
+                'success' => true,
+                'message' => 'Konfirmasi top up berhasil dikirim! Admin akan segera memeriksa bukti transfer dan menyetujui penambahan saldo Anda.',
+                'data' => $newTopup
+            ]);
+        }
+    } catch (Throwable $e) {
+        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
+// 6. RIWAYAT KONFIRMASI TOP UP DRIVER
+if ($action === 'topup_history') {
+    $driverId = intval($_GET['driver_id'] ?? 0);
+    if ($driverId <= 0) {
+        sendJson(['success' => false, 'message' => 'driver_id wajib ada'], 400);
+    }
+
+    try {
+        $history = [];
+        if ($pdo) {
+            try {
+                $stmt = $pdo->prepare("SELECT * FROM topup_requests WHERE driver_id = ? ORDER BY id DESC LIMIT 15");
+                $stmt->execute([$driverId]);
+                $history = $stmt->fetchAll();
+            } catch (Throwable $e) {}
+        } else {
+            $topupStoreFile = __DIR__ . '/../data/topup_requests.json';
+            $all = file_exists($topupStoreFile) ? (json_decode(file_get_contents($topupStoreFile), true) ?: []) : [];
+            foreach ($all as $item) {
+                if (($item['driver_id'] ?? 0) == $driverId) {
+                    $history[] = $item;
+                }
+            }
+            usort($history, fn($a, $b) => ($b['id'] ?? 0) <=> ($a['id'] ?? 0));
+        }
+        sendJson(['success' => true, 'data' => $history]);
+    } catch (Throwable $e) {
+        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
 sendJson(['success' => false, 'message' => 'Action tidak dikenali'], 404);

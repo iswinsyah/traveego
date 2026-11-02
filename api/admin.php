@@ -98,6 +98,7 @@ if ($action === 'stats') {
         $commissions = 0;
         $latestOrders = [];
         $pendingSettlements = [];
+        $pendingTopups = [];
 
         if ($pdo) {
             $ordersTotal = $pdo->query("SELECT COUNT(*) AS total FROM orders")->fetch()['total'] ?? 0;
@@ -127,6 +128,17 @@ if ($action === 'stats') {
                 WHERE cs.status = 'WAITING_CONFIRMATION'
                 ORDER BY cs.created_at DESC
             ")->fetchAll() ?: [];
+
+            try {
+                $stmtTopup = $pdo->query("
+                    SELECT tr.*, d.name AS driver_name, d.phone AS driver_phone, d.car_model, d.car_plate, d.balance
+                    FROM topup_requests tr
+                    JOIN drivers d ON tr.driver_id = d.id
+                    WHERE tr.status = 'PENDING'
+                    ORDER BY tr.created_at DESC
+                ");
+                $pendingTopups = $stmtTopup ? ($stmtTopup->fetchAll() ?: []) : [];
+            } catch (Throwable $tblErr) {}
         } else {
             // Flat store stats
             $ordersStoreFile = __DIR__ . '/../data/orders_store.json';
@@ -151,6 +163,20 @@ if ($action === 'stats') {
             }
             $driversStore = getAdminDriversStore();
             $driversCount = count($driversStore);
+
+            $topupStoreFile = __DIR__ . '/../data/topup_requests.json';
+            $allTopups = file_exists($topupStoreFile) ? (json_decode(file_get_contents($topupStoreFile), true) ?: []) : [];
+            foreach ($allTopups as $top) {
+                if (($top['status'] ?? '') === 'PENDING') {
+                    $drv = $driversStore[$top['driver_id']] ?? null;
+                    $top['driver_name'] = $drv['name'] ?? ('Driver #' . ($top['driver_id'] ?? 0));
+                    $top['driver_phone'] = $drv['phone'] ?? '-';
+                    $top['car_model'] = $drv['car_model'] ?? '-';
+                    $top['car_plate'] = $drv['car_plate'] ?? '-';
+                    $top['balance'] = $drv['balance'] ?? 0;
+                    $pendingTopups[] = $top;
+                }
+            }
         }
 
         // Hitung pendaftaran mitra sopir pending aktivasi
@@ -176,6 +202,7 @@ if ($action === 'stats') {
             ],
             'latestOrders' => $latestOrders,
             'pendingSettlements' => $pendingSettlements,
+            'pendingTopups' => $pendingTopups,
             'pendingDrivers' => array_values($pendingDrivers),
             'costMatrix' => $costMatrix,
             'adminBank' => [
@@ -377,6 +404,75 @@ if ($action === 'verify_settlement') {
             'message' => $status === 'VERIFIED_PAID' ? 'Setoran komisi berhasil diverifikasi LUNAS!' : 'Setoran ditolak.'
         ]);
     } catch (Exception $e) {
+        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
+// 2b. VERIFIKASI TOP UP SALDO MITRA SOPIR (DEPOSIT)
+if ($action === 'verify_topup') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $id = intval($input['topup_id'] ?? 0);
+    $status = trim($input['status'] ?? 'APPROVED'); // APPROVED or REJECTED
+    $notes = trim($input['notes'] ?? '');
+
+    if ($id <= 0 || !in_array($status, ['APPROVED', 'REJECTED'])) {
+        sendJson(['success' => false, 'message' => 'Parameter tidak valid'], 400);
+    }
+
+    try {
+        $pdo = getDB();
+        if ($pdo) {
+            $stmt = $pdo->prepare("SELECT * FROM topup_requests WHERE id = ?");
+            $stmt->execute([$id]);
+            $topup = $stmt->fetch();
+            if (!$topup) {
+                sendJson(['success' => false, 'message' => 'Data top up tidak ditemukan'], 404);
+            }
+
+            if ($topup['status'] !== 'PENDING') {
+                sendJson(['success' => false, 'message' => 'Top up sudah diproses sebelumnya (Status: ' . $topup['status'] . ')'], 400);
+            }
+
+            $pdo->beginTransaction();
+            $upd = $pdo->prepare("UPDATE topup_requests SET status = ?, notes = ?, verified_at = NOW() WHERE id = ?");
+            $upd->execute([$status, $notes, $id]);
+
+            if ($status === 'APPROVED') {
+                $updBal = $pdo->prepare("UPDATE drivers SET balance = COALESCE(balance, 0) + ? WHERE id = ?");
+                $updBal->execute([$topup['amount'], $topup['driver_id']]);
+            }
+            $pdo->commit();
+
+            sendJson([
+                'success' => true,
+                'message' => $status === 'APPROVED' 
+                    ? 'Top up sebesar Rp ' . number_format($topup['amount'], 0, ',', '.') . ' BERHASIL DISETUJUI dan saldo mitra sopir otomatis bertambah!' 
+                    : 'Permintaan top up telah DITOLAK.'
+            ]);
+        } else {
+            $topupStoreFile = __DIR__ . '/../data/topup_requests.json';
+            $topups = file_exists($topupStoreFile) ? (json_decode(file_get_contents($topupStoreFile), true) ?: []) : [];
+            $found = false;
+            foreach ($topups as &$t) {
+                if (($t['id'] ?? 0) == $id) {
+                    $t['status'] = $status;
+                    $t['notes'] = $notes;
+                    $t['verified_at'] = date('Y-m-d H:i:s');
+                    $found = true;
+                    break;
+                }
+            }
+            if ($found) {
+                file_put_contents($topupStoreFile, json_encode($topups, JSON_PRETTY_PRINT));
+                sendJson(['success' => true, 'message' => 'Status top up berhasil diperbarui jadi ' . $status]);
+            } else {
+                sendJson(['success' => false, 'message' => 'Data top up tidak ditemukan'], 404);
+            }
+        }
+    } catch (Throwable $e) {
+        if ($pdo && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);
     }
 }

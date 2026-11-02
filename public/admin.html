@@ -499,6 +499,44 @@
             </div>
         </div>
 
+        <!-- 1b. VERIFIKASI TOP UP SALDO DEPOSIT MITRA SOPIR -->
+        <div class="section-card" id="topupVerificationCard" style="border-left: 4px solid #2563EB;">
+            <div class="section-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 24px;">💳</span>
+                    <div>
+                        <h2>Verifikasi Top Up Saldo Mitra Sopir (Deposit)</h2>
+                        <div style="font-size: 13px; color: var(--text-muted);">Sopir mengisi saldo deposit dan mengunggah struk transfer bank</div>
+                    </div>
+                </div>
+                <span id="badgePendingTopups" style="background: #FEF3C7; color: #92400E; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 20px;">
+                    0 Menunggu
+                </span>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Nama Sopir &amp; HP</th>
+                            <th>Armada &amp; Plat</th>
+                            <th>Bank &amp; Pengirim</th>
+                            <th>Nominal Top Up</th>
+                            <th>Bukti Transfer</th>
+                            <th>Aksi Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topupsTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                Belum ada konfirmasi top up saldo yang menunggu verifikasi.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- SEKSI HASIL SURVEY MATRIX TARIF PAK HENDRA -->
         <div class="section-card" id="hendraSurveySection" style="border-left: 4px solid #0F172A;">
             <div class="section-header" style="flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
@@ -687,6 +725,7 @@
                 if (data.success) {
                     renderStats(data.stats);
                     renderSettlements(data.pendingSettlements);
+                    renderTopups(data.pendingTopups);
                     renderOrders(data.latestOrders);
                     if (data.costMatrix) {
                         renderHendraMatrix(data.costMatrix);
@@ -949,6 +988,79 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        function renderTopups(list) {
+            const tbody = document.getElementById('topupsTableBody');
+            const badge = document.getElementById('badgePendingTopups');
+            if (badge) {
+                badge.innerText = (list ? list.length : 0) + ' Menunggu';
+            }
+            if (!tbody) return;
+            if (!list || list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">Tidak ada konfirmasi top up yang menunggu verifikasi saat ini.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            list.forEach(item => {
+                const tr = document.createElement('tr');
+                const timeStr = item.created_at ? new Date(item.created_at).toLocaleString('id-ID', {day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit'}) : '-';
+                tr.innerHTML = `
+                    <td><span style="font-size: 12px; color: var(--text-muted);">${timeStr}</span></td>
+                    <td>
+                        <b>${item.driver_name || 'Driver #' + item.driver_id}</b><br>
+                        <a href="https://wa.me/${(item.driver_phone || '').replace(/[^0-9]/g, '')}" target="_blank" style="color: #16A34A; font-size: 11.5px; font-weight: 700; text-decoration: none;">💬 ${item.driver_phone || '-'}</a>
+                    </td>
+                    <td>
+                        <span style="font-size: 12.5px;">${item.car_model || '-'}</span><br>
+                        <span style="background: #1E293B; color: #FFF; font-size: 10.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">${item.car_plate || '-'}</span>
+                    </td>
+                    <td><b>${item.bank_sender}</b> <br><span style="font-size: 12px;">a/n ${item.sender_name}</span></td>
+                    <td><b style="color: #2563EB; font-size: 14px;">Rp ${parseFloat(item.amount).toLocaleString('id-ID')}</b></td>
+                    <td>
+                        ${item.proof_image ? `<button class="btn-view-proof" onclick="viewProof('${item.proof_image}')">📸 Lihat Struk</button>` : '<span style="color: #DC2626; font-size: 12px;">Tanpa Foto</span>'}
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 6px;">
+                            <button onclick="verifyTopup(${item.id}, 'APPROVED', ${item.amount})" style="background: #16A34A; color: #FFF; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer;">
+                                ✅ Setujui &amp; Tambah Saldo
+                            </button>
+                            <button onclick="verifyTopup(${item.id}, 'REJECTED', ${item.amount})" style="background: #EF4444; color: #FFF; border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">
+                                ❌ Tolak
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function verifyTopup(topupId, decision, amount) {
+            let notes = '';
+            if (decision === 'APPROVED') {
+                if (!confirm(`Setujui konfirmasi top up sebesar Rp ${Number(amount).toLocaleString('id-ID')}? Saldo dompet mitra sopir akan otomatis bertambah saat ini juga.`)) return;
+            } else {
+                notes = prompt('Masukkan alasan penolakan top up (misal: Bukti transfer buram / mutasi bank belum masuk):', 'Bukti transfer tidak valid.');
+                if (!notes) return;
+            }
+
+            try {
+                const res = await fetch('/api/admin.php?action=verify_topup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topup_id: topupId, status: decision, notes: notes })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('🎉 ' + data.message);
+                    loadAdminData();
+                } else {
+                    alert('⚠️ Gagal: ' + data.message);
+                }
+            } catch (e) {
+                alert('Terjadi kesalahan: ' + e.message);
+            }
         }
 
         let allOrdersCache = [];
