@@ -321,6 +321,153 @@
         .chat-input-row { display: flex; gap: 6px; }
         .chat-input-row input { flex: 1; padding: 7px 10px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 12px; }
         .chat-input-row button { background: var(--accent-green); color: #FFF; border: none; padding: 0 12px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; }
+
+        /* STRUK DIGITAL & INVOICE RESMI */
+        .btn-view-receipt {
+            background: linear-gradient(135deg, #0F4C81, #062145);
+            color: #FFF;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 14px rgba(15, 76, 129, 0.25);
+            transition: transform 0.15s;
+        }
+        .btn-view-receipt:active { transform: scale(0.98); }
+
+        /* RATING & TESTIMONI KARTU */
+        .rating-card {
+            background: #FFF;
+            border-radius: var(--radius-lg);
+            border: 1.5px solid #E2E8F0;
+            padding: 20px 16px;
+            margin-bottom: 14px;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        }
+        .star-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            font-size: 34px;
+            margin: 10px 0 14px;
+            cursor: pointer;
+        }
+        .star-item {
+            color: #CBD5E1;
+            transition: color 0.15s, transform 0.15s;
+            user-select: none;
+        }
+        .star-item.active {
+            color: #F59E0B;
+            transform: scale(1.1);
+        }
+        .review-tags-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .review-tag-chip {
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s;
+        }
+        .review-tag-chip.selected {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+            color: #1D4ED8;
+            font-weight: 800;
+        }
+
+        /* MODAL STRUK / E-RECEIPT */
+        .receipt-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 16px;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(3px);
+        }
+        .receipt-card {
+            background: #FFF;
+            border-radius: 18px;
+            max-width: 440px;
+            width: 100%;
+            padding: 24px 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .receipt-header-brand {
+            text-align: center;
+            border-bottom: 2px dashed #E2E8F0;
+            padding-bottom: 14px;
+            margin-bottom: 14px;
+        }
+        .receipt-stamp-paid {
+            display: inline-block;
+            border: 2.5px solid #16A34A;
+            color: #16A34A;
+            font-size: 13px;
+            font-weight: 900;
+            padding: 4px 14px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 8px;
+            transform: rotate(-3deg);
+        }
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            margin: 12px 0;
+        }
+        .receipt-table td {
+            padding: 6px 0;
+        }
+        .receipt-table .tr-border td {
+            border-top: 1px dashed #E2E8F0;
+            padding-top: 10px;
+        }
+        .receipt-modal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 18px;
+        }
+        @media print {
+            body * { visibility: hidden !important; }
+            #receiptModal, #receiptModal * { visibility: visible !important; }
+            #receiptModal {
+                position: absolute !important;
+                inset: 0 !important;
+                background: #FFF !important;
+                display: block !important;
+                padding: 0 !important;
+            }
+            .receipt-modal-actions, .receipt-close-btn { display: none !important; }
+            .receipt-card { box-shadow: none !important; max-width: 100% !important; width: 100% !important; padding: 0 !important; border: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -428,9 +575,128 @@
                 </div>
             </div>
         </div>
+
+        <!-- TOMBOL LIHAT STRUK RESMI -->
+        <button type="button" class="btn-view-receipt" id="btnOpenReceipt" onclick="openReceiptModal()">
+            <span>🧾</span>
+            <span>Lihat &amp; Unduh Struk Pembayaran Resmi</span>
+        </button>
+
+        <!-- KARTU PENILAIAN & RATING TAMU (TAMPIL SETELAH PERJALANAN SELESAI) -->
+        <div class="rating-card" id="ratingSection" style="display: none;">
+            <h3 style="font-size: 16px; font-weight: 800; color: #0F172A;" id="ratingPromptTitle">Bagaimana Pengalaman Perjalanan Anda?</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;" id="ratingDriverSubtitle">Bantu kami menjaga kualitas dengan menilai layanan sopir</p>
+
+            <div class="star-row" id="starContainer">
+                <span class="star-item active" onclick="setRatingValue(1)">★</span>
+                <span class="star-item active" onclick="setRatingValue(2)">★</span>
+                <span class="star-item active" onclick="setRatingValue(3)">★</span>
+                <span class="star-item active" onclick="setRatingValue(4)">★</span>
+                <span class="star-item active" onclick="setRatingValue(5)">★</span>
+            </div>
+
+            <div class="review-tags-grid">
+                <span class="review-tag-chip selected" onclick="toggleTag(this)">Sopir Ramah &amp; Santun</span>
+                <span class="review-tag-chip selected" onclick="toggleTag(this)">Tepat Waktu</span>
+                <span class="review-tag-chip" onclick="toggleTag(this)">Mobil Bersih &amp; Wangi</span>
+                <span class="review-tag-chip" onclick="toggleTag(this)">Mengemudi Halus &amp; Aman</span>
+                <span class="review-tag-chip" onclick="toggleTag(this)">AC Dingin &amp; Nyaman</span>
+            </div>
+
+            <textarea id="reviewText" style="width: 100%; height: 60px; padding: 10px; border: 1px solid #CBD5E1; border-radius: 10px; font-size: 12.5px; resize: none; margin-bottom: 12px; outline: none;" placeholder="Tulis masukan atau kesan Anda untuk sopir (opsional)..."></textarea>
+
+            <button type="button" class="btn-view-receipt" id="btnSubmitReview" style="background: #16A34A; margin-bottom: 0;" onclick="submitGuestRating()">
+                <span>⭐</span>
+                <span>Kirim Ulasan &amp; Penilaian</span>
+            </button>
+            <div id="ratingDoneAlert" style="display: none; background: #DCFCE7; border: 1px solid #86EFAC; color: #166534; padding: 10px; border-radius: 10px; font-size: 12.5px; font-weight: 800;">
+                🎉 Terima kasih! Penilaian &amp; ulasan Anda telah tersimpan.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL STRUK DIGITAL / E-RECEIPT RESMI -->
+    <div class="receipt-modal-overlay" id="receiptModal" onclick="closeReceiptModal(event)">
+        <div class="receipt-card" onclick="event.stopPropagation()">
+            <div class="receipt-header-brand">
+                <div style="font-size: 20px; font-weight: 900; color: #0F4C81; letter-spacing: 0.5px;">DROPOFF.ID</div>
+                <div style="font-size: 10.5px; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bukti Pembayaran &amp; Invoice Resmi</div>
+                <div class="receipt-stamp-paid">LUNAS • PAID CASH</div>
+            </div>
+
+            <table class="receipt-table">
+                <tr>
+                    <td style="color: #64748B;">No. Reservasi</td>
+                    <td style="text-align: right; font-weight: 800;" id="recCode">-</td>
+                </tr>
+                <tr>
+                    <td style="color: #64748B;">Waktu Pemesanan</td>
+                    <td style="text-align: right; font-weight: 700;" id="recDate">-</td>
+                </tr>
+                <tr>
+                    <td style="color: #64748B;">Nama Tamu</td>
+                    <td style="text-align: right; font-weight: 800;" id="recGuest">-</td>
+                </tr>
+                <tr>
+                    <td style="color: #64748B;">Mitra Sopir</td>
+                    <td style="text-align: right; font-weight: 700;" id="recDriver">-</td>
+                </tr>
+                <tr>
+                    <td style="color: #64748B;">Armada &amp; Plat</td>
+                    <td style="text-align: right; font-weight: 700;" id="recCarPlate">-</td>
+                </tr>
+                <tr class="tr-border">
+                    <td colspan="2" style="font-weight: 800; color: #0F172A; padding-top: 10px;">Rute Perjalanan:</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size: 11.5px; color: #334155; line-height: 1.4;">
+                        🟢 <b>Jemput:</b> <span id="recPickup">-</span><br>
+                        🔴 <b>Tujuan:</b> <span id="recDest">-</span>
+                    </td>
+                </tr>
+                <tr class="tr-border">
+                    <td style="color: #64748B;">Layanan Sewa Carter Antar Kota</td>
+                    <td style="text-align: right; font-weight: 700;">Termasuk</td>
+                </tr>
+                <tr>
+                    <td style="color: #64748B;">Bahan Bakar Minyak (BBM) &amp; Jasa Driver</td>
+                    <td style="text-align: right; font-weight: 700;">Termasuk (All-In)</td>
+                </tr>
+                <tr>
+                    <td style="color: #64748B;">Biaya Tol Trans Jawa &amp; Parkir</td>
+                    <td style="text-align: right; font-weight: 700;">Bebas Tambahan</td>
+                </tr>
+                <tr class="tr-border" style="font-size: 15px;">
+                    <td style="font-weight: 900; color: #0F172A;">TOTAL DIBAYAR (CASH)</td>
+                    <td style="text-align: right; font-weight: 900; color: #16A34A;" id="recTotalFare">Rp 0</td>
+                </tr>
+            </table>
+
+            <div style="font-size: 10px; color: #94A3B8; text-align: center; margin-top: 10px; line-height: 1.4;">
+                Dokumen ini merupakan bukti pembayaran sah yang diterbitkan oleh sistem otomatis Dropoff.id untuk keperluan arsip &amp; reimbursement kantor.
+            </div>
+
+            <div class="receipt-modal-actions">
+                <button type="button" class="btn-view-receipt" style="flex: 1; background: #0F4C81; margin: 0; padding: 11px; font-size: 12.5px;" onclick="window.print()">
+                    <span>🖨️</span>
+                    <span>Cetak / PDF</span>
+                </button>
+                <button type="button" class="btn-view-receipt" style="flex: 1; background: #25D366; margin: 0; padding: 11px; font-size: 12.5px;" onclick="shareReceiptWhatsApp()">
+                    <span>📱</span>
+                    <span>Kirim ke WA</span>
+                </button>
+                <button type="button" style="padding: 0 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 12px; font-weight: 800; cursor: pointer;" onclick="closeReceiptModal()">
+                    Tutup
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
+        let currentOrderData = null;
+        let selectedRating = 5;
+
         // Ambil tracking code dari URL (mendukung /trip/TRX-XXXX dan trip.html?code=TRX-XXXX)
         let trackingCode = new URLSearchParams(window.location.search).get('code');
         if (!trackingCode) {
@@ -464,9 +730,10 @@
 
         async function fetchTrackingData() {
             try {
-                const res = await fetch(`/api/orders.php?action=track&code=${encodeURIComponent(trackingCode)}`);
+                const res = await fetch(`/api/orders.php?action=track&code=${encodeURIComponent(trackingCode)}&_t=${Date.now()}`);
                 const result = await res.json();
                 if (result.success) {
+                    currentOrderData = result.data;
                     renderTrackingView(result.data);
                 } else {
                     document.getElementById('statusTitle').innerText = 'Pesanan Belum Ditemukan';
@@ -482,10 +749,21 @@
             document.getElementById('destAddr').innerText = order.destination_address;
             document.getElementById('totalFare').innerText = 'Rp ' + parseFloat(order.total_fare).toLocaleString('id-ID');
 
+            // Isi Data Struk Pembayaran / E-Receipt
+            document.getElementById('recCode').innerText = order.tracking_code;
+            document.getElementById('recDate').innerText = order.created_at || 'Hari ini';
+            document.getElementById('recGuest').innerText = order.customer_name || 'Tamu Dropoff.id';
+            document.getElementById('recDriver').innerText = order.driver_name || 'Mitra Sopir Bertugas';
+            document.getElementById('recCarPlate').innerText = (order.car_model || order.car_type || 'Mobil') + ' (' + (order.car_plate || '-') + ')';
+            document.getElementById('recPickup').innerText = order.pickup_address;
+            document.getElementById('recDest').innerText = order.destination_address;
+            document.getElementById('recTotalFare').innerText = 'Rp ' + parseFloat(order.total_fare).toLocaleString('id-ID');
+
             const statusIcon = document.getElementById('statusIcon');
             const statusTitle = document.getElementById('statusTitle');
             const statusDesc = document.getElementById('statusDesc');
             const driverSection = document.getElementById('driverSection');
+            const ratingSection = document.getElementById('ratingSection');
 
             ['step1', 'step2', 'step3', 'step4'].forEach(id => document.getElementById(id).className = 'step-item');
 
@@ -509,6 +787,7 @@
                 statusDesc.innerText = 'Pesanan Anda sedang dilelang ke radar sopir terdekat di sekitar titik penjemputan.';
                 document.getElementById('step1').className = 'step-item step-active';
                 driverSection.style.display = 'none';
+                if (ratingSection) ratingSection.style.display = 'none';
             } else {
                 driverSection.style.display = 'block';
                 document.getElementById('driverName').innerText = order.driver_name || 'Mitra Sopir Terpilih';
@@ -521,6 +800,7 @@
                     statusDesc.innerText = `${order.driver_name} sedang meluncur ke titik jemput dengan kendaraan ${order.car_model} (${order.car_plate}).`;
                     document.getElementById('step1').className = 'step-item step-done';
                     document.getElementById('step2').className = 'step-item step-active';
+                    if (ratingSection) ratingSection.style.display = 'none';
                 } else if (order.status === 'ARRIVED') {
                     statusIcon.innerText = '📍';
                     statusTitle.innerText = 'Sopir Sudah Tiba di Lokasi!';
@@ -528,6 +808,7 @@
                     document.getElementById('step1').className = 'step-item step-done';
                     document.getElementById('step2').className = 'step-item step-done';
                     document.getElementById('step3').className = 'step-item step-active';
+                    if (ratingSection) ratingSection.style.display = 'none';
                 } else if (order.status === 'IN_TRIP') {
                     statusIcon.innerText = '🛣️';
                     statusTitle.innerText = 'Sedang Dalam Perjalanan';
@@ -535,12 +816,102 @@
                     document.getElementById('step1').className = 'step-item step-done';
                     document.getElementById('step2').className = 'step-item step-done';
                     document.getElementById('step3').className = 'step-item step-active';
+                    if (ratingSection) ratingSection.style.display = 'none';
                 } else if (order.status === 'COMPLETED') {
                     statusIcon.innerText = '✅';
                     statusTitle.innerText = 'Perjalanan Selesai!';
-                    statusDesc.innerText = 'Terima kasih telah menggunakan jasa Dropoff.id Drop-Off. Semoga perjalanan Anda menyenangkan.';
+                    statusDesc.innerText = 'Terima kasih telah menggunakan jasa Dropoff.id. Semoga perjalanan Anda menyenangkan.';
                     ['step1', 'step2', 'step3', 'step4'].forEach(id => document.getElementById(id).className = 'step-item step-done');
+
+                    // Tampilkan form rating untuk tamu
+                    if (ratingSection) {
+                        ratingSection.style.display = 'block';
+                        document.getElementById('ratingDriverSubtitle').innerText = `Bantu kami menjaga kualitas dengan menilai layanan ${order.driver_name || 'sopir'}`;
+                        if (order.customer_rating) {
+                            document.getElementById('ratingDoneAlert').style.display = 'block';
+                            document.getElementById('ratingDoneAlert').innerText = `🎉 Terima kasih! Anda telah memberi penilaian ${order.customer_rating}★ untuk perjalanan ini.`;
+                            document.getElementById('btnSubmitReview').style.display = 'none';
+                            document.getElementById('starContainer').style.pointerEvents = 'none';
+                            setRatingValue(order.customer_rating);
+                        }
+                    }
                 }
+            }
+        }
+
+        // STRUK MODAL HANDLER
+        function openReceiptModal() {
+            const m = document.getElementById('receiptModal');
+            if (m) m.style.display = 'flex';
+        }
+        function closeReceiptModal(e) {
+            if (!e || e.target.id === 'receiptModal' || typeof e === 'undefined') {
+                const m = document.getElementById('receiptModal');
+                if (m) m.style.display = 'none';
+            }
+        }
+        function shareReceiptWhatsApp() {
+            if (!currentOrderData) return;
+            const fareFmt = parseFloat(currentOrderData.total_fare || 0).toLocaleString('id-ID');
+            const text = `Halo, berikut Bukti Pembayaran Resmi Dropoff.id:\n\n` +
+                `• No. Reservasi: ${currentOrderData.tracking_code}\n` +
+                `• Tamu: ${currentOrderData.customer_name}\n` +
+                `• Sopir: ${currentOrderData.driver_name || 'Mitra Sopir'} (${currentOrderData.car_model || ''} - ${currentOrderData.car_plate || ''})\n` +
+                `• Rute: ${currentOrderData.pickup_address} -> ${currentOrderData.destination_address}\n` +
+                `• Total All-In: Rp ${fareFmt} (LUNAS)\n\n` +
+                `Detail struk & pelacakan: https://dropoff.id/trip.html?code=${currentOrderData.tracking_code}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // RATING & REVIEW HANDLERS
+        function setRatingValue(val) {
+            selectedRating = val;
+            const stars = document.querySelectorAll('#starContainer .star-item');
+            stars.forEach((s, idx) => {
+                if (idx < val) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+        }
+
+        function toggleTag(el) {
+            el.classList.toggle('selected');
+        }
+
+        async function submitGuestRating() {
+            if (!currentOrderData) return;
+            const btn = document.getElementById('btnSubmitReview');
+            const review = document.getElementById('reviewText').value.trim();
+            const tags = Array.from(document.querySelectorAll('.review-tag-chip.selected')).map(c => c.innerText).join(', ');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Mengirim Penilaian...</span>';
+
+            try {
+                const res = await fetch('/api/orders.php?action=rate_trip', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: currentOrderData.tracking_code,
+                        rating: selectedRating,
+                        review: review,
+                        tags: tags
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('ratingDoneAlert').style.display = 'block';
+                    document.getElementById('ratingDoneAlert').innerText = `🎉 Terima kasih! Penilaian ${selectedRating}★ dan ulasan Anda berhasil disimpan.`;
+                    btn.style.display = 'none';
+                    document.getElementById('starContainer').style.pointerEvents = 'none';
+                } else {
+                    alert('⚠️ ' + data.message);
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>⭐</span><span>Kirim Ulasan &amp; Penilaian</span>';
+                }
+            } catch (err) {
+                alert('Gagal mengirim ulasan: ' + err.message);
+                btn.disabled = false;
+                btn.innerHTML = '<span>⭐</span><span>Kirim Ulasan &amp; Penilaian</span>';
             }
         }
 

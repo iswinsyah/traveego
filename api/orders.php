@@ -34,6 +34,45 @@ function saveFlatStore($store) {
     return file_put_contents($ordersStoreFile, json_encode($store, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }
 
+// HELPER NOTIFIKASI WHATSAPP OTOMATIS (FONNTE / WABLAS / FALLBACK LOG)
+function sendWhatsAppNotification($phone, $message) {
+    if (empty($phone) || empty($message)) return false;
+
+    // Bersihkan nomor telepon (08xxx -> 628xxx)
+    $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
+    if (str_starts_with($cleanPhone, '0')) {
+        $cleanPhone = '62' . substr($cleanPhone, 1);
+    }
+
+    $fonnteToken = defined('FONNTE_TOKEN') ? FONNTE_TOKEN : (getenv('FONNTE_TOKEN') ?: '');
+    if (!empty($fonnteToken)) {
+        try {
+            $ch = curl_init('https://api.fonnte.com/send');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'target' => $cleanPhone,
+                'message' => $message,
+                'countryCode' => '62'
+            ]);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                "Authorization: $fonnteToken"
+            ]);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+            curl_exec($ch);
+            curl_close($ch);
+        } catch (Throwable $e) {}
+    }
+
+    // Logging lokal untuk audit admin
+    $logDir = __DIR__ . '/../data/';
+    if (!is_dir($logDir)) @mkdir($logDir, 0755, true);
+    $logFile = $logDir . 'wa_notifications.log';
+    $logEntry = date('Y-m-d H:i:s') . " | TO: {$cleanPhone} | MSG: " . str_replace(["\r", "\n"], ' ', $message) . "\n";
+    @file_put_contents($logFile, $logEntry, FILE_APPEND);
+    return true;
+}
+
 // 1. DAFTAR ORDER LELANG TERBUKA (UNTUK RADAR PWA SOPIR)
 if ($action === 'auction' || ($_SERVER['REQUEST_METHOD'] === 'GET' && empty($action))) {
     try {
@@ -587,6 +626,57 @@ if ($action === 'cancel_by_customer') {
                 sendJson(['success' => true, 'message' => 'Pesanan berhasil dibatalkan oleh tamu']);
             } else {
                 sendJson(['success' => false, 'message' => 'Order tidak ditemukan'], 404);
+            }
+        }
+    } catch (Throwable $e) {
+        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
+// 10. PENILAIAN & ULASAN TAMU (RATING & REVIEW)
+if ($action === 'rate_trip') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $orderCode = trim($input['code'] ?? $input['order_id'] ?? '');
+    $rating = intval($input['rating'] ?? 5);
+    $review = trim($input['review'] ?? '');
+    $tags = trim($input['tags'] ?? '');
+
+    if ($rating < 1 || $rating > 5 || empty($orderCode)) {
+        sendJson(['success' => false, 'message' => 'Rating harus bernilai 1 - 5 bintang dan kode pesanan wajib ada'], 400);
+    }
+
+    try {
+        if ($pdo) {
+            try {
+                $pdo->exec("ALTER TABLE orders ADD COLUMN IF NOT EXISTS customer_rating INT DEFAULT NULL");
+                $pdo->exec("ALTER TABLE orders ADD COLUMN IF NOT EXISTS customer_review TEXT NULL");
+                $pdo->exec("ALTER TABLE orders ADD COLUMN IF NOT EXISTS review_tags VARCHAR(255) NULL");
+            } catch (Throwable $e) {}
+
+            $stmt = $pdo->prepare("UPDATE orders SET customer_rating = ?, customer_review = ?, review_tags = ? WHERE tracking_code = ? OR id = ?");
+            $stmt->execute([$rating, $review, $tags, $orderCode, $orderCode]);
+
+            sendJson(['success' => true, 'message' => 'Terima kasih atas ulasan dan penilaian bintang Anda!']);
+        } else {
+            $store = getFlatStore();
+            $targetKey = null;
+            foreach ($store as $k => $ord) {
+                if ((string)$k === (string)$orderCode || 
+                    (string)($ord['id'] ?? '') === (string)$orderCode || 
+                    (string)($ord['tracking_code'] ?? '') === (string)$orderCode) {
+                    $targetKey = $k;
+                    break;
+                }
+            }
+            if ($targetKey !== null) {
+                $store[$targetKey]['customer_rating'] = $rating;
+                $store[$targetKey]['customer_review'] = $review;
+                $store[$targetKey]['review_tags'] = $tags;
+                $store[$targetKey]['rated_at'] = date('Y-m-d H:i:s');
+                saveFlatStore($store);
+                sendJson(['success' => true, 'message' => 'Terima kasih atas ulasan dan penilaian bintang Anda!']);
+            } else {
+                sendJson(['success' => false, 'message' => 'Pesanan tidak ditemukan'], 404);
             }
         }
     } catch (Throwable $e) {
