@@ -4,13 +4,11 @@
  * Siap upload langsung ke Hostinger Shared Hosting (public_html)
  */
 
-// 1. KREDENSIAL DATABASE MYSQL
-// Saat di XAMPP lokal: host=localhost, user=root, pass=""
-// Saat di Hostinger: ganti dengan user & pass database yang Anda buat di hPanel
+// 1. KREDENSIAL DATABASE MYSQL HOSTINGER
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
-define('DB_NAME', getenv('DB_NAME') ?: 'traveego_db');
-define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_NAME', getenv('DB_NAME') ?: 'u829486010_dbasedropoff');
+define('DB_USER', getenv('DB_USER') ?: 'u829486010_dbasedropoff');
 define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
 
 // 2. KREDENSIAL LOGIN ADMIN PANEL (/admin)
