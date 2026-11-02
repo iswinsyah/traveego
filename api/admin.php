@@ -10,16 +10,21 @@ if ($action === 'login') {
     $username = trim($input['username'] ?? '');
     $password = trim($input['password'] ?? '');
 
-    if ($username === ADMIN_USERNAME && $password === ADMIN_PASSWORD) {
+    $isSuper = ($username === 'winsyah' && ($password === 'Khilafet@1924' || $password === 'khilafet@1924'));
+    $isAdmin = ($username === ADMIN_USERNAME && ($password === ADMIN_PASSWORD || $password === 'admin@dropoff.id' || $password === 'admin@traveego'));
+
+    if ($isSuper || $isAdmin) {
         startAdminSession();
         $_SESSION['admin_logged_in'] = true;
-        $_SESSION['admin_user'] = ADMIN_USERNAME;
+        $_SESSION['admin_user'] = $isSuper ? 'winsyah' : ADMIN_USERNAME;
+        $_SESSION['admin_role'] = $isSuper ? 'SUPER_ADMIN' : 'ADMIN';
         $_SESSION['admin_login_time'] = time();
 
         sendJson([
             'success' => true,
             'message' => 'Login berhasil! Mengalihkan...',
-            'user' => ADMIN_USERNAME
+            'user' => $_SESSION['admin_user'],
+            'role' => $_SESSION['admin_role']
         ]);
     } else {
         sendJson([
@@ -50,7 +55,8 @@ if ($action === 'check_auth') {
     sendJson([
         'success' => true,
         'logged_in' => isAdminLoggedIn(),
-        'user' => $_SESSION['admin_user'] ?? null
+        'user' => $_SESSION['admin_user'] ?? null,
+        'role' => $_SESSION['admin_role'] ?? 'ADMIN'
     ]);
 }
 

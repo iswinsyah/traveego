@@ -228,15 +228,19 @@
         <a href="/admin" class="brand">
             <span>👑 Dropoff.id Ops Console</span>
         </a>
-        <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <span id="adminRoleDisplay" style="background: #EFF6FF; color: #1E40AF; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; border: 1px solid #BFDBFE;">👤 Admin</span>
             <a href="#hendraSurveySection" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #0F172A; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: all 0.2s;">
                 <span>👔 Matrix Tarif Pak Hendra</span>
             </a>
             <a href="/admin-cms.html" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #2271B1; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(34,113,177,0.3);">
-                <span>🎨 Penyesuai Tampilan (CMS ala WP)</span>
+                <span>🎨 CMS Tampilan</span>
+            </a>
+            <a id="btnCrewAiLink" href="/crew-ai" target="_blank" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #4338CA; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(67,56,202,0.3);">
+                <span>🤖 Crew AI Studio ↗</span>
             </a>
             <a href="/" target="_blank" style="text-decoration: none; font-size: 13px; font-weight: 700; color: var(--primary-blue);">🌐 Web Pelanggan</a>
-            <a href="/driver" target="_blank" style="text-decoration: none; font-size: 13px; font-weight: 700; color: #16A34A;">🚘 Buka PWA Sopir</a>
+            <a href="/driver" target="_blank" style="text-decoration: none; font-size: 13px; font-weight: 700; color: #16A34A;">🚘 PWA Sopir</a>
         </div>
     </nav>
 
@@ -1769,7 +1773,35 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
         window.addEventListener('hashchange', checkScrollToHendra);
         window.addEventListener('load', checkScrollToHendra);
 
+        async function checkAdminAuthRole() {
+            try {
+                const res = await fetch('/api/admin.php?action=check_auth');
+                const d = await res.json();
+                if (d.success && d.logged_in) {
+                    const badge = document.getElementById('adminRoleDisplay');
+                    const crewBtn = document.getElementById('btnCrewAiLink');
+                    if (d.role === 'SUPER_ADMIN' || d.user === 'winsyah') {
+                        if (badge) {
+                            badge.innerHTML = '👑 <b>Super Admin (Winsyah)</b> &bull; Akses Penuh';
+                            badge.style.background = '#FEF3C7';
+                            badge.style.color = '#92400E';
+                            badge.style.borderColor = '#FDE68A';
+                        }
+                        if (crewBtn) crewBtn.style.display = 'inline-flex';
+                    } else {
+                        if (badge) {
+                            badge.innerHTML = '👤 <b>Admin Operasional</b>';
+                            badge.style.background = '#EFF6FF';
+                            badge.style.color = '#1E40AF';
+                        }
+                        if (crewBtn) crewBtn.style.display = 'none';
+                    }
+                }
+            } catch (e) {}
+        }
+
         // Jalankan saat load
+        checkAdminAuthRole();
         loadAdminData();
         loadFleetMap();
         loadAdminHotlineWa();

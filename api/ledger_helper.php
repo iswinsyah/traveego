@@ -364,3 +364,4 @@ Respond STRICTLY with a single valid JSON object only (no markdown, no backticks
         'reason' => 'Analisis Forensik AI: ' . implode('. ', $notes) . '. Bukti transfer valid.'
     ];
 }
+
