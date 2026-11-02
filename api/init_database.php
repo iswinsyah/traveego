@@ -6,6 +6,27 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config.php';
 
+// Lindungi endpoint setelah inisialisasi awal berhasil
+if (!isAdminLoggedIn() && getenv('ALLOW_DB_INIT') !== '1') {
+    // Cek apakah database sudah memiliki tabel
+    try {
+        $p = getDB(false);
+        if ($p) {
+            $stmt = $p->query("SHOW TABLES");
+            $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            if (count($tables) >= 6) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Database u829486010_dbasedropoff sudah terkonfigurasi dan aktif.',
+                    'total_tables' => count($tables),
+                    'tables' => $tables
+                ], JSON_PRETTY_PRINT);
+                exit;
+            }
+        }
+    } catch (Throwable $e) {}
+}
+
 try {
     $pdo = getDB(false);
     if (!$pdo) {
