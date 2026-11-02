@@ -4,6 +4,9 @@ require_once __DIR__ . '/ledger_helper.php';
 
 // Gunakan getDB(false) agar tidak melempar 500 jika MySQL di Hostinger belum terkonfigurasi
 $pdo = getDB(false);
+if ($pdo) {
+    initLedgerTables($pdo);
+}
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
 // Helper load & save driver flat-file store (Driver yang sudah aktif)
@@ -638,9 +641,11 @@ if ($action === 'balance') {
     }
     $bal = 0.00;
     if ($pdo) {
-        $st = $pdo->prepare("SELECT balance FROM drivers WHERE id = ?");
-        $st->execute([$driverId]);
-        $bal = floatval($st->fetchColumn() ?: 0);
+        try {
+            $st = $pdo->prepare("SELECT balance FROM drivers WHERE id = ?");
+            $st->execute([$driverId]);
+            $bal = floatval($st->fetchColumn() ?: 0);
+        } catch (Throwable $e) {}
     }
     sendJson([
         'success' => true,

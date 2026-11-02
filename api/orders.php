@@ -3,6 +3,9 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/ledger_helper.php';
 
 $pdo = getDB(false);
+if ($pdo) {
+    initLedgerTables($pdo);
+}
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
 // Helper generator kode tracking TRX-XXXX
