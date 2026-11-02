@@ -11,6 +11,9 @@
     <meta name="theme-color" content="#0A192F">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Leaflet.js Open-Source Map (100% Gratis OSM) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -561,6 +564,149 @@
             box-shadow: 0 4px 14px rgba(11, 79, 216, 0.3);
         }
 
+        /* VISUAL ROUTE MAP PREVIEW (MOCKUP ACCURACY) */
+        .route-map-preview-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            border: 1.5px solid #E2E8F0;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+            overflow: hidden;
+            margin-bottom: 14px;
+            position: relative;
+        }
+        .route-map-overlay-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 400;
+            background: rgba(6, 33, 69, 0.92);
+            color: #FFFFFF;
+            padding: 5px 11px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+            backdrop-filter: blur(4px);
+        }
+
+        /* SCHEDULED VS INSTANT BADGES */
+        .badge-trip-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 9px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .badge-scheduled {
+            background: #EFF6FF;
+            color: #1D4ED8;
+            border: 1px solid #BFDBFE;
+        }
+        .badge-instant {
+            background: #ECFDF5;
+            color: #047857;
+            border: 1px solid #A7F3D0;
+        }
+        .badge-emergency {
+            background: #FEF2F2;
+            color: #B91C1C;
+            border: 1px solid #FECACA;
+            animation: pulse-border 1.5s infinite;
+        }
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .auction-badge-pill {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .pill-auction {
+            background: #EFF6FF;
+            color: #1D4ED8;
+        }
+        .pill-emergency {
+            background: #DC2626;
+            color: #FFFFFF;
+        }
+
+        /* NET PROFIT HIGHLIGHT */
+        .net-profit-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #F0FDF4;
+            border: 1.5px dashed #22C55E;
+            border-radius: 10px;
+            padding: 9px 12px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #166534;
+        }
+        .net-profit-val {
+            font-size: 15px;
+            font-weight: 900;
+            color: #15803D;
+        }
+
+        /* AGENDA PENUGASAN TERJADWAL CARD */
+        .agenda-card {
+            background: #F8FAFC;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .agenda-badge-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #EFF6FF;
+            color: #1D4ED8;
+            border: 1px solid #BFDBFE;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        /* EMERGENCY OPER ORDER BUTTON */
+        .btn-emergency-oper {
+            width: 100%;
+            background: #FFF1F2;
+            color: #E11D48;
+            border: 1.5px solid #FDA4AF;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        .btn-emergency-oper:active {
+            transform: scale(0.98);
+            background: #FFE4E6;
+        }
+
         /* SETTLEMENT SECTION (PASCA-BAYAR) */
         .settlement-card {
             background: #FFF;
@@ -1039,6 +1185,16 @@
 
             <!-- TAB 1: RADAR LELANG PESANAN -->
             <div id="tabRadarSection">
+
+                <!-- VISUAL ROUTE MAP PREVIEW CARD (LEAFLET OPEN-SOURCE) -->
+                <div class="route-map-preview-card" id="routeMapCard">
+                    <div id="routePreviewMap" style="width: 100%; height: 210px; border-radius: 18px; z-index: 10;"></div>
+                    <div class="route-map-overlay-badge" id="routeMapOverlayBadge">
+                        <span id="routeMapBadgeIcon">📍</span>
+                        <span id="routeMapBadgeText">Pratinjau Rute Antar Kota</span>
+                    </div>
+                </div>
+
                 <div class="radar-header">
                     <div class="radar-title">
                         <span class="radar-pulse"></span>
@@ -1048,7 +1204,7 @@
                 </div>
 
                 <div id="offlineNotice" style="display:none; background:#FEF2F2; border:1px solid #FCA5A5; color:#991B1B; padding:12px; border-radius:12px; font-size:12.5px; margin-bottom:12px; text-align:center;">
-                    ⏸️ Status Anda sedang <b>ISTIRAHAT</b>. Tekan tombol di pojok kanan atas untuk kembali Siap Narik.
+                    ⏸️ Status Anda sedang <b>ISTIRAHAT</b>. Geser slider ke <b>Standby</b> untuk kembali Siap Narik.
                 </div>
 
                 <div id="auctionOrdersList">
@@ -1062,6 +1218,40 @@
 
             <!-- TAB 2: TRIP AKTIF (COCKPIT PERJALANAN) -->
             <div id="tabTripSection" style="display: none;">
+
+                <!-- AGENDA PENUGASAN TERJADWAL (JIKA ORDER JADWAL MENDATANG DIAMBIL) -->
+                <div id="scheduledAgendaBox" class="agenda-card" style="display: none;">
+                    <div class="agenda-badge-top">🗓️ AGENDA PENUGASAN TERJADWAL</div>
+                    <h3 style="font-size: 16px; margin-bottom: 4px; color: #0F172A;" id="agendaTrackingCar">TRX-.... &bull; Armada</h3>
+                    <div style="font-size: 13px; font-weight: 700; color: var(--royal-blue); margin-bottom: 12px;" id="agendaTimeDisplay">Waktu Jemput: Memuat...</div>
+
+                    <div class="trip-point">
+                        <span>🟢</span>
+                        <div><b>Jemput:</b> <span id="agendaPickup">Memuat...</span></div>
+                    </div>
+                    <div class="trip-point">
+                        <span>🔴</span>
+                        <div><b>Tujuan:</b> <span id="agendaDest">Memuat...</span></div>
+                    </div>
+
+                    <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 10px 12px; margin: 12px 0; font-size: 12px; color: #1E40AF; line-height: 1.45;">
+                        💡 <b>Info Siaga:</b> Anda tetap dapat siaga &amp; mengambil orderan jarak pendek lain hari ini. Alarm notifikasi jemput akan aktif 2 jam sebelum jadwal keberangkatan.
+                    </div>
+
+                    <div class="nav-btn-grid" style="margin-bottom: 8px;">
+                        <button type="button" class="btn-chat-guest" style="margin: 0;" onclick="openOrderChatModal()">
+                            <span>💬 Chat Tamu</span>
+                        </button>
+                        <button type="button" class="btn-nav btn-nav-pickup" style="padding: 10px;" onclick="startScheduledTripNow()">
+                            <span>🚀 Mulai Jemput Sekarang</span>
+                        </button>
+                    </div>
+
+                    <button type="button" class="btn-emergency-oper" onclick="openEmergencyModal()">
+                        <span>🚨 Kendala Darurat (Oper Orderan Ini)</span>
+                    </button>
+                </div>
+
                 <!-- PESANAN YANG SEDANG DIJALANKAN -->
                 <div id="activeTripBox" class="active-trip-box" style="display: none;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -1108,6 +1298,10 @@
 
                     <button class="btn-status-flow" id="btnNextStatus" onclick="progressTripStatus()">
                         Saya Sudah Menuju Lokasi Jemput &rarr;
+                    </button>
+
+                    <button type="button" class="btn-emergency-oper" onclick="openEmergencyModal()">
+                        <span>🚨 Kendala Darurat (Oper Orderan ke Rekan Sopir)</span>
                     </button>
                 </div>
 
@@ -1235,6 +1429,33 @@
             <div class="chat-input-box">
                 <input type="text" id="chatInputText" class="form-control" style="font-size: 13px; padding: 10px 12px;" placeholder="Ketik pesan untuk tamu..." onkeypress="if(event.key==='Enter') sendOrderChatMessage()">
                 <button type="button" class="btn-primary" style="width: auto; padding: 0 16px; margin: 0; font-size: 13px;" onclick="sendOrderChatMessage()">Kirim</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL OPER ORDERAN DARURAT (KENDALA MOGOK / BAN BOCOR / SAKIT) -->
+    <div class="modal-overlay" id="emergencyModal" onclick="closeEmergencyModal(event)">
+        <div class="modal-card-popup" onclick="event.stopPropagation()">
+            <div style="font-size: 40px; margin-bottom: 8px;">🚨</div>
+            <h3 style="font-size: 18px; font-weight: 800; color: #DC2626; margin-bottom: 6px;">Oper Orderan Darurat</h3>
+            <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                Apakah Anda mengalami kendala darurat sehingga tidak dapat melanjutkan penjemputan? Orderan ini akan segera dialihkan kembali ke Radar Lelang agar dapat segera di-rescue oleh rekan sopir terdekat lainnya demi kepuasan tamu.
+            </p>
+
+            <div class="form-group" style="text-align: left; margin-bottom: 16px;">
+                <label style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Alasan Kendala Darurat:</label>
+                <select id="emergencyReasonSelect" class="form-control" style="font-size: 13.5px; padding: 10px;">
+                    <option value="Ban bocor / pecah ban mendadak">🛞 Ban bocor / pecah ban di jalan</option>
+                    <option value="Kendala mesin / overheat / transmisi">🔧 Kendala mesin / mogok</option>
+                    <option value="Kondisi kesehatan fisik mendadak">🏥 Kondisi fisik / sakit mendadak</option>
+                    <option value="Macet total / akses jalan ditutup">⛔ Macet total / musibah lalu lintas</option>
+                    <option value="Kendala darurat keluarga / lainnya">⚠️ Kendala darurat lainnya</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 14px;">
+                <button type="button" class="form-control" style="border: 1px solid #CBD5E1; background: #F1F5F9; font-weight: 700; cursor: pointer;" onclick="closeEmergencyModal()">Batalkan</button>
+                <button type="button" class="btn-primary" style="background: #DC2626; margin: 0; box-shadow: 0 4px 12px rgba(220,38,38,0.3);" onclick="confirmReleaseEmergencyOrder()">🚨 Ya, Oper Orderan</button>
             </div>
         </div>
     </div>
@@ -1492,7 +1713,12 @@
             document.getElementById('tabProfileSection').style.display = tab === 'profile' ? 'block' : 'none';
 
             document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
-            if (tab === 'radar') document.getElementById('dockBtnRadar').classList.add('active');
+            if (tab === 'radar') {
+                document.getElementById('dockBtnRadar').classList.add('active');
+                setTimeout(() => {
+                    if (previewMap) previewMap.invalidateSize();
+                }, 200);
+            }
             if (tab === 'trip') document.getElementById('dockBtnTrip').classList.add('active');
             if (tab === 'history') {
                 document.getElementById('dockBtnHistory').classList.add('active');
@@ -1611,10 +1837,28 @@
             renderActiveTrip();
             startGpsTracking();
             
-            // Polling lelang setiap 6 detik
+            // Polling lelang & cek status order setiap 6 detik
             setInterval(() => {
                 if (isOnlineState) loadAuctionOrders();
+                checkActiveOrderStatus();
             }, 6000);
+        }
+
+        async function checkActiveOrderStatus() {
+            if (!activeOrder || activeOrder.status === 'COMPLETED') return;
+            try {
+                const res = await fetch(`/api/orders.php?action=track&code=${activeOrder.tracking_code}&_t=${Date.now()}`);
+                const data = await res.json();
+                if (data.success && data.data) {
+                    if (data.data.status === 'CANCELLED') {
+                        alert(`ℹ️ PEMBERITAHUAN PEMBATALAN\n\nPesanan ${activeOrder.tracking_code} telah dibatalkan oleh tamu.\n\nAnda tidak perlu melakukan penjemputan. Status radar lelang Anda telah diprioritaskan untuk orderan baru.`);
+                        activeOrder = null;
+                        renderActiveTrip();
+                        loadAuctionOrders();
+                        switchDriverTab('radar');
+                    }
+                }
+            } catch (e) {}
         }
 
         function copyBankAccount() {
@@ -1623,9 +1867,169 @@
             alert('✅ Nomor rekening disalin: ' + acc);
         }
 
+        let previewMap = null;
+        let mapRouteLayer = null;
+        let mapMarkers = [];
+
+        function initRoutePreviewMap() {
+            if (previewMap) return;
+            const mapEl = document.getElementById('routePreviewMap');
+            if (!mapEl) return;
+
+            // Inisialisasi Leaflet Map OpenStreetMap (Gratis & Open Source)
+            previewMap = L.map('routePreviewMap', {
+                zoomControl: false,
+                attributionControl: false
+            }).setView([-6.5, 107.2], 9);
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 18,
+                subdomains: 'abcd'
+            }).addTo(previewMap);
+
+            L.control.zoom({ position: 'bottomright' }).addTo(previewMap);
+        }
+
+        // HELPER KOORDINAT JABODETABEK & JAWA BARAT (OFFLINE & REAL-TIME ACCURATE)
+        function getOrderCoords(order) {
+            if (order.pickup_lat && order.pickup_lng && order.dest_lat && order.dest_lng) {
+                return {
+                    pickup: [parseFloat(order.pickup_lat), parseFloat(order.pickup_lng)],
+                    dest: [parseFloat(order.dest_lat), parseFloat(order.dest_lng)]
+                };
+            }
+            const lookup = (text) => {
+                const t = (text || '').toLowerCase();
+                if (t.includes('halim')) return [-6.2666, 106.8911];
+                if (t.includes('soekarno') || t.includes('soetta') || t.includes('t3') || t.includes('t2') || t.includes('t1')) return [-6.1264, 106.6559];
+                if (t.includes('kuningan') || t.includes('jaksel') || t.includes('jakarta selatan')) return [-6.2246, 106.8298];
+                if (t.includes('gambir') || t.includes('monas') || t.includes('jakpus')) return [-6.1767, 106.8306];
+                if (t.includes('ciumbuleuit') || t.includes('cidadap')) return [-6.8722, 107.6044];
+                if (t.includes('dago') || t.includes('coblong')) return [-6.8858, 107.6142];
+                if (t.includes('pasteur') || t.includes('sukajadi')) return [-6.8996, 107.5922];
+                if (t.includes('bandung')) return [-6.9175, 107.6191];
+                if (t.includes('bogor')) return [-6.5971, 106.8060];
+                if (t.includes('bekasi')) return [-6.2383, 106.9756];
+                if (t.includes('depok')) return [-6.4025, 106.7942];
+                if (t.includes('tangerang')) return [-6.1783, 106.6319];
+                return null;
+            };
+            return {
+                pickup: lookup(order.pickup_address) || [-6.2088, 106.8456],
+                dest: lookup(order.destination_address) || [-6.9175, 107.6191]
+            };
+        }
+
+        // TAMPILKAN RUTE VISUAL DI PETA ATAS (SESUAI MOCKUP PENGGUNA)
+        function renderRouteOnMap(order) {
+            initRoutePreviewMap();
+            if (!previewMap || !order) return;
+
+            // Bersihkan marker dan polyline sebelumnya
+            if (mapRouteLayer) {
+                previewMap.removeLayer(mapRouteLayer);
+                mapRouteLayer = null;
+            }
+            mapMarkers.forEach(m => previewMap.removeLayer(m));
+            mapMarkers = [];
+
+            const coords = getOrderCoords(order);
+            const p = coords.pickup;
+            const d = coords.dest;
+
+            // Marker A (Penjemputan - Hijau)
+            const iconA = L.divIcon({
+                className: 'custom-map-pin',
+                html: '<div style="background:#16A34A; color:#FFF; font-weight:900; font-size:12px; border-radius:50%; width:26px; height:26px; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 8px rgba(0,0,0,0.35); border:2px solid #FFF;">A</div>',
+                iconSize: [26, 26],
+                iconAnchor: [13, 13]
+            });
+            const markerA = L.marker(p, { icon: iconA }).addTo(previewMap);
+            markerA.bindPopup(`<b>🟢 Jemput (A):</b><br>${order.pickup_address}`);
+            mapMarkers.push(markerA);
+
+            // Marker B (Tujuan - Merah)
+            const iconB = L.divIcon({
+                className: 'custom-map-pin',
+                html: '<div style="background:#DC2626; color:#FFF; font-weight:900; font-size:12px; border-radius:50%; width:26px; height:26px; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 8px rgba(0,0,0,0.35); border:2px solid #FFF;">B</div>',
+                iconSize: [26, 26],
+                iconAnchor: [13, 13]
+            });
+            const markerB = L.marker(d, { icon: iconB }).addTo(previewMap);
+            markerB.bindPopup(`<b>🔴 Tujuan (B):</b><br>${order.destination_address}`);
+            mapMarkers.push(markerB);
+
+            // Rute Polyline dengan jalur Tol Utama Jakarta - Bandung
+            let routePoints = [p];
+            // Jika rute Jakarta - Bandung, tambahkan waypoint Tol MBZ & Cipularang
+            if (p[1] < 107.0 && d[1] > 107.4) {
+                routePoints.push([-6.3850, 107.2810]); // Cikampek / Tol MBZ
+                routePoints.push([-6.6210, 107.4420]); // KM 88 Tol Cipularang
+                routePoints.push([-6.8650, 107.5310]); // Padalarang
+            } else if (p[1] > 107.4 && d[1] < 107.0) {
+                routePoints.push([-6.8650, 107.5310]);
+                routePoints.push([-6.6210, 107.4420]);
+                routePoints.push([-6.3850, 107.2810]);
+            }
+            routePoints.push(d);
+
+            mapRouteLayer = L.polyline(routePoints, {
+                color: '#0B4FD8',
+                weight: 5,
+                opacity: 0.85,
+                lineJoin: 'round'
+            }).addTo(previewMap);
+
+            previewMap.fitBounds(mapRouteLayer.getBounds(), { padding: [35, 35] });
+
+            // Update badge overlay peta
+            const pShort = order.pickup_address.split(',')[0].substring(0, 24);
+            const dShort = order.destination_address.split(',')[0].substring(0, 24);
+            const badgeEl = document.getElementById('routeMapOverlayBadge');
+            if (badgeEl) {
+                badgeEl.innerHTML = `<span>📍</span> <b>${order.tracking_code}:</b> ${pShort} &rarr; ${dShort}`;
+            }
+        }
+
+        // FORMAT WAKTU ORDER (JADWAL BESOK/MENDATANG VS INSTAN SEKARANG)
+        function formatTripSchedule(datetimeStr) {
+            if (!datetimeStr) return { isScheduled: false, isInstant: true, text: '⚡ JEMPUT SEKARANG (INSTAN)', badgeClass: 'badge-instant' };
+            const tripDate = new Date(datetimeStr.replace(/-/g, '/'));
+            if (isNaN(tripDate.getTime())) return { isScheduled: false, isInstant: true, text: '⚡ JEMPUT SEKARANG (INSTAN)', badgeClass: 'badge-instant' };
+
+            const now = new Date();
+            const diffMs = tripDate.getTime() - now.getTime();
+            const diffHours = diffMs / (1000 * 60 * 60);
+
+            if (diffHours <= 1.5) {
+                return {
+                    isScheduled: false,
+                    isInstant: true,
+                    text: '⚡ JEMPUT SEKARANG (INSTAN)',
+                    badgeClass: 'badge-instant'
+                };
+            }
+
+            const isTomorrow = tripDate.getDate() === (new Date(now.getTime() + 86400000)).getDate() && tripDate.getMonth() === now.getMonth();
+            const isToday = tripDate.getDate() === now.getDate() && tripDate.getMonth() === now.getMonth();
+            const timeStr = tripDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
+            let prefix = '';
+            if (isToday) prefix = 'Hari Ini';
+            else if (isTomorrow) prefix = 'Besok';
+            else prefix = tripDate.toLocaleDateString('id-ID', { weekday: 'short', day: '2-digit', month: 'short' });
+
+            return {
+                isScheduled: true,
+                isInstant: false,
+                text: `🗓️ JADWAL: ${prefix} • ${timeStr}`,
+                badgeClass: 'badge-scheduled'
+            };
+        }
+
         async function loadAuctionOrders() {
             try {
-                const res = await fetch('/api/orders.php?action=auction');
+                const res = await fetch('/api/orders.php?action=auction&_t=' + Date.now());
                 const data = await res.json();
                 const list = document.getElementById('auctionOrdersList');
                 
@@ -1638,12 +2042,43 @@
                     document.getElementById('auctionCount').innerText = `${data.data.length} Order Terbuka`;
                     list.innerHTML = '';
                     
+                    // Render rute order pertama di visual peta atas
+                    renderRouteOnMap(data.data[0]);
+
                     data.data.forEach(order => {
+                        const sched = formatTripSchedule(order.pickup_datetime);
+                        const isEmergency = order.is_emergency == 1;
+
+                        const fare = parseFloat(order.total_fare || 0);
+                        const comm = parseFloat(order.admin_commission || (fare * 0.1));
+                        const netProfit = fare - comm;
+
                         const card = document.createElement('div');
                         card.className = 'auction-card';
+                        card.style.cursor = 'pointer';
+                        card.onclick = (e) => {
+                            if (e.target.closest('.btn-take-order')) return;
+                            renderRouteOnMap(order);
+                        };
+
+                        let timeBadgeHtml = `<div class="badge-trip-time ${sched.badgeClass}">${sched.text}</div>`;
+                        let topPillClass = 'pill-auction';
+                        let topPillText = 'LELANG AKTIF';
+
+                        if (isEmergency) {
+                            topPillClass = 'pill-emergency';
+                            topPillText = '🚨 BUTUH CEPAT';
+                            timeBadgeHtml = `<div class="badge-trip-time badge-emergency">🚨 OPERAN DARURAT: Butuh Sopir Pengganti Segera!</div>`;
+                        }
+
                         card.innerHTML = `
-                            <div class="auction-badge-time">LELANG AKTIF</div>
-                            <div style="font-size: 14px; font-weight: 800; margin-bottom: 8px;">${order.tracking_code} &bull; ${order.car_type}</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <div style="font-size: 14px; font-weight: 800; color: #0F172A;">${order.tracking_code} &bull; ${order.car_type}</div>
+                                <span class="auction-badge-pill ${topPillClass}">${topPillText}</span>
+                            </div>
+
+                            ${timeBadgeHtml}
+
                             <div class="trip-point">
                                 <span>🟢</span>
                                 <div><b>Jemput:</b> ${order.pickup_address}</div>
@@ -1652,16 +2087,24 @@
                                 <span>🔴</span>
                                 <div><b>Tujuan:</b> ${order.destination_address}</div>
                             </div>
+
                             <div class="fare-row">
                                 <div>
                                     <div style="font-size: 11px; color: var(--text-muted);">Cash dari Tamu:</div>
-                                    <div class="fare-guest">Rp ${parseFloat(order.total_fare).toLocaleString('id-ID')}</div>
+                                    <div class="fare-guest">Rp ${fare.toLocaleString('id-ID')}</div>
                                 </div>
                                 <div style="text-align: right;">
                                     <div style="font-size: 11px; color: var(--text-muted);">Setor Komisi:</div>
-                                    <div class="fare-commission">Rp ${parseFloat(order.admin_commission).toLocaleString('id-ID')}</div>
+                                    <div class="fare-commission">Rp ${comm.toLocaleString('id-ID')}</div>
                                 </div>
                             </div>
+
+                            <!-- ESTIMASI LABA BERSIH SOPIR TRANSPARAN -->
+                            <div class="net-profit-row">
+                                <span>✨ Laba Bersih Anda (Langsung Disimpan):</span>
+                                <span class="net-profit-val">Rp ${netProfit.toLocaleString('id-ID')}</span>
+                            </div>
+
                             <button class="btn-take-order" onclick="takeOrder('${order.id || order.tracking_code}')">
                                 <span>⚡ AMBIL ORDER INI</span>
                             </button>
@@ -1684,7 +2127,7 @@
             }
         }
 
-        // AMBIL ORDER DENGAN ATOMIC LOCK
+        // AMBIL ORDER DENGAN ATOMIC LOCK & CEK JADWAL
         async function takeOrder(orderId) {
             if (!confirm('Yakin ingin mengambil orderan ini? Siapa cepat dia dapat!')) return;
 
@@ -1703,13 +2146,17 @@
                 try {
                     data = JSON.parse(rawText);
                 } catch (parseErr) {
-                    console.error('Invalid server response:', rawText);
                     alert('⚠️ Terjadi respon tak terduga dari server: ' + (rawText.substring(0, 150) || 'Status ' + res.status));
                     return;
                 }
                 if (data.success) {
-                    alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini! Silakan segera meluncur ke titik penjemputan.');
                     activeOrder = data.data;
+                    const sched = formatTripSchedule(activeOrder.pickup_datetime);
+                    if (sched.isScheduled) {
+                        alert(`🎉 SELAMAT! Anda berhasil mengamankan pesanan terjadwal ${activeOrder.tracking_code}.\n\nOrder tersimpan di Agenda Penugasan Anda. Anda tetap SIAGA untuk order pendek hari ini, dan alarm jemput akan aktif 2 jam sebelum keberangkatan.`);
+                    } else {
+                        alert('🎉 SELAMAT! Anda menang lelang dan mendapatkan order ini! Silakan segera meluncur ke titik penjemputan.');
+                    }
                     renderActiveTrip();
                     loadAuctionOrders();
                     switchDriverTab('trip');
@@ -1722,22 +2169,94 @@
             }
         }
 
+        // KENDALA DARURAT: OPER ORDERAN KE RADAR LELANG LAIN
+        function openEmergencyModal() {
+            const modal = document.getElementById('emergencyModal');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeEmergencyModal(e) {
+            if (!e || e.target.id === 'emergencyModal' || typeof e === 'undefined') {
+                const modal = document.getElementById('emergencyModal');
+                if (modal) modal.style.display = 'none';
+            }
+        }
+
+        async function confirmReleaseEmergencyOrder() {
+            if (!activeOrder || !currentDriver) return;
+            const reason = document.getElementById('emergencyReasonSelect')?.value || 'Kendala darurat operasional';
+
+            try {
+                const res = await fetch('/api/orders.php?action=release_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        order_id: activeOrder.id || activeOrder.tracking_code,
+                        driver_id: currentDriver.id,
+                        reason: reason
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ Orderan berhasil dioper kembali ke radar lelang.\n\nRekan sopir lain di sekitar akan segera membantu jemput tamu demi kepuasan pelanggan.');
+                    activeOrder = null;
+                    closeEmergencyModal();
+                    renderActiveTrip();
+                    switchDriverTab('radar');
+                    loadAuctionOrders();
+                } else {
+                    alert('⚠️ ' + data.message);
+                }
+            } catch (err) {
+                alert('Gagal mengoper order: ' + err.message);
+            }
+        }
+
+        // MULAI PENUGASAN JADWAL MENDATANG MENJADI TRIP AKTIF
+        function startScheduledTripNow() {
+            if (!activeOrder) return;
+            const schedBox = document.getElementById('scheduledAgendaBox');
+            if (schedBox) schedBox.style.display = 'none';
+            setDriverStatusMode('service');
+            progressTripStatus();
+        }
+
         function renderActiveTrip() {
             const tripBox = document.getElementById('activeTripBox');
+            const schedBox = document.getElementById('scheduledAgendaBox');
             const settlementSection = document.getElementById('settlementSection');
             const emptyTripNotice = document.getElementById('emptyTripNotice');
             const tripDot = document.getElementById('tripBadgeDot');
 
             if (!activeOrder || activeOrder.status === 'CANCELLED') {
-                tripBox.style.display = 'none';
-                settlementSection.style.display = 'none';
-                emptyTripNotice.style.display = 'block';
+                if (tripBox) tripBox.style.display = 'none';
+                if (schedBox) schedBox.style.display = 'none';
+                if (settlementSection) settlementSection.style.display = 'none';
+                if (emptyTripNotice) emptyTripNotice.style.display = 'block';
                 if (tripDot) tripDot.style.display = 'none';
                 return;
             }
 
             if (tripDot) tripDot.style.display = 'block';
-            emptyTripNotice.style.display = 'none';
+            if (emptyTripNotice) emptyTripNotice.style.display = 'none';
+
+            // Cek apakah ini Pesanan Terjadwal di masa depan (> 1.5 jam lagi) dan status masih ACCEPTED
+            const sched = formatTripSchedule(activeOrder.pickup_datetime);
+            if (sched.isScheduled && activeOrder.status === 'ACCEPTED') {
+                if (tripBox) tripBox.style.display = 'none';
+                if (settlementSection) settlementSection.style.display = 'none';
+                if (schedBox) {
+                    schedBox.style.display = 'block';
+                    document.getElementById('agendaTrackingCar').innerText = `${activeOrder.tracking_code} • ${activeOrder.car_type}`;
+                    document.getElementById('agendaTimeDisplay').innerText = `Waktu Jemput: ${sched.text.replace('🗓️ JADWAL: ', '')}`;
+                    document.getElementById('agendaPickup').innerText = activeOrder.pickup_address;
+                    document.getElementById('agendaDest').innerText = activeOrder.destination_address;
+                }
+                return;
+            }
+
+            // Jika trip aktif berjalan
+            if (schedBox) schedBox.style.display = 'none';
             document.getElementById('activeTrackingCode').innerText = activeOrder.tracking_code;
             
             // ANTI-BAJAK: Tampilkan nomor tamu yang disensor

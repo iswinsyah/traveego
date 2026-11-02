@@ -46,7 +46,7 @@ if ($action === 'auction' || ($_SERVER['REQUEST_METHOD'] === 'GET' && empty($act
                 LEFT JOIN cities c1 ON r.origin_city_id = c1.id
                 LEFT JOIN cities c2 ON r.destination_city_id = c2.id
                 WHERE o.status = 'AUCTION'
-                ORDER BY o.created_at DESC
+                ORDER BY o.is_emergency DESC, o.created_at DESC
             ");
             $orders = $stmt->fetchAll();
         } else {
@@ -62,9 +62,17 @@ if ($action === 'auction' || ($_SERVER['REQUEST_METHOD'] === 'GET' && empty($act
                         'customer_phone_masked' => $ord['customer_phone_masked'] ?? '0812-****-7890',
                         'pickup_address' => $ord['pickup_address'] ?? 'Bandara Soetta T3',
                         'destination_address' => $ord['destination_address'] ?? 'Bandung Kota',
+                        'pickup_datetime' => $ord['pickup_datetime'] ?? date('Y-m-d H:i:s', strtotime('+2 hours')),
+                        'passenger_count' => intval($ord['passenger_count'] ?? 2),
                         'car_type' => $ord['car_type'] ?? 'Toyota Innova Reborn',
                         'total_fare' => floatval($ord['total_fare'] ?? 1050000),
                         'admin_commission' => floatval($ord['admin_commission'] ?? 105000),
+                        'pickup_lat' => isset($ord['pickup_lat']) ? floatval($ord['pickup_lat']) : null,
+                        'pickup_lng' => isset($ord['pickup_lng']) ? floatval($ord['pickup_lng']) : null,
+                        'dest_lat' => isset($ord['dest_lat']) ? floatval($ord['dest_lat']) : null,
+                        'dest_lng' => isset($ord['dest_lng']) ? floatval($ord['dest_lng']) : null,
+                        'is_emergency' => intval($ord['is_emergency'] ?? 0),
+                        'emergency_reason' => $ord['emergency_reason'] ?? '',
                         'status' => 'AUCTION',
                         'created_at' => $ord['created_at'] ?? date('Y-m-d H:i:s')
                     ];
@@ -465,6 +473,124 @@ if ($action === 'order_chat') {
         file_put_contents($chatFile, json_encode($messages, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
         sendJson(['success' => true, 'message' => 'Pesan terkirim', 'data' => $newMsg]);
+    }
+}
+
+// 8. SOPIR KENDALA DARURAT (OPER ORDERAN / RELIST KE LELANG RADAR)
+if ($action === 'release_order' || $action === 'emergency_relist') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $orderId = trim($input['order_id'] ?? '');
+    $driverId = intval($input['driver_id'] ?? 0);
+    $reason = trim($input['reason'] ?? 'Kendala darurat kendaraan / fisik');
+
+    if (empty($orderId) || $driverId <= 0) {
+        sendJson(['success' => false, 'message' => 'Parameter order_id dan driver_id wajib diisi'], 400);
+    }
+
+    try {
+        if ($pdo) {
+            // Attempt to update with emergency details
+            try {
+                $stmt = $pdo->prepare("
+                    UPDATE orders 
+                    SET status = 'AUCTION', 
+                        driver_id = NULL, 
+                        is_emergency = 1, 
+                        emergency_reason = ?, 
+                        driver_assigned_at = NULL 
+                    WHERE (id = ? OR tracking_code = ?) 
+                      AND (driver_id = ? OR driver_id IS NULL)
+                      AND status IN ('ACCEPTED', 'ON_THE_WAY', 'ARRIVED')
+                ");
+                $stmt->execute([$reason, $orderId, $orderId, $driverId]);
+            } catch (Throwable $alterE) {
+                // If column doesn't exist yet, fallback to status & driver_id reset
+                $stmtFallback = $pdo->prepare("
+                    UPDATE orders 
+                    SET status = 'AUCTION', driver_id = NULL, driver_assigned_at = NULL 
+                    WHERE (id = ? OR tracking_code = ?) 
+                      AND (driver_id = ? OR driver_id IS NULL)
+                      AND status IN ('ACCEPTED', 'ON_THE_WAY', 'ARRIVED')
+                ");
+                $stmtFallback->execute([$orderId, $orderId, $driverId]);
+            }
+
+            sendJson(['success' => true, 'message' => 'Order berhasil dioper dan kembali ke radar lelang untuk rekan sopir lain.']);
+        } else {
+            // Flat store update
+            $store = getFlatStore();
+            $targetKey = null;
+            foreach ($store as $k => $ord) {
+                if ((string)$k === (string)$orderId || 
+                    (string)($ord['id'] ?? '') === (string)$orderId || 
+                    (string)($ord['tracking_code'] ?? '') === (string)$orderId) {
+                    $targetKey = $k;
+                    break;
+                }
+            }
+
+            if ($targetKey !== null) {
+                $store[$targetKey]['status'] = 'AUCTION';
+                $store[$targetKey]['driver_id'] = null;
+                $store[$targetKey]['driver_name'] = null;
+                $store[$targetKey]['driver_phone'] = null;
+                $store[$targetKey]['is_emergency'] = 1;
+                $store[$targetKey]['emergency_reason'] = $reason;
+                $store[$targetKey]['emergency_at'] = date('Y-m-d H:i:s');
+                saveFlatStore($store);
+                sendJson(['success' => true, 'message' => 'Order berhasil dioper dan kembali ke radar lelang untuk rekan sopir lain.']);
+            } else {
+                sendJson(['success' => false, 'message' => 'Order tidak ditemukan'], 404);
+            }
+        }
+    } catch (Throwable $e) {
+        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
+// 9. PEMBATALAN OLEH PENUMPANG (CUSTOMER CANCEL)
+if ($action === 'cancel_by_customer') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $orderId = trim($input['order_id'] ?? $input['tracking_code'] ?? '');
+    $reason = trim($input['reason'] ?? 'Permintaan dibatalkan oleh tamu');
+
+    if (empty($orderId)) {
+        sendJson(['success' => false, 'message' => 'Parameter order_id wajib diisi'], 400);
+    }
+
+    try {
+        if ($pdo) {
+            $stmt = $pdo->prepare("
+                UPDATE orders 
+                SET status = 'CANCELLED', 
+                    notes = CONCAT(COALESCE(notes,''), ' [Batal Penumpang: ', ?) 
+                WHERE (id = ? OR tracking_code = ?) AND status != 'COMPLETED'
+            ");
+            $stmt->execute([$reason, $orderId, $orderId]);
+            sendJson(['success' => true, 'message' => 'Pesanan berhasil dibatalkan oleh tamu']);
+        } else {
+            $store = getFlatStore();
+            $targetKey = null;
+            foreach ($store as $k => $ord) {
+                if ((string)$k === (string)$orderId || 
+                    (string)($ord['id'] ?? '') === (string)$orderId || 
+                    (string)($ord['tracking_code'] ?? '') === (string)$orderId) {
+                    $targetKey = $k;
+                    break;
+                }
+            }
+            if ($targetKey !== null) {
+                $store[$targetKey]['status'] = 'CANCELLED';
+                $store[$targetKey]['cancelled_by'] = 'customer';
+                $store[$targetKey]['cancellation_reason'] = $reason;
+                saveFlatStore($store);
+                sendJson(['success' => true, 'message' => 'Pesanan berhasil dibatalkan oleh tamu']);
+            } else {
+                sendJson(['success' => false, 'message' => 'Order tidak ditemukan'], 404);
+            }
+        }
+    } catch (Throwable $e) {
+        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
     }
 }
 
