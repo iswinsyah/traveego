@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/ledger_helper.php';
 
 // Gunakan getDB(false) agar tidak melempar 500 jika MySQL di Hostinger belum terkonfigurasi
 $pdo = getDB(false);
@@ -483,46 +484,75 @@ if ($action === 'topup') {
         sendJson(['success' => false, 'message' => 'Wajib mengunggah foto bukti transfer struk / m-banking!'], 400);
     }
 
+    // 1. ANALISIS KEASLIAN BUKTI TRANSFER DENGAN AI VISION & FORENSIK
+    $ai = analyzeReceiptWithAI($proofImage, $amount, 'BCA', $senderName);
+    $isAuthentic = (!empty($ai['is_authentic']) && intval($ai['confidence_score'] ?? 0) >= 85);
+    $initStatus = $isAuthentic ? 'APPROVED' : 'PENDING';
+    $aiVerified = $isAuthentic ? 1 : 0;
+    $aiScore = intval($ai['confidence_score'] ?? 0);
+    $aiNotes = $ai['reason'] ?? '';
+    $imgHash = $ai['image_hash'] ?? null;
+    $refNo = $ai['reference_no'] ?? null;
+    $detAmt = floatval($ai['detected_amount'] ?? $amount);
+
     try {
         if ($pdo) {
-            // Self-healing table check
-            try {
-                $pdo->exec("
-                    CREATE TABLE IF NOT EXISTS `topup_requests` (
-                        `id` INT AUTO_INCREMENT PRIMARY KEY,
-                        `driver_id` INT NOT NULL,
-                        `amount` DECIMAL(12,2) NOT NULL,
-                        `bank_sender` VARCHAR(50) NOT NULL,
-                        `sender_name` VARCHAR(100) NOT NULL,
-                        `proof_image` VARCHAR(255) NULL,
-                        `status` ENUM('PENDING', 'APPROVED', 'REJECTED') DEFAULT 'PENDING',
-                        `notes` TEXT NULL,
-                        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                        `verified_at` DATETIME NULL,
-                        INDEX (`driver_id`),
-                        INDEX (`status`)
-                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-                ");
-                $pdo->exec("ALTER TABLE `drivers` ADD COLUMN IF NOT EXISTS `balance` DECIMAL(12,2) DEFAULT 0.00");
-            } catch (Throwable $tblErr) {}
+            initLedgerTables($pdo);
 
             $stmt = $pdo->prepare("
-                INSERT INTO topup_requests (driver_id, amount, bank_sender, sender_name, proof_image, status)
-                VALUES (?, ?, ?, ?, ?, 'PENDING')
+                INSERT INTO topup_requests 
+                (driver_id, amount, bank_sender, sender_name, proof_image, status, ai_verified, ai_score, ai_notes, image_hash, reference_no, detected_amount, verified_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
-            $stmt->execute([$driverId, $amount, $bankSender, $senderName, $proofImage]);
+            $verifiedAt = $isAuthentic ? date('Y-m-d H:i:s') : null;
+            $stmt->execute([
+                $driverId, $amount, $bankSender, $senderName, $proofImage, 
+                $initStatus, $aiVerified, $aiScore, $aiNotes, $imgHash, $refNo, $detAmt, $verifiedAt
+            ]);
             $topupId = $pdo->lastInsertId();
 
-            sendJson([
-                'success' => true,
-                'message' => 'Konfirmasi top up berhasil dikirim! Admin akan segera memeriksa bukti transfer dan menyetujui penambahan saldo Anda.',
-                'data' => [
-                    'id' => $topupId,
-                    'amount' => $amount,
-                    'status' => 'PENDING',
-                    'proof_image' => $proofImage
-                ]
-            ]);
+            if ($isAuthentic) {
+                // Tambah saldo driver seketika
+                $pdo->prepare("UPDATE drivers SET balance = COALESCE(balance, 0) + ? WHERE id = ?")->execute([$amount, $driverId]);
+
+                // Langsung masukkan ke Buku Kas Pembukuan Platform
+                recordLedgerEntry(
+                    'IN',
+                    'TOPUP_SALDO',
+                    $amount,
+                    "Top Up Saldo Driver #{$driverId} ({$senderName}) diverifikasi ASLI oleh AI Vision (Skor {$aiScore}%). {$aiNotes}",
+                    $driverId,
+                    null,
+                    "TOPUP-{$topupId}",
+                    'AI_VISION'
+                );
+
+                sendJson([
+                    'success' => true,
+                    'message' => "🎉 Bukti transfer BERHASIL diverifikasi ASLI oleh AI (Skor {$aiScore}%)! Saldo deposit Anda otomatis bertambah sebesar Rp " . number_format($amount, 0, ',', '.') . " dan tercatat di pembukuan kas.",
+                    'data' => [
+                        'id' => $topupId,
+                        'amount' => $amount,
+                        'status' => 'APPROVED',
+                        'ai_score' => $aiScore,
+                        'ai_notes' => $aiNotes,
+                        'proof_image' => $proofImage
+                    ]
+                ]);
+            } else {
+                sendJson([
+                    'success' => true,
+                    'message' => "Konfirmasi top up berhasil dikirim! Menunggu pengecekan manual admin (Hasil AI: {$aiNotes}).",
+                    'data' => [
+                        'id' => $topupId,
+                        'amount' => $amount,
+                        'status' => 'PENDING',
+                        'ai_score' => $aiScore,
+                        'ai_notes' => $aiNotes,
+                        'proof_image' => $proofImage
+                    ]
+                ]);
+            }
         } else {
             // Flat store fallback
             $topupStoreFile = __DIR__ . '/../data/topup_requests.json';
@@ -534,15 +564,25 @@ if ($action === 'topup') {
                 'bank_sender' => $bankSender,
                 'sender_name' => $senderName,
                 'proof_image' => $proofImage,
-                'status' => 'PENDING',
+                'status' => $initStatus,
+                'ai_verified' => $aiVerified,
+                'ai_score' => $aiScore,
+                'ai_notes' => $aiNotes,
+                'image_hash' => $imgHash,
                 'created_at' => date('Y-m-d H:i:s')
             ];
             $topups[] = $newTopup;
             @file_put_contents($topupStoreFile, json_encode($topups, JSON_PRETTY_PRINT));
 
+            if ($isAuthentic) {
+                recordLedgerEntry('IN', 'TOPUP_SALDO', $amount, "Top Up Saldo Driver #{$driverId} terverifikasi AI.", $driverId, null, "TOPUP-{$newTopup['id']}", 'AI_VISION');
+            }
+
             sendJson([
                 'success' => true,
-                'message' => 'Konfirmasi top up berhasil dikirim! Admin akan segera memeriksa bukti transfer dan menyetujui penambahan saldo Anda.',
+                'message' => $isAuthentic 
+                    ? "🎉 Bukti transfer diverifikasi ASLI oleh AI! Saldo bertambah Rp " . number_format($amount, 0, ',', '.') 
+                    : "Konfirmasi top up berhasil dikirim! Menunggu verifikasi admin.",
                 'data' => $newTopup
             ]);
         }
@@ -587,6 +627,26 @@ if ($action === 'bank_info') {
     sendJson([
         'success' => true,
         'data' => getAdminBankInfo()
+    ]);
+}
+
+// 8. AMBIL SALDO REAL-TIME MITRA SOPIR
+if ($action === 'balance') {
+    $driverId = intval($_GET['driver_id'] ?? $_POST['driver_id'] ?? 0);
+    if ($driverId <= 0) {
+        sendJson(['success' => false, 'message' => 'driver_id wajib ada'], 400);
+    }
+    $bal = 0.00;
+    if ($pdo) {
+        $st = $pdo->prepare("SELECT balance FROM drivers WHERE id = ?");
+        $st->execute([$driverId]);
+        $bal = floatval($st->fetchColumn() ?: 0);
+    }
+    sendJson([
+        'success' => true,
+        'driver_id' => $driverId,
+        'balance' => $bal,
+        'formatted_balance' => 'Rp ' . number_format($bal, 0, ',', '.')
     ]);
 }
 

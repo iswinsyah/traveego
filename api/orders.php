@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/ledger_helper.php';
 
 $pdo = getDB(false);
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
@@ -75,6 +76,32 @@ function sendWhatsAppNotification($phone, $message) {
 
 // 1. DAFTAR ORDER LELANG TERBUKA (UNTUK RADAR PWA SOPIR)
 if ($action === 'auction' || ($_SERVER['REQUEST_METHOD'] === 'GET' && empty($action))) {
+    $reqDriverId = intval($_GET['driver_id'] ?? 0);
+    if ($reqDriverId > 0 && $reqDriverId != 999) {
+        $driverBalance = 0;
+        $isSuper = false;
+        if ($pdo) {
+            try {
+                $stD = $pdo->prepare("SELECT balance, is_super_admin FROM drivers WHERE id = ?");
+                $stD->execute([$reqDriverId]);
+                $rowD = $stD->fetch();
+                if ($rowD) {
+                    $driverBalance = floatval($rowD['balance'] ?? 0);
+                    $isSuper = !empty($rowD['is_super_admin']);
+                }
+            } catch (Throwable $e) {}
+        }
+        if (!$isSuper && $driverBalance <= 0) {
+            sendJson([
+                'success' => true,
+                'data' => [],
+                'balance_blocked' => true,
+                'current_balance' => $driverBalance,
+                'message' => 'Saldo deposit Anda kosong (Rp 0). Anda tidak dapat melihat dan menerima orderan lelang sebelum melakukan Top Up saldo deposit minimal Rp 50.000.'
+            ]);
+        }
+    }
+
     try {
         $orders = [];
         if ($pdo) {
@@ -211,6 +238,30 @@ if ($action === 'accept') {
         sendJson(['success' => false, 'message' => 'Parameter order_id dan driver_id wajib ada'], 400);
     }
 
+    // ATURAN SALDO KOSONG: Driver tidak dapat mengambil order jika saldo deposit kosong
+    if ($driverId != 999) {
+        $driverBalance = 0;
+        $isSuper = false;
+        if ($pdo) {
+            try {
+                $stD = $pdo->prepare("SELECT balance, is_super_admin FROM drivers WHERE id = ?");
+                $stD->execute([$driverId]);
+                $rowD = $stD->fetch();
+                if ($rowD) {
+                    $driverBalance = floatval($rowD['balance'] ?? 0);
+                    $isSuper = !empty($rowD['is_super_admin']);
+                }
+            } catch (Throwable $e) {}
+        }
+        if (!$isSuper && $driverBalance <= 0) {
+            sendJson([
+                'success' => false,
+                'code' => 'INSUFFICIENT_BALANCE',
+                'message' => 'Gagal mengambil order! Saldo deposit Anda kosong (Rp ' . number_format($driverBalance, 0, ',', '.') . '). Silakan Top Up saldo deposit minimal Rp 50.000 terlebih dahulu.'
+            ], 403);
+        }
+    }
+
     try {
         if ($pdo) {
             // Query Atomic Lock di MySQL
@@ -316,6 +367,51 @@ if ($action === 'status') {
             }
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$newStatus, $orderId, $orderId, $driverId]);
+
+            // PEMBUKUAN OTOMATIS SAAT PELAYANAN KE PELANGGAN DITUNAIKAN (COMPLETED)
+            if ($newStatus === 'COMPLETED') {
+                try {
+                    $ordStmt = $pdo->prepare("SELECT * FROM orders WHERE id = ? OR tracking_code = ?");
+                    $ordStmt->execute([$orderId, $orderId]);
+                    $ordData = $ordStmt->fetch();
+
+                    if ($ordData) {
+                        $commAmount = floatval($ordData['commission_amount'] ?? 0);
+                        if ($commAmount <= 0) {
+                            $commAmount = floatval($ordData['admin_commission'] ?? 0);
+                        }
+                        if ($commAmount <= 0) {
+                            $commAmount = floatval($ordData['total_fare'] ?? 0) * 0.10; // Default 10%
+                        }
+
+                        if ($commAmount > 0 && $driverId > 0 && $driverId != 999) {
+                            // 1. Potong saldo deposit mitra sopir
+                            $pdo->prepare("UPDATE drivers SET balance = GREATEST(0, balance - ?) WHERE id = ?")->execute([$commAmount, $driverId]);
+
+                            // 2. Masukkan ke Buku Kas Platform (Pemasukan Kas Komisi)
+                            recordLedgerEntry(
+                                'IN',
+                                'KOMISI_ORDER',
+                                $commAmount,
+                                "Pemasukan Komisi Platform Order {$ordData['tracking_code']} (Pelayanan tamu {$ordData['customer_name']} selesai). Saldo dipotong otomatis dari deposit driver.",
+                                $driverId,
+                                $ordData['id'],
+                                $ordData['tracking_code'],
+                                'SYSTEM_AUTO'
+                            );
+
+                            // 3. Update atau Insert status setoran menjadi LUNAS
+                            $pdo->prepare("
+                                INSERT INTO commission_settlements (order_id, driver_id, amount, bank_sender, sender_name, status, verified_at, created_at)
+                                VALUES (?, ?, ?, 'SALDO_DEPOSIT', 'Potong Saldo Otomatis', 'VERIFIED_PAID', NOW(), NOW())
+                                ON DUPLICATE KEY UPDATE status = 'VERIFIED_PAID', verified_at = NOW()
+                            ")->execute([$ordData['id'], $driverId, $commAmount]);
+                        }
+                    }
+                } catch (Throwable $deductErr) {
+                    error_log("Gagal potong saldo completed: " . $deductErr->getMessage());
+                }
+            }
 
             sendJson(['success' => true, 'message' => "Status diperbarui menjadi {$newStatus}"]);
         } else {

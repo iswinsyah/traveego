@@ -1,6 +1,7 @@
 <?php
 // Deploy v1.2: CS AI WhatsApp Hotline Config
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/ledger_helper.php';
 $action = $_GET['action'] ?? $_POST['action'] ?? 'stats';
 
 // 0. AKSI AUTENTIKASI ADMIN
@@ -205,7 +206,8 @@ if ($action === 'stats') {
             'pendingTopups' => $pendingTopups,
             'pendingDrivers' => array_values($pendingDrivers),
             'costMatrix' => $costMatrix,
-            'adminBank' => getAdminBankInfo()
+            'adminBank' => getAdminBankInfo(),
+            'ledgerSummary' => getLedgerOverview(30)
         ]);
     } catch (Throwable $e) {
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);
@@ -436,6 +438,18 @@ if ($action === 'verify_topup') {
             if ($status === 'APPROVED') {
                 $updBal = $pdo->prepare("UPDATE drivers SET balance = COALESCE(balance, 0) + ? WHERE id = ?");
                 $updBal->execute([$topup['amount'], $topup['driver_id']]);
+
+                // Catat ke Buku Kas Pembukuan Platform
+                recordLedgerEntry(
+                    'IN',
+                    'TOPUP_SALDO',
+                    $topup['amount'],
+                    "Top Up Saldo Driver #{$topup['driver_id']} disetujui Admin. Catatan: " . ($notes ?: 'Disetujui Manual'),
+                    $topup['driver_id'],
+                    null,
+                    "TOPUP-{$id}",
+                    $_SESSION['admin_user'] ?? 'ADMIN'
+                );
             }
             $pdo->commit();
 
@@ -494,6 +508,79 @@ if ($action === 'save_bank_config') {
         ]);
     } else {
         sendJson(['success' => false, 'message' => 'Gagal menyimpan pengaturan rekening bank.'], 500);
+    }
+}
+
+// 2d. PEMBUKUAN KAS PLATFORM (FINANCIAL LEDGER)
+if ($action === 'ledger') {
+    $category = trim($_GET['category'] ?? '');
+    $limit = intval($_GET['limit'] ?? 100);
+    $overview = getLedgerOverview($limit, $category ?: null);
+    sendJson(['success' => true, 'data' => $overview]);
+}
+
+if ($action === 'record_manual_ledger') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $type = trim($input['type'] ?? 'IN'); // IN or OUT
+    $category = trim($input['category'] ?? 'OPERASIONAL');
+    $amount = floatval($input['amount'] ?? 0);
+    $desc = trim($input['description'] ?? '');
+
+    if ($amount <= 0 || empty($desc)) {
+        sendJson(['success' => false, 'message' => 'Nominal dan keterangan transaksi wajib diisi!'], 400);
+    }
+
+    $ok = recordLedgerEntry($type, $category, $amount, $desc, null, null, null, $_SESSION['admin_user'] ?? 'ADMIN');
+    if ($ok) {
+        sendJson(['success' => true, 'message' => 'Transaksi kas berhasil dicatat ke pembukuan!']);
+    } else {
+        sendJson(['success' => false, 'message' => 'Gagal mencatat transaksi kas.'], 500);
+    }
+}
+
+// 2e. ANALISIS KEASLIAN BUKTI TRANSFER DENGAN AI (ON DEMAND)
+if ($action === 'analyze_receipt') {
+    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $topupId = intval($input['topup_id'] ?? 0);
+
+    if ($topupId <= 0) {
+        sendJson(['success' => false, 'message' => 'topup_id tidak valid'], 400);
+    }
+
+    try {
+        $pdo = getDB();
+        $topup = null;
+        if ($pdo) {
+            $stmt = $pdo->prepare("SELECT tr.*, d.name AS driver_name FROM topup_requests tr JOIN drivers d ON tr.driver_id = d.id WHERE tr.id = ?");
+            $stmt->execute([$topupId]);
+            $topup = $stmt->fetch();
+        }
+
+        if (!$topup) {
+            sendJson(['success' => false, 'message' => 'Data top up tidak ditemukan'], 404);
+        }
+
+        $res = analyzeReceiptWithAI($topup['proof_image'], floatval($topup['amount']), 'BCA', $topup['sender_name']);
+
+        if ($pdo) {
+            $upd = $pdo->prepare("
+                UPDATE topup_requests 
+                SET ai_score = ?, ai_notes = ?, image_hash = ?, reference_no = ?, detected_amount = ? 
+                WHERE id = ?
+            ");
+            $upd->execute([
+                intval($res['confidence_score'] ?? 0),
+                $res['reason'] ?? '',
+                $res['image_hash'] ?? null,
+                $res['reference_no'] ?? null,
+                floatval($res['detected_amount'] ?? $topup['amount']),
+                $topupId
+            ]);
+        }
+
+        sendJson(['success' => true, 'analysis' => $res]);
+    } catch (Throwable $e) {
+        sendJson(['success' => false, 'message' => $e->getMessage()], 500);
     }
 }
 
