@@ -165,3 +165,4 @@ INSERT INTO `orders` (`id`, `tracking_code`, `route_id`, `customer_name`, `custo
 (2, 'TRX-8821', 2, 'Ibu Maya Lestari', '081987654321', '0819-****-4321', 'Terminal 3 Kedatangan Internasional Bandara Soetta', 'Jl. Dago No. 120, Coblong, Kota Bandung', '2026-11-02 08:30:00', -6.1264000, 106.6559000, -6.8858000, 107.6142000, 'Toyota Innova Reborn', 3, 1050000.00, 105000.00, 'AUCTION'),
 (3, 'TRX-7712', 1, 'Bpk. Handoko', '081233445566', '0812-****-5566', 'Kuningan City Mall, Jakarta Selatan', 'Jl. Pasteur No. 25, Sukajadi, Bandung', '2026-11-02 07:45:00', -6.2246000, 106.8298000, -6.8996000, 107.5922000, 'Toyota All New Avanza', 2, 700000.00, 70000.00, 'AUCTION')
 ON DUPLICATE KEY UPDATE `status`=VALUES(`status`);
+

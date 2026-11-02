@@ -9,7 +9,7 @@ define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 define('DB_NAME', getenv('DB_NAME') ?: 'u829486010_dbasedropoff');
 define('DB_USER', getenv('DB_USER') ?: 'u829486010_dbasedropoff');
-define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
+define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'Khilafet@1924');
 
 // 2. KREDENSIAL LOGIN ADMIN PANEL (/admin)
 define('ADMIN_USERNAME', 'admin');
