@@ -4117,11 +4117,7 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
                 const res = await fetch('/api/auto_yoast_fixer.php');
                 const data = await res.json();
                 if (data.success) {
-                    alert('🎉 SUKSES BESAR!
-
-' + data.message + '
-
-Total konten diaudit: ' + data.data.total_green + ' item (Semua 100% HIJAU 🟢)');
+                    alert('🎉 SUKSES BESAR!\n\n' + data.message + '\n\nTotal konten diaudit: ' + data.data.total_green + ' item (Semua 100% HIJAU 🟢)');
                     location.reload();
                 } else {
                     alert('Gagal audit: ' + (data.message || 'Respon tak terduga'));

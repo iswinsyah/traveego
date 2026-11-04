@@ -245,3 +245,4 @@ sendJson([
     'data' => $results,
     'log' => $logData
 ]);
+
