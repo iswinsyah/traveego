@@ -1010,13 +1010,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 <span class="btn-icon">🧠</span>
                 <span>Training CS AI Hasna</span>
             </button>
-
-            <div class="menu-category-title" style="margin-top: 12px;">Pusat AI &amp; Gateway</div>
-
-            <a href="/crew-ai" target="_blank" class="sidebar-btn" title="Kelola Kunci AI Google Gemini, Groq & Fonnte WA">
-                <span class="btn-icon">🤖</span>
-                <span>Crew AI Dashboard ↗</span>
-            </a>
         </div>
 
         <!-- QUICK OUTSIDE LINKS -->
@@ -1055,9 +1048,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 <span>Dropoff.id Admin</span>
             </a>
             <div class="mobile-right-actions">
-                <a href="/crew-ai" target="_blank" style="text-decoration: none; font-size: 12px; color: #93C5FD; font-weight: 700; background: rgba(37,99,235,0.2); padding: 4px 8px; border-radius: 6px;">
-                    🤖 Crew AI
-                </a>
                 <a href="/admin?logout=1" class="btn-logout-icon" style="width: 28px; height: 28px; font-size: 12px;" title="Keluar">
                     🚪
                 </a>

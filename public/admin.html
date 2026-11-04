@@ -236,9 +236,6 @@
             <a href="/admin-cms.html" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #2271B1; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(34,113,177,0.3);">
                 <span>🎨 CMS Tampilan</span>
             </a>
-            <a id="btnCrewAiLink" href="/crew-ai" target="_blank" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #4338CA; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(67,56,202,0.3);">
-                <span>🤖 Crew AI Studio ↗</span>
-            </a>
             <a href="/" target="_blank" style="text-decoration: none; font-size: 13px; font-weight: 700; color: var(--primary-blue);">🌐 Web Pelanggan</a>
             <a href="/driver" target="_blank" style="text-decoration: none; font-size: 13px; font-weight: 700; color: #16A34A;">🚘 PWA Sopir</a>
         </div>
@@ -259,9 +256,6 @@
                         </h3>
                         <p style="font-size: 13px; color: #64748B; margin: 0;">
                             Nomor WhatsApp ini menerima seluruh chat otomatis dari tombol <strong>"PESAN CEPAT"</strong> di web.
-                        </p>
-                        <p style="font-size: 12px; color: #2563EB; margin: 4px 0 0 0; font-weight: 600;">
-                            🤖 <em>Untuk Token Fonnte WA, API Gemini & Groq dikelola di: <a href="/crew-ai" target="_blank" style="color: #2563EB; text-decoration: underline; font-weight: 700;">dropoff.id/crew-ai ↗</a></em>
                         </p>
                     </div>
                 </div>
@@ -900,10 +894,6 @@
                         <span>🔄</span>
                         <span>Survey Ulang Tarif Sekarang</span>
                     </button>
-                    <a href="/crew-ai" target="_blank" style="padding: 7px 12px; background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; font-size: 12.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                        <span>⚙️</span>
-                        <span>Buka Crew AI Console ↗</span>
-                    </a>
                 </div>
             </div>
 
@@ -2143,7 +2133,6 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
                 const d = await res.json();
                 if (d.success && d.logged_in) {
                     const badge = document.getElementById('adminRoleDisplay');
-                    const crewBtn = document.getElementById('btnCrewAiLink');
                     if (d.role === 'SUPER_ADMIN' || d.user === 'winsyah') {
                         if (badge) {
                             badge.innerHTML = '👑 <b>Super Admin (Winsyah)</b> &bull; Akses Penuh';
@@ -2151,14 +2140,12 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
                             badge.style.color = '#92400E';
                             badge.style.borderColor = '#FDE68A';
                         }
-                        if (crewBtn) crewBtn.style.display = 'inline-flex';
                     } else {
                         if (badge) {
                             badge.innerHTML = '👤 <b>Admin Operasional</b>';
                             badge.style.background = '#EFF6FF';
                             badge.style.color = '#1E40AF';
                         }
-                        if (crewBtn) crewBtn.style.display = 'none';
                     }
                 }
             } catch (e) {}
