@@ -484,6 +484,171 @@
             <div id="fleetMap"></div>
         </div>
 
+        
+        <!-- ============================================================== -->
+        <!-- ANALITIK PENGUNJUNG REAL WEB & GOOGLE SERP TRACKER (AI LOKAL) -->
+        <!-- ============================================================== -->
+        <div class="section-card" id="analyticsRankSection" style="border-left: 4px solid #4F46E5; background: #FFFFFF; margin-bottom: 24px;">
+            <!-- Header Section -->
+            <div class="section-header" style="margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                        📊
+                    </div>
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #0F172A;">
+                                Analisa Trafik Pengunjung &amp; Google SERP Rank Tracker
+                            </h2>
+                            <span style="background: #EEF2FF; color: #4338CA; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
+                                🧠 Otak AI Lokal: Mas Radit &amp; Bung Riko
+                            </span>
+                        </div>
+                        <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 3px;">
+                            Memantau 9 statistik pengunjung real-time web &amp; melacak posisi halaman/ranking Dropoff.id di Google secara instan tanpa perlu cek manual.
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button type="button" onclick="loadVisitorStatsAndAnalysis()" style="padding: 7px 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer;">
+                        🔄 Refresh Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- BAGIAN A: 4 KARTU METRIK UTAMA PENGUNJUNG -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px;">
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">👥 PENGUNJUNG HARI INI</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #0F172A; margin-top: 4px;" id="statVisToday">0</div>
+                    <div style="font-size: 11px; color: #16A34A; margin-top: 2px;">● Pengunjung unik aktif</div>
+                </div>
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📈 TOTAL PENGUNJUNG UNIK</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #2563EB; margin-top: 4px;" id="statVisTotal">0</div>
+                    <div style="font-size: 11px; color: #64748B; margin-top: 2px;">Akumulasi sepanjang waktu</div>
+                </div>
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📄 KUNJUNGAN HARI INI</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #0284C7; margin-top: 4px;" id="statPvToday">0</div>
+                    <div style="font-size: 11px; color: #64748B; margin-top: 2px;">Total pageviews hari ini</div>
+                </div>
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📊 TOTAL KUNJUNGAN (PAGEVIEWS)</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #7C3AED; margin-top: 4px;" id="statPvTotal">0</div>
+                    <div style="font-size: 11px; color: #64748B; margin-top: 2px;">Seluruh tayangan halaman</div>
+                </div>
+            </div>
+
+            <!-- BAGIAN B: ALAT CEK POSISI & RANKING GOOGLE (BUNG RIKO) -->
+            <div style="background: linear-gradient(135deg, #1E1B4B, #0F172A); border-radius: 14px; padding: 18px 20px; color: #FFF; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.25);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 20px;">🎯</span>
+                            <span style="font-size: 15px; font-weight: 800; color: #F8FAFC;">Alat Pelacak Ranking Google Otomatis (Bung Riko)</span>
+                            <span style="background: #312E81; color: #A5B4FC; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px;">Google SERP Scanner</span>
+                        </div>
+                        <div style="font-size: 12px; color: #94A3B8; margin-top: 2px;">Ketik kata kunci apa saja untuk mengetahui langsung apakah Dropoff.id ada di Halaman 1 atau posisi berapa di Google tanpa perlu buka manual.</div>
+                    </div>
+                </div>
+
+                <!-- Input Cek Ranking -->
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+                    <input type="text" id="serpKeywordInput" placeholder="Contoh: sewa mobil drop off bandung jakarta..." value="sewa mobil drop off bandung jakarta" style="flex: 1; min-width: 260px; height: 42px; border-radius: 8px; border: 1px solid #475569; background: #0F172A; color: #FFF; padding: 0 14px; font-size: 13.5px; font-weight: 600; outline: none;">
+                    <button type="button" onclick="checkGoogleRankNow()" id="btnCheckRank" style="height: 42px; padding: 0 20px; background: linear-gradient(135deg, #3B82F6, #1D4ED8); color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                        <span>🔍</span>
+                        <span>Cek Posisi Google Sekarang</span>
+                    </button>
+                </div>
+
+                <!-- Pilihan Cepat Keyword Utama -->
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;">
+                    <span style="font-size: 11px; color: #94A3B8;">Cek Cepat:</span>
+                    <button type="button" onclick="setAndCheckSerp('sewa mobil drop off bandung jakarta')" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #E2E8F0; padding: 3px 9px; border-radius: 6px; font-size: 11px; cursor: pointer;">Bandung ➔ Jakarta</button>
+                    <button type="button" onclick="setAndCheckSerp('drop off bandara soetta bandung')" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #E2E8F0; padding: 3px 9px; border-radius: 6px; font-size: 11px; cursor: pointer;">Bandara Soetta ➔ Bandung</button>
+                    <button type="button" onclick="setAndCheckSerp('carter drop off jakarta bandung all in')" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #E2E8F0; padding: 3px 9px; border-radius: 6px; font-size: 11px; cursor: pointer;">Jakarta ➔ Bandung All-In</button>
+                    <button type="button" onclick="setAndCheckSerp('dropoff.id')" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #E2E8F0; padding: 3px 9px; border-radius: 6px; font-size: 11px; cursor: pointer;">Brand dropoff.id</button>
+                </div>
+
+                <!-- Kartu Hasil Pengecekan Google -->
+                <div id="serpResultBox" style="display: none; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; padding: 14px 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+                        <div>
+                            <div style="font-size: 12px; color: #94A3B8;">HASIL PENCARIAN GOOGLE UNTUK:</div>
+                            <div style="font-size: 16px; font-weight: 800; color: #38BDF8; margin-top: 2px;" id="serpResKeyword">-</div>
+                            <div style="font-size: 12.5px; color: #E2E8F0; margin-top: 6px;">
+                                <b>URL Terindeks:</b> <a href="#" id="serpResUrl" target="_blank" style="color: #60A5FA; text-decoration: underline;">-</a>
+                            </div>
+                            <div style="font-size: 12px; color: #CBD5E1; margin-top: 4px;" id="serpResTitle">-</div>
+                        </div>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <div style="text-align: center; background: rgba(2, 132, 199, 0.2); border: 1px solid #0284C7; padding: 8px 16px; border-radius: 10px;">
+                                <div style="font-size: 11px; color: #BAE6FD; font-weight: 700;">HALAMAN GOOGLE</div>
+                                <div style="font-size: 26px; font-weight: 900; color: #38BDF8;" id="serpResPage">-</div>
+                            </div>
+                            <div style="text-align: center; background: rgba(22, 163, 74, 0.2); border: 1px solid #16A34A; padding: 8px 16px; border-radius: 10px;">
+                                <div style="font-size: 11px; color: #BBF7D0; font-weight: 700;">URUTAN RANKING</div>
+                                <div style="font-size: 26px; font-weight: 900; color: #4ADE80;" id="serpResRank">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12.5px; color: #E2E8F0; line-height: 1.5;" id="serpResRiko">
+                        <!-- Komentar Bung Riko -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- BAGIAN C: DETAIL 5 DIMENSI PENGUNJUNG (KEYWORD, SERP, BROWSER, OS, KOTA) -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                <!-- 1. Top Keywords -->
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">🔑 Kata Kunci Pencarian Masuk</div>
+                    <div id="topKeywordsList" style="font-size: 12px; color: #334155;">Memuat kata kunci...</div>
+                </div>
+
+                <!-- 2. SERP & Sumber Mesin Pencari -->
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">🔍 Mesin Pencari / Sumber Trafik</div>
+                    <div id="serpSourcesList" style="font-size: 12px; color: #334155;">Memuat sumber...</div>
+                </div>
+
+                <!-- 3. Browser & OS -->
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">🌐 Browser &amp; OS Pengunjung</div>
+                    <div id="browserOsList" style="font-size: 12px; color: #334155;">Memuat data perangkat...</div>
+                </div>
+
+                <!-- 4. Asal Kota / Wilayah -->
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">📍 Asal Wilayah / Kota Pengunjung</div>
+                    <div id="topCitiesList" style="font-size: 12px; color: #334155;">Memuat kota...</div>
+                </div>
+            </div>
+
+            <!-- BAGIAN D: KOTAK ANALISA STRATEGIS MAS RADIT (AI LOKAL) -->
+            <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 16px 18px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 20px;">💡</span>
+                        <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #166534;">
+                            Analisa &amp; Saran Pertumbuhan Trafik (Mas Radit &ndash; AI Lokal)
+                        </h3>
+                    </div>
+                    <span style="font-size: 11.5px; color: #15803D; font-weight: 700;" id="raditTimestamp">-</span>
+                </div>
+
+                <div style="font-size: 13px; color: #1F2937; line-height: 1.6; margin-bottom: 14px;" id="raditSummary">
+                    Memuat analisa cerdas...
+                </div>
+
+                <div style="font-size: 12.5px; font-weight: 800; color: #166534; margin-bottom: 8px;">🎯 3 Langkah Taktis Menaikkan Kunjungan:</div>
+                <div id="raditActionsList" style="display: flex; flex-direction: column; gap: 6px;">
+                    <!-- Langkah Aksi -->
+                </div>
+            </div>
+        </div>
+
         <!-- 0. PENDAFTARAN MITRA SOPIR (MENUNGGU AKTIVASI ADMIN) -->
         <div class="section-card" id="pendingDriversCard" style="border-left: 4px solid #2563EB;">
             <div class="section-header">
@@ -1781,6 +1946,7 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
         checkAdminAuthRole();
         loadAdminData();
         loadFleetMap();
+        loadVisitorStatsAndAnalysis();
         loadAdminHotlineWa();
         loadHasnaPrompt();
         checkScrollToHendra();

@@ -2353,6 +2353,28 @@ $isLoggedIn = isCrewLoggedIn();
                                 <p class="android-agent-duty">Komandan Crew AI</p>
                             </div>
                         </div>
+
+                        <!-- CARD 8: MAS RADIT (TRAFFIC ANALYTICS) -->
+                        <div class="android-card" onclick="openAgentWorkspace('raditPanel', 'Mas Radit &ndash; Web Analytics & Growth Specialist')">
+                            <div class="ai-icon-box icon-theme-cyan" style="background: #E0F2FE; color: #0284C7;">
+                                <span>📊</span>
+                            </div>
+                            <div class="ai-card-caption">
+                                <h4 class="android-agent-name">Mas Radit</h4>
+                                <p class="android-agent-duty">Trafik &amp; Analitik</p>
+                            </div>
+                        </div>
+
+                        <!-- CARD 9: BUNG RIKO (GOOGLE SERP TRACKER) -->
+                        <div class="android-card" onclick="openAgentWorkspace('rikoPanel', 'Bung Riko &ndash; Google SERP Rank Tracker')">
+                            <div class="ai-icon-box icon-theme-purple" style="background: #EDE9FE; color: #7C3AED;">
+                                <span>🎯</span>
+                            </div>
+                            <div class="ai-card-caption">
+                                <h4 class="android-agent-name">Bung Riko</h4>
+                                <p class="android-agent-duty">Rank Google</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
