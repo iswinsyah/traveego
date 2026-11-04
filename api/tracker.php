@@ -139,7 +139,8 @@ function detectSerpAndKeyword($ref, $url, $customKw = '') {
     return [$serp, $kw ?: 'pencarian langsung web'];
 }
 
-$action = $_GET['action'] ?? $_POST['action'] ?? 'track';
+if (!defined('TRACKER_LIB_ONLY')) {
+    $action = $_GET['action'] ?? $_POST['action'] ?? 'track';
 
 // ==========================================
 // A. TRACK KUNJUNGAN (ASINKRON / BEACON)
@@ -321,4 +322,5 @@ function getVisitorStatsAggregated($pdo) {
 
 if ($action === 'stats') {
     sendJson(['success' => true, 'data' => getVisitorStatsAggregated($pdo)]);
+}
 }

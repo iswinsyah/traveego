@@ -97,6 +97,7 @@ function generateRaditAnalysis($stats) {
     ];
 }
 
+if (!defined('TRACKER_LIB_ONLY')) define('TRACKER_LIB_ONLY', true);
 require_once __DIR__ . '/tracker.php';
 $stats = getVisitorStatsAggregated($pdo);
 $analysis = generateRaditAnalysis($stats);
