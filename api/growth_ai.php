@@ -97,16 +97,8 @@ function generateRaditAnalysis($stats) {
     ];
 }
 
-// AMBIL STATISTIK & JALANKAN OTAK ANALISA MAS RADIT
-$trackerFile = __DIR__ . '/tracker.php';
-// Panggil statistik tracker secara internal
-$_GET['action'] = 'stats';
-ob_start();
-require __DIR__ . '/tracker.php';
-$rawStats = ob_get_clean();
-$statsData = json_decode($rawStats, true);
-
-$stats = $statsData['data'] ?? [];
+require_once __DIR__ . '/tracker.php';
+$stats = getVisitorStatsAggregated($pdo);
 $analysis = generateRaditAnalysis($stats);
 
 sendJson([

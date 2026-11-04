@@ -209,8 +209,7 @@ if ($action === 'track') {
 // ==========================================
 // B. STATISTIK LENGKAP UNTUK DASHBOARD ADMIN
 // ==========================================
-if ($action === 'stats') {
-    // Membaca data statistik agregasi real-time
+function getVisitorStatsAggregated($pdo) {
     $stats = [
         'visitors_today' => 0,
         'visitors_total' => 0,
@@ -228,15 +227,11 @@ if ($action === 'stats') {
 
     if ($pdo) {
         try {
-            // 1. Pengunjung unik hari ini & total
             $stats['visitors_today'] = intval($pdo->query("SELECT COUNT(DISTINCT ip_hash) FROM visitor_logs WHERE DATE(visited_at) = CURDATE()")->fetchColumn() ?: 0);
             $stats['visitors_total'] = intval($pdo->query("SELECT COUNT(DISTINCT ip_hash) FROM visitor_logs")->fetchColumn() ?: 0);
-            
-            // 2. Total pageviews hari ini & total
             $stats['pageviews_today'] = intval($pdo->query("SELECT COUNT(*) FROM visitor_logs WHERE DATE(visited_at) = CURDATE()")->fetchColumn() ?: 0);
             $stats['pageviews_total'] = intval($pdo->query("SELECT COUNT(*) FROM visitor_logs")->fetchColumn() ?: 0);
 
-            // 3. Keyword paling populer (Top 8)
             $kwStmt = $pdo->query("
                 SELECT search_keyword, COUNT(*) as total_hits, COUNT(DISTINCT ip_hash) as unique_users
                 FROM visitor_logs
@@ -247,7 +242,6 @@ if ($action === 'stats') {
             ");
             $stats['top_keywords'] = $kwStmt->fetchAll() ?: [];
 
-            // 4. Keyword terbaru yang masuk (Recent 10)
             $recStmt = $pdo->query("
                 SELECT search_keyword, serp_source, city, browser, os, visited_at
                 FROM visitor_logs
@@ -257,56 +251,21 @@ if ($action === 'stats') {
             ");
             $stats['recent_keywords'] = $recStmt->fetchAll() ?: [];
 
-            // 5. SERP / Sumber Mesin Pencari
-            $serpStmt = $pdo->query("
-                SELECT serp_source as name, COUNT(*) as count
-                FROM visitor_logs
-                GROUP BY serp_source
-                ORDER BY count DESC
-                LIMIT 6
-            ");
+            $serpStmt = $pdo->query("SELECT serp_source as name, COUNT(*) as count FROM visitor_logs GROUP BY serp_source ORDER BY count DESC LIMIT 6");
             $stats['serp_sources'] = $serpStmt->fetchAll() ?: [];
 
-            // 6. Browser yang Digunakan
-            $bStmt = $pdo->query("
-                SELECT browser as name, COUNT(*) as count
-                FROM visitor_logs
-                GROUP BY browser
-                ORDER BY count DESC
-                LIMIT 6
-            ");
+            $bStmt = $pdo->query("SELECT browser as name, COUNT(*) as count FROM visitor_logs GROUP BY browser ORDER BY count DESC LIMIT 6");
             $stats['browsers'] = $bStmt->fetchAll() ?: [];
 
-            // 7. OS yang Digunakan
-            $osStmt = $pdo->query("
-                SELECT os as name, COUNT(*) as count
-                FROM visitor_logs
-                GROUP BY os
-                ORDER BY count DESC
-                LIMIT 6
-            ");
+            $osStmt = $pdo->query("SELECT os as name, COUNT(*) as count FROM visitor_logs GROUP BY os ORDER BY count DESC LIMIT 6");
             $stats['operating_systems'] = $osStmt->fetchAll() ?: [];
 
-            // 8. Tipe Perangkat (Mobile vs Desktop)
-            $devStmt = $pdo->query("
-                SELECT device_type as name, COUNT(*) as count
-                FROM visitor_logs
-                GROUP BY device_type
-                ORDER BY count DESC
-            ");
+            $devStmt = $pdo->query("SELECT device_type as name, COUNT(*) as count FROM visitor_logs GROUP BY device_type ORDER BY count DESC");
             $stats['devices'] = $devStmt->fetchAll() ?: [];
 
-            // 9. Asal Kota Pengunjung
-            $cityStmt = $pdo->query("
-                SELECT city as name, COUNT(*) as count
-                FROM visitor_logs
-                GROUP BY city
-                ORDER BY count DESC
-                LIMIT 8
-            ");
+            $cityStmt = $pdo->query("SELECT city as name, COUNT(*) as count FROM visitor_logs GROUP BY city ORDER BY count DESC LIMIT 8");
             $stats['top_cities'] = $cityStmt->fetchAll() ?: [];
 
-            // 10. Tren Trafik 7 Hari Terakhir
             $trendStmt = $pdo->query("
                 SELECT DATE(visited_at) as date, COUNT(DISTINCT ip_hash) as visitors, COUNT(*) as pageviews
                 FROM visitor_logs
@@ -315,13 +274,11 @@ if ($action === 'stats') {
                 ORDER BY date ASC
             ");
             $stats['traffic_trend_7d'] = $trendStmt->fetchAll() ?: [];
-
         } catch (Throwable $e) {
             error_log("Error fetching visitor stats: " . $e->getMessage());
         }
     }
 
-    // Jika data masih baru / kosong (hari pertama pasang), buatkan data baseline edukatif agar tabel tidak kosong melompong
     if ($stats['pageviews_total'] === 0) {
         $stats['visitors_today'] = 14;
         $stats['visitors_total'] = 48;
@@ -359,6 +316,9 @@ if ($action === 'stats') {
             ['name' => 'Surabaya', 'count' => 8]
         ];
     }
+    return $stats;
+}
 
-    sendJson(['success' => true, 'data' => $stats]);
+if ($action === 'stats') {
+    sendJson(['success' => true, 'data' => getVisitorStatsAggregated($pdo)]);
 }
