@@ -2375,6 +2375,17 @@ $isLoggedIn = isCrewLoggedIn();
                                 <p class="android-agent-duty">Rank Google</p>
                             </div>
                         </div>
+
+                        <!-- CARD 10: KAK YESI (YOAST QUALITY INSPECTOR) -->
+                        <div class="android-card" onclick="openAgentWorkspace('yesiPanel', 'Kak YESI &ndash; Yoast SEO Quality & Editorial Inspector')">
+                            <div class="ai-icon-box icon-theme-green" style="background: #DCFCE7; color: #16A34A;">
+                                <span>🌿</span>
+                            </div>
+                            <div class="ai-card-caption">
+                                <h4 class="android-agent-name">Kak YESI</h4>
+                                <p class="android-agent-duty">Auditor Yoast</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -4095,7 +4106,37 @@ Halo Mas Winsyah! Percakapan telah dibersihkan. Silakan tanyakan seputar rute Ba
         }, 120);
     }
 
-    function simulateHasnaChat() {
+    
+        async function triggerManualYoastAutoFix() {
+            const btn = document.getElementById('btnTriggerYoast');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span><span>Kak YESI & Ndan Heru sedang memeriksa & meratakan hijau...</span>';
+            }
+            try {
+                const res = await fetch('/api/auto_yoast_fixer.php');
+                const data = await res.json();
+                if (data.success) {
+                    alert('🎉 SUKSES BESAR!
+
+' + data.message + '
+
+Total konten diaudit: ' + data.data.total_green + ' item (Semua 100% HIJAU 🟢)');
+                    location.reload();
+                } else {
+                    alert('Gagal audit: ' + (data.message || 'Respon tak terduga'));
+                }
+            } catch(e) {
+                alert('Koneksi audit gagal: ' + e.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>⚡</span><span>Audit & Ratakan Hijau Sekarang</span>';
+                }
+            }
+        }
+
+        function simulateHasnaChat() {
         alert('👩‍💼 Mbak Hasna (CS AI):\n"Halo Kak! Hasna terhubung langsung dengan data tarif update Pak Hendra dan armada standby Bang Jaka.\nTarif kami ALL-IN (Tol + BBM + Sopir) tanpa DP sama sekali, bayar di lokasi penjemputan/tujuan!"');
     }
 
