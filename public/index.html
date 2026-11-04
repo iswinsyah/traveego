@@ -955,6 +955,80 @@
             margin-left: 6px;
         }
 
+        
+        /* STICKY FLOATING QUICK BOOK CTA (HP / MOBILE ONLY) */
+        .mobile-sticky-cta {
+            display: none;
+            position: fixed;
+            bottom: 74px;
+            left: 50%;
+            transform: translateX(-50%) translateY(30px) scale(0.95);
+            width: calc(100% - 24px);
+            max-width: 440px;
+            z-index: 109;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+        @media (max-width: 991px) {
+            .mobile-sticky-cta {
+                display: flex;
+            }
+        }
+        .mobile-sticky-cta.is-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+        .mobile-sticky-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 18px;
+            background: linear-gradient(135deg, #0B4FD8 0%, #1D4ED8 100%);
+            color: #FFFFFF !important;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 13.5px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            box-shadow: 0 10px 28px rgba(11, 79, 216, 0.5), 0 2px 10px rgba(0, 0, 0, 0.28);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        .mobile-sticky-btn:active {
+            transform: scale(0.97);
+        }
+        .sticky-btn-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sticky-btn-badge {
+            background: rgba(255, 255, 255, 0.22);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #E0E7FF;
+        }
+        .sticky-btn-arrow {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            color: #0B4FD8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+        }
+
         /* ANDROID BOTTOM DOCK (DEFAULT HIDDEN DI PC) */
         .android-bottom-dock {
             display: none;
@@ -1700,6 +1774,19 @@
         <button class="toast-close" onclick="closeToast()">&times;</button>
     </div>
 
+    
+    <!-- 11b. STICKY FLOATING QUICK BOOK BUTTON (HP / MOBILE ONLY) -->
+    <div class="mobile-sticky-cta" id="mobileStickyCta">
+        <a href="javascript:void(0)" onclick="triggerStickyQuickBook()" class="mobile-sticky-btn">
+            <div class="sticky-btn-left">
+                <span style="font-size: 16px;">⚡</span>
+                <span id="stickyBtnText">PESAN CEPAT SEKARANG</span>
+                <span class="sticky-btn-badge">All-In</span>
+            </div>
+            <div class="sticky-btn-arrow">&rarr;</div>
+        </a>
+    </div>
+
     <!-- 12. FLOATING ANDROID-STYLE BOTTOM NAVIGATION DOCK -->
     <nav class="android-bottom-dock" id="androidBottomDock">
         <a href="#hero" class="dock-item active" data-section="hero">
@@ -2065,6 +2152,50 @@
         }
 
         // Jalankan sinkronisasi dinamis
+        
+        // 13. STICKY FLOATING QUICK-BOOK CTA TRIGGER & SCROLL OBSERVER (HP)
+        function triggerStickyQuickBook() {
+            const car = (typeof CARS !== 'undefined' && CARS[currentCarIdx]) ? CARS[currentCarIdx] : { name: 'Semua Mobil' };
+            quickBook(car.name, `Halo Admin Dropoff.id, saya mau Pesan Cepat Drop-Off ${car.name}. Mohon info tarif terbaik & ketersediaan armada ya.`);
+        }
+
+        (function initStickyCta() {
+            const stickyCta = document.getElementById('mobileStickyCta');
+            const heroCtaGroup = document.querySelector('.hero-cta-group');
+            if (!stickyCta) return;
+
+            function checkScroll() {
+                if (window.innerWidth > 991) {
+                    stickyCta.classList.remove('is-visible');
+                    return;
+                }
+                // Jika discroll lebih dari 320px dari atas (melewati hero)
+                if (window.scrollY > 320) {
+                    stickyCta.classList.add('is-visible');
+                } else {
+                    stickyCta.classList.remove('is-visible');
+                }
+            }
+
+            if ('IntersectionObserver' in window && heroCtaGroup) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (window.innerWidth <= 991) {
+                            if (entry.isIntersecting) {
+                                stickyCta.classList.remove('is-visible');
+                            } else if (window.scrollY > 200) {
+                                stickyCta.classList.add('is-visible');
+                            }
+                        }
+                    });
+                }, { threshold: 0.1 });
+                observer.observe(heroCtaGroup);
+            }
+
+            window.addEventListener('scroll', checkScroll, { passive: true });
+            window.addEventListener('resize', checkScroll, { passive: true });
+        })();
+
         window.addEventListener('DOMContentLoaded', loadDynamicContent);
     </script>
     <!-- Dropoff.id Build 2026.10.28: Dual Cloud AI (Gemini & Groq) & CS AI Hotline WA -->
