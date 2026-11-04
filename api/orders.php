@@ -148,6 +148,16 @@ if ($action === 'auction' || ($_SERVER['REQUEST_METHOD'] === 'GET' && empty($act
                 }
             }
         }
+        foreach ($orders as &$ord) {
+            if (!empty($ord['customer_phone'])) {
+                $clean = preg_replace('/[^0-9]/', '', $ord['customer_phone']);
+                $ord['customer_phone_masked'] = (strlen($clean) >= 8)
+                    ? (substr($clean, 0, 4) . '-****-' . substr($clean, -4))
+                    : '0812-****-4321';
+                unset($ord['customer_phone']);
+            }
+        }
+        unset($ord);
         sendJson(['success' => true, 'data' => $orders]);
     } catch (Throwable $e) {
         sendJson(['success' => false, 'message' => $e->getMessage()], 500);
@@ -309,6 +319,12 @@ if ($action === 'accept') {
                 $orderStmt->execute([$orderId, $orderId]);
                 $order = $orderStmt->fetch();
 
+                if ($driverId != 999 && !empty($order['customer_phone'])) {
+                    $clean = preg_replace('/[^0-9]/', '', $order['customer_phone']);
+                    $order['customer_phone_masked'] = (strlen($clean) >= 8) ? (substr($clean, 0, 4) . '-****-' . substr($clean, -4)) : '0812-****-4321';
+                    unset($order['customer_phone']);
+                }
+
                 sendJson([
                     'success' => true,
                     'message' => 'Selamat! Anda memenangkan lelang order ini.',
@@ -368,10 +384,17 @@ if ($action === 'accept') {
 
             saveFlatStore($store);
 
+            $resOrder = $store[$targetKey];
+            if ($driverId != 999 && !empty($resOrder['customer_phone'])) {
+                $clean = preg_replace('/[^0-9]/', '', $resOrder['customer_phone']);
+                $resOrder['customer_phone_masked'] = (strlen($clean) >= 8) ? (substr($clean, 0, 4) . '-****-' . substr($clean, -4)) : '0812-****-4321';
+                unset($resOrder['customer_phone']);
+            }
+
             sendJson([
                 'success' => true,
                 'message' => 'Selamat! Anda memenangkan lelang order ini.',
-                'data' => $store[$targetKey]
+                'data' => $resOrder
             ]);
         }
     } catch (Throwable $e) {

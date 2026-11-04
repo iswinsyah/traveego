@@ -328,8 +328,9 @@ if ($action === 'login') {
         }
 
         if ($activeOrder && !empty($activeOrder['customer_phone'])) {
-            $p = $activeOrder['customer_phone'];
-            $activeOrder['customer_phone_masked'] = substr($p, 0, 4) . '-****-' . substr($p, -4);
+            $p = preg_replace('/[^0-9]/', '', $activeOrder['customer_phone']);
+            $activeOrder['customer_phone_masked'] = (strlen($p) >= 8) ? (substr($p, 0, 4) . '-****-' . substr($p, -4)) : '0812-****-4321';
+            unset($activeOrder['customer_phone']);
         }
 
         sendJson([
