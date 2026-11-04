@@ -11,7 +11,7 @@ if ($action === 'login') {
     $password = trim($input['password'] ?? '');
 
     $isSuper = ($username === 'winsyah' && ($password === 'Khilafet@1924' || $password === 'khilafet@1924'));
-    $isAdmin = ($username === ADMIN_USERNAME && ($password === ADMIN_PASSWORD || $password === 'admin@dropoff.id' || $password === 'admin@traveego'));
+    $isAdmin = ($username === ADMIN_USERNAME && ($password === ADMIN_PASSWORD || $password === 'admin@dropoff.id'));
 
     if ($isSuper || $isAdmin) {
         startAdminSession();

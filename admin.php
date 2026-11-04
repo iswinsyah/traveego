@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['log'], $_POST['pwd'])
 
 
     $isSuper = ($user === 'winsyah' && ($pass === 'Khilafet@1924' || $pass === 'khilafet@1924'));
-    $isAdmin = ($user === ADMIN_USERNAME && ($pass === ADMIN_PASSWORD || $pass === 'admin@dropoff.id' || $pass === 'admin@traveego'));
+    $isAdmin = ($user === ADMIN_USERNAME && ($pass === ADMIN_PASSWORD || $pass === 'admin@dropoff.id'));
 
     if ($isSuper || $isAdmin) {
         $_SESSION['admin_logged_in'] = true;
@@ -582,18 +582,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
 
 
                 <button type="submit" class="btn-submit-login">Log Masuk</button>
-
-
-
-                <div class="credential-hint">
-
-                    🔐 <b>Akses Admin Sistem:</b><br>
-
-                    Username: <code>admin</code><br>
-
-                    Password: <code>admin@dropoff.id</code>
-
-                </div>
 
             </form>
 
