@@ -463,44 +463,6 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
 
         }
 
-
-
-        .credential-hint {
-
-            margin-top: 18px;
-
-            background: #f8fafc;
-
-            border: 1px dashed #cbd5e1;
-
-            padding: 10px 12px;
-
-            border-radius: 6px;
-
-            font-size: 11.5px;
-
-            color: #475569;
-
-            line-height: 1.5;
-
-        }
-
-        .credential-hint code {
-
-            font-family: 'JetBrains Mono', monospace;
-
-            background: #e2e8f0;
-
-            padding: 1px 5px;
-
-            border-radius: 3px;
-
-            color: #0f172a;
-
-            font-weight: 600;
-
-        }
-
     </style>
 
 </head>
