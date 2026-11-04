@@ -241,10 +241,11 @@ if ($action === 'accept') {
         sendJson(['success' => false, 'message' => 'Parameter order_id dan driver_id wajib ada'], 400);
     }
 
-    // ATURAN SALDO KOSONG: Driver tidak dapat mengambil order jika saldo deposit kosong
+    // ATURAN SALDO MINIMUM KOMISI: Saldo driver harus mencukupi untuk komisi lelang ini
     if ($driverId != 999) {
         $driverBalance = 0;
         $isSuper = false;
+        $requiredCommission = 0;
         if ($pdo) {
             try {
                 $stD = $pdo->prepare("SELECT balance, is_super_admin FROM drivers WHERE id = ?");
@@ -254,14 +255,42 @@ if ($action === 'accept') {
                     $driverBalance = floatval($rowD['balance'] ?? 0);
                     $isSuper = !empty($rowD['is_super_admin']);
                 }
+
+                $stO = $pdo->prepare("SELECT total_fare, admin_commission, commission_amount FROM orders WHERE (id = ? OR tracking_code = ?)");
+                $stO->execute([$orderId, $orderId]);
+                $ordPreview = $stO->fetch();
+                if ($ordPreview) {
+                    $requiredCommission = floatval($ordPreview['commission_amount'] ?? 0);
+                    if ($requiredCommission <= 0) {
+                        $requiredCommission = floatval($ordPreview['admin_commission'] ?? 0);
+                    }
+                    if ($requiredCommission <= 0) {
+                        $requiredCommission = floatval($ordPreview['total_fare'] ?? 0) * 0.10;
+                    }
+                }
             } catch (Throwable $e) {}
         }
-        if (!$isSuper && $driverBalance <= 0) {
-            sendJson([
-                'success' => false,
-                'code' => 'INSUFFICIENT_BALANCE',
-                'message' => 'Gagal mengambil order! Saldo deposit Anda kosong (Rp ' . number_format($driverBalance, 0, ',', '.') . '). Silakan Top Up saldo deposit minimal Rp 50.000 terlebih dahulu.'
-            ], 403);
+
+        if (!$isSuper) {
+            if ($driverBalance <= 0) {
+                sendJson([
+                    'success' => false,
+                    'code' => 'INSUFFICIENT_BALANCE',
+                    'current_balance' => $driverBalance,
+                    'required_commission' => $requiredCommission,
+                    'message' => 'Gagal mengambil order! Saldo deposit Anda kosong (Rp ' . number_format($driverBalance, 0, ',', '.') . '). Silakan Top Up saldo deposit minimal Rp 50.000 terlebih dahulu.'
+                ], 403);
+            } elseif ($requiredCommission > 0 && $driverBalance < $requiredCommission) {
+                $shortage = $requiredCommission - $driverBalance;
+                sendJson([
+                    'success' => false,
+                    'code' => 'INSUFFICIENT_BALANCE',
+                    'current_balance' => $driverBalance,
+                    'required_commission' => $requiredCommission,
+                    'shortage' => $shortage,
+                    'message' => 'Gagal mengambil order! Saldo deposit Anda (Rp ' . number_format($driverBalance, 0, ',', '.') . ') tidak mencukupi untuk potongan komisi lelang ini (Rp ' . number_format($requiredCommission, 0, ',', '.') . '). Silakan Top Up minimal Rp ' . number_format($shortage, 0, ',', '.') . ' terlebih dahulu.'
+                ], 403);
+            }
         }
     }
 

@@ -1310,30 +1310,7 @@
         }
 
         function exportLedgerCsv() {
-            if (!allLedgerCache || allLedgerCache.length === 0) {
-                alert('Belum ada data transaksi pembukuan untuk diekspor.');
-                return;
-            }
-            const headers = ['Kode Transaksi', 'Waktu', 'Jenis', 'Kategori', 'Keterangan', 'Nominal (Rp)', 'Saldo Akhir (Rp)', 'Pencatat'];
-            const rows = allLedgerCache.map(c => [
-                c.trx_code,
-                c.trx_date,
-                c.type,
-                c.category,
-                `"${(c.description || '').replace(/"/g, '""')}"`,
-                c.amount,
-                c.balance_after,
-                c.created_by || 'SYSTEM_AUTO'
-            ]);
-
-            const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', `Buku_Kas_Dropoff_${new Date().toISOString().slice(0,10)}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            window.location.href = '/api/admin.php?action=export_ledger';
         }
 
         async function recordManualLedgerPrompt() {

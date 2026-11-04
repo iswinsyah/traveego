@@ -481,6 +481,10 @@
             transition: all 0.2s;
         }
         .btn-take-order:active { transform: scale(0.98); }
+        .btn-take-order.btn-short-balance {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+        }
 
         /* ACTIVE TRIP CONTAINER */
         .active-trip-box {
@@ -2326,9 +2330,24 @@
                                 <span class="net-profit-val">Rp ${netProfit.toLocaleString('id-ID')}</span>
                             </div>
 
-                            <button class="btn-take-order" onclick="takeOrder('${order.id || order.tracking_code}')">
-                                <span>⚡ AMBIL ORDER INI</span>
-                            </button>
+                            ${(() => {
+                                const curBal = (currentDriver && typeof currentDriver.balance === 'number') ? currentDriver.balance : 0;
+                                const isShort = (curBal < comm);
+                                const diff = Math.max(0, comm - curBal);
+                                if (isShort) {
+                                    return `
+                                        <button class="btn-take-order btn-short-balance" onclick="promptShortageTopup('${order.id || order.tracking_code}', ${comm}, ${curBal}, ${diff})">
+                                            <span>⚠️ Saldo Kurang Rp ${diff.toLocaleString('id-ID')} (Top Up)</span>
+                                        </button>
+                                    `;
+                                } else {
+                                    return `
+                                        <button class="btn-take-order" onclick="takeOrder('${order.id || order.tracking_code}')">
+                                            <span>⚡ AMBIL ORDER INI</span>
+                                        </button>
+                                    `;
+                                }
+                            })()}
                         `;
                         list.appendChild(card);
                     });
@@ -2345,6 +2364,12 @@
                 }
             } catch (err) {
                 console.error(err);
+            }
+        }
+
+        function promptShortageTopup(orderId, comm, bal, diff) {
+            if (confirm(`⚠️ SALDO DEPOSIT BELUM MENCUKUPI\n\nUntuk mengambil order ini, dibutuhkan saldo deposit minimal setara potongan komisi:\n• Komisi Order: Rp ${comm.toLocaleString('id-ID')}\n• Saldo Anda Saat Ini: Rp ${bal.toLocaleString('id-ID')}\n• Kurang: Rp ${diff.toLocaleString('id-ID')}\n\nBuka halaman Top Up Saldo sekarang?`)) {
+                openTopUpModal();
             }
         }
 

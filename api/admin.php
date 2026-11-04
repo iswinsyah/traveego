@@ -525,6 +525,58 @@ if ($action === 'ledger') {
     sendJson(['success' => true, 'data' => $overview]);
 }
 
+// 2d. EXPORT LAPORAN KAS KE EXCEL / CSV
+if ($action === 'export_ledger') {
+    startAdminSession();
+    if (empty($_SESSION['admin_logged_in'])) {
+        header('Location: /admin');
+        exit;
+    }
+
+    $filename = 'Buku_Kas_DropoffID_' . date('Ymd_His') . '.csv';
+    header('Content-Type: text/csv; charset=UTF-8');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+
+    $output = fopen('php://output', 'w');
+    // Output UTF-8 BOM agar Excel langsung membaca format koma & karakter rupiah dengan benar
+    fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+
+    fputcsv($output, [
+        'ID Transaksi',
+        'Tanggal & Waktu',
+        'Jenis Kas',
+        'Kategori',
+        'Nominal (Rp)',
+        'Saldo Kas Berjalan (Rp)',
+        'ID Driver',
+        'Kode Tracking Order',
+        'Keterangan Transaksi',
+        'Dicatat Oleh'
+    ]);
+
+    if ($pdo) {
+        $st = $pdo->query("SELECT id, type, category, amount, running_balance, description, driver_id, tracking_code, recorded_by, created_at FROM cash_ledger ORDER BY id ASC");
+        while ($r = $st->fetch(PDO::FETCH_ASSOC)) {
+            fputcsv($output, [
+                $r['id'],
+                $r['created_at'],
+                $r['type'] === 'IN' ? 'KAS MASUK (IN)' : 'KAS KELUAR (OUT)',
+                $r['category'],
+                number_format(floatval($r['amount']), 0, ',', '.'),
+                number_format(floatval($r['running_balance']), 0, ',', '.'),
+                $r['driver_id'] ?: '-',
+                $r['tracking_code'] ?: '-',
+                $r['description'],
+                $r['recorded_by'] ?: 'SYSTEM'
+            ]);
+        }
+    }
+    fclose($output);
+    exit;
+}
+
 if ($action === 'record_manual_ledger') {
     $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
     $type = trim($input['type'] ?? 'IN'); // IN or OUT
