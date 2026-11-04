@@ -44,7 +44,6 @@ function detectClientDevice($ua) {
     $os = 'Android';
     $device = 'Mobile';
 
-    // Deteksi OS
     if (preg_match('/android/i', $ua)) {
         $os = 'Android';
         $device = 'Mobile';
@@ -62,7 +61,6 @@ function detectClientDevice($ua) {
         $device = 'Desktop';
     }
 
-    // Deteksi Browser
     if (preg_match('/edg/i', $ua)) {
         $browser = 'Microsoft Edge';
     } elseif (preg_match('/samsungbrowser/i', $ua)) {
@@ -87,7 +85,6 @@ function detectSerpAndKeyword($ref, $url, $customKw = '') {
     $serp = 'Direct / Bookmark';
     $kw = trim($customKw);
 
-    // Cek Referrer
     if (!empty($ref)) {
         $refLower = strtolower($ref);
         $parsed = parse_url($ref);
@@ -125,7 +122,6 @@ function detectSerpAndKeyword($ref, $url, $customKw = '') {
         }
     }
 
-    // Ekstraksi dari Landing Slug jika keyword masih kosong
     if (empty($kw)) {
         $path = parse_url($url, PHP_URL_PATH) ?? '';
         $slug = trim($path, '/');
@@ -139,77 +135,7 @@ function detectSerpAndKeyword($ref, $url, $customKw = '') {
     return [$serp, $kw ?: 'pencarian langsung web'];
 }
 
-if (!defined('TRACKER_LIB_ONLY')) {
-    $action = $_GET['action'] ?? $_POST['action'] ?? 'track';
-
-// ==========================================
-// A. TRACK KUNJUNGAN (ASINKRON / BEACON)
-// ==========================================
-if ($action === 'track') {
-    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
-    
-    // Jangan track bot crawler / admin internal agar statistik murni
-    $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
-    if (preg_match('/bot|crawl|spider|mediapartners|slurp|facebookexternalhit|headless/i', $ua)) {
-        sendJson(['success' => true, 'bot' => true]);
-    }
-
-    $ip = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
-    if (strpos($ip, ',') !== false) {
-        $ip = trim(explode(',', $ip)[0]);
-    }
-    // Salted hash bulanan demi privasi & GDPR compliance
-    $ipHash = hash('sha256', $ip . '_' . date('Y_m'));
-
-    $pageUrl = trim($input['url'] ?? $_SERVER['HTTP_REFERER'] ?? '/');
-    $pageTitle = trim($input['title'] ?? 'Dropoff.id - Sewa Mobil Drop-Off');
-    $referrer = trim($input['referrer'] ?? $_SERVER['HTTP_REFERER'] ?? '');
-    $customKw = trim($input['keyword'] ?? $input['utm_term'] ?? '');
-
-    list($browser, $os, $device) = detectClientDevice($ua);
-    list($serp, $keyword) = detectSerpAndKeyword($referrer, $pageUrl, $customKw);
-
-    // Deteksi Kota Pengunjung (Cloudflare CDN / Geolocation Header)
-    $city = $_SERVER['HTTP_CF_IPCITY'] ?? '';
-    if (empty($city)) {
-        // Pemetaan IP lokal/Indonesia default jika diakses tanpa header CDN
-        $sampleCities = ['Jakarta Selatan', 'Bandung', 'Jakarta Pusat', 'Bekasi', 'Tangerang', 'Surabaya', 'Depok', 'Bogor'];
-        $cityIdx = hexdec(substr($ipHash, 0, 2)) % count($sampleCities);
-        $city = $sampleCities[$cityIdx];
-    }
-    $country = $_SERVER['HTTP_CF_IPCOUNTRY'] ?? 'Indonesia';
-
-    if ($pdo) {
-        try {
-            $stmt = $pdo->prepare("
-                INSERT INTO visitor_logs 
-                (ip_hash, visited_at, page_url, page_title, referrer, serp_source, search_keyword, browser, os, device_type, city, country)
-                VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ");
-            $stmt->execute([
-                $ipHash,
-                substr($pageUrl, 0, 255),
-                substr($pageTitle, 0, 255),
-                substr($referrer, 0, 500),
-                $serp,
-                substr($keyword, 0, 255),
-                $browser,
-                $os,
-                $device,
-                $city,
-                $country
-            ]);
-        } catch (Throwable $e) {
-            error_log("Failed to insert visitor log: " . $e->getMessage());
-        }
-    }
-
-    sendJson(['success' => true]);
-}
-
-// ==========================================
-// B. STATISTIK LENGKAP UNTUK DASHBOARD ADMIN
-// ==========================================
+// 4. FUNGSI AGREGASI STATISTIK LENGKAP
 function getVisitorStatsAggregated($pdo) {
     $stats = [
         'visitors_today' => 0,
@@ -317,10 +243,73 @@ function getVisitorStatsAggregated($pdo) {
             ['name' => 'Surabaya', 'count' => 8]
         ];
     }
+
     return $stats;
 }
 
-if ($action === 'stats') {
-    sendJson(['success' => true, 'data' => getVisitorStatsAggregated($pdo)]);
-}
+// 5. ROUTING HTTP REQUEST (HANYA DIEKSEKUSI JIKA DIAKSES LANGSUNG)
+if (!defined('TRACKER_LIB_ONLY')) {
+    $action = $_GET['action'] ?? $_POST['action'] ?? 'track';
+
+    if ($action === 'track') {
+        $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+        
+        $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        if (preg_match('/bot|crawl|spider|mediapartners|slurp|facebookexternalhit|headless/i', $ua)) {
+            sendJson(['success' => true, 'bot' => true]);
+        }
+
+        $ip = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+        if (strpos($ip, ',') !== false) {
+            $ip = trim(explode(',', $ip)[0]);
+        }
+        $ipHash = hash('sha256', $ip . '_' . date('Y_m'));
+
+        $pageUrl = trim($input['url'] ?? $_SERVER['HTTP_REFERER'] ?? '/');
+        $pageTitle = trim($input['title'] ?? 'Dropoff.id - Sewa Mobil Drop-Off');
+        $referrer = trim($input['referrer'] ?? $_SERVER['HTTP_REFERER'] ?? '');
+        $customKw = trim($input['keyword'] ?? $input['utm_term'] ?? '');
+
+        list($browser, $os, $device) = detectClientDevice($ua);
+        list($serp, $keyword) = detectSerpAndKeyword($referrer, $pageUrl, $customKw);
+
+        $city = $_SERVER['HTTP_CF_IPCITY'] ?? '';
+        if (empty($city)) {
+            $sampleCities = ['Jakarta Selatan', 'Bandung', 'Jakarta Pusat', 'Bekasi', 'Tangerang', 'Surabaya', 'Depok', 'Bogor'];
+            $cityIdx = hexdec(substr($ipHash, 0, 2)) % count($sampleCities);
+            $city = $sampleCities[$cityIdx];
+        }
+        $country = $_SERVER['HTTP_CF_IPCOUNTRY'] ?? 'Indonesia';
+
+        if ($pdo) {
+            try {
+                $stmt = $pdo->prepare("
+                    INSERT INTO visitor_logs 
+                    (ip_hash, visited_at, page_url, page_title, referrer, serp_source, search_keyword, browser, os, device_type, city, country)
+                    VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ");
+                $stmt->execute([
+                    $ipHash,
+                    substr($pageUrl, 0, 255),
+                    substr($pageTitle, 0, 255),
+                    substr($referrer, 0, 500),
+                    $serp,
+                    substr($keyword, 0, 255),
+                    $browser,
+                    $os,
+                    $device,
+                    $city,
+                    $country
+                ]);
+            } catch (Throwable $e) {
+                error_log("Failed to insert visitor log: " . $e->getMessage());
+            }
+        }
+
+        sendJson(['success' => true]);
+    }
+
+    if ($action === 'stats') {
+        sendJson(['success' => true, 'data' => getVisitorStatsAggregated($pdo)]);
+    }
 }
