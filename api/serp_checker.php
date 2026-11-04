@@ -144,6 +144,9 @@ function scrapeGoogleRank($keyword, $targetDomain = 'dropoff.id') {
     return $foundItem;
 }
 
+if (!defined('SERP_LIB_ONLY')) {
+    $action = $_GET['action'] ?? $_POST['action'] ?? 'check';
+
 // ==========================================
 // A. AKSI: CEK RANKING GOOGLE UNTUK 1 KEYWORD
 // ==========================================
@@ -214,4 +217,5 @@ if ($action === 'preset_and_history') {
         'presets' => $defaultKeywords,
         'history' => $history
     ]);
+}
 }

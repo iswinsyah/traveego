@@ -646,6 +646,37 @@
                 <div id="raditActionsList" style="display: flex; flex-direction: column; gap: 6px;">
                     <!-- Langkah Aksi -->
                 </div>
+
+                <!-- TABEL SINERGI TAKTIS MENAIKKAN RANKING DI SERP GOOGLE (MAS RADIT x BUNG RIKO) -->
+                <div style="margin-top: 18px; padding-top: 14px; border-top: 1.5px dashed #86EFAC;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 16px;">🚀</span>
+                            <span style="font-weight: 800; color: #166534; font-size: 13.5px;">Matriks Sinergi Taktis: Menaikkan Ranking di SERP Google (Mas Radit x Bung Riko)</span>
+                        </div>
+                        <span style="font-size: 11px; background: #DCFCE7; color: #166534; font-weight: 700; padding: 2px 8px; border-radius: 4px;" id="raditQuickWinBadge">
+                            0 Peluang Quick Win
+                        </span>
+                    </div>
+                    <div class="table-responsive">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12px; background: #FFF; border-radius: 8px; overflow: hidden; border: 1px solid #CBD5E1;">
+                            <thead>
+                                <tr style="background: #0F172A; color: #FFF; text-align: left;">
+                                    <th style="padding: 10px 12px;">Kata Kunci Target</th>
+                                    <th style="padding: 10px 12px; text-align: center;">Minat Tamu</th>
+                                    <th style="padding: 10px 12px; text-align: center;">Posisi Google (Bung Riko)</th>
+                                    <th style="padding: 10px 12px;">Peluang &amp; Kategori</th>
+                                    <th style="padding: 10px 12px;">Strategi Menaikkan Ranking (Mas Radit)</th>
+                                    <th style="padding: 10px 12px; text-align: center;">Eksekusi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="raditSynergyTableBody">
+                                <tr><td colspan="6" style="text-align: center; padding: 16px; color: #64748B;">Memuat matriks sinergi SERP...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -1472,6 +1503,197 @@
             } catch(e) {
                 console.error(e);
             }
+        }
+
+        
+        // ==============================================================
+        // LOGIKA ANALITIK PENGUNJUNG & SERP TRACKER (MAS RADIT & BUNG RIKO)
+        // ==============================================================
+        async function loadVisitorStatsAndAnalysis() {
+            try {
+                const res = await fetch('/api/growth_ai.php');
+                const data = await res.json();
+                if (data.success && data.data) {
+                    const stats = data.data.stats || {};
+                    const ana = data.data.analysis || {};
+
+                    // 1. Metrik Utama
+                    const elVisToday = document.getElementById('statVisToday');
+                    const elVisTotal = document.getElementById('statVisTotal');
+                    const elPvToday = document.getElementById('statPvToday');
+                    const elPvTotal = document.getElementById('statPvTotal');
+
+                    if (elVisToday) elVisToday.innerText = Number(stats.visitors_today || 0).toLocaleString('id-ID');
+                    if (elVisTotal) elVisTotal.innerText = Number(stats.visitors_total || 0).toLocaleString('id-ID');
+                    if (elPvToday) elPvToday.innerText = Number(stats.pageviews_today || 0).toLocaleString('id-ID');
+                    if (elPvTotal) elPvTotal.innerText = Number(stats.pageviews_total || 0).toLocaleString('id-ID');
+
+                    // 2. Top Keywords
+                    const kwEl = document.getElementById('topKeywordsList');
+                    if (kwEl) {
+                        if (stats.top_keywords && stats.top_keywords.length > 0) {
+                            kwEl.innerHTML = stats.top_keywords.map((k, idx) => `
+                                <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #E2E8F0;">
+                                    <span><b>#${idx+1}</b> ${k.search_keyword}</span>
+                                    <span style="font-weight: 700; color: #2563EB;">${k.total_hits} klik</span>
+                                </div>
+                            `).join('');
+                        } else {
+                            kwEl.innerHTML = '<span style="color: #94A3B8;">Belum ada kata kunci terekam</span>';
+                        }
+                    }
+
+                    // 3. SERP Sources
+                    const serpEl = document.getElementById('serpSourcesList');
+                    if (serpEl && stats.serp_sources && stats.serp_sources.length > 0) {
+                        serpEl.innerHTML = stats.serp_sources.map(s => `
+                            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #E2E8F0;">
+                                <span>${s.name}</span>
+                                <span style="font-weight: 700; color: #0284C7;">${s.count} sesi</span>
+                            </div>
+                        `).join('');
+                    }
+
+                    // 4. Browser & OS
+                    const devEl = document.getElementById('browserOsList');
+                    if (devEl) {
+                        const bList = (stats.browsers || []).map(b => `<span style="background: #EEF2FF; color: #3730A3; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 11px;">${b.name}: ${b.count}</span>`).join(' ');
+                        const osList = (stats.operating_systems || []).map(o => `<span style="background: #F0FDF4; color: #166534; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 11px;">${o.name}: ${o.count}</span>`).join(' ');
+                        devEl.innerHTML = `
+                            <div style="margin-bottom: 6px;"><b>Browser:</b><div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:2px;">${bList || '-'}</div></div>
+                            <div><b>OS:</b><div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:2px;">${osList || '-'}</div></div>
+                        `;
+                    }
+
+                    // 5. Asal Kota
+                    const cityEl = document.getElementById('topCitiesList');
+                    if (cityEl && stats.top_cities && stats.top_cities.length > 0) {
+                        cityEl.innerHTML = stats.top_cities.map(c => `
+                            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #E2E8F0;">
+                                <span>📍 ${c.name}</span>
+                                <span style="font-weight: 700; color: #D97706;">${c.count} tamu</span>
+                            </div>
+                        `).join('');
+                    }
+
+                    // 6. Analisa Naratif Mas Radit
+                    const sumEl = document.getElementById('raditSummary');
+                    if (sumEl) sumEl.innerText = ana.executive_summary || 'Trafik web stabil.';
+                    const timeEl = document.getElementById('raditTimestamp');
+                    if (timeEl) timeEl.innerText = ana.generated_at ? 'Diperbarui: ' + ana.generated_at : '-';
+
+                    const actEl = document.getElementById('raditActionsList');
+                    if (actEl && ana.recommended_actions && ana.recommended_actions.length > 0) {
+                        actEl.innerHTML = ana.recommended_actions.map(a => `
+                            <div style="background: #FFFFFF; border: 1px solid #BBF7D0; border-radius: 8px; padding: 10px 12px; font-size: 12.5px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                                    <span style="font-weight: 800; color: #166534;">${a.step}. ${a.actor}</span>
+                                    <span style="background: #DCFCE7; color: #166534; font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 4px;">${a.status}</span>
+                                </div>
+                                <div style="color: #374151;">${a.action}</div>
+                            </div>
+                        `).join('');
+                    }
+
+                    // 7. Matriks Sinergi Taktis Mas Radit x Bung Riko
+                    const synTable = document.getElementById('raditSynergyTableBody');
+                    if (synTable && ana.synergy_table && ana.synergy_table.length > 0) {
+                        synTable.innerHTML = ana.synergy_table.map((row) => {
+                            let badgeStyle = 'background: #F1F5F9; color: #475569;';
+                            if (row.category.includes('CHAMPION')) badgeStyle = 'background: #DCFCE7; color: #166534; font-weight: 800;';
+                            else if (row.category.includes('HALAMAN 1')) badgeStyle = 'background: #E0F2FE; color: #0369A1; font-weight: 800;';
+                            else if (row.category.includes('QUICK WIN')) badgeStyle = 'background: #FEF3C7; color: #92400E; font-weight: 800; border: 1px solid #F59E0B;';
+                            else badgeStyle = 'background: #F3E8FF; color: #6B21A8;';
+
+                            return `
+                                <tr style="border-bottom: 1px solid #E2E8F0;">
+                                    <td style="padding: 10px 12px; font-weight: 700; color: #0F172A;">
+                                        ${row.keyword}
+                                    </td>
+                                    <td style="padding: 10px 12px; text-align: center; color: #2563EB; font-weight: 800;">
+                                        ${row.traffic_hits} klik
+                                    </td>
+                                    <td style="padding: 10px 12px; text-align: center;">
+                                        <span style="font-weight: 900; color: ${row.is_page_one ? '#16A34A' : '#D97706'}; font-size: 13px;">
+                                            ${row.google_rank}
+                                        </span>
+                                        <div style="font-size: 10.5px; color: #64748B;">${row.google_page}</div>
+                                    </td>
+                                    <td style="padding: 10px 12px;">
+                                        <span style="${badgeStyle} padding: 3px 8px; border-radius: 6px; font-size: 11px; display: inline-block;">
+                                            ${row.category}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 10px 12px; color: #334155; line-height: 1.4;">
+                                        ${row.strategy}
+                                    </td>
+                                    <td style="padding: 10px 12px; text-align: center;">
+                                        <span style="background: #F8FAFC; border: 1px solid #CBD5E1; color: #0F172A; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; white-space: nowrap;">
+                                            ${row.target_team}
+                                        </span>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('');
+
+                        const qwBadge = document.getElementById('raditQuickWinBadge');
+                        if (qwBadge) qwBadge.innerText = `🚀 ${ana.quick_win_count || 0} Peluang Quick Win Menembus Halaman 1`;
+                    }
+                }
+            } catch (err) {
+                console.warn('Gagal memuat analitik Mas Radit:', err.message);
+            }
+        }
+
+        async function checkGoogleRankNow() {
+            const input = document.getElementById('serpKeywordInput');
+            const kw = input.value.trim();
+            if (!kw) {
+                alert('Silakan ketik kata kunci pencarian yang ingin dicek!');
+                return;
+            }
+
+            const btn = document.getElementById('btnCheckRank');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Bung Riko sedang memindai Google...</span>';
+
+            const box = document.getElementById('serpResultBox');
+            box.style.display = 'block';
+            document.getElementById('serpResKeyword').innerText = kw;
+            document.getElementById('serpResPage').innerText = '...';
+            document.getElementById('serpResRank').innerText = '...';
+            document.getElementById('serpResUrl').innerText = 'Memindai...';
+            document.getElementById('serpResTitle').innerText = 'Menghubungkan ke Google SERP...';
+            document.getElementById('serpResRiko').innerHTML = '<i>Sedang memeriksa seluruh indeks Google...</i>';
+
+            try {
+                const res = await fetch(`/api/serp_checker.php?action=check&keyword=${encodeURIComponent(kw)}`);
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('serpResPage').innerText = 'Hal. ' + data.page;
+                    document.getElementById('serpResRank').innerText = '#' + data.rank;
+                    document.getElementById('serpResUrl').innerText = data.url;
+                    document.getElementById('serpResUrl').href = data.url;
+                    document.getElementById('serpResTitle').innerText = data.title;
+                    document.getElementById('serpResRiko').innerHTML = `<b>🤖 Analisa Bung Riko:</b> ${data.riko_analysis}`;
+                    
+                    // Otomatis refresh analisa sinergi Mas Radit
+                    loadVisitorStatsAndAnalysis();
+                } else {
+                    document.getElementById('serpResRiko').innerText = 'Gagal memeriksa posisi: ' + (data.message || 'Respon tak terduga');
+                }
+            } catch (err) {
+                document.getElementById('serpResRiko').innerText = 'Gagal menghubungi server pencari: ' + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        function setAndCheckSerp(kw) {
+            document.getElementById('serpKeywordInput').value = kw;
+            checkGoogleRankNow();
         }
 
         function exportLedgerCsv() {
