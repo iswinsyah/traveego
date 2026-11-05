@@ -1002,13 +1002,13 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             </button>
 
             <button type="button" class="sidebar-btn <?= $activeTab === 'ops' ? 'active' : '' ?>" id="sideBtnOps" onclick="switchAdminTab('ops')">
-                <span class="btn-icon">⚙️</span>
-                <span>Konsol Ops &amp; Radar</span>
+                <span class="btn-icon">🗺️</span>
+                <span>Radar Armada</span>
             </button>
 
             <button type="button" class="sidebar-btn <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="sideBtnHendra" onclick="switchAdminTab('hendra')">
                 <span class="btn-icon">👔</span>
-                <span>Matrix Tarif Pak Hendra</span>
+                <span>Survey Tarif &amp; Harga</span>
             </button>
 
             <button type="button" class="sidebar-btn <?= $activeTab === 'training' ? 'active' : '' ?>" id="sideBtnTraining" onclick="switchAdminTab('training')">
@@ -1073,8 +1073,8 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             <!-- FRAME 4: DEDICATED RUANG TRAINING CS AI HASNA -->
             <iframe src="/admin-hasna.html" class="tab-frame <?= $activeTab === 'training' ? 'active' : '' ?>" id="frameTraining"></iframe>
 
-            <!-- FRAME 5: MATRIX TARIF PAK HENDRA -->
-            <iframe src="/admin.html#hendraSurveySection" class="tab-frame <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="frameHendra"></iframe>
+            <!-- FRAME 5: SURVEY TARIF & HARGA (PAK HENDRA) -->
+            <iframe src="/admin-hendra.html" class="tab-frame <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="frameHendra"></iframe>
         </main>
     </div>
 
@@ -1091,13 +1091,13 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
         </button>
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'ops' ? 'active' : '' ?>" id="bottomBtnOps" onclick="switchAdminTab('ops')">
-            <span class="b-icon">⚙️</span>
-            <span>Operasional</span>
+            <span class="b-icon">🗺️</span>
+            <span>Radar Armada</span>
         </button>
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="bottomBtnHendra" onclick="switchAdminTab('hendra')">
             <span class="b-icon">👔</span>
-            <span>Tarif Hendra</span>
+            <span>Survey Tarif</span>
         </button>
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'training' ? 'active' : '' ?>" id="bottomBtnTraining" onclick="switchAdminTab('training')">
@@ -1167,14 +1167,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             } else if (tabName === 'hendra') {
                 if (sideHendra) sideHendra.classList.add('active');
                 if (bHendra) bHendra.classList.add('active');
-                if (frameHendra) {
-                    frameHendra.classList.add('active');
-                    try {
-                        const iDoc = frameHendra.contentDocument || frameHendra.contentWindow.document;
-                        const el = iDoc.getElementById('hendraSurveySection');
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    } catch(e) {}
-                }
+                if (frameHendra) frameHendra.classList.add('active');
                 window.history.replaceState(null, '', '/admin?tab=hendra');
             } else if (tabName === 'training') {
                 if (sideTraining) sideTraining.classList.add('active');

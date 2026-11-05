@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Survey Tarif & Matrix Harga | Dropoff.id</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F172A;
+            --primary-blue: #0F4C81;
+            --royal-blue: #2563EB;
+            --accent-green: #16A34A;
+            --bg-body: #F8FAFC;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 20px 16px 80px 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* TOP BANNER */
+        .top-banner {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            color: #FFFFFF;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .top-banner h1 {
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .top-banner p {
+            font-size: 13.5px;
+            color: #CBD5E1;
+            margin-top: 6px;
+            line-height: 1.5;
+            max-width: 720px;
+        }
+
+        .btn-survey {
+            padding: 10px 22px;
+            background: #16A34A;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 13.5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
+        }
+
+        .btn-survey:hover {
+            background: #15803D;
+            transform: translateY(-1px);
+        }
+
+        .btn-survey:active {
+            transform: translateY(1px);
+        }
+
+        /* SECTION CARD */
+        .section-card {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0F172A;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* BBM GRID */
+        .bbm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .bbm-card {
+            background: #F8FAFC;
+            border: 1.5px solid #E2E8F0;
+            border-radius: var(--radius-md);
+            padding: 18px;
+        }
+
+        .bbm-title {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bbm-price {
+            font-size: 22px;
+            font-weight: 900;
+            color: #0F172A;
+            margin: 6px 0 3px;
+        }
+
+        .bbm-note {
+            font-size: 11.5px;
+            font-weight: 700;
+        }
+
+        /* TABLES */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        thead tr {
+            background: #0F172A;
+            color: #FFFFFF;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #E2E8F0;
+            transition: background 0.15s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #F8FAFC;
+        }
+
+        .price-badge {
+            font-weight: 800;
+            color: #16A34A;
+            background: #DCFCE7;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px 10px 80px 10px; }
+            .section-card { padding: 16px; }
+            .top-banner { padding: 18px 20px; }
+            .top-banner h1 { font-size: 19px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- TOP BANNER HEADER -->
+        <header class="top-banner">
+            <div>
+                <h1>
+                    <span>👔</span>
+                    <span>Survey Tarif &amp; Matrix Biaya Riil (Pak Hendra)</span>
+                </h1>
+                <p>
+                    Acuan resmi perhitungan tarif All-In Dropoff.id (BBM Pertamina, Tol Gerbang-ke-Gerbang, Jasa Sopir &amp; Margin Keuntungan). Terhubung secara real-time ke mesin penawaran harga website dan CS AI Mbak Hasna.
+                </p>
+                <div style="margin-top: 10px;">
+                    <span id="adminHendraLastUpdated" style="background: rgba(255,255,255,0.15); color: #F8FAFC; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px;">
+                        🗓️ Terakhir Survey: Memuat...
+                    </span>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn-survey" id="btnAdminSurveyHendra" onclick="runAdminHendraSurvey(this)">
+                    <span>🔄</span>
+                    <span>Survey Ulang Tarif Sekarang</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ACUAN HARGA BBM RESMI PERTAMINA -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-title">
+                    <span>⛽</span>
+                    <span>Acuan Harga BBM Resmi Pertamina (Real-Time)</span>
+                </div>
+                <span style="font-size: 11px; background: #EEF2FF; color: #4338CA; padding: 2px 8px; border-radius: 6px; font-weight: 700;">Standar Biaya Operasional</span>
+            </div>
+
+            <div class="bbm-grid">
+                <div class="bbm-card" style="border-left: 4px solid #16A34A;">
+                    <div class="bbm-title">BBM Pertalite (RON 90)</div>
+                    <div class="bbm-price" id="adminBbmPertalite">Rp 10.000 / L</div>
+                    <div class="bbm-note" style="color: #16A34A;">Acuan Avanza &amp; Veloz (12 KM/L)</div>
+                </div>
+
+                <div class="bbm-card" style="border-left: 4px solid #2563EB;">
+                    <div class="bbm-title">BBM Pertamax (RON 92)</div>
+                    <div class="bbm-price" id="adminBbmPertamax">Rp 12.100 / L</div>
+                    <div class="bbm-note" style="color: #2563EB;">Acuan Cadangan Bensin Prima</div>
+                </div>
+
+                <div class="bbm-card" style="border-left: 4px solid #D97706;">
+                    <div class="bbm-title">BBM Dexlite (CN 51)</div>
+                    <div class="bbm-price" id="adminBbmDexlite">Rp 13.700 / L</div>
+                    <div class="bbm-note" style="color: #D97706;">Acuan Innova Reborn &amp; HiAce Diesel</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABEL MATRIX 4 KORIDOR RUTE UTAMA -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-title">
+                    <span>🗺️</span>
+                    <span>Matrix Tarif All-In 4 Koridor Rute Populer</span>
+                </div>
+                <span style="font-size: 11px; background: #DCFCE7; color: #166534; padding: 2px 8px; border-radius: 6px; font-weight: 700;">Terkoneksi Otomatis ke Web &amp; CS Hasna</span>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rute &amp; Koridor</th>
+                            <th>Jarak Riil</th>
+                            <th>Rincian Biaya Tol</th>
+                            <th>Jasa Sopir</th>
+                            <th>Pasaran Drop-off</th>
+                            <th>Toyota Avanza</th>
+                            <th>Innova Reborn</th>
+                            <th>HiAce Premio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminHendraMatrixBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                Memuat data matrix tarif Pak Hendra...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 16px; padding-top: 14px; border-top: 1px dashed #E2E8F0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--text-muted);">
+                <span>💡 <em>Seluruh tarif adalah <strong>ALL-IN BERSIH</strong> (Sewa Mobil + Driver + BBM Penuh + Saldo Tol Gerbang-ke-Gerbang). Tanpa biaya tersembunyi bagi pelanggan.</em></span>
+                <span style="font-weight: 700; color: #16A34A;">🟢 Live Sync: Aktif</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function renderHendraMatrix(matrix) {
+            if (!matrix || !matrix.routes) return;
+
+            const badge = document.getElementById('adminHendraLastUpdated');
+            const lastUpdated = matrix.last_updated || matrix.lastUpdated;
+            if (badge && lastUpdated) {
+                badge.innerText = '🗓️ Terakhir Survey: ' + lastUpdated + ' WIB';
+            }
+
+            // Update Fuel
+            const fuel = matrix.fuel_prices_per_liter || matrix.fuelPrices || {};
+            if (fuel.pertalite && document.getElementById('adminBbmPertalite')) {
+                document.getElementById('adminBbmPertalite').innerText = 'Rp ' + Number(fuel.pertalite).toLocaleString('id-ID') + ' / L';
+            }
+            if (fuel.pertamax && document.getElementById('adminBbmPertamax')) {
+                document.getElementById('adminBbmPertamax').innerText = 'Rp ' + Number(fuel.pertamax).toLocaleString('id-ID') + ' / L';
+            }
+            if (fuel.dexlite && document.getElementById('adminBbmDexlite')) {
+                document.getElementById('adminBbmDexlite').innerText = 'Rp ' + Number(fuel.dexlite).toLocaleString('id-ID') + ' / L';
+            }
+
+            const tbody = document.getElementById('adminHendraMatrixBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const routes = matrix.routes;
+            const marketPrices = {
+                'jakarta_bandara_soetta': 'Rp 325.000',
+                'jakarta_bandara_halim': 'Rp 280.000',
+                'jabodetabek_dalam_kota': 'Rp 350.000',
+                'jakarta_baraya': 'Rp 650.000'
+            };
+
+            for (const key in routes) {
+                const r = routes[key];
+                const p = r.pricing || {};
+                const pasaranText = marketPrices[key] || 'Rp 350.000';
+
+                const routeName = (r.origin && r.destination) 
+                    ? `<strong style="color: #0F172A; font-size: 13.5px;">${r.origin} ➔ ${r.destination}</strong><br><span style="background: #F1F5F9; color: #475569; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-family: monospace;">/${r.slug || key}</span>`
+                    : `<strong style="color: #0F172A; font-size: 13.5px;">${r.name || key}</strong>`;
+
+                const tollDetails = r.toll_details ? `<br><span style="color: var(--text-muted); font-size: 11px;">${r.toll_details}</span>` : '';
+                const tollCost = Number(r.toll_cost || r.tol_cost || 0).toLocaleString('id-ID');
+                const driverFee = Number(r.base_driver_fee || r.driver_wage || 0).toLocaleString('id-ID');
+
+                const avanzaPrice = p.avanza ? p.avanza.formatted_price : (r.recommended_prices?.avanza ? 'Rp ' + Number(r.recommended_prices.avanza).toLocaleString('id-ID') : '-');
+                const innovaPrice = p.innova ? p.innova.formatted_price : (r.recommended_prices?.innova ? 'Rp ' + Number(r.recommended_prices.innova).toLocaleString('id-ID') : '-');
+                const hiacePrice = p.hiace ? p.hiace.formatted_price : (r.recommended_prices?.hiace ? 'Rp ' + Number(r.recommended_prices.hiace).toLocaleString('id-ID') : '-');
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${routeName}</td>
+                    <td><span style="background: #EFF6FF; color: #1E40AF; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700;">${r.distance_km} KM</span></td>
+                    <td style="font-size: 12px; max-width: 220px;">
+                        <strong style="color: #0F172A;">Rp ${tollCost}</strong>
+                        ${tollDetails}
+                    </td>
+                    <td style="font-weight: 700; font-size: 12.5px; color: #0284C7;">Rp ${driverFee}</td>
+                    <td>
+                        <span style="color: #DC2626; text-decoration: line-through; font-size: 11.5px;">${pasaranText}</span><br>
+                        <span style="color: #16A34A; font-size: 11px; font-weight: 700;">Lebih Murah &amp; All-In</span>
+                    </td>
+                    <td><span style="background: #DCFCE7; color: #166534; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 12.5px;">${avanzaPrice}</span></td>
+                    <td><span style="background: #EFF6FF; color: #1D4ED8; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 12.5px;">${innovaPrice}</span></td>
+                    <td><span style="background: #FEF3C7; color: #B45309; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 12.5px;">${hiacePrice}</span></td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        async function loadAdminHendraMatrix() {
+            try {
+                const res = await fetch('/api/admin.php?action=get_hendra_matrix');
+                const data = await res.json();
+                if (data.success && data.data) {
+                    renderHendraMatrix(data.data);
+                }
+            } catch (e) {
+                console.error('Gagal memuat matriks Hendra:', e);
+            }
+        }
+
+        async function runAdminHendraSurvey(btn) {
+            if (!btn) btn = document.getElementById('btnAdminSurveyHendra');
+            const origHtml = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span><span>Sedang Mensurvey BBM &amp; Tol...</span>';
+            }
+
+            try {
+                const res = await fetch('/api/admin.php?action=survey_hendra');
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ ' + data.message);
+                    if (data.data) {
+                        renderHendraMatrix(data.data);
+                    } else {
+                        loadAdminHendraMatrix();
+                    }
+                } else {
+                    alert('Gagal survey: ' + data.message);
+                }
+            } catch (e) {
+                alert('Error koneksi: ' + e.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = origHtml;
+                }
+            }
+        }
+
+        window.addEventListener('load', loadAdminHendraMatrix);
+    </script>
+</body>
+</html>
