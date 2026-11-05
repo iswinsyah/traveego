@@ -3134,11 +3134,11 @@ $isLoggedIn = isCrewLoggedIn();
                 <div class="stat-grid">
                     <div class="stat-card">
                         <div class="stat-card-header">
-                            <span class="stat-label">Target Produksi Pekanan</span>
-                            <span class="sw-pill pill-active">🟢 7 Konten / Minggu</span>
+                            <span class="stat-label">Target Produksi Pekanan (Akselerasi)</span>
+                            <span class="sw-pill pill-active">🚀 14 Konten / Minggu</span>
                         </div>
-                        <div class="stat-value">Senin &ndash; Minggu (1 Slot / Hari)</div>
-                        <div class="stat-desc">4 Artikel Blog Edukasi SEO + 2 Landing Page Promo Rute + 1 Panduan Tarif FAQ.</div>
+                        <div class="stat-value">Senin &ndash; Minggu (2x Sehari: Pagi &amp; Sore)</div>
+                        <div class="stat-desc">Slot Pagi (08:00 WIB) &amp; Slot Sore (17:00 WIB) &bull; Mempercepat Dominasi Halaman 1 Google.</div>
                     </div>
 
                     <div class="stat-card">
