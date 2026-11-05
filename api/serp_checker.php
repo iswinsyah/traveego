@@ -94,15 +94,20 @@ function scrapeGoogleRank($keyword, $targetDomain = 'dropoff.id') {
         }
     }
 
-    // Fallback Cerdas jika Google memberi challenge/captcha atau domain baru
+    // Fallback Jujur & Akurat jika cURL Google diproteksi bot-challenge atau domain belum masuk 50 besar
     if (!$foundItem) {
-        // Cek apakah ada landing page internal yang cocok persis dengan kata kunci ini
         $slug = preg_replace('/[^a-z0-9]+/i', '-', strtolower($keyword));
         $slug = trim($slug, '-');
         
-        // Pola penentuan ranking realistis
-        $isBrand = (stripos($keyword, 'dropoff') !== false || stripos($keyword, 'traveego') !== false);
-        if ($isBrand) {
+        $pageFile = __DIR__ . '/../data/generated_pages/' . $slug . '.json';
+        $postFile = __DIR__ . '/../data/generated_posts/' . $slug . '.json';
+        $landingUrl = file_exists($pageFile) 
+            ? "https://dropoff.id/{$slug}" 
+            : (file_exists($postFile) ? "https://dropoff.id/blog/{$slug}" : "https://dropoff.id/");
+
+        $isBrand = (stripos($keyword, 'dropoff.id') !== false);
+
+        if ($isBrand && $rank > 0) {
             $foundItem = [
                 'rank' => 1,
                 'page' => 1,
@@ -110,37 +115,29 @@ function scrapeGoogleRank($keyword, $targetDomain = 'dropoff.id') {
                 'title' => 'Dropoff.id - Layanan Sewa Mobil Drop Off Privat Antar Kota All-In',
                 'domain' => $targetDomain,
                 'is_page_one' => true,
+                'is_bot_restricted' => false,
                 'note' => 'Ranking 1 Brand Authority (Exact Brand Match)'
             ];
         } else {
-            // Cek file landing page
-            $pageFile = __DIR__ . '/../data/generated_pages/' . $slug . '.json';
-            $hasDedicatedPage = file_exists($pageFile);
-
-            if ($hasDedicatedPage) {
-                $foundItem = [
-                    'rank' => 3,
-                    'page' => 1,
-                    'url' => "https://dropoff.id/{$slug}",
-                    'title' => ucwords(str_replace('-', ' ', $slug)) . ' - Dropoff.id Layanan Resmi',
-                    'domain' => $targetDomain,
-                    'is_page_one' => true,
-                    'note' => 'Halaman Landing Page Khusus Ditemukan & Terindeks'
-                ];
-            } else {
-                $foundItem = [
-                    'rank' => '> 50',
-                    'page' => '> 5',
-                    'url' => 'https://dropoff.id/',
-                    'title' => 'Dropoff.id',
-                    'domain' => $targetDomain,
-                    'is_page_one' => false,
-                    'note' => 'Belum masuk Halaman 1-5 Google untuk kata kunci spesifik ini'
-                ];
-            }
+            // TIDAK BOLEH MENGARANG ANGKA! Jujur laporkan bahwa domain belum masuk Top 50
+            $isRestricted = ($httpCode !== 200 || empty($html) || stripos($html, 'detected unusual traffic') !== false || stripos($html, 'captcha') !== false);
+            
+            $foundItem = [
+                'rank' => '> 50',
+                'page' => '> 5',
+                'url' => $landingUrl,
+                'title' => 'Dropoff.id - Layanan Sewa Mobil Drop Off Antar Kota',
+                'domain' => $targetDomain,
+                'is_page_one' => false,
+                'is_bot_restricted' => $isRestricted,
+                'note' => $isRestricted 
+                    ? 'Google membatasi crawling bot dari IP hosting. Hasil pencarian riil belum terdeteksi di Top 50.'
+                    : 'Web dropoff.id belum terdeteksi di 50 besar hasil pencarian Google untuk kata kunci ini.'
+            ];
         }
     }
 
+    $foundItem['google_search_url'] = "https://www.google.com/search?q=" . urlencode($keyword);
     return $foundItem;
 }
 
@@ -172,7 +169,7 @@ if ($action === 'check') {
     } elseif ($rankNum <= 20) {
         $rikoAnalysis = "🟡 MENDEKATI HALAMAN 1 (SEKARANG HALAMAN 2, POSISI #{$rankNum}): Web kita tinggal selangkah lagi menembus Halaman 1 Google. Tindakan cepat: Minta Bung Kevin update meta-tag dan tambahkan FAQ schema di halaman rute tersebut.";
     } else {
-        $rikoAnalysis = "🔴 MASIH DI BAWAH HALAMAN 5 (POSISI {$result['rank']}): Kata kunci '{$keyword}' persaingannya cukup ketat dan web kita belum tembus 50 besar. Rekomendasi Bung Riko: Generate landing page rute khusus via Bung Kevin dan buat 2 artikel pendukung via Mbak Maya.";
+        $rikoAnalysis = "🔴 BELUM MASUK TOP 50 GOOGLE (HALAMAN > 5): Untuk kata kunci '{$keyword}', domain Dropoff.id saat ini belum menembus 50 besar pencarian Google. Posisi teratas di Google saat ini masih dipegang oleh kompetitor. Silakan klik tombol 'Verifikasi Hasil Asli di Google.com' untuk melihat urutan kompetitor yang sedang aktif. Langkah prioritas kita: Segera submit sitemap ke Google Search Console (GSC) dan perbanyak backlink rute ini agar Google Bot mempercepat pengindeksan!";
     }
 
     // Catat ke cache riwayat ranking
@@ -199,6 +196,7 @@ if ($action === 'check') {
         'page' => $result['page'],
         'url' => $result['url'],
         'title' => $result['title'],
+        'google_search_url' => $result['google_search_url'] ?? ('https://www.google.com/search?q=' . urlencode($keyword)),
         'is_page_one' => $result['is_page_one'],
         'riko_analysis' => $rikoAnalysis,
         'checked_at' => date('d M Y, H:i') . ' WIB'

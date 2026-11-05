@@ -590,6 +590,13 @@
                     <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12.5px; color: #E2E8F0; line-height: 1.5;" id="serpResRiko">
                         <!-- Komentar Bung Riko -->
                     </div>
+                    <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.15); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <a href="#" id="serpLiveGoogleBtn" target="_blank" style="padding: 7px 14px; background: #2563EB; color: #FFF; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;">
+                            <span>🔎</span>
+                            <span>Buka &amp; Cek Langsung di Google.com ↗</span>
+                        </a>
+                        <small style="font-size: 11px; color: #94A3B8;">*Google membatasi bot otomatis dari server. Klik tombol di samping untuk verifikasi hasil asli Google.</small>
+                    </div>
                 </div>
             </div>
 
@@ -1671,6 +1678,8 @@
                     document.getElementById('serpResUrl').href = data.url;
                     document.getElementById('serpResTitle').innerText = data.title;
                     document.getElementById('serpResRiko').innerHTML = `<b>🤖 Analisa Bung Riko:</b> ${data.riko_analysis}`;
+                    const liveBtn = document.getElementById('serpLiveGoogleBtn');
+                    if (liveBtn) liveBtn.href = data.google_search_url || ('https://www.google.com/search?q=' + encodeURIComponent(kw));
                     
                     // Otomatis refresh analisa sinergi Mas Radit
                     loadVisitorStatsAndAnalysis();
