@@ -565,11 +565,11 @@ FOKUS: PROFESIONAL, NORMATIF & EFISIEN
                     updateCharCount();
                 }
 
-                // 2. Ambil Hotline
-                const resSite = await fetch('/api/admin.php?action=get_site_content');
-                const dataSite = await resSite.json();
-                if (dataSite.success && dataSite.data) {
-                    const wa = dataSite.data.contact?.whatsapp || '6281234567891';
+                // 2. Ambil Hotline WA Resmi
+                const resHotline = await fetch('/api/admin.php?action=get_hotline_wa');
+                const dataHotline = await resHotline.json();
+                if (dataHotline.success && dataHotline.hotline_wa) {
+                    const wa = dataHotline.hotline_wa;
                     document.getElementById('hotlineWaInput').value = wa;
                     document.getElementById('btnTestWaHotline').href = 'https://wa.me/' + wa.replace(/\D/g, '');
                 }
@@ -620,22 +620,14 @@ FOKUS: PROFESIONAL, NORMATIF & EFISIEN
             btn.innerText = 'Menyimpan...';
 
             try {
-                const res = await fetch('/api/admin.php?action=save_site_content', {
+                const res = await fetch('/api/admin.php?action=save_hotline_wa', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        section: 'contact',
-                        data: {
-                            whatsapp: cleanWa,
-                            phone: cleanWa,
-                            email: 'cs@dropoff.id',
-                            address: 'Bandung - Jakarta, Indonesia'
-                        }
-                    })
+                    body: JSON.stringify({ hotline_wa: cleanWa })
                 });
                 const data = await res.json();
                 if (data.success) {
-                    alert('✅ Nomor CS Mbak Hasna BERHASIL diperbarui ke: ' + cleanWa);
+                    alert('✅ ' + data.message);
                     document.getElementById('btnTestWaHotline').href = 'https://wa.me/' + cleanWa;
                 } else {
                     alert('❌ Gagal simpan: ' + (data.message || 'Error'));
