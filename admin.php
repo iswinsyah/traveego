@@ -998,7 +998,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
 
             <button type="button" class="sidebar-btn <?= $activeTab === 'stats' ? 'active' : '' ?>" id="sideBtnStats" onclick="switchAdminTab('stats')">
                 <span class="btn-icon">📊</span>
-                <span>Statistik Pengunjung</span>
+                <span>Statistik</span>
             </button>
 
             <button type="button" class="sidebar-btn <?= $activeTab === 'ops' ? 'active' : '' ?>" id="sideBtnOps" onclick="switchAdminTab('ops')">
@@ -1064,8 +1064,8 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             <!-- FRAME 1: CMS FRONT-END CUSTOMIZER -->
             <iframe src="/admin-cms.html" class="tab-frame <?= $activeTab === 'cms' ? 'active' : '' ?>" id="frameCms"></iframe>
 
-            <!-- FRAME 2: STATISTIK PENGUNJUNG WEB -->
-            <iframe src="/admin.html#visitorAnalyticsSection" class="tab-frame <?= $activeTab === 'stats' ? 'active' : '' ?>" id="frameStats"></iframe>
+            <!-- FRAME 2: STATISTIK WEB -->
+            <iframe src="/admin-stats.html" class="tab-frame <?= $activeTab === 'stats' ? 'active' : '' ?>" id="frameStats"></iframe>
 
             <!-- FRAME 3: OPS CONSOLE & RADAR -->
             <iframe src="/admin.html" class="tab-frame <?= $activeTab === 'ops' ? 'active' : '' ?>" id="frameOps"></iframe>
@@ -1162,14 +1162,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             } else if (tabName === 'stats') {
                 if (sideStats) sideStats.classList.add('active');
                 if (bStats) bStats.classList.add('active');
-                if (frameStats) {
-                    frameStats.classList.add('active');
-                    try {
-                        const iDoc = frameStats.contentDocument || frameStats.contentWindow.document;
-                        const el = iDoc.getElementById('visitorAnalyticsSection');
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    } catch(e) {}
-                }
+                if (frameStats) frameStats.classList.add('active');
                 window.history.replaceState(null, '', '/admin?tab=stats');
             } else if (tabName === 'hendra') {
                 if (sideHendra) sideHendra.classList.add('active');
