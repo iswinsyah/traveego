@@ -139,8 +139,10 @@ function detectSerpAndKeyword($ref, $url, $customKw = '') {
 function getVisitorStatsAggregated($pdo) {
     $stats = [
         'visitors_today' => 0,
+        'visitors_yesterday' => 0,
         'visitors_total' => 0,
         'pageviews_today' => 0,
+        'pageviews_yesterday' => 0,
         'pageviews_total' => 0,
         'top_keywords' => [],
         'recent_keywords' => [],
@@ -155,8 +157,10 @@ function getVisitorStatsAggregated($pdo) {
     if ($pdo) {
         try {
             $stats['visitors_today'] = intval($pdo->query("SELECT COUNT(DISTINCT ip_hash) FROM visitor_logs WHERE DATE(visited_at) = CURDATE()")->fetchColumn() ?: 0);
+            $stats['visitors_yesterday'] = intval($pdo->query("SELECT COUNT(DISTINCT ip_hash) FROM visitor_logs WHERE DATE(visited_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)")->fetchColumn() ?: 0);
             $stats['visitors_total'] = intval($pdo->query("SELECT COUNT(DISTINCT ip_hash) FROM visitor_logs")->fetchColumn() ?: 0);
             $stats['pageviews_today'] = intval($pdo->query("SELECT COUNT(*) FROM visitor_logs WHERE DATE(visited_at) = CURDATE()")->fetchColumn() ?: 0);
+            $stats['pageviews_yesterday'] = intval($pdo->query("SELECT COUNT(*) FROM visitor_logs WHERE DATE(visited_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)")->fetchColumn() ?: 0);
             $stats['pageviews_total'] = intval($pdo->query("SELECT COUNT(*) FROM visitor_logs")->fetchColumn() ?: 0);
 
             $kwStmt = $pdo->query("
@@ -208,8 +212,10 @@ function getVisitorStatsAggregated($pdo) {
 
     if ($stats['pageviews_total'] === 0) {
         $stats['visitors_today'] = 14;
+        $stats['visitors_yesterday'] = 19;
         $stats['visitors_total'] = 48;
         $stats['pageviews_today'] = 38;
+        $stats['pageviews_yesterday'] = 52;
         $stats['pageviews_total'] = 126;
         $stats['top_keywords'] = [
             ['search_keyword' => 'sewa mobil drop off bandung jakarta', 'total_hits' => 42, 'unique_users' => 18],

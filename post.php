@@ -619,5 +619,30 @@ $featuredImage = $postData['featured_image'] ?? '';
 
 <?php require __DIR__ . '/api/yoast_widget.php'; ?>
 
+    <script>
+        (function trackVisitor() {
+            try {
+                const sp = new URLSearchParams(window.location.search);
+                const kw = sp.get('q') || sp.get('keyword') || sp.get('utm_term') || '';
+                const payload = JSON.stringify({
+                    url: window.location.href,
+                    title: document.title,
+                    referrer: document.referrer || '',
+                    keyword: kw
+                });
+                if (navigator.sendBeacon) {
+                    const blob = new Blob([payload], { type: 'application/json' });
+                    navigator.sendBeacon('/api/tracker.php?action=track', blob);
+                } else {
+                    fetch('/api/tracker.php?action=track', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: payload,
+                        keepalive: true
+                    }).catch(() => {});
+                }
+            } catch(e) {}
+        })();
+    </script>
 </body>
 </html>

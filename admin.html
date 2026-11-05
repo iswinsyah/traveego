@@ -511,26 +511,26 @@
             </div>
 
             <!-- BAGIAN A: 4 KARTU METRIK UTAMA PENGUNJUNG -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
                 <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
                     <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">👥 PENGUNJUNG HARI INI</div>
                     <div style="font-size: 24px; font-weight: 900; color: #0F172A; margin-top: 4px;" id="statVisToday">0</div>
-                    <div style="font-size: 11px; color: #16A34A; margin-top: 2px;">● Pengunjung unik aktif</div>
+                    <div style="font-size: 11.5px; color: #475569; margin-top: 4px;">Kemarin: <b id="statVisYesterday" style="color: #2563EB;">0</b> pengunjung unik</div>
+                </div>
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📄 KUNJUNGAN HARI INI (PAGEVIEWS)</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #0284C7; margin-top: 4px;" id="statPvToday">0</div>
+                    <div style="font-size: 11.5px; color: #475569; margin-top: 4px;">Kemarin: <b id="statPvYesterday" style="color: #0284C7;">0</b> tayangan</div>
                 </div>
                 <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
                     <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📈 TOTAL PENGUNJUNG UNIK</div>
                     <div style="font-size: 24px; font-weight: 900; color: #2563EB; margin-top: 4px;" id="statVisTotal">0</div>
-                    <div style="font-size: 11px; color: #64748B; margin-top: 2px;">Akumulasi sepanjang waktu</div>
-                </div>
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📄 KUNJUNGAN HARI INI</div>
-                    <div style="font-size: 24px; font-weight: 900; color: #0284C7; margin-top: 4px;" id="statPvToday">0</div>
-                    <div style="font-size: 11px; color: #64748B; margin-top: 2px;">Total pageviews hari ini</div>
+                    <div style="font-size: 11px; color: #64748B; margin-top: 4px;">Akumulasi sepanjang waktu</div>
                 </div>
                 <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
                     <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📊 TOTAL KUNJUNGAN (PAGEVIEWS)</div>
                     <div style="font-size: 24px; font-weight: 900; color: #7C3AED; margin-top: 4px;" id="statPvTotal">0</div>
-                    <div style="font-size: 11px; color: #64748B; margin-top: 2px;">Seluruh tayangan halaman</div>
+                    <div style="font-size: 11px; color: #64748B; margin-top: 4px;">Seluruh tayangan halaman</div>
                 </div>
             </div>
 
@@ -1507,15 +1507,19 @@
                     const stats = data.data.stats || {};
                     const ana = data.data.analysis || {};
 
-                    // 1. Metrik Utama
+                    // 1. Metrik Utama (Hari Ini, Kemarin & Total)
                     const elVisToday = document.getElementById('statVisToday');
+                    const elVisYesterday = document.getElementById('statVisYesterday');
                     const elVisTotal = document.getElementById('statVisTotal');
                     const elPvToday = document.getElementById('statPvToday');
+                    const elPvYesterday = document.getElementById('statPvYesterday');
                     const elPvTotal = document.getElementById('statPvTotal');
 
                     if (elVisToday) elVisToday.innerText = Number(stats.visitors_today || 0).toLocaleString('id-ID');
+                    if (elVisYesterday) elVisYesterday.innerText = Number(stats.visitors_yesterday || 0).toLocaleString('id-ID');
                     if (elVisTotal) elVisTotal.innerText = Number(stats.visitors_total || 0).toLocaleString('id-ID');
                     if (elPvToday) elPvToday.innerText = Number(stats.pageviews_today || 0).toLocaleString('id-ID');
+                    if (elPvYesterday) elPvYesterday.innerText = Number(stats.pageviews_yesterday || 0).toLocaleString('id-ID');
                     if (elPvTotal) elPvTotal.innerText = Number(stats.pageviews_total || 0).toLocaleString('id-ID');
 
                     // 2. Top Keywords
