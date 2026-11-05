@@ -482,56 +482,146 @@
         <!-- ============================================================== -->
         <!-- ANALITIK PENGUNJUNG REAL WEB & GOOGLE SERP TRACKER (AI LOKAL) -->
         <!-- ============================================================== -->
-        <div class="section-card" id="analyticsRankSection" style="border-left: 4px solid #4F46E5; background: #FFFFFF; margin-bottom: 24px;">
+        <!-- ============================================================== -->
+        <!-- MENU & DASHBOARD STATISTIK PENGUNJUNG WEB (8 INDIKATOR LENGKAP) -->
+        <!-- ============================================================== -->
+        <div class="section-card" id="visitorAnalyticsSection" style="border-left: 4px solid #4F46E5; background: #FFFFFF; margin-bottom: 24px;">
+            <a id="analyticsRankSection"></a>
             <!-- Header Section -->
-            <div class="section-header" style="margin-bottom: 16px;">
+            <div class="section-header" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                 <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: linear-gradient(135deg, #EEF2FF, #E0E7FF); color: #4338CA; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.15);">
                         📊
                     </div>
                     <div>
                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #0F172A;">
-                                Analisa Trafik Pengunjung &amp; Google SERP Rank Tracker
+                            <h2 style="margin: 0; font-size: 19px; font-weight: 800; color: #0F172A;">
+                                Menu Statistik Pengunjung &amp; Google SERP
                             </h2>
-                            <span style="background: #EEF2FF; color: #4338CA; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
-                                🧠 Otak AI Lokal: Mas Radit &amp; Bung Riko
+                            <span style="background: #EEF2FF; color: #4338CA; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 6px; border: 1px solid #C7D2FE;">
+                                8 Metrik Statistik Lengkap
+                            </span>
+                            <span style="background: #F0FDF4; color: #166534; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 6px; border: 1px solid #BBF7D0;">
+                                🧠 AI Lokal: Mas Radit &amp; Bung Riko
                             </span>
                         </div>
-                        <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 3px;">
-                            Memantau 9 statistik pengunjung real-time web &amp; melacak posisi halaman/ranking Dropoff.id di Google secara instan tanpa perlu cek manual.
+                        <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 4px;">
+                            Pusat pencatatan statistik pengunjung real-time, mesin pencari, sistem operasi, 10 urutan kata kunci, 10 artikel terpopuler, dan geolokasi Dropoff.id.
                         </div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 8px; align-items: center;">
-                    <button type="button" onclick="loadVisitorStatsAndAnalysis()" style="padding: 7px 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer;">
-                        🔄 Refresh Data
+                    <button type="button" onclick="loadVisitorStatsAndAnalysis()" style="padding: 8px 16px; background: #4F46E5; color: #FFFFFF; border: none; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);">
+                        <span>🔄</span>
+                        <span>Refresh Statistik</span>
                     </button>
                 </div>
             </div>
 
-            <!-- BAGIAN A: 4 KARTU METRIK UTAMA PENGUNJUNG -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">👥 PENGUNJUNG HARI INI</div>
-                    <div style="font-size: 24px; font-weight: 900; color: #0F172A; margin-top: 4px;" id="statVisToday">0</div>
-                    <div style="font-size: 11.5px; color: #475569; margin-top: 4px;">Kemarin: <b id="statVisYesterday" style="color: #2563EB;">0</b> pengunjung unik</div>
+            <!-- BAGIAN 1, 2, 3: RINGKASAN METRIK PENGUNJUNG & KUNJUNGAN -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 20px;">
+                <!-- 1. Jumlah Pengunjung Hari ini -->
+                <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 11.5px; color: #475569; font-weight: 800; text-transform: uppercase;">1. Pengunjung Hari Ini</span>
+                        <span style="background: #DBEAFE; color: #1E40AF; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 10px;">Unik</span>
+                    </div>
+                    <div style="font-size: 26px; font-weight: 900; color: #0F172A; margin-top: 6px;" id="statVisToday">0</div>
+                    <div style="font-size: 11.5px; color: #64748B; margin-top: 4px;">Kemarin: <b id="statVisYesterday" style="color: #2563EB;">0</b> pengunjung unik</div>
                 </div>
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📄 KUNJUNGAN HARI INI (PAGEVIEWS)</div>
-                    <div style="font-size: 24px; font-weight: 900; color: #0284C7; margin-top: 4px;" id="statPvToday">0</div>
-                    <div style="font-size: 11.5px; color: #475569; margin-top: 4px;">Kemarin: <b id="statPvYesterday" style="color: #0284C7;">0</b> tayangan</div>
+
+                <!-- 2. Jumlah Total Pengunjung -->
+                <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 11.5px; color: #475569; font-weight: 800; text-transform: uppercase;">2. Total Pengunjung</span>
+                        <span style="background: #E0E7FF; color: #3730A3; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 10px;">All-Time</span>
+                    </div>
+                    <div style="font-size: 26px; font-weight: 900; color: #4338CA; margin-top: 6px;" id="statVisTotal">0</div>
+                    <div style="font-size: 11.5px; color: #64748B; margin-top: 4px;">Akumulasi pengunjung unik</div>
                 </div>
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📈 TOTAL PENGUNJUNG UNIK</div>
-                    <div style="font-size: 24px; font-weight: 900; color: #2563EB; margin-top: 4px;" id="statVisTotal">0</div>
-                    <div style="font-size: 11px; color: #64748B; margin-top: 4px;">Akumulasi sepanjang waktu</div>
+
+                <!-- 3. Jumlah Kunjungan Hari ini -->
+                <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 11.5px; color: #475569; font-weight: 800; text-transform: uppercase;">3. Kunjungan Hari Ini</span>
+                        <span style="background: #E0F2FE; color: #0369A1; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 10px;">Pageviews</span>
+                    </div>
+                    <div style="font-size: 26px; font-weight: 900; color: #0284C7; margin-top: 6px;" id="statPvToday">0</div>
+                    <div style="font-size: 11.5px; color: #64748B; margin-top: 4px;">Kemarin: <b id="statPvYesterday" style="color: #0284C7;">0</b> tayangan</div>
                 </div>
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 11.5px; color: #64748B; font-weight: 700;">📊 TOTAL KUNJUNGAN (PAGEVIEWS)</div>
-                    <div style="font-size: 24px; font-weight: 900; color: #7C3AED; margin-top: 4px;" id="statPvTotal">0</div>
-                    <div style="font-size: 11px; color: #64748B; margin-top: 4px;">Seluruh tayangan halaman</div>
+
+                <!-- Total Kunjungan (Pageviews All-Time) -->
+                <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 11.5px; color: #475569; font-weight: 800; text-transform: uppercase;">Total Kunjungan</span>
+                        <span style="background: #F3E8FF; color: #6B21A8; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 10px;">Tayangan</span>
+                    </div>
+                    <div style="font-size: 26px; font-weight: 900; color: #7C3AED; margin-top: 6px;" id="statPvTotal">0</div>
+                    <div style="font-size: 11.5px; color: #64748B; margin-top: 4px;">Seluruh tayangan halaman</div>
                 </div>
+            </div>
+
+            <!-- BAGIAN 4 & 5: MESIN PENCARI & OS PENGUNJUNG -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                <!-- 4. Mesin Pencari yang Mengantarkan Pengunjung -->
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;">
+                        <div style="font-size: 13.5px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+                            <span>🔍</span>
+                            <span>4. Mesin Pencari Pengantar Pengunjung</span>
+                        </div>
+                        <span style="font-size: 11px; background: #EEF2FF; color: #4338CA; padding: 2px 7px; border-radius: 6px; font-weight: 700;">Sumber Trafik</span>
+                    </div>
+                    <div id="serpSourcesList" style="font-size: 12.5px; color: #334155;">Memuat mesin pencari...</div>
+                </div>
+
+                <!-- 5. OS Yang Dipakai Pengunjung -->
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;">
+                        <div style="font-size: 13.5px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+                            <span>💻</span>
+                            <span>5. OS yang Dipakai Pengunjung</span>
+                        </div>
+                        <span style="font-size: 11px; background: #F0FDF4; color: #166534; padding: 2px 7px; border-radius: 6px; font-weight: 700;">Operating System</span>
+                    </div>
+                    <div id="osListContainer" style="font-size: 12.5px; color: #334155;">Memuat data OS &amp; browser...</div>
+                </div>
+            </div>
+
+            <!-- BAGIAN 6: 10 URUTAN KEYWORD TERBANYAK YANG DIPAKAI PENGUNJUNG -->
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div style="font-size: 14px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+                        <span>🔑</span>
+                        <span>6. 10 Urutan Keyword Terbanyak yang Dipakai Pengunjung</span>
+                    </div>
+                    <span style="font-size: 11px; background: #DBEAFE; color: #1E40AF; padding: 2px 8px; border-radius: 6px; font-weight: 700;">Top 10 Search Queries</span>
+                </div>
+                <div id="topKeywordsList" style="font-size: 12.5px; color: #334155;">Memuat 10 keyword terbanyak...</div>
+            </div>
+
+            <!-- BAGIAN 7: 10 HALAMAN ATAU ARTIKEL TERBANYAK DIKUNJUNGI -->
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div style="font-size: 14px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+                        <span>📑</span>
+                        <span>7. 10 Halaman atau Artikel Terbanyak Dikunjungi</span>
+                    </div>
+                    <span style="font-size: 11px; background: #E0F2FE; color: #0369A1; padding: 2px 8px; border-radius: 6px; font-weight: 700;">Top 10 Pages &amp; Articles</span>
+                </div>
+                <div id="topPagesList" style="font-size: 12.5px; color: #334155;">Memuat 10 halaman terpopuler...</div>
+            </div>
+
+            <!-- BAGIAN 8: LOKASI PENGUNJUNG (NEGARA, PROVINSI, KOTA ATAU KABUPATEN) -->
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div style="font-size: 14px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+                        <span>📍</span>
+                        <span>8. Lokasi Pengunjung (Negara, Provinsi, Kota atau Kabupaten)</span>
+                    </div>
+                    <span style="font-size: 11px; background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 6px; font-weight: 700;">Top 10 Wilayah Pengunjung</span>
+                </div>
+                <div id="topLocationsList" style="font-size: 12.5px; color: #334155;">Memuat sebaran lokasi pengunjung...</div>
             </div>
 
             <!-- BAGIAN B: ALAT CEK POSISI & RANKING GOOGLE (BUNG RIKO) -->
@@ -600,32 +690,6 @@
                 </div>
             </div>
 
-            <!-- BAGIAN C: DETAIL 5 DIMENSI PENGUNJUNG (KEYWORD, SERP, BROWSER, OS, KOTA) -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px;">
-                <!-- 1. Top Keywords -->
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">🔑 Kata Kunci Pencarian Masuk</div>
-                    <div id="topKeywordsList" style="font-size: 12px; color: #334155;">Memuat kata kunci...</div>
-                </div>
-
-                <!-- 2. SERP & Sumber Mesin Pencari -->
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">🔍 Mesin Pencari / Sumber Trafik</div>
-                    <div id="serpSourcesList" style="font-size: 12px; color: #334155;">Memuat sumber...</div>
-                </div>
-
-                <!-- 3. Browser & OS -->
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">🌐 Browser &amp; OS Pengunjung</div>
-                    <div id="browserOsList" style="font-size: 12px; color: #334155;">Memuat data perangkat...</div>
-                </div>
-
-                <!-- 4. Asal Kota / Wilayah -->
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px;">
-                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">📍 Asal Wilayah / Kota Pengunjung</div>
-                    <div id="topCitiesList" style="font-size: 12px; color: #334155;">Memuat kota...</div>
-                </div>
-            </div>
 
             <!-- BAGIAN D: KOTAK ANALISA STRATEGIS MAS RADIT (AI LOKAL) -->
             <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 16px 18px;">
@@ -1503,6 +1567,11 @@
         }
 
         
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
+        }
+
         // ==============================================================
         // LOGIKA ANALITIK PENGUNJUNG & SERP TRACKER (MAS RADIT & BUNG RIKO)
         // ==============================================================
@@ -1514,7 +1583,7 @@
                     const stats = data.data.stats || {};
                     const ana = data.data.analysis || {};
 
-                    // 1. Metrik Utama (Hari Ini, Kemarin & Total)
+                    // 1, 2, 3. Metrik Utama (Hari Ini, Kemarin & Total)
                     const elVisToday = document.getElementById('statVisToday');
                     const elVisYesterday = document.getElementById('statVisYesterday');
                     const elVisTotal = document.getElementById('statVisTotal');
@@ -1529,52 +1598,211 @@
                     if (elPvYesterday) elPvYesterday.innerText = Number(stats.pageviews_yesterday || 0).toLocaleString('id-ID');
                     if (elPvTotal) elPvTotal.innerText = Number(stats.pageviews_total || 0).toLocaleString('id-ID');
 
-                    // 2. Top Keywords
-                    const kwEl = document.getElementById('topKeywordsList');
-                    if (kwEl) {
-                        if (stats.top_keywords && stats.top_keywords.length > 0) {
-                            kwEl.innerHTML = stats.top_keywords.map((k, idx) => `
-                                <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #E2E8F0;">
-                                    <span><b>#${idx+1}</b> ${k.search_keyword}</span>
-                                    <span style="font-weight: 700; color: #2563EB;">${k.total_hits} klik</span>
-                                </div>
-                            `).join('');
+                    // 4. Mesin Pencari yang Mengantarkan Pengunjung
+                    const serpEl = document.getElementById('serpSourcesList');
+                    if (serpEl) {
+                        const sources = stats.serp_sources || [];
+                        if (sources.length > 0) {
+                            serpEl.innerHTML = sources.map(s => {
+                                let icon = '🌐';
+                                if (/google/i.test(s.name)) icon = '🔴';
+                                else if (/bing/i.test(s.name)) icon = '🟦';
+                                else if (/yahoo/i.test(s.name)) icon = '🟣';
+                                else if (/direct/i.test(s.name)) icon = '🔗';
+                                return `
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px dashed #E2E8F0;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <span>${icon}</span>
+                                            <span style="font-weight: 700; color: #1E293B;">${escapeHtml(s.name)}</span>
+                                        </div>
+                                        <div style="display: flex; gap: 8px; align-items: center;">
+                                            <span style="font-size: 11px; color: #64748B;">${s.unique_users || 1} unik</span>
+                                            <span style="font-weight: 800; color: #0284C7; background: #E0F2FE; padding: 2px 8px; border-radius: 6px; font-size: 11.5px;">${s.count} sesi</span>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('');
                         } else {
-                            kwEl.innerHTML = '<span style="color: #94A3B8;">Belum ada kata kunci terekam</span>';
+                            serpEl.innerHTML = '<span style="color: #94A3B8;">Belum ada mesin pencari terekam.</span>';
                         }
                     }
 
-                    // 3. SERP Sources
-                    const serpEl = document.getElementById('serpSourcesList');
-                    if (serpEl && stats.serp_sources && stats.serp_sources.length > 0) {
-                        serpEl.innerHTML = stats.serp_sources.map(s => `
-                            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #E2E8F0;">
-                                <span>${s.name}</span>
-                                <span style="font-weight: 700; color: #0284C7;">${s.count} sesi</span>
-                            </div>
-                        `).join('');
+                    // 5. OS Yang Dipakai Pengunjung
+                    const osEl = document.getElementById('osListContainer');
+                    if (osEl) {
+                        const osData = stats.operating_systems || [];
+                        const bData = stats.browsers || [];
+                        let osHtml = '<div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">';
+                        if (osData.length > 0) {
+                            osHtml += osData.map(o => {
+                                let icon = '💻';
+                                if (/android/i.test(o.name)) icon = '📱 Android';
+                                else if (/ios|iphone|ipad/i.test(o.name)) icon = '🍎 iOS / Apple';
+                                else if (/windows/i.test(o.name)) icon = '🪟 Windows';
+                                else if (/mac/i.test(o.name)) icon = '🖥️ macOS';
+                                else if (/linux/i.test(o.name)) icon = '🐧 Linux';
+                                else icon = '💻 ' + escapeHtml(o.name);
+
+                                return `
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px dashed #E2E8F0;">
+                                        <span style="font-weight: 600; color: #1E293B;">${icon}</span>
+                                        <span style="font-weight: 800; color: #166534; background: #DCFCE7; padding: 2px 8px; border-radius: 6px; font-size: 11.5px;">${o.count} pengguna</span>
+                                    </div>
+                                `;
+                            }).join('');
+                        } else {
+                            osHtml += '<span style="color: #94A3B8;">Belum ada data OS terekam.</span>';
+                        }
+                        osHtml += '</div>';
+
+                        if (bData.length > 0) {
+                            osHtml += `
+                                <div style="padding-top: 8px; border-top: 1px solid #E2E8F0;">
+                                    <div style="font-size: 11px; color: #64748B; font-weight: 700; margin-bottom: 4px;">BROWSER POPULER:</div>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                        ${bData.map(b => `<span style="background: #EEF2FF; color: #3730A3; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px;">🌐 ${escapeHtml(b.name)}: ${b.count}</span>`).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        osEl.innerHTML = osHtml;
                     }
 
-                    // 4. Browser & OS
-                    const devEl = document.getElementById('browserOsList');
-                    if (devEl) {
-                        const bList = (stats.browsers || []).map(b => `<span style="background: #EEF2FF; color: #3730A3; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 11px;">${b.name}: ${b.count}</span>`).join(' ');
-                        const osList = (stats.operating_systems || []).map(o => `<span style="background: #F0FDF4; color: #166534; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 11px;">${o.name}: ${o.count}</span>`).join(' ');
-                        devEl.innerHTML = `
-                            <div style="margin-bottom: 6px;"><b>Browser:</b><div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:2px;">${bList || '-'}</div></div>
-                            <div><b>OS:</b><div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:2px;">${osList || '-'}</div></div>
-                        `;
+                    // 6. 10 Urutan Keyword Terbanyak yang Dipakai Pengunjung
+                    const kwEl = document.getElementById('topKeywordsList');
+                    if (kwEl) {
+                        const keywords = stats.top_keywords || [];
+                        if (keywords.length > 0) {
+                            kwEl.innerHTML = `
+                                <div class="table-responsive">
+                                    <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+                                        <thead>
+                                            <tr style="background: #F1F5F9; color: #475569; text-align: left; font-size: 11.5px;">
+                                                <th style="padding: 8px 10px; width: 60px;">URUTAN</th>
+                                                <th style="padding: 8px 10px;">KATA KUNCI (KEYWORD PENCARIAN)</th>
+                                                <th style="padding: 8px 10px; text-align: center; width: 120px;">TOTAL KLIK</th>
+                                                <th style="padding: 8px 10px; text-align: center; width: 130px;">PENGUNJUNG UNIK</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${keywords.slice(0, 10).map((k, idx) => `
+                                                <tr style="border-bottom: 1px solid #E2E8F0;">
+                                                    <td style="padding: 8px 10px; font-weight: 900; color: ${idx < 3 ? '#2563EB' : '#64748B'};">
+                                                        <span style="background: ${idx < 3 ? '#DBEAFE' : '#F1F5F9'}; padding: 2px 8px; border-radius: 6px;">#${idx+1}</span>
+                                                    </td>
+                                                    <td style="padding: 8px 10px; font-weight: 700; color: #0F172A;">
+                                                        🔑 ${escapeHtml(k.search_keyword)}
+                                                    </td>
+                                                    <td style="padding: 8px 10px; text-align: center; font-weight: 800; color: #2563EB;">
+                                                        ${k.total_hits} klik
+                                                    </td>
+                                                    <td style="padding: 8px 10px; text-align: center; color: #475569;">
+                                                        ${k.unique_users || 1} orang
+                                                    </td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            `;
+                        } else {
+                            kwEl.innerHTML = '<span style="color: #94A3B8;">Belum ada kata kunci pencarian terekam.</span>';
+                        }
                     }
 
-                    // 5. Asal Kota
-                    const cityEl = document.getElementById('topCitiesList');
-                    if (cityEl && stats.top_cities && stats.top_cities.length > 0) {
-                        cityEl.innerHTML = stats.top_cities.map(c => `
-                            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #E2E8F0;">
-                                <span>📍 ${c.name}</span>
-                                <span style="font-weight: 700; color: #D97706;">${c.count} tamu</span>
-                            </div>
-                        `).join('');
+                    // 7. 10 Halaman atau Artikel Terbanyak Dikunjungi
+                    const pagesEl = document.getElementById('topPagesList');
+                    if (pagesEl) {
+                        const pages = stats.top_pages || [];
+                        if (pages.length > 0) {
+                            pagesEl.innerHTML = `
+                                <div class="table-responsive">
+                                    <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+                                        <thead>
+                                            <tr style="background: #F1F5F9; color: #475569; text-align: left; font-size: 11.5px;">
+                                                <th style="padding: 8px 10px; width: 60px;">URUTAN</th>
+                                                <th style="padding: 8px 10px;">JUDUL HALAMAN &amp; URL ARTIKEL</th>
+                                                <th style="padding: 8px 10px; text-align: center; width: 140px;">TAYANGAN (PAGEVIEWS)</th>
+                                                <th style="padding: 8px 10px; text-align: center; width: 130px;">PENGUNJUNG UNIK</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${pages.slice(0, 10).map((p, idx) => `
+                                                <tr style="border-bottom: 1px solid #E2E8F0;">
+                                                    <td style="padding: 8px 10px; font-weight: 900; color: ${idx < 3 ? '#0284C7' : '#64748B'};">
+                                                        <span style="background: ${idx < 3 ? '#E0F2FE' : '#F1F5F9'}; padding: 2px 8px; border-radius: 6px;">#${idx+1}</span>
+                                                    </td>
+                                                    <td style="padding: 8px 10px;">
+                                                        <div style="font-weight: 700; color: #0F172A;">${escapeHtml(p.page_title || p.page_url)}</div>
+                                                        <a href="${escapeHtml(p.page_url)}" target="_blank" style="font-size: 11.5px; color: #2563EB; text-decoration: none;">
+                                                            ${escapeHtml(p.page_url)} ↗
+                                                        </a>
+                                                    </td>
+                                                    <td style="padding: 8px 10px; text-align: center; font-weight: 800; color: #0284C7;">
+                                                        ${p.pageviews} tayangan
+                                                    </td>
+                                                    <td style="padding: 8px 10px; text-align: center; color: #475569;">
+                                                        ${p.unique_users || 1} orang
+                                                    </td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            `;
+                        } else {
+                            pagesEl.innerHTML = '<span style="color: #94A3B8;">Belum ada riwayat halaman terekam.</span>';
+                        }
+                    }
+
+                    // 8. Lokasi Pengunjung (Negara, Provinsi, Kota atau Kabupaten)
+                    const locEl = document.getElementById('topLocationsList');
+                    if (locEl) {
+                        const locs = stats.top_locations || [];
+                        if (locs.length > 0) {
+                            locEl.innerHTML = `
+                                <div class="table-responsive">
+                                    <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+                                        <thead>
+                                            <tr style="background: #F1F5F9; color: #475569; text-align: left; font-size: 11.5px;">
+                                                <th style="padding: 8px 10px; width: 60px;">URUTAN</th>
+                                                <th style="padding: 8px 10px;">NEGARA</th>
+                                                <th style="padding: 8px 10px;">PROVINSI</th>
+                                                <th style="padding: 8px 10px;">KOTA / KABUPATEN</th>
+                                                <th style="padding: 8px 10px; text-align: center; width: 120px;">TOTAL KUNJUNGAN</th>
+                                                <th style="padding: 8px 10px; text-align: center; width: 130px;">PENGUNJUNG UNIK</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${locs.slice(0, 10).map((l, idx) => `
+                                                <tr style="border-bottom: 1px solid #E2E8F0;">
+                                                    <td style="padding: 8px 10px; font-weight: 900; color: ${idx < 3 ? '#D97706' : '#64748B'};">
+                                                        <span style="background: ${idx < 3 ? '#FEF3C7' : '#F1F5F9'}; padding: 2px 8px; border-radius: 6px;">#${idx+1}</span>
+                                                    </td>
+                                                    <td style="padding: 8px 10px; font-weight: 700; color: #0F172A;">
+                                                        🇮🇩 ${escapeHtml(l.country || 'Indonesia')}
+                                                    </td>
+                                                    <td style="padding: 8px 10px; font-weight: 600; color: #334155;">
+                                                        ${escapeHtml(l.province || '-')}
+                                                    </td>
+                                                    <td style="padding: 8px 10px; font-weight: 700; color: #1E40AF;">
+                                                        📍 ${escapeHtml(l.city || '-')}
+                                                    </td>
+                                                    <td style="padding: 8px 10px; text-align: center; font-weight: 800; color: #D97706;">
+                                                        ${l.count} hits
+                                                    </td>
+                                                    <td style="padding: 8px 10px; text-align: center; color: #475569;">
+                                                        ${l.unique_users || 1} orang
+                                                    </td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            `;
+                        } else {
+                            locEl.innerHTML = '<span style="color: #94A3B8;">Belum ada data lokasi terekam.</span>';
+                        }
                     }
 
                     // 6. Analisa Naratif Mas Radit
@@ -2123,8 +2351,8 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
             }
         }
 
-        // Auto scroll ke seksi Pak Hendra jika dipanggil via tab hendra / hash
-        function checkScrollToHendra() {
+        // Auto scroll ke seksi Pak Hendra atau Statistik Pengunjung jika dipanggil via tab / hash
+        function checkScrollNavigation() {
             if (window.location.hash === '#hendraSurveySection') {
                 setTimeout(() => {
                     const el = document.getElementById('hendraSurveySection');
@@ -2135,10 +2363,20 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
                         setTimeout(() => { el.style.boxShadow = ''; }, 3500);
                     }
                 }, 400);
+            } else if (window.location.hash === '#visitorAnalyticsSection' || window.location.hash === '#analyticsRankSection') {
+                setTimeout(() => {
+                    const el = document.getElementById('visitorAnalyticsSection');
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        el.style.transition = 'all 0.5s ease';
+                        el.style.boxShadow = '0 0 0 4px #4F46E5, 0 10px 25px rgba(79,70,229,0.2)';
+                        setTimeout(() => { el.style.boxShadow = ''; }, 3500);
+                    }
+                }, 400);
             }
         }
-        window.addEventListener('hashchange', checkScrollToHendra);
-        window.addEventListener('load', checkScrollToHendra);
+        window.addEventListener('hashchange', checkScrollNavigation);
+        window.addEventListener('load', checkScrollNavigation);
 
         async function checkAdminAuthRole() {
             try {
@@ -2171,7 +2409,7 @@ FOKUS TRAINING: FORMAL, PROFESIONAL & KORPORAT
         loadVisitorStatsAndAnalysis();
         loadAdminHotlineWa();
         loadHasnaPrompt();
-        checkScrollToHendra();
+        checkScrollNavigation();
         setInterval(loadAdminData, 15000);
         setInterval(loadFleetMap, 300000); // Auto-refresh radar sebaran armada setiap 5 menit (300.000 ms)
     </script>

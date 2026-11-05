@@ -996,6 +996,11 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 <span>Penyesuai Tampilan (CMS)</span>
             </button>
 
+            <button type="button" class="sidebar-btn <?= $activeTab === 'stats' ? 'active' : '' ?>" id="sideBtnStats" onclick="switchAdminTab('stats')">
+                <span class="btn-icon">📊</span>
+                <span>Statistik Pengunjung</span>
+            </button>
+
             <button type="button" class="sidebar-btn <?= $activeTab === 'ops' ? 'active' : '' ?>" id="sideBtnOps" onclick="switchAdminTab('ops')">
                 <span class="btn-icon">⚙️</span>
                 <span>Konsol Ops &amp; Radar</span>
@@ -1059,13 +1064,16 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             <!-- FRAME 1: CMS FRONT-END CUSTOMIZER -->
             <iframe src="/admin-cms.html" class="tab-frame <?= $activeTab === 'cms' ? 'active' : '' ?>" id="frameCms"></iframe>
 
-            <!-- FRAME 2: OPS CONSOLE & RADAR -->
+            <!-- FRAME 2: STATISTIK PENGUNJUNG WEB -->
+            <iframe src="/admin.html#visitorAnalyticsSection" class="tab-frame <?= $activeTab === 'stats' ? 'active' : '' ?>" id="frameStats"></iframe>
+
+            <!-- FRAME 3: OPS CONSOLE & RADAR -->
             <iframe src="/admin.html" class="tab-frame <?= $activeTab === 'ops' ? 'active' : '' ?>" id="frameOps"></iframe>
 
-            <!-- FRAME 3: DEDICATED RUANG TRAINING CS AI HASNA -->
+            <!-- FRAME 4: DEDICATED RUANG TRAINING CS AI HASNA -->
             <iframe src="/admin-hasna.html" class="tab-frame <?= $activeTab === 'training' ? 'active' : '' ?>" id="frameTraining"></iframe>
 
-            <!-- FRAME 4: MATRIX TARIF PAK HENDRA -->
+            <!-- FRAME 5: MATRIX TARIF PAK HENDRA -->
             <iframe src="/admin.html#hendraSurveySection" class="tab-frame <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="frameHendra"></iframe>
         </main>
     </div>
@@ -1075,6 +1083,11 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
         <button type="button" class="bottom-nav-item <?= $activeTab === 'cms' ? 'active' : '' ?>" id="bottomBtnCms" onclick="switchAdminTab('cms')">
             <span class="b-icon">🎨</span>
             <span>CMS Web</span>
+        </button>
+
+        <button type="button" class="bottom-nav-item <?= $activeTab === 'stats' ? 'active' : '' ?>" id="bottomBtnStats" onclick="switchAdminTab('stats')">
+            <span class="b-icon">📊</span>
+            <span>Statistik</span>
         </button>
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'ops' ? 'active' : '' ?>" id="bottomBtnOps" onclick="switchAdminTab('ops')">
@@ -1102,34 +1115,40 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
         function switchAdminTab(tabName) {
             // Sidebar buttons (Desktop)
             const sideCms = document.getElementById('sideBtnCms');
+            const sideStats = document.getElementById('sideBtnStats');
             const sideOps = document.getElementById('sideBtnOps');
             const sideHendra = document.getElementById('sideBtnHendra');
             const sideTraining = document.getElementById('sideBtnTraining');
 
             // Bottom bar buttons (Mobile)
             const bCms = document.getElementById('bottomBtnCms');
+            const bStats = document.getElementById('bottomBtnStats');
             const bOps = document.getElementById('bottomBtnOps');
             const bHendra = document.getElementById('bottomBtnHendra');
             const bTraining = document.getElementById('bottomBtnTraining');
 
             // Frames
             const frameCms = document.getElementById('frameCms');
+            const frameStats = document.getElementById('frameStats');
             const frameOps = document.getElementById('frameOps');
             const frameHendra = document.getElementById('frameHendra');
             const frameTraining = document.getElementById('frameTraining');
 
             // Reset all active classes
             if (sideCms) sideCms.classList.remove('active');
+            if (sideStats) sideStats.classList.remove('active');
             if (sideOps) sideOps.classList.remove('active');
             if (sideHendra) sideHendra.classList.remove('active');
             if (sideTraining) sideTraining.classList.remove('active');
 
             if (bCms) bCms.classList.remove('active');
+            if (bStats) bStats.classList.remove('active');
             if (bOps) bOps.classList.remove('active');
             if (bHendra) bHendra.classList.remove('active');
             if (bTraining) bTraining.classList.remove('active');
 
             if (frameCms) frameCms.classList.remove('active');
+            if (frameStats) frameStats.classList.remove('active');
             if (frameOps) frameOps.classList.remove('active');
             if (frameHendra) frameHendra.classList.remove('active');
             if (frameTraining) frameTraining.classList.remove('active');
@@ -1140,6 +1159,18 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 if (bCms) bCms.classList.add('active');
                 if (frameCms) frameCms.classList.add('active');
                 window.history.replaceState(null, '', '/admin?tab=cms');
+            } else if (tabName === 'stats') {
+                if (sideStats) sideStats.classList.add('active');
+                if (bStats) bStats.classList.add('active');
+                if (frameStats) {
+                    frameStats.classList.add('active');
+                    try {
+                        const iDoc = frameStats.contentDocument || frameStats.contentWindow.document;
+                        const el = iDoc.getElementById('visitorAnalyticsSection');
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } catch(e) {}
+                }
+                window.history.replaceState(null, '', '/admin?tab=stats');
             } else if (tabName === 'hendra') {
                 if (sideHendra) sideHendra.classList.add('active');
                 if (bHendra) bHendra.classList.add('active');

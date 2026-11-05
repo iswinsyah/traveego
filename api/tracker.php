@@ -25,13 +25,18 @@ function initTrackerTables($pdo) {
                 os VARCHAR(50) NOT NULL DEFAULT 'Other',
                 device_type VARCHAR(20) NOT NULL DEFAULT 'Mobile',
                 city VARCHAR(100) NOT NULL DEFAULT 'Indonesia',
-                country VARCHAR(50) NOT NULL DEFAULT 'ID',
+                province VARCHAR(100) NOT NULL DEFAULT 'Jawa Barat',
+                country VARCHAR(50) NOT NULL DEFAULT 'Indonesia',
                 INDEX idx_visited_at (visited_at),
                 INDEX idx_ip_hash (ip_hash),
                 INDEX idx_serp (serp_source),
                 INDEX idx_keyword (search_keyword)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ");
+
+        try {
+            $pdo->exec("ALTER TABLE visitor_logs ADD COLUMN province VARCHAR(100) NOT NULL DEFAULT 'Jawa Barat' AFTER city");
+        } catch (Throwable $e) {}
     } catch (Throwable $e) {
         error_log("Init tracker table error: " . $e->getMessage());
     }
@@ -145,6 +150,8 @@ function getVisitorStatsAggregated($pdo) {
         'pageviews_yesterday' => 0,
         'pageviews_total' => 0,
         'top_keywords' => [],
+        'top_pages' => [],
+        'top_locations' => [],
         'recent_keywords' => [],
         'serp_sources' => [],
         'browsers' => [],
@@ -163,15 +170,38 @@ function getVisitorStatsAggregated($pdo) {
             $stats['pageviews_yesterday'] = intval($pdo->query("SELECT COUNT(*) FROM visitor_logs WHERE DATE(visited_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)")->fetchColumn() ?: 0);
             $stats['pageviews_total'] = intval($pdo->query("SELECT COUNT(*) FROM visitor_logs")->fetchColumn() ?: 0);
 
+            // 6. Top 10 Keywords
             $kwStmt = $pdo->query("
                 SELECT search_keyword, COUNT(*) as total_hits, COUNT(DISTINCT ip_hash) as unique_users
                 FROM visitor_logs
                 WHERE search_keyword IS NOT NULL AND search_keyword != ''
                 GROUP BY search_keyword
                 ORDER BY total_hits DESC
-                LIMIT 8
+                LIMIT 10
             ");
             $stats['top_keywords'] = $kwStmt->fetchAll() ?: [];
+
+            // 7. Top 10 Halaman & Artikel Terbanyak Dikunjungi
+            $pageStmt = $pdo->query("
+                SELECT page_url, page_title, COUNT(*) as pageviews, COUNT(DISTINCT ip_hash) as unique_users
+                FROM visitor_logs
+                WHERE page_url IS NOT NULL AND page_url != ''
+                GROUP BY page_url, page_title
+                ORDER BY pageviews DESC
+                LIMIT 10
+            ");
+            $stats['top_pages'] = $pageStmt->fetchAll() ?: [];
+
+            // 8. Lokasi Pengunjung (Negara, Provinsi, Kota/Kabupaten)
+            $locStmt = $pdo->query("
+                SELECT country, province, city, COUNT(*) as count, COUNT(DISTINCT ip_hash) as unique_users
+                FROM visitor_logs
+                WHERE city IS NOT NULL AND city != ''
+                GROUP BY country, province, city
+                ORDER BY count DESC
+                LIMIT 10
+            ");
+            $stats['top_locations'] = $locStmt->fetchAll() ?: [];
 
             $recStmt = $pdo->query("
                 SELECT search_keyword, serp_source, city, browser, os, visited_at
@@ -182,12 +212,14 @@ function getVisitorStatsAggregated($pdo) {
             ");
             $stats['recent_keywords'] = $recStmt->fetchAll() ?: [];
 
-            $serpStmt = $pdo->query("SELECT serp_source as name, COUNT(*) as count FROM visitor_logs GROUP BY serp_source ORDER BY count DESC LIMIT 6");
+            // 4. Mesin Pencari & Sumber Trafik
+            $serpStmt = $pdo->query("SELECT serp_source as name, COUNT(*) as count, COUNT(DISTINCT ip_hash) as unique_users FROM visitor_logs GROUP BY serp_source ORDER BY count DESC LIMIT 8");
             $stats['serp_sources'] = $serpStmt->fetchAll() ?: [];
 
             $bStmt = $pdo->query("SELECT browser as name, COUNT(*) as count FROM visitor_logs GROUP BY browser ORDER BY count DESC LIMIT 6");
             $stats['browsers'] = $bStmt->fetchAll() ?: [];
 
+            // 5. OS Pengunjung
             $osStmt = $pdo->query("SELECT os as name, COUNT(*) as count FROM visitor_logs GROUP BY os ORDER BY count DESC LIMIT 6");
             $stats['operating_systems'] = $osStmt->fetchAll() ?: [];
 
@@ -222,7 +254,36 @@ function getVisitorStatsAggregated($pdo) {
             ['search_keyword' => 'drop off bandara soetta bandung', 'total_hits' => 31, 'unique_users' => 14],
             ['search_keyword' => 'carter drop off jakarta bandung all in', 'total_hits' => 24, 'unique_users' => 9],
             ['search_keyword' => 'travel privat drop off bandung', 'total_hits' => 18, 'unique_users' => 8],
-            ['search_keyword' => 'sewa innova drop off jakarta', 'total_hits' => 12, 'unique_users' => 6]
+            ['search_keyword' => 'sewa innova drop off jakarta', 'total_hits' => 12, 'unique_users' => 6],
+            ['search_keyword' => 'drop off jakarta cirebon tol cipali', 'total_hits' => 10, 'unique_users' => 5],
+            ['search_keyword' => 'drop off bandara halim jabodetabek', 'total_hits' => 9, 'unique_users' => 4],
+            ['search_keyword' => 'drop off jakarta puncak bogor', 'total_hits' => 8, 'unique_users' => 4],
+            ['search_keyword' => 'sewa hiace premio drop off jakarta', 'total_hits' => 6, 'unique_users' => 3],
+            ['search_keyword' => 'drop off surabaya malang', 'total_hits' => 5, 'unique_users' => 2]
+        ];
+        $stats['top_pages'] = [
+            ['page_url' => '/', 'page_title' => 'Dropoff.id - Sewa Mobil Drop Off Antar Kota', 'pageviews' => 45, 'unique_users' => 19],
+            ['page_url' => '/drop-off-jakarta-bandung', 'page_title' => 'Drop Off Jakarta Bandung All-In Resmi', 'pageviews' => 38, 'unique_users' => 16],
+            ['page_url' => '/drop-off-bandara-soekarno-hatta', 'page_title' => 'Drop Off Bandara Soekarno Hatta All-In', 'pageviews' => 28, 'unique_users' => 12],
+            ['page_url' => '/blog/panduan-tarif-drop-off-jakarta-ke-bandung', 'page_title' => 'Panduan Tarif Drop Off Jakarta ke Bandung', 'pageviews' => 22, 'unique_users' => 10],
+            ['page_url' => '/drop-off-bandara-halim', 'page_title' => 'Drop Off Bandara Halim Perdanakusuma', 'pageviews' => 18, 'unique_users' => 8],
+            ['page_url' => '/blog/tips-memilih-layanan-drop-off-privat-antar-kota-terbaik', 'page_title' => 'Tips Memilih Layanan Drop Off Privat Antar Kota', 'pageviews' => 16, 'unique_users' => 7],
+            ['page_url' => '/blog/carter-drop-off-jakarta-ke-bandung-liburan-akhir-pekan', 'page_title' => 'Carter Drop Off Jakarta ke Bandung Weekend', 'pageviews' => 14, 'unique_users' => 6],
+            ['page_url' => '/drop-off-dalam-kota-jabodetabek', 'page_title' => 'Drop Off Dalam Kota Jabodetabek', 'pageviews' => 11, 'unique_users' => 5],
+            ['page_url' => '/blog/panduan-tarif-drop-off-jabodetabek-ke-bandara-internasional-soekarno-hatta', 'page_title' => 'Panduan Tarif Drop Off Soetta', 'pageviews' => 9, 'unique_users' => 4],
+            ['page_url' => '/blog/panduan-tarif-drop-off-jabodetabek-ke-baraya', 'page_title' => 'Panduan Tarif Drop Off Baraya Travel', 'pageviews' => 7, 'unique_users' => 3]
+        ];
+        $stats['top_locations'] = [
+            ['country' => 'Indonesia', 'province' => 'DKI Jakarta', 'city' => 'Jakarta Selatan', 'count' => 44, 'unique_users' => 18],
+            ['country' => 'Indonesia', 'province' => 'Jawa Barat', 'city' => 'Kota Bandung', 'count' => 38, 'unique_users' => 16],
+            ['country' => 'Indonesia', 'province' => 'Banten', 'city' => 'Kota Tangerang (Soetta)', 'count' => 21, 'unique_users' => 11],
+            ['country' => 'Indonesia', 'province' => 'Jawa Barat', 'city' => 'Kota Bekasi', 'count' => 15, 'unique_users' => 8],
+            ['country' => 'Indonesia', 'province' => 'DKI Jakarta', 'city' => 'Jakarta Pusat', 'count' => 12, 'unique_users' => 6],
+            ['country' => 'Indonesia', 'province' => 'Jawa Barat', 'city' => 'Kota Bogor', 'count' => 10, 'unique_users' => 5],
+            ['country' => 'Indonesia', 'province' => 'Jawa Timur', 'city' => 'Kota Surabaya', 'count' => 8, 'unique_users' => 4],
+            ['country' => 'Indonesia', 'province' => 'Jawa Barat', 'city' => 'Kota Depok', 'count' => 7, 'unique_users' => 4],
+            ['country' => 'Indonesia', 'province' => 'Banten', 'city' => 'Tangerang Selatan', 'count' => 6, 'unique_users' => 3],
+            ['country' => 'Indonesia', 'province' => 'Jawa Tengah', 'city' => 'Kota Semarang', 'count' => 5, 'unique_users' => 3]
         ];
         $stats['serp_sources'] = [
             ['name' => 'Google Search', 'count' => 74],
@@ -285,14 +346,39 @@ if (!defined('TRACKER_LIB_ONLY')) {
             $cityIdx = hexdec(substr($ipHash, 0, 2)) % count($sampleCities);
             $city = $sampleCities[$cityIdx];
         }
+
+        $cityToProv = [
+            'Jakarta Selatan' => 'DKI Jakarta',
+            'Jakarta Pusat' => 'DKI Jakarta',
+            'Jakarta Barat' => 'DKI Jakarta',
+            'Jakarta Timur' => 'DKI Jakarta',
+            'Jakarta Utara' => 'DKI Jakarta',
+            'Bandung' => 'Jawa Barat',
+            'Kota Bandung' => 'Jawa Barat',
+            'Bekasi' => 'Jawa Barat',
+            'Kota Bekasi' => 'Jawa Barat',
+            'Bogor' => 'Jawa Barat',
+            'Kota Bogor' => 'Jawa Barat',
+            'Depok' => 'Jawa Barat',
+            'Kota Depok' => 'Jawa Barat',
+            'Cirebon' => 'Jawa Barat',
+            'Tangerang' => 'Banten',
+            'Kota Tangerang' => 'Banten',
+            'Tangerang Selatan' => 'Banten',
+            'Surabaya' => 'Jawa Timur',
+            'Kota Surabaya' => 'Jawa Timur',
+            'Malang' => 'Jawa Timur',
+            'Semarang' => 'Jawa Tengah'
+        ];
+        $province = $_SERVER['HTTP_CF_REGION'] ?? ($cityToProv[$city] ?? 'Jawa Barat');
         $country = $_SERVER['HTTP_CF_IPCOUNTRY'] ?? 'Indonesia';
 
         if ($pdo) {
             try {
                 $stmt = $pdo->prepare("
                     INSERT INTO visitor_logs 
-                    (ip_hash, visited_at, page_url, page_title, referrer, serp_source, search_keyword, browser, os, device_type, city, country)
-                    VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    (ip_hash, visited_at, page_url, page_title, referrer, serp_source, search_keyword, browser, os, device_type, city, province, country)
+                    VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ");
                 $stmt->execute([
                     $ipHash,
@@ -305,6 +391,7 @@ if (!defined('TRACKER_LIB_ONLY')) {
                     $os,
                     $device,
                     $city,
+                    $province,
                     $country
                 ]);
             } catch (Throwable $e) {
