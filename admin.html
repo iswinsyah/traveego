@@ -226,10 +226,13 @@
 
     <nav class="navbar">
         <a href="/admin" class="brand">
-            <span>👑 Dropoff.id Ops Console</span>
+            <span>🗺️ Dropoff.id Radar Armada</span>
         </a>
         <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
             <span id="adminRoleDisplay" style="background: #EFF6FF; color: #1E40AF; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; border: 1px solid #BFDBFE;">👤 Admin</span>
+            <a href="/admin?tab=finance" target="_top" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #065F46; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(6,95,70,0.3); transition: all 0.2s;">
+                <span>💰 Administrasi Keuangan</span>
+            </a>
             <a href="/admin?tab=hendra" target="_top" style="text-decoration: none; font-size: 13px; font-weight: 700; background: #0F172A; color: #FFF; padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: all 0.2s;">
                 <span>👔 Survey Tarif &amp; Harga</span>
             </a>
@@ -242,80 +245,8 @@
     </nav>
 
     <div class="container">
- 
-        <!-- KOTAK PENGATURAN REKENING BANK RESMI PLATFORM (TOP UP & SETORAN KOMISI) -->
-        <div class="section-card" id="bankSettingCard" style="border-left: 4px solid #0284C7; background: #FFFFFF; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: #E0F2FE; color: #0284C7; display: flex; align-items: center; justify-content: center; font-size: 24px;">
-                        🏦
-                    </div>
-                    <div>
-                        <h3 style="font-size: 16px; font-weight: 800; color: #0F172A; margin: 0 0 3px 0;">
-                            Pengaturan Rekening Bank Resmi Platform
-                        </h3>
-                        <p style="font-size: 12.5px; color: #64748B; margin: 0;">
-                            Rekening ini otomatis ditampilkan ke mitra sopir untuk <strong>Top Up Saldo Deposit</strong> &amp; <strong>Setoran Komisi Pasca-Bayar</strong>.
-                        </p>
-                    </div>
-                </div>
 
-                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                    <button type="button" onclick="saveAdminBankSettings()" id="btnSaveBankConfig" style="height: 42px; padding: 0 20px; background: #0284C7; color: #FFF; border: none; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2,132,199,0.3);">
-                        <span>💾</span>
-                        <span>Simpan Rekening Bank</span>
-                    </button>
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #F1F5F9;">
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">Nama Bank:</label>
-                    <input type="text" id="adminBankNameInput" placeholder="Contoh: BCA / Mandiri / BRI" style="width: 100%; box-sizing: border-box; height: 40px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13.5px; font-weight: 700; color: #0F172A;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">Nomor Rekening:</label>
-                    <input type="text" id="adminBankAccountInput" placeholder="Contoh: 1234567890" style="width: 100%; box-sizing: border-box; height: 40px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 14px; font-weight: 800; color: #0F172A; letter-spacing: 0.5px;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">Atas Nama (Pemilik Rekening):</label>
-                    <input type="text" id="adminBankHolderInput" placeholder="Contoh: Dropoff.id Operasional" style="width: 100%; box-sizing: border-box; height: 40px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13.5px; font-weight: 700; color: #0F172A;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">Instruksi Tambahan (Opsional):</label>
-                    <input type="text" id="adminBankNotesInput" placeholder="Contoh: Berita transfer no HP / ID driver" style="width: 100%; box-sizing: border-box; height: 40px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13px; color: #475569;">
-                </div>
-            </div>
-            <div id="bankConfigSaveAlert" style="display: none; margin-top: 10px; font-size: 12px; font-weight: 700; color: #16A34A;">
-                ✅ Rekening bank berhasil disimpan dan langsung aktif di PWA Driver!
-            </div>
-        </div>
-
-        <!-- STATS -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-title">TOTAL PESANAN</div>
-                <div class="metric-value" id="statOrders">0</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">LELANG TERBUKA (RADAR)</div>
-                <div class="metric-value" style="color: #D97706;" id="statAuctions">0</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">ORDER SUKSES SELESAI</div>
-                <div class="metric-value" style="color: #16A34A;" id="statCompleted">0</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">KOMISI ADMIN LUNAS</div>
-                <div class="metric-value" style="color: var(--primary-blue);" id="statCommission">Rp 0</div>
-            </div>
-            <div class="metric-card" style="border-left: 4px solid #2563EB;">
-                <div class="metric-title">CALON MITRA MENUNGGU AKTIVASI</div>
-                <div class="metric-value" style="color: #2563EB;" id="statPendingDrivers">0</div>
-            </div>
-        </div>
-
-        <!-- RADAR FLEET SEBARAN ARMADA (OPENSTREETMAP LEAFLET) -->
+        <!-- 1. RADAR PANTAU SEBARAN ARMADA (OPENSTREETMAP) -->
         <div class="radar-map-card">
             <div class="section-header" style="margin-bottom: 12px;">
                 <div>
@@ -329,201 +260,7 @@
             <div id="fleetMap"></div>
         </div>
 
-        <!-- 0. PENDAFTARAN MITRA SOPIR (MENUNGGU AKTIVASI ADMIN) -->
-        <div class="section-card" id="pendingDriversCard" style="border-left: 4px solid #2563EB;">
-            <div class="section-header">
-                <div>
-                    <h2>📋 Pendaftaran Calon Mitra Sopir (Menunggu Verifikasi & Aktivasi)</h2>
-                    <div style="font-size: 13px; color: var(--text-muted);">Verifikasi kelengkapan KTP, SIM, dan foto mobil sebelum mengaktifkan akun sopir</div>
-                </div>
-                <button onclick="loadPendingDrivers()" style="padding: 6px 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; cursor: pointer;">
-                    🔄 Refresh Pendaftaran
-                </button>
-            </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Waktu Daftar</th>
-                            <th>Nama Sopir</th>
-                            <th>Username</th>
-                            <th>No. WhatsApp</th>
-                            <th>NIK / SIM</th>
-                            <th>Armada & Plat</th>
-                            <th>Berkas Foto</th>
-                            <th>Status Akun</th>
-                            <th>Aksi Aktivasi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pendingDriversTableBody">
-                        <tr>
-                            <td colspan="9" style="text-align: center; color: var(--text-muted); padding: 30px;">
-                                Belum ada pendaftaran calon mitra baru.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 1. SETORAN KOMISI MENUNGGU VERIFIKASI ADMIN (PASCA-BAYAR) -->
-        <div class="section-card">
-            <div class="section-header">
-                <h2>💳 Verifikasi Setoran Transfer Komisi Sopir</h2>
-                <div style="font-size: 13px; color: var(--text-muted);">Sopir sudah terima cash dan transfer ke rekening admin</div>
-            </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Kode Order</th>
-                            <th>Nama Sopir</th>
-                            <th>Bank & Pengirim</th>
-                            <th>Nominal Komisi</th>
-                            <th>Bukti Struk</th>
-                            <th>Aksi Verifikasi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="settlementsTableBody">
-                        <tr>
-                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
-                                Belum ada setoran baru yang menunggu verifikasi.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 1b. VERIFIKASI TOP UP SALDO DEPOSIT MITRA SOPIR -->
-        <div class="section-card" id="topupVerificationCard" style="border-left: 4px solid #2563EB;">
-            <div class="section-header">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span style="font-size: 24px;">💳</span>
-                    <div>
-                        <h2>Verifikasi Top Up Saldo Mitra Sopir (Deposit)</h2>
-                        <div style="font-size: 13px; color: var(--text-muted);">Sopir mengisi saldo deposit dan mengunggah struk transfer bank</div>
-                    </div>
-                </div>
-                <span id="badgePendingTopups" style="background: #FEF3C7; color: #92400E; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 20px;">
-                    0 Menunggu
-                </span>
-            </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Nama Sopir &amp; HP</th>
-                            <th>Armada &amp; Plat</th>
-                            <th>Bank &amp; Pengirim</th>
-                            <th>Nominal Top Up</th>
-                            <th>Bukti Transfer</th>
-                            <th>Aksi Admin</th>
-                        </tr>
-                    </thead>
-                    <tbody id="topupsTableBody">
-                        <tr>
-                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
-                                Belum ada konfirmasi top up saldo yang menunggu verifikasi.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 1c. BUKU KAS & PEMBUKUAN KEUANGAN PLATFORM (FINANCIAL LEDGER) -->
-        <div class="section-card" id="ledgerSectionCard" style="border-left: 4px solid #16A34A;">
-            <div class="section-header" style="flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 24px;">
-                        📚
-                    </div>
-                    <div>
-                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <h2 style="margin: 0; font-size: 17px; font-weight: 800; color: #0F172A;">
-                                Buku Kas &amp; Pembukuan Keuangan Platform (Real-Time Ledger)
-                            </h2>
-                            <span style="background: #DCFCE7; color: #166534; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
-                                🟢 Terkoneksi Otomatis
-                            </span>
-                        </div>
-                        <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 3px;">
-                            Pencatatan mutasi kas platform: Top Up deposit driver, pemotongan komisi otomatis saat pelayanan selesai, dan saldo kas berjalan.
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                    <select id="ledgerCategoryFilter" onchange="filterLedgerCategory(this.value)" style="height: 38px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 10px; font-size: 12.5px; font-weight: 700; background: #FFF; outline: none;">
-                        <option value="">Semua Transaksi Kas</option>
-                        <option value="TOPUP_SALDO">Hanya Top Up Driver</option>
-                        <option value="KOMISI_ORDER">Hanya Komisi Order Selesai</option>
-                        <option value="OPERASIONAL">Operasional / Lainnya</option>
-                    </select>
-                    <button type="button" onclick="exportLedgerCsv()" style="height: 38px; padding: 0 14px; background: #0F172A; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-                        <span>📥</span>
-                        <span>Ekspor CSV</span>
-                    </button>
-                    <button type="button" onclick="recordManualLedgerPrompt()" style="height: 38px; padding: 0 14px; background: #16A34A; color: #FFF; border: none; border-radius: 8px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-                        <span>➕</span>
-                        <span>Catat Kas Manual</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- METRIC CARDS RINGKASAN PEMBUKUAN KAS -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 20px;">
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px 16px;">
-                    <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Total Kas Masuk Top Up</div>
-                    <div style="font-size: 20px; font-weight: 800; color: #0284C7; margin: 4px 0 2px;" id="ledgerStatTopup">Rp 0</div>
-                    <div style="font-size: 11px; color: #64748B;">Dari deposit mitra sopir</div>
-                </div>
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px 16px;">
-                    <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Pendapatan Komisi Order</div>
-                    <div style="font-size: 20px; font-weight: 800; color: #16A34A; margin: 4px 0 2px;" id="ledgerStatComm">Rp 0</div>
-                    <div style="font-size: 11px; color: #16A34A; font-weight: 700;">Potongan order sukses</div>
-                </div>
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px 16px;">
-                    <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Total Pengeluaran Kas</div>
-                    <div style="font-size: 20px; font-weight: 800; color: #EF4444; margin: 4px 0 2px;" id="ledgerStatExpense">Rp 0</div>
-                    <div style="font-size: 11px; color: #64748B;">Operasional / Refund</div>
-                </div>
-                <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 14px 16px;">
-                    <div style="font-size: 11.5px; color: #166534; font-weight: 800; text-transform: uppercase;">Saldo Kas Platform (Net)</div>
-                    <div style="font-size: 22px; font-weight: 900; color: #0F172A; margin: 4px 0 2px;" id="ledgerStatBalance">Rp 0</div>
-                    <div style="font-size: 11px; color: #16A34A; font-weight: 700;">Kas tersedia di bank</div>
-                </div>
-            </div>
-
-            <!-- TABEL MUTASI BUKU KAS -->
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Waktu &amp; Tanggal</th>
-                            <th>Kode Transaksi</th>
-                            <th>Jenis</th>
-                            <th>Kategori</th>
-                            <th>Keterangan Mutasi</th>
-                            <th>Nominal (Rp)</th>
-                            <th>Saldo Akhir Kas</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ledgerTableBody">
-                        <tr>
-                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
-                                Belum ada catatan transaksi buku kas.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 2. DAFTAR PESANAN OPERASIONAL -->
+        <!-- 2. MONITOR PESANAN REAL TIME -->
         <div class="section-card">
             <div class="section-header">
                 <h2>📦 Monitoring Pesanan Realtime</h2>
@@ -561,13 +298,50 @@
             </div>
         </div>
 
+        <!-- 3. PENDAFTARAN CALON MITRA SOPIR -->
+        <div class="section-card" id="pendingDriversCard" style="border-left: 4px solid #2563EB;">
+            <div class="section-header">
+                <div>
+                    <h2>📋 Pendaftaran Calon Mitra Sopir (Menunggu Verifikasi &amp; Aktivasi)</h2>
+                    <div style="font-size: 13px; color: var(--text-muted);">Verifikasi kelengkapan KTP, SIM, dan foto mobil sebelum mengaktifkan akun sopir</div>
+                </div>
+                <button onclick="loadPendingDrivers()" style="padding: 6px 14px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                    🔄 Refresh Pendaftaran
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Waktu Daftar</th>
+                            <th>Nama Sopir</th>
+                            <th>Username</th>
+                            <th>No. WhatsApp</th>
+                            <th>NIK / SIM</th>
+                            <th>Armada &amp; Plat</th>
+                            <th>Berkas Foto</th>
+                            <th>Status Akun</th>
+                            <th>Aksi Aktivasi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingDriversTableBody">
+                        <tr>
+                            <td colspan="9" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                Belum ada pendaftaran calon mitra baru.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
-    <!-- MODAL PREVIEW STRUK -->
+    <!-- MODAL PREVIEW STRUK / BERKAS -->
     <div class="modal" id="proofModal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <h3>Bukti Transfer M-Banking</h3>
-            <img src="" id="modalImg" class="modal-img" alt="Bukti Transfer">
+            <h3 style="font-size: 16px; font-weight: 800; color: #0F172A;">Berkas Calon Mitra Sopir</h3>
+            <img src="" id="modalImg" class="modal-img" alt="Berkas Driver">
             <br>
             <button onclick="closeModal()" style="padding: 8px 20px; background: #CBD5E1; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Tutup</button>
         </div>
@@ -626,16 +400,7 @@
                 }
                 const data = await res.json();
                 if (data.success) {
-                    renderStats(data.stats);
-                    renderSettlements(data.pendingSettlements);
-                    renderTopups(data.pendingTopups);
                     renderOrders(data.latestOrders);
-                    if (data.ledgerSummary) {
-                        renderLedgerOverview(data.ledgerSummary);
-                    }
-                    if (data.adminBank) {
-                        populateAdminBankInputs(data.adminBank);
-                    }
                     if (data.pendingDrivers) {
                         renderPendingDrivers(data.pendingDrivers);
                     } else {
@@ -644,16 +409,6 @@
                 }
             } catch (err) {
                 console.error(err);
-            }
-        }
-
-        function renderStats(s) {
-            document.getElementById('statOrders').innerText = s.totalOrders;
-            document.getElementById('statAuctions').innerText = s.activeAuctions;
-            document.getElementById('statCompleted').innerText = s.completedOrders;
-            document.getElementById('statCommission').innerText = 'Rp ' + parseFloat(s.totalCommissionPaid).toLocaleString('id-ID');
-            if (document.getElementById('statPendingDrivers')) {
-                document.getElementById('statPendingDrivers').innerText = s.pendingDriversCount || 0;
             }
         }
 
@@ -767,247 +522,6 @@
             }
         }
 
-        function renderSettlements(list) {
-            const tbody = document.getElementById('settlementsTableBody');
-            if (!list || list.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">Tidak ada setoran yang menunggu verifikasi saat ini.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = '';
-            list.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${new Date(item.created_at).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</td>
-                    <td><b>${item.tracking_code}</b></td>
-                    <td>${item.driver_name} <br><span style="font-size: 11px; color: var(--text-muted);">${item.driver_phone}</span></td>
-                    <td><b>${item.bank_sender}</b> <br><span style="font-size: 12px;">a/n ${item.sender_name}</span></td>
-                    <td><b style="color: #16A34A;">Rp ${parseFloat(item.amount).toLocaleString('id-ID')}</b></td>
-                    <td>
-                        ${item.proof_image ? `<button class="btn-view-proof" onclick="viewProof('${item.proof_image}')">Lihat Struk</button>` : '<span style="color: #DC2626; font-size: 12px;">Tanpa Foto</span>'}
-                    </td>
-                    <td>
-                        <button class="btn-verify" onclick="verifySettlement(${item.id})">✅ Konfirmasi Lunas</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function renderTopups(list) {
-            const tbody = document.getElementById('topupsTableBody');
-            const badge = document.getElementById('badgePendingTopups');
-            if (badge) {
-                badge.innerText = (list ? list.length : 0) + ' Menunggu';
-            }
-            if (!tbody) return;
-            if (!list || list.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">Tidak ada konfirmasi top up yang menunggu verifikasi saat ini.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = '';
-            list.forEach(item => {
-                const tr = document.createElement('tr');
-                const timeStr = item.created_at ? new Date(item.created_at).toLocaleString('id-ID', {day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit'}) : '-';
-                const aiScore = parseInt(item.ai_score || 0);
-                let aiBadge = `<button onclick="analyzeTopupReceipt(${item.id})" style="background: #EFF6FF; border: 1px solid #93C5FD; color: #1D4ED8; font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 4px; cursor: pointer; margin-top: 4px; display: inline-flex; align-items: center; gap: 3px;"><span>🤖</span><span>Tes AI</span></button>`;
-                if (aiScore >= 85) {
-                    aiBadge = `<span style="background: #DCFCE7; color: #166534; font-size: 10.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">🟢 AI: ${aiScore}% ASLI</span>`;
-                } else if (aiScore > 0) {
-                    aiBadge = `<span style="background: #FEE2E2; color: #991B1B; font-size: 10.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">⚠️ AI: ${aiScore}% MENCURIGAKAN</span>`;
-                }
-
-                tr.innerHTML = `
-                    <td><span style="font-size: 12px; color: var(--text-muted);">${timeStr}</span></td>
-                    <td>
-                        <b>${item.driver_name || 'Driver #' + item.driver_id}</b><br>
-                        <a href="https://wa.me/${(item.driver_phone || '').replace(/[^0-9]/g, '')}" target="_blank" style="color: #16A34A; font-size: 11.5px; font-weight: 700; text-decoration: none;">💬 ${item.driver_phone || '-'}</a>
-                    </td>
-                    <td>
-                        <span style="font-size: 12.5px;">${item.car_model || '-'}</span><br>
-                        <span style="background: #1E293B; color: #FFF; font-size: 10.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">${item.car_plate || '-'}</span>
-                    </td>
-                    <td><b>${item.bank_sender}</b> <br><span style="font-size: 12px;">a/n ${item.sender_name}</span></td>
-                    <td><b style="color: #2563EB; font-size: 14px;">Rp ${parseFloat(item.amount).toLocaleString('id-ID')}</b></td>
-                    <td>
-                        ${item.proof_image ? `<button class="btn-view-proof" onclick="viewProof('${item.proof_image}')">📸 Lihat Struk</button>` : '<span style="color: #DC2626; font-size: 12px;">Tanpa Foto</span>'}
-                        <div>${aiBadge}</div>
-                        ${item.ai_notes ? `<div style="font-size: 10px; color: #64748B; margin-top: 3px; max-width: 170px; line-height: 1.2;">${item.ai_notes}</div>` : ''}
-                    </td>
-                    <td>
-                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                            <button onclick="verifyTopup(${item.id}, 'APPROVED', ${item.amount})" style="background: #16A34A; color: #FFF; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer;">
-                                ✅ Setujui &amp; Tambah Saldo
-                            </button>
-                            <button onclick="verifyTopup(${item.id}, 'REJECTED', ${item.amount})" style="background: #EF4444; color: #FFF; border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">
-                                ❌ Tolak
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        async function analyzeTopupReceipt(topupId) {
-            try {
-                const btn = event?.target;
-                if (btn) btn.innerText = '⏳ AI Checking...';
-                const res = await fetch('/api/admin.php?action=analyze_receipt', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ topup_id: topupId })
-                });
-                const d = await res.json();
-                if (d.success && d.analysis) {
-                    alert(`🤖 HASIL ANALISIS AI:\n- Skor Keaslian: ${d.analysis.confidence_score}%\n- Risiko: ${d.analysis.fraud_risk}\n- Deteksi Nominal: Rp ${Number(d.analysis.detected_amount || 0).toLocaleString('id-ID')}\n- Catatan: ${d.analysis.reason}`);
-                    loadAdminData();
-                } else {
-                    alert('Gagal analisis AI: ' + (d.message || 'Error'));
-                }
-            } catch(e) {
-                alert('Gagal memanggil AI: ' + e.message);
-            }
-        }
-
-        async function verifyTopup(topupId, decision, amount) {
-            let notes = '';
-            if (decision === 'APPROVED') {
-                if (!confirm(`Setujui konfirmasi top up sebesar Rp ${Number(amount).toLocaleString('id-ID')}? Saldo dompet mitra sopir akan otomatis bertambah dan tercatat di Buku Kas saat ini juga.`)) return;
-            } else {
-                notes = prompt('Masukkan alasan penolakan top up (misal: Bukti transfer buram / mutasi bank belum masuk):', 'Bukti transfer tidak valid.');
-                if (!notes) return;
-            }
-
-            try {
-                const res = await fetch('/api/admin.php?action=verify_topup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ topup_id: topupId, status: decision, notes: notes })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    alert('🎉 ' + data.message);
-                    loadAdminData();
-                } else {
-                    alert('⚠️ Gagal: ' + data.message);
-                }
-            } catch (e) {
-                alert('Terjadi kesalahan: ' + e.message);
-            }
-        }
-
-        // ==========================================
-        // FITUR BUKU KAS & PEMBUKUAN KEUANGAN (LEDGER)
-        // ==========================================
-        let allLedgerCache = [];
-
-        function renderLedgerOverview(overview) {
-            if (!overview) return;
-            document.getElementById('ledgerStatTopup').innerText = 'Rp ' + Number(overview.topup_total || 0).toLocaleString('id-ID');
-            document.getElementById('ledgerStatComm').innerText = 'Rp ' + Number(overview.order_commission_total || 0).toLocaleString('id-ID');
-            document.getElementById('ledgerStatExpense').innerText = 'Rp ' + Number(overview.total_expense || 0).toLocaleString('id-ID');
-            document.getElementById('ledgerStatBalance').innerText = 'Rp ' + Number(overview.current_balance || 0).toLocaleString('id-ID');
-
-            allLedgerCache = overview.transactions || [];
-            renderLedgerTable(allLedgerCache);
-        }
-
-        function renderLedgerTable(list) {
-            const tbody = document.getElementById('ledgerTableBody');
-            if (!tbody) return;
-            if (!list || list.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">Belum ada catatan mutasi kas.</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = '';
-            list.forEach(item => {
-                const tr = document.createElement('tr');
-                const isIncome = (item.type === 'IN');
-                const typeBadge = isIncome 
-                    ? '<span style="background: #DCFCE7; color: #166534; font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 4px;">🟢 MASUK</span>'
-                    : '<span style="background: #FEE2E2; color: #991B1B; font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 4px;">🔴 KELUAR</span>';
-
-                let catBadge = `<span style="background: #F1F5F9; color: #334155; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">${item.category}</span>`;
-                if (item.category === 'TOPUP_SALDO') {
-                    catBadge = '<span style="background: #E0F2FE; color: #0369A1; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Top Up Driver</span>';
-                } else if (item.category === 'KOMISI_ORDER') {
-                    catBadge = '<span style="background: #DCFCE7; color: #15803D; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Komisi Order</span>';
-                }
-
-                const amtSign = isIncome ? '+Rp ' : '-Rp ';
-                const amtColor = isIncome ? '#16A34A' : '#EF4444';
-                const dateStr = item.trx_date ? new Date(item.trx_date).toLocaleString('id-ID', {day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit'}) : '-';
-
-                tr.innerHTML = `
-                    <td><span style="font-size: 12px; color: var(--text-muted);">${dateStr}</span></td>
-                    <td><code style="font-size: 11.5px; font-weight: 700;">${item.trx_code}</code></td>
-                    <td>${typeBadge}</td>
-                    <td>${catBadge}</td>
-                    <td style="max-width: 320px; font-size: 12.5px;">${item.description}</td>
-                    <td><b style="color: ${amtColor}; font-size: 13.5px;">${amtSign}${Number(item.amount).toLocaleString('id-ID')}</b></td>
-                    <td><span style="font-weight: 800; color: #0F172A; font-size: 13px;">Rp ${Number(item.balance_after || 0).toLocaleString('id-ID')}</span></td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        async function filterLedgerCategory(cat) {
-            try {
-                const res = await fetch(`/api/admin.php?action=ledger&category=${encodeURIComponent(cat)}`);
-                const d = await res.json();
-                if (d.success && d.data) {
-                    renderLedgerOverview(d.data);
-                }
-            } catch(e) {
-                console.error(e);
-            }
-        }
-
-        
-        function escapeHtml(str) {
-            if (!str) return '';
-            return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
-        }
-
-        function exportLedgerCsv() {
-            window.location.href = '/api/admin.php?action=export_ledger';
-        }
-
-        async function recordManualLedgerPrompt() {
-            const type = prompt('Pilih jenis transaksi kas: Ketik "IN" untuk Pemasukan Kas atau "OUT" untuk Pengeluaran Kas:', 'IN');
-            if (!type || (type.toUpperCase() !== 'IN' && type.toUpperCase() !== 'OUT')) return;
-
-            const amountStr = prompt('Masukkan nominal transaksi (hanya angka, misal 500000):');
-            const amount = parseFloat(amountStr);
-            if (isNaN(amount) || amount <= 0) {
-                alert('Nominal tidak valid!');
-                return;
-            }
-
-            const desc = prompt('Masukkan keterangan transaksi kas (misal: Biaya Operasional Domain / Tambah Kas Modal):');
-            if (!desc) return;
-
-            try {
-                const res = await fetch('/api/admin.php?action=record_manual_ledger', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ type: type.toUpperCase(), amount: amount, description: desc, category: 'OPERASIONAL' })
-                });
-                const d = await res.json();
-                if (d.success) {
-                    alert('🎉 ' + d.message);
-                    loadAdminData();
-                } else {
-                    alert('Gagal: ' + d.message);
-                }
-            } catch(e) {
-                alert('Error: ' + e.message);
-            }
-        }
-
         let allOrdersCache = [];
 
         function renderOrders(list) {
@@ -1079,27 +593,6 @@
             URL.revokeObjectURL(url);
         }
 
-        async function verifySettlement(id) {
-            if (!confirm('Pastikan uang transfer bagi hasil sudah masuk ke mutasi rekening bank Anda. Konfirmasi lunas sekarang?')) return;
-
-            try {
-                const res = await fetch(`/api/admin.php?action=verify_settlement`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ settlement_id: id, status: 'VERIFIED_PAID' })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    alert('✅ Setoran komisi berhasil diverifikasi LUNAS!');
-                    loadAdminData();
-                } else {
-                    alert(data.message);
-                }
-            } catch (err) {
-                alert(err.message);
-            }
-        }
-
         function viewProof(url) {
             document.getElementById('modalImg').src = url;
             document.getElementById('proofModal').style.display = 'flex';
@@ -1107,64 +600,6 @@
 
         function closeModal() {
             document.getElementById('proofModal').style.display = 'none';
-        }
-
-        // PENGATURAN REKENING BANK RESMI PLATFORM
-        function populateAdminBankInputs(bank) {
-            if (!bank) return;
-            const nameEl = document.getElementById('adminBankNameInput');
-            const accEl = document.getElementById('adminBankAccountInput');
-            const holderEl = document.getElementById('adminBankHolderInput');
-            const notesEl = document.getElementById('adminBankNotesInput');
-            if (nameEl && document.activeElement !== nameEl) nameEl.value = bank.bank || '';
-            if (accEl && document.activeElement !== accEl) accEl.value = bank.account || '';
-            if (holderEl && document.activeElement !== holderEl) holderEl.value = bank.holder || '';
-            if (notesEl && document.activeElement !== notesEl) notesEl.value = bank.instructions || '';
-        }
-
-        async function saveAdminBankSettings() {
-            const bank = document.getElementById('adminBankNameInput')?.value.trim();
-            const account = document.getElementById('adminBankAccountInput')?.value.trim();
-            const holder = document.getElementById('adminBankHolderInput')?.value.trim();
-            const instructions = document.getElementById('adminBankNotesInput')?.value.trim() || '';
-
-            if (!bank || !account || !holder) {
-                alert('Mohon isi Nama Bank, Nomor Rekening, dan Atas Nama dengan lengkap!');
-                return;
-            }
-
-            const btn = document.getElementById('btnSaveBankConfig');
-            const oldText = btn ? btn.innerHTML : '';
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = '<span>⏳</span><span>Menyimpan...</span>';
-            }
-
-            try {
-                const res = await fetch('/api/admin.php?action=save_bank_config', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ bank, account, holder, instructions })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    const alertBox = document.getElementById('bankConfigSaveAlert');
-                    if (alertBox) {
-                        alertBox.style.display = 'block';
-                        setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
-                    }
-                    alert('🎉 ' + data.message);
-                } else {
-                    alert('⚠️ ' + data.message);
-                }
-            } catch (e) {
-                alert('Gagal menyimpan rekening bank: ' + e.message);
-            } finally {
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = oldText;
-                }
-            }
         }
 
         async function checkAdminAuthRole() {

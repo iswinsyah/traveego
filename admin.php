@@ -1006,6 +1006,11 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 <span>Radar Armada</span>
             </button>
 
+            <button type="button" class="sidebar-btn <?= $activeTab === 'finance' ? 'active' : '' ?>" id="sideBtnFinance" onclick="switchAdminTab('finance')">
+                <span class="btn-icon">💰</span>
+                <span>Administrasi Keuangan</span>
+            </button>
+
             <button type="button" class="sidebar-btn <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="sideBtnHendra" onclick="switchAdminTab('hendra')">
                 <span class="btn-icon">👔</span>
                 <span>Survey Tarif &amp; Harga</span>
@@ -1070,6 +1075,9 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             <!-- FRAME 3: OPS CONSOLE & RADAR -->
             <iframe src="/admin.html" class="tab-frame <?= $activeTab === 'ops' ? 'active' : '' ?>" id="frameOps"></iframe>
 
+            <!-- FRAME 6: ADMINISTRASI KEUANGAN -->
+            <iframe src="/admin-finance.html" class="tab-frame <?= $activeTab === 'finance' ? 'active' : '' ?>" id="frameFinance"></iframe>
+
             <!-- FRAME 4: DEDICATED RUANG TRAINING CS AI HASNA -->
             <iframe src="/admin-hasna.html" class="tab-frame <?= $activeTab === 'training' ? 'active' : '' ?>" id="frameTraining"></iframe>
 
@@ -1082,7 +1090,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
     <nav class="mobile-bottom-bar">
         <button type="button" class="bottom-nav-item <?= $activeTab === 'cms' ? 'active' : '' ?>" id="bottomBtnCms" onclick="switchAdminTab('cms')">
             <span class="b-icon">🎨</span>
-            <span>CMS Web</span>
+            <span>CMS</span>
         </button>
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'stats' ? 'active' : '' ?>" id="bottomBtnStats" onclick="switchAdminTab('stats')">
@@ -1092,17 +1100,22 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'ops' ? 'active' : '' ?>" id="bottomBtnOps" onclick="switchAdminTab('ops')">
             <span class="b-icon">🗺️</span>
-            <span>Radar Armada</span>
+            <span>Radar</span>
+        </button>
+
+        <button type="button" class="bottom-nav-item <?= $activeTab === 'finance' ? 'active' : '' ?>" id="bottomBtnFinance" onclick="switchAdminTab('finance')">
+            <span class="b-icon">💰</span>
+            <span>Keuangan</span>
         </button>
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'hendra' ? 'active' : '' ?>" id="bottomBtnHendra" onclick="switchAdminTab('hendra')">
             <span class="b-icon">👔</span>
-            <span>Survey Tarif</span>
+            <span>Tarif</span>
         </button>
 
         <button type="button" class="bottom-nav-item <?= $activeTab === 'training' ? 'active' : '' ?>" id="bottomBtnTraining" onclick="switchAdminTab('training')">
             <span class="b-icon">🧠</span>
-            <span>Training AI</span>
+            <span>AI</span>
         </button>
 
         <a href="/driver" target="_blank" class="bottom-nav-item">
@@ -1117,6 +1130,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             const sideCms = document.getElementById('sideBtnCms');
             const sideStats = document.getElementById('sideBtnStats');
             const sideOps = document.getElementById('sideBtnOps');
+            const sideFinance = document.getElementById('sideBtnFinance');
             const sideHendra = document.getElementById('sideBtnHendra');
             const sideTraining = document.getElementById('sideBtnTraining');
 
@@ -1124,6 +1138,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             const bCms = document.getElementById('bottomBtnCms');
             const bStats = document.getElementById('bottomBtnStats');
             const bOps = document.getElementById('bottomBtnOps');
+            const bFinance = document.getElementById('bottomBtnFinance');
             const bHendra = document.getElementById('bottomBtnHendra');
             const bTraining = document.getElementById('bottomBtnTraining');
 
@@ -1131,6 +1146,7 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             const frameCms = document.getElementById('frameCms');
             const frameStats = document.getElementById('frameStats');
             const frameOps = document.getElementById('frameOps');
+            const frameFinance = document.getElementById('frameFinance');
             const frameHendra = document.getElementById('frameHendra');
             const frameTraining = document.getElementById('frameTraining');
 
@@ -1138,18 +1154,21 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
             if (sideCms) sideCms.classList.remove('active');
             if (sideStats) sideStats.classList.remove('active');
             if (sideOps) sideOps.classList.remove('active');
+            if (sideFinance) sideFinance.classList.remove('active');
             if (sideHendra) sideHendra.classList.remove('active');
             if (sideTraining) sideTraining.classList.remove('active');
 
             if (bCms) bCms.classList.remove('active');
             if (bStats) bStats.classList.remove('active');
             if (bOps) bOps.classList.remove('active');
+            if (bFinance) bFinance.classList.remove('active');
             if (bHendra) bHendra.classList.remove('active');
             if (bTraining) bTraining.classList.remove('active');
 
             if (frameCms) frameCms.classList.remove('active');
             if (frameStats) frameStats.classList.remove('active');
             if (frameOps) frameOps.classList.remove('active');
+            if (frameFinance) frameFinance.classList.remove('active');
             if (frameHendra) frameHendra.classList.remove('active');
             if (frameTraining) frameTraining.classList.remove('active');
 
@@ -1164,6 +1183,11 @@ $activeTab = $_GET['tab'] ?? 'cms'; // Default tab: cms
                 if (bStats) bStats.classList.add('active');
                 if (frameStats) frameStats.classList.add('active');
                 window.history.replaceState(null, '', '/admin?tab=stats');
+            } else if (tabName === 'finance') {
+                if (sideFinance) sideFinance.classList.add('active');
+                if (bFinance) bFinance.classList.add('active');
+                if (frameFinance) frameFinance.classList.add('active');
+                window.history.replaceState(null, '', '/admin?tab=finance');
             } else if (tabName === 'hendra') {
                 if (sideHendra) sideHendra.classList.add('active');
                 if (bHendra) bHendra.classList.add('active');
