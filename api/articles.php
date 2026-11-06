@@ -10,6 +10,17 @@ header('Cache-Control: public, max-age=60');
 
 date_default_timezone_set('Asia/Jakarta');
 
+require_once __DIR__ . '/image_rotator.php';
+
+// Endpoint monitoring kesehatan rotasi foto
+if (isset($_GET['action']) && $_GET['action'] === 'pool_stats') {
+    echo json_encode([
+        'success' => true,
+        'data' => ImageRotator::getPoolStats()
+    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
 $dataDir = __DIR__ . '/../data';
 $postsDir = $dataDir . '/generated_posts';
 $calendarFile = $dataDir . '/content_calendar.json';
@@ -63,13 +74,9 @@ function generateAutomatedArticle($item, $matrix) {
     $publishAt = $item['publish_at'] ?? date('Y-m-d H:i:s');
     $category = 'Info Tarif & Perjalanan';
 
-    $imgList = [
-        'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80'
-    ];
-    $featuredImg = $imgList[crc32($slug) % count($imgList)];
+    // Rotator Cerdas Anti-Spam: Cooldown 90 hari (3 bulan), 100% foto alami non-AI
+    $imgData = ImageRotator::getFeaturedImage($slug, $title, $category, $keyword);
+    $featuredImg = $imgData['url'];
 
     $metaDesc = "Panduan lengkap {$title} resmi Dropoff.id. Layanan sewa mobil privat sekali jalan All-In BBM, Tol, dan garansi tanpa uang muka 0% DP.";
 

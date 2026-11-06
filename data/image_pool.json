@@ -1,0 +1,844 @@
+{
+  "version": "2.0",
+  "description": "Bank Media Foto Alami Dropoff.id dengan Anti-Spam Cooldown Rotator (3 Bulan / 90 Hari)",
+  "cooldown_days": 90,
+  "min_cooldown_months": 3,
+  "total_photos": 52,
+  "categories": [
+    "tol_highway",
+    "airport_dropoff",
+    "car_interior_comfort",
+    "family_holiday_scenery",
+    "fleet_exterior"
+  ],
+  "images": [
+    {
+      "id": "tol-01",
+      "url": "https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Jalan tol mulus jalur Trans Jawa rute drop off antar kota",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "highway",
+        "trans jawa",
+        "bandung",
+        "cirebon",
+        "semarang"
+      ],
+      "last_used_at": "2026-10-27 10:00:00",
+      "last_used_slug": "panduan-tarif-drop-off-jakarta-ke-bandung",
+      "usage_count": 1
+    },
+    {
+      "id": "tol-02",
+      "url": "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Pemandangan jalan tol perbukitan hijau perjalanan drop off nyaman",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "pemandangan",
+        "bukit",
+        "alam",
+        "puncak",
+        "bandung"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-03",
+      "url": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Jalur jalan tol lengang dan lancar untuk perjalanan tepat waktu",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "lancar",
+        "cepat",
+        "bebas macet",
+        "perjalanan"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-04",
+      "url": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Mobil melintas mulus di jalur bebas hambatan antar provinsi",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "mobil",
+        "kecepatan aman",
+        "antar kota",
+        "surabaya"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-05",
+      "url": "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Jalan layang tol MBZ Jakarta menuju Jawa Barat",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "mbz",
+        "layang",
+        "jakarta",
+        "jabodetabek",
+        "cikampek"
+      ],
+      "last_used_at": "2026-10-29 13:00:00",
+      "last_used_slug": "panduan-tarif-drop-off-kawasan-jabodetabek-ke-kawasan-jabodetabek",
+      "usage_count": 1
+    },
+    {
+      "id": "tol-06",
+      "url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Jalur tol pegunungan berhawa sejuk rute Jawa Barat dan Jawa Tengah",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "gunung",
+        "sejuk",
+        "cipali",
+        "semarang",
+        "jogja"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-07",
+      "url": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Perjalanan darat jarak jauh dengan pemandangan terbuka",
+      "category": "tol_highway",
+      "tags": [
+        "road trip",
+        "perjalanan",
+        "antar kota",
+        "keluarga"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-08",
+      "url": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Lajur aspal tol panjang menuju horizon perjalanan amanah",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "aspal",
+        "lurus",
+        "jawa timur",
+        "malang"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-09",
+      "url": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Kendaraan melaju stabil di jalur jalan tol cuaca cerah",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "kendaraan",
+        "cerah",
+        "siang",
+        "aman"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-10",
+      "url": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Suasana senja di jalan tol antar kota saat sunset",
+      "category": "tol_highway",
+      "tags": [
+        "sore",
+        "sunset",
+        "senja",
+        "tol",
+        "malam"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-11",
+      "url": "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Jalan tol melintasi hutan hijau yang asri dan tenang",
+      "category": "tol_highway",
+      "tags": [
+        "tol",
+        "hutan",
+        "asri",
+        "sejuk",
+        "jawa barat"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "tol-12",
+      "url": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Jalur jalan aspal bersih dengan pepohonan rindang di sisi jalan",
+      "category": "tol_highway",
+      "tags": [
+        "jalan",
+        "rindang",
+        "tenang",
+        "pagi",
+        "perjalanan"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "apt-01",
+      "url": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Penerbangan di bandara internasional Soekarno Hatta",
+      "category": "airport_dropoff",
+      "tags": [
+        "bandara",
+        "soetta",
+        "pesawat",
+        "subuh",
+        "cengkareng"
+      ],
+      "last_used_at": "2026-11-01 10:00:00",
+      "last_used_slug": "panduan-tarif-drop-off-jabodetabek-ke-bandara-internasional-soekarno-hatta",
+      "usage_count": 1
+    },
+    {
+      "id": "apt-02",
+      "url": "https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Area keberangkatan dan drop off bandara Halim Perdanakusuma",
+      "category": "airport_dropoff",
+      "tags": [
+        "bandara",
+        "halim",
+        "terminal",
+        "lobi",
+        "drop off"
+      ],
+      "last_used_at": "2026-10-30 14:00:00",
+      "last_used_slug": "panduan-tarif-drop-off-jabodetabek-ke-bandara-halim-perdanakusuma",
+      "usage_count": 1
+    },
+    {
+      "id": "apt-03",
+      "url": "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Koper bagasi penumpang siap diantar ke bandara",
+      "category": "airport_dropoff",
+      "tags": [
+        "koper",
+        "bagasi",
+        "barang",
+        "bandara",
+        "perjalanan"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "apt-04",
+      "url": "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Terminal modern bandara dengan arsitektur megah",
+      "category": "airport_dropoff",
+      "tags": [
+        "bandara",
+        "modern",
+        "terminal 3",
+        "soetta",
+        "keberangkatan"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "apt-05",
+      "url": "https://images.unsplash.com/photo-1583416750470-965b2707b355?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Koper trolley di lantai terminal kedatangan bandara",
+      "category": "airport_dropoff",
+      "tags": [
+        "koper",
+        "kedatangan",
+        "penjemputan",
+        "bandara"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "apt-06",
+      "url": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Penumpang bersiap naik layanan sewa drop off bandara",
+      "category": "airport_dropoff",
+      "tags": [
+        "penumpang",
+        "bandara",
+        "antar jemput",
+        "mobil"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "apt-07",
+      "url": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Lobi keberangkatan bandara yang luas dan nyaman",
+      "category": "airport_dropoff",
+      "tags": [
+        "lobi",
+        "terminal",
+        "bandara",
+        "soekarno hatta"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "apt-08",
+      "url": "https://images.unsplash.com/photo-1529074963764-98f45c47344b?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Traveler profesional membawa koper menuju titik jemput",
+      "category": "airport_dropoff",
+      "tags": [
+        "eksekutif",
+        "koper",
+        "bisnis",
+        "dinas",
+        "bandara"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "apt-09",
+      "url": "https://images.unsplash.com/photo-1567521464027-f127ff144326",
+      "alt": "Paspor dan boarding pass siap penerbangan subuh",
+      "category": "airport_dropoff",
+      "tags": [
+        "tiket",
+        "penerbangan",
+        "subuh",
+        "jadwal",
+        "bandara"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "apt-10",
+      "url": "https://images.unsplash.com/photo-1520437358207-323b43b50729",
+      "alt": "Lantai lobi bandara bersih untuk penjemputan eksekutif",
+      "category": "airport_dropoff",
+      "tags": [
+        "lobi",
+        "penjemputan",
+        "door to door",
+        "bandara"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-01",
+      "url": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Kemudi dan interior mobil prima bersih terawat",
+      "category": "car_interior_comfort",
+      "tags": [
+        "kemudi",
+        "dashboard",
+        "bersih",
+        "sopir",
+        "innova"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-02",
+      "url": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Dashboard mobil modern dengan sistem navigasi jalan raya",
+      "category": "car_interior_comfort",
+      "tags": [
+        "dashboard",
+        "gps",
+        "navigasi",
+        "rute",
+        "avanza"
+      ],
+      "last_used_at": "2026-11-02 07:30:00",
+      "last_used_slug": "tips-memilih-layanan-drop-off-privat-antar-kota-terbaik",
+      "usage_count": 1
+    },
+    {
+      "id": "int-03",
+      "url": "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Kabin mobil higienis wangi dan nyaman untuk perjalanan jauh",
+      "category": "car_interior_comfort",
+      "tags": [
+        "kabin",
+        "wangi",
+        "bersih",
+        "ac",
+        "innova reborn"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-04",
+      "url": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Spion mobil memantulkan lajur jalan tol yang tenang",
+      "category": "car_interior_comfort",
+      "tags": [
+        "spion",
+        "tol",
+        "perjalanan",
+        "tenang",
+        "santai"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-05",
+      "url": "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Bangku penumpang empuk dengan ruang kaki lapang",
+      "category": "car_interior_comfort",
+      "tags": [
+        "jok",
+        "kursi",
+        "legroom",
+        "hiace premio",
+        "nyaman"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-06",
+      "url": "https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Penumpang bersantai memandang panorama luar jendela",
+      "category": "car_interior_comfort",
+      "tags": [
+        "penumpang",
+        "istirahat",
+        "santai",
+        "liburan",
+        "jendela"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-07",
+      "url": "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Sopir profesional mengemudi dengan fokus dan hati-hati",
+      "category": "car_interior_comfort",
+      "tags": [
+        "sopir",
+        "driver",
+        "kemudi",
+        "profesional",
+        "amanah"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-08",
+      "url": "https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Suasana pagi hari di dalam kabin mobil yang sejuk",
+      "category": "car_interior_comfort",
+      "tags": [
+        "pagi",
+        "kabin",
+        "sejuk",
+        "keluarga",
+        "berangkat"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-09",
+      "url": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Kenyamanan interior mobil carter privat sekali jalan",
+      "category": "car_interior_comfort",
+      "tags": [
+        "interior",
+        "mobil",
+        "privat",
+        "tidak campur"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "int-10",
+      "url": "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Pengemudi mengarahkan mobil dengan tenang melintasi jalan raya",
+      "category": "car_interior_comfort",
+      "tags": [
+        "sopir",
+        "stir",
+        "jalan raya",
+        "terpercaya"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-01",
+      "url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Pemandangan alam pegunungan hijau dan lembah asri",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "puncak",
+        "bogor",
+        "alam",
+        "pegunungan",
+        "liburan"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-02",
+      "url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Puncak perbukitan hijau khas kawasan Bandung dan Puncak",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "puncak",
+        "bandung",
+        "bukit",
+        "kabut",
+        "wisata"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-03",
+      "url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Kabut pagi di perbukitan tujuan akhir pekan keluarga",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "akhir pekan",
+        "weekend",
+        "keluarga",
+        "bogor",
+        "lembang"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-04",
+      "url": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Lembah terbuka hijau dengan langit biru cerah",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "cerah",
+        "liburan",
+        "wisata",
+        "keluarga",
+        "jawabarat"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-05",
+      "url": "https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Jembatan alami di tengah keindahan alam Jawa",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "jembatan",
+        "alam",
+        "sungai",
+        "cirebon",
+        "jogja"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-06",
+      "url": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Danau dan perbukitan tenang tempat rekreasi keluarga",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "danau",
+        "rekreasi",
+        "wisata",
+        "santai",
+        "keluarga"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-07",
+      "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Sinar matahari menembus pepohonan hijau di tepian jalan",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "pagi",
+        "hutan",
+        "sejuk",
+        "matahari",
+        "perjalanan"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-08",
+      "url": "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Pemandangan alam luas rute perjalanan luar kota",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "alam",
+        "pegunungan",
+        "rute",
+        "luar kota",
+        "wisata"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-09",
+      "url": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Pemandangan bukit terbuka untuk tujuan liburan favorit",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "bukit",
+        "liburan",
+        "favorit",
+        "keluarga",
+        "puncak"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "wis-10",
+      "url": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Perjalanan santai menyusuri danau dan alam pegunungan",
+      "category": "family_holiday_scenery",
+      "tags": [
+        "danau",
+        "gunung",
+        "santai",
+        "liburan",
+        "bandung"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "arm-01",
+      "url": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Armada mobil travel drop off melintasi jalur antar kota",
+      "category": "fleet_exterior",
+      "tags": [
+        "armada",
+        "travel",
+        "drop off",
+        "mobil",
+        "antar kota"
+      ],
+      "last_used_at": "2026-10-31 08:00:00",
+      "last_used_slug": "carter-drop-off-jakarta-ke-bandung-liburan-akhir-pekan",
+      "usage_count": 1
+    },
+    {
+      "id": "arm-02",
+      "url": "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Mobil MPV hitam bersih prima siap penjemputan",
+      "category": "fleet_exterior",
+      "tags": [
+        "mpv",
+        "innova",
+        "hitam",
+        "eksekutif",
+        "penjemputan"
+      ],
+      "last_used_at": "2026-10-28 09:30:00",
+      "last_used_slug": "panduan-tarif-drop-off-jabodetabek-ke-baraya",
+      "usage_count": 1
+    },
+    {
+      "id": "arm-03",
+      "url": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Mobil putih keluarga terawat untuk perjalanan jarak jauh",
+      "category": "fleet_exterior",
+      "tags": [
+        "avanza",
+        "putih",
+        "keluarga",
+        "bersih",
+        "terawat"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "arm-04",
+      "url": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Mobil melaju stabil di jalur jalan tol luar kota",
+      "category": "fleet_exterior",
+      "tags": [
+        "mobil",
+        "tol",
+        "stabil",
+        "cepat",
+        "aman"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "arm-05",
+      "url": "https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Mobil terparkir rapi siap menjemput tepat waktu di lokasi",
+      "category": "fleet_exterior",
+      "tags": [
+        "parkir",
+        "door to door",
+        "jemput",
+        "lobi",
+        "rumah"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "arm-06",
+      "url": "https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Deretan unit kendaraan prima siap melayani pemesanan",
+      "category": "fleet_exterior",
+      "tags": [
+        "unit",
+        "armada",
+        "banyak",
+        "siap 24 jam",
+        "garasi"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "arm-07",
+      "url": "https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Kendaraan melintasi jalan aspal bersih berlatar alam",
+      "category": "fleet_exterior",
+      "tags": [
+        "mobil",
+        "jalan",
+        "aspal",
+        "perjalanan",
+        "wisata"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "arm-08",
+      "url": "https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Kendaraan berhenti sejenak di area peristirahatan rest area tol",
+      "category": "fleet_exterior",
+      "tags": [
+        "rest area",
+        "istirahat",
+        "tol",
+        "toilet",
+        "makan"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "arm-09",
+      "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Perjalanan cerah ke luar kota menyusuri pesisir dan jalan utama",
+      "category": "fleet_exterior",
+      "tags": [
+        "pantai",
+        "cerah",
+        "pesisir",
+        "liburan",
+        "keluarga"
+      ],
+      "last_used_at": null,
+      "last_used_slug": null,
+      "usage_count": 0
+    },
+    {
+      "id": "arm-10",
+      "url": "https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=1200&q=80",
+      "alt": "Perjalanan aman dan nyaman dengan armada ber-AC dingin",
+      "category": "fleet_exterior",
+      "tags": [
+        "armada",
+        "ac dingin",
+        "nyaman",
+        "drop off"
+      ],
+      "last_used_at": "2026-10-27 10:00:00",
+      "last_used_slug": "panduan-tarif-drop-off-jakarta-ke-bandung",
+      "usage_count": 1
+    }
+  ]
+}

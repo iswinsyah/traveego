@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/yoast_analyzer.php';
+require_once __DIR__ . '/image_rotator.php';
 
 requireCrewAuth();
 
@@ -537,6 +538,20 @@ switch ($action) {
         $doc = json_decode(file_get_contents($docFile), true) ?: [];
         $analysis = YoastSeoAnalyzer::analyze($doc, $keyphrase);
         sendJson(['success' => true, 'slug' => $slug, 'type' => $type, 'analysis' => $analysis]);
+        break;
+
+    case 'get_image_pool_stats':
+        $stats = ImageRotator::getPoolStats();
+        sendJson(['success' => true, 'data' => $stats]);
+        break;
+
+    case 'rotate_featured_image':
+        $slug = trim($_POST['slug'] ?? $_GET['slug'] ?? '');
+        $title = trim($_POST['title'] ?? $_GET['title'] ?? '');
+        $category = trim($_POST['category'] ?? $_GET['category'] ?? '');
+        $kw = trim($_POST['keyword'] ?? $_GET['keyword'] ?? '');
+        $imgData = ImageRotator::getFeaturedImage($slug, $title, $category, $kw);
+        sendJson(['success' => true, 'data' => $imgData]);
         break;
 
     case 'run_pipeline':
