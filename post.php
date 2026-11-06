@@ -32,64 +32,8 @@ $siteContentFile = __DIR__ . '/data/site_content.json';
 $siteContent = file_exists($siteContentFile) ? (json_decode(file_get_contents($siteContentFile), true) ?: []) : [];
 $csAiPhone = $siteContent['head']['hotline_wa'] ?? ($siteContent['hero']['wa_number'] ?? '6281234567891');
 
-// Load Data Kalender Mbak Dinda untuk validasi Auto-Scheduled
-$calFile = __DIR__ . '/data/content_calendar.json';
-$calendar = file_exists($calFile) ? (json_decode(file_get_contents($calFile), true) ?: []) : [];
-$scheduleList = $calendar['schedule'] ?? [];
-
-$publishAt = null;
-foreach ($scheduleList as $item) {
-    if (($item['slug'] ?? '') === $slug) {
-        $publishAt = $item['publish_at'] ?? null;
-        break;
-    }
-}
-
-if (!$publishAt && isset($postData['published_at'])) {
-    $publishAt = $postData['published_at'];
-}
-
-$now = date('Y-m-d H:i:s');
-$isScheduled = ($publishAt && $now < $publishAt);
-$canPreview = isCrewLoggedIn() || isAdminLoggedIn();
-
-// Jika belum waktunya terbit dan bukan admin, tampilkan mode "Terjadwal"
-if ($isScheduled && !$canPreview) {
-    http_response_code(200);
-    $formattedDate = date('d F Y, \P\u\k\u\l H:i \W\I\B', strtotime($publishAt));
-    ?>
-    <!DOCTYPE html>
-    <html lang="id">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Terjadwal: <?= htmlspecialchars($postData['title'] ?? 'Artikel Blog Dropoff.id') ?></title>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-        <style>
-            body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; color: #0F172A; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 24px; box-sizing: border-box; text-align: center; }
-            .box { background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 24px; max-width: 520px; padding: 40px 32px; box-shadow: 0 10px 30px rgba(15,23,42,0.06); }
-            .badge { display: inline-flex; align-items: center; gap: 6px; background: #EFF6FF; color: #0B4FD8; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; margin-bottom: 20px; }
-            h1 { font-size: 20px; font-weight: 800; margin: 0 0 12px; line-height: 1.4; color: #0F172A; }
-            p { font-size: 14px; color: #64748B; line-height: 1.6; margin: 0 0 24px; }
-            .schedule-pill { background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; padding: 10px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; margin-bottom: 24px; display: inline-block; }
-            .btn { display: inline-flex; align-items: center; gap: 8px; background: #0B4FD8; color: #FFFFFF; text-decoration: none; padding: 12px 24px; border-radius: 12px; font-size: 14px; font-weight: 700; }
-        </style>
-    </head>
-    <body>
-        <div class="box">
-            <div class="badge">📅 JADWAL PUBLIKASI ARTIKEL</div>
-            <h1>Artikel Sedang Dalam Antrean Tayang</h1>
-            <p>Artikel edukasi perjalanan ini dijadwalkan rilis otomatis ke publik pada:</p>
-            <div class="schedule-pill">🗓️ <?= $formattedDate ?></div>
-            <div>
-                <a href="/" class="btn">← Kembali ke Beranda</a>
-            </div>
-        </div>
-    </body>
-    </html>
-    <?php
-    exit;
-}
+// Tanggal publikasi artikel (Langsung Terbit & Publik)
+$publishAt = $postData['published_at'] ?? date('Y-m-d H:i:s');
 
 // Load Matrix Harga Terkini Pak Hendra untuk replace shortcode dinamis
 $matrixFile = __DIR__ . '/data/cost_matrix.json';
@@ -239,21 +183,6 @@ $featuredImage = $postData['featured_image'] ?? '';
 
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
         body { background: #F8FAFC; color: var(--text-body); line-height: 1.7; }
-
-        <?php if ($isScheduled && $canPreview): ?>
-        .admin-preview-bar {
-            background: #FEF3C7;
-            color: #92400E;
-            text-align: center;
-            padding: 10px 16px;
-            font-size: 13px;
-            font-weight: 700;
-            border-bottom: 1px solid #FCD34D;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        <?php endif; ?>
 
         .topbar {
             background: #FFFFFF;
@@ -542,12 +471,6 @@ $featuredImage = $postData['featured_image'] ?? '';
     </style>
 </head>
 <body>
-
-<?php if ($isScheduled && $canPreview): ?>
-<div class="admin-preview-bar">
-    👁️ MODE PREVIEW ADMIN: Artikel ini dijadwalkan terbit otomatis pada <?= date('d M Y, H:i', strtotime($publishAt)) ?> WIB sesuai Kalender Mbak Dinda.
-</div>
-<?php endif; ?>
 
 <header class="topbar">
     <a href="/" class="topbar-brand">

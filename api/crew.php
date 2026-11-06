@@ -463,11 +463,11 @@ switch ($action) {
                     $slug = $content['slug'] ?? basename($f, '.json');
                     $sched = $calMap[$slug] ?? null;
                     $publishAt = $sched['publish_at'] ?? ($content['generated_at'] ?? $now);
-                    $isLive = ($now >= $publishAt);
+                    $isLive = true;
 
                     $content['publish_at'] = $publishAt;
-                    $content['is_live'] = $isLive;
-                    $content['status_label'] = $isLive ? '🟢 LIVE (Tayang)' : '⏳ TERJADWAL (' . date('d M H:i', strtotime($publishAt)) . ' WIB)';
+                    $content['is_live'] = true;
+                    $content['status_label'] = '🟢 LIVE (Tayang)';
                     $content['public_url'] = '/' . $slug;
                     $content['yoast'] = YoastSeoAnalyzer::analyze($content);
 
@@ -505,11 +505,11 @@ switch ($action) {
                     $slug = $content['slug'] ?? basename($f, '.json');
                     $sched = $calMap[$slug] ?? null;
                     $publishAt = $sched['publish_at'] ?? ($content['published_at'] ?? $now);
-                    $isLive = ($now >= $publishAt);
+                    $isLive = true;
 
                     $content['publish_at'] = $publishAt;
-                    $content['is_live'] = $isLive;
-                    $content['status_label'] = $isLive ? '🟢 LIVE (Tayang)' : '⏳ TERJADWAL (' . date('d M H:i', strtotime($publishAt)) . ' WIB)';
+                    $content['is_live'] = true;
+                    $content['status_label'] = '🟢 LIVE (Tayang)';
                     $content['public_url'] = '/blog/' . $slug;
                     $content['yoast'] = YoastSeoAnalyzer::analyze($content);
 
